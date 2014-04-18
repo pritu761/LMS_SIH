@@ -10,3 +10,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Defined preliminary domain models for Students, Instructors, Courses, and Lessons.
 - Drafted architecture principles focusing on modularity, high accessibility, and extensible curricula.
 
+## [v0.1.1-alpha] - 2014-04-18 - Curriculum Hierarchy & Identity Models
+
+- Introduced structured course hierarchies: Subject -> Module -> Lesson -> Unit.
+- Specified user profile attributes, learning progress counters, and role assignments.
+- Defined JSON schemas for curriculum interchange and export.
+
