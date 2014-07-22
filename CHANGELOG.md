@@ -16,3 +16,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Specified user profile attributes, learning progress counters, and role assignments.
 - Defined JSON schemas for curriculum interchange and export.
 
+## [v0.2.0-alpha] - 2014-07-22 - Assessment Engine & Grading Specifications
+
+- Designed quiz submission and auto-grading lifecycle workflows.
+- Specified rubric structures for qualitative instructor evaluations.
+- Established scoring scale mappings and passing criteria rules.
+
