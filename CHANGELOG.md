@@ -22,3 +22,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Specified rubric structures for qualitative instructor evaluations.
 - Established scoring scale mappings and passing criteria rules.
 
+## [v0.2.1-alpha] - 2014-09-30 - Course Catalog Indexing & Taxonomy
+
+- Restructured topic category indexing for faster multi-field filtering.
+- Added taxonomy tags for difficulty levels, language, and subject tracks.
+- Documented query benchmarks for catalog discovery.
+
