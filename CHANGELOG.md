@@ -28,3 +28,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Added taxonomy tags for difficulty levels, language, and subject tracks.
 - Documented query benchmarks for catalog discovery.
 
+## [v0.3.0-alpha] - 2014-11-15 - Modular Content Delivery & Telemetry RFC
+
+- Drafted content delivery specifications for progressive video and slide modules.
+- Formulated heart-beat tracking mechanism for lesson completion percentage.
+- Established milestones for initial pilot testing.
+
