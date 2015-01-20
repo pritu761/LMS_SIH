@@ -34,3 +34,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Formulated heart-beat tracking mechanism for lesson completion percentage.
 - Established milestones for initial pilot testing.
 
+## [v0.4.0-alpha] - 2015-01-20 - Enrollment Engine & Progress State Machine
+
+- Specified multi-tier enrollment statuses: Auditing, Enrolled, In-Progress, Completed, Dropped.
+- Formulated transactional state transitions for module completion milestones.
+- Created baseline data migration strategies for active user enrollments.
+
