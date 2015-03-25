@@ -40,3 +40,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Formulated transactional state transitions for module completion milestones.
 - Created baseline data migration strategies for active user enrollments.
 
+## [v0.4.2-alpha] - 2015-03-25 - Instructor-Trainee Communication API Specs
+
+- Specified RESTful endpoints for lesson Q&A threads and direct instructor inquiries.
+- Designed announcement broadcast schemas with targeted class filtering.
+- Outlined asynchronous notification dispatch patterns.
+
