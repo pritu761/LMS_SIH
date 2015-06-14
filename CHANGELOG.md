@@ -46,3 +46,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Designed announcement broadcast schemas with targeted class filtering.
 - Outlined asynchronous notification dispatch patterns.
 
+## [v0.5.0-alpha] - 2015-06-14 - Student Analytics Query Optimization
+
+- Introduced aggregated reporting views for institutional cohort analytics.
+- Optimized time-to-first-byte (TTFB) on trainee performance dashboards.
+- Reduced nested join overhead on progress aggregation queries.
+
