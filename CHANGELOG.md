@@ -52,3 +52,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Optimized time-to-first-byte (TTFB) on trainee performance dashboards.
 - Reduced nested join overhead on progress aggregation queries.
 
+## [v0.5.3-alpha] - 2015-08-28 - Media Streaming Architecture Guidelines
+
+- Documented decoupling between LMS core metadata services and media streaming hosts.
+- Established CDN caching hierarchies and chunked media delivery standards.
+- Added fallback strategies for restricted bandwidth learning environments.
+
