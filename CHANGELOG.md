@@ -64,3 +64,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Validated edge-case handling for simultaneous quiz expiration and late submissions.
 - Integrated test coverage reporting.
 
+## [v0.7.0-beta] - 2016-02-05 - Batch Submission & Grading Pipelines
+
+- Designed queue-driven batch processing for assignment archive uploads.
+- Specified asynchronous notification callbacks upon rubric grading finalization.
+- Standardized export formats for student scorecards (PDF, CSV).
+
