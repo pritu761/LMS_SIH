@@ -70,3 +70,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Specified asynchronous notification callbacks upon rubric grading finalization.
 - Standardized export formats for student scorecards (PDF, CSV).
 
+## [v0.7.4-beta] - 2016-04-16 - Real-time Feedback & Notification Protocols
+
+- Formulated push-notification schemas for instant quiz scoring feedback.
+- Designed instructor live dashboard showing class-wide error distribution in real time.
+- Documented payload structures for event streams.
+
