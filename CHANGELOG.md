@@ -76,3 +76,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Designed instructor live dashboard showing class-wide error distribution in real time.
 - Documented payload structures for event streams.
 
+## [v0.8.0-beta] - 2016-07-20 - API Response Envelope Standardization
+
+- Enforced consistent JSON response envelope: { success, data, meta, errors }.
+- Streamlined error code categorizations for client-side localized handling.
+- Updated documentation examples across all learning modules.
+
