@@ -82,3 +82,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Streamlined error code categorizations for client-side localized handling.
 - Updated documentation examples across all learning modules.
 
+## [v0.8.3-beta] - 2016-09-18 - Memory Profiling & Cache Strategy
+
+- Defined memory consumption ceilings for course content caching layers.
+- Introduced LRU invalidation policies for frequently accessed lecture notes.
+- Documented profiling benchmarks under synthetic high-load scenarios.
+
