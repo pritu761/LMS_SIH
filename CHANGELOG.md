@@ -88,3 +88,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Introduced LRU invalidation policies for frequently accessed lecture notes.
 - Documented profiling benchmarks under synthetic high-load scenarios.
 
+## [v0.9.0-beta] - 2016-12-04 - RBAC Authorization Matrix Documentation
+
+- Formalized permissions for Administrator, Dean, Trainer/Instructor, Trainee, and Auditor roles.
+- Defined scope resolution rules across organization, department, and course levels.
+- Mapped security invariants to preventative route guards.
+
