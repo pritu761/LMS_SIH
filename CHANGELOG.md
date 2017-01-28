@@ -94,3 +94,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Defined scope resolution rules across organization, department, and course levels.
 - Mapped security invariants to preventative route guards.
 
+## [v1.0.0-rc1] - 2017-01-28 - Session Hardening & CSRF Protection Standards
+
+- Standardized secure cookie attributes (SameSite=Strict, HttpOnly, Secure).
+- Specified anti-CSRF token verification across all mutation endpoints.
+- Established session revocation workflows on password reset and multi-session logouts.
+
