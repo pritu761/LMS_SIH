@@ -100,3 +100,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Specified anti-CSRF token verification across all mutation endpoints.
 - Established session revocation workflows on password reset and multi-session logouts.
 
+## [v1.0.0-rc2] - 2017-04-12 - Scalable Media Uploads & Transcoding Guidelines
+
+- Documented direct-to-object-storage presigned upload workflows.
+- Specified video transcoding presets for standard definitions (360p, 720p, 1080p).
+- Defined webhook lifecycle for transcode completion and preview thumbnail generation.
+
