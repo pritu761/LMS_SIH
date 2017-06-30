@@ -106,3 +106,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Specified video transcoding presets for standard definitions (360p, 720p, 1080p).
 - Defined webhook lifecycle for transcode completion and preview thumbnail generation.
 
+## [v1.0.0] - 2017-06-30 - Release v1.0.0 & Peer-Review Module
+
+- Tagged first production baseline v1.0.0.
+- Introduced double-blind peer-review assignment workflows.
+- Implemented randomized submission distribution algorithms with grade variance normalization.
+
