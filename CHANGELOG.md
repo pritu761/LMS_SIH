@@ -118,3 +118,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Specified audit logging requirements for critical administrative actions.
 - Added verification runbooks for database schema synchronization.
 
+## [v1.1.4] - 2017-11-18 - Prerequisite Graph Evaluation
+
+- Modeled course and module prerequisites as Directed Acyclic Graphs (DAGs).
+- Added cycle-detection validation at course creation time.
+- Optimized eligibility resolution queries for students during enrollment periods.
+
