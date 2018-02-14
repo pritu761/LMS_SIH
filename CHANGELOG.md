@@ -124,3 +124,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Added cycle-detection validation at course creation time.
 - Optimized eligibility resolution queries for students during enrollment periods.
 
+## [v1.2.0] - 2018-02-14 - High-Concurrency Assessment Throughput
+
+- Refactored answer submission endpoints to eliminate row-level lock contention.
+- Introduced in-memory write buffer for immediate student acknowledgement.
+- Benchmarked system at 10,000 simultaneous submissions without dropped requests.
+
