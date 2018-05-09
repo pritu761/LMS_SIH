@@ -130,3 +130,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Introduced in-memory write buffer for immediate student acknowledgement.
 - Benchmarked system at 10,000 simultaneous submissions without dropped requests.
 
+## [v1.2.3] - 2018-05-09 - WCAG 2.1 AA Compliance Checklist
+
+- Added accessibility requirements for color contrast, keyboard navigability, and screen readers.
+- Specified ARIA attribute mappings for interactive quiz widgets and modal dialogs.
+- Implemented automated accessibility audit tools in repository guidance.
+
