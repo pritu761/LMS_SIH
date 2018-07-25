@@ -136,3 +136,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Specified ARIA attribute mappings for interactive quiz widgets and modal dialogs.
 - Implemented automated accessibility audit tools in repository guidance.
 
+## [v1.3.0] - 2018-07-25 - Student Engagement Telemetry Specs
+
+- Specified event telemetry models for dwell time, playback interaction, and quiz hesitation.
+- Formulated early-warning indicator signals for at-risk learners.
+- Outlined anonymized data pipelines for institutional learning efficacy studies.
+
