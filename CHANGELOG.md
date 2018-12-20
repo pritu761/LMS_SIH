@@ -148,3 +148,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Specified attendee presence counters and live hand-raising queues.
 - Designed breakout room synchronization and instructor broadcast hooks.
 
+## [v1.4.0] - 2018-12-20 - Repository Code Standards & Unified Linter Guidelines
+
+- Unified ESLint, Prettier, and TypeScript static verification rules.
+- Standardized conventional commit conventions across repository contributions.
+- Configured pre-commit verification hooks.
+
