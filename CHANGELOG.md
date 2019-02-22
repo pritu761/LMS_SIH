@@ -154,3 +154,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Standardized conventional commit conventions across repository contributions.
 - Configured pre-commit verification hooks.
 
+## [v1.5.0] - 2019-02-22 - Trainee Portal Component Decoupling
+
+- Decomposed monolithic dashboard templates into reusable atomic components.
+- Standardized state containment between course browser, active player, and notes widget.
+- Improved client re-render efficiency across lesson transitions.
+
