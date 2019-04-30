@@ -160,3 +160,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Standardized state containment between course browser, active player, and notes widget.
 - Improved client re-render efficiency across lesson transitions.
 
+## [v1.5.4] - 2019-04-30 - Offline-First Sync Architecture RFC
+
+- Designed IndexedDB client-side offline storage protocols for lessons and quizzes.
+- Defined conflict resolution strategies for offline progress synchronization.
+- Created network-resilient service worker caching architecture.
+
