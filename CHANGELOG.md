@@ -166,3 +166,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Defined conflict resolution strategies for offline progress synchronization.
 - Created network-resilient service worker caching architecture.
 
+## [v1.6.0] - 2019-07-15 - Institutional Compliance & Data Export Engine
+
+- Implemented asynchronous export generation for accreditation and government reports.
+- Supported granular filtering by department, course cohort, and graduation term.
+- Integrated signed downloadable artifacts with expiring URL tokens.
+
