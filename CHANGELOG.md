@@ -172,3 +172,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Supported granular filtering by department, course cohort, and graduation term.
 - Integrated signed downloadable artifacts with expiring URL tokens.
 
+## [v1.6.3] - 2019-09-28 - Rate Limiting & Threat Mitigation
+
+- Specified token bucket rate limiters for authentication and API gateways.
+- Documented IP reputation scoring and progressive backoff delays for login attempts.
+- Created monitoring alerts for suspicious burst requests.
+
