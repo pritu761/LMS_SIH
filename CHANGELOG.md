@@ -184,3 +184,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Documented schema contract versioning guidelines for backward compatibility.
 - Established developer onboarding guide for local service orchestration.
 
+## [v1.8.0] - 2020-03-10 - Remote Learning Scale-Up & Surge Capacity RFC
+
+- Architected rapid scaling strategies in response to surging global remote education demands.
+- Documented horizontal pod autoscaling rules for core LMS services.
+- Added bandwidth-saving low-resolution video transcode fallbacks for rural learners.
+
