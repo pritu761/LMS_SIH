@@ -190,3 +190,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Documented horizontal pod autoscaling rules for core LMS services.
 - Added bandwidth-saving low-resolution video transcode fallbacks for rural learners.
 
+## [v1.9.0] - 2020-05-18 - Adaptive Learning Engine Specifications
+
+- Introduced diagnostic assessment branching logic to route students to remedial or advanced units.
+- Modeled concept mastery scores based on item response theory (IRT).
+- Designed real-time recommendations widget for student portals.
+
