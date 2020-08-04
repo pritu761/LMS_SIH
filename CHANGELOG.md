@@ -196,3 +196,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Modeled concept mastery scores based on item response theory (IRT).
 - Designed real-time recommendations widget for student portals.
 
+## [v1.9.4] - 2020-08-04 - Client State Modernization & Query Caching
+
+- Shifted from manual state dispatches to declarative server-state management.
+- Eliminated redundant API re-fetching via optimistic UI updates and normalized cache keys.
+- Reduced client memory footprint across long-running student study sessions.
+
