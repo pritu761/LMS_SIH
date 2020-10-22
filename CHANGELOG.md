@@ -202,3 +202,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Eliminated redundant API re-fetching via optimistic UI updates and normalized cache keys.
 - Reduced client memory footprint across long-running student study sessions.
 
+## [v1.10.0] - 2020-10-22 - Data Privacy & GDPR/Data Protection Compliance
+
+- Specified student Right to Be Forgotten and automated account deletion data purges.
+- Documented end-to-end data encryption in transit and at rest.
+- Published transparent student telemetry consent configuration schemas.
+
