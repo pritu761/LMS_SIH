@@ -220,3 +220,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Defined migration milestones for server-side rendering (SSR) and static site generation (SSG).
 - Standardized strict TypeScript compiler configurations across all modules.
 
+## [v2.0.0-alpha.2] - 2021-04-25 - Interactive Code Execution Sandbox Spec
+
+- Architected isolated container execution environment for trainee code assignments.
+- Defined sandbox security constraints: no external network, hard memory caps, execution timeouts.
+- Specified automated unit test runner and instantaneous syntax error feedback.
+
