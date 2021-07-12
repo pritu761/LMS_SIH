@@ -226,3 +226,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Defined sandbox security constraints: no external network, hard memory caps, execution timeouts.
 - Specified automated unit test runner and instantaneous syntax error feedback.
 
+## [v2.0.0-beta.1] - 2021-07-12 - Schema-Driven Request & Response Validation
+
+- Adopted declarative type-safe schema validation across all API routes.
+- Automatically generated OpenAPI specifications directly from runtime schema definitions.
+- Unified frontend form validation with shared backend constraints.
+
