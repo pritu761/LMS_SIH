@@ -232,3 +232,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Automatically generated OpenAPI specifications directly from runtime schema definitions.
 - Unified frontend form validation with shared backend constraints.
 
+## [v2.0.0-beta.2] - 2021-09-20 - Live Collaborative WebSockets Protocol
+
+- Specified bidirectional event envelopes for collaborative whiteboarding and shared code editors.
+- Defined heartbeat ping/pong protocol for resilient connection re-establishment.
+- Added state synchronization schemas for late-joining trainees.
+
