@@ -238,3 +238,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Defined heartbeat ping/pong protocol for resilient connection re-establishment.
 - Added state synchronization schemas for late-joining trainees.
 
+## [v2.0.0] - 2021-11-30 - Next.js v2.0.0 Stable Release & CI/CD Pipelines
+
+- Formally released v2.0.0 with unified Next.js architecture.
+- Automated continuous integration pipeline with typecheck, lint, and end-to-end integration tests.
+- Integrated instant preview environments for pull request reviews.
+
