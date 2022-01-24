@@ -244,3 +244,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Automated continuous integration pipeline with typecheck, lint, and end-to-end integration tests.
 - Integrated instant preview environments for pull request reviews.
 
+## [v2.1.0] - 2022-01-24 - Multi-Tenant Architecture & Custom Institutional Branding
+
+- Architected multi-tenant database isolation strategies for institutional partners.
+- Implemented custom branding runtime injection (colors, logos, custom domain routing).
+- Added isolated admin console for tenant-level policy governance.
+
