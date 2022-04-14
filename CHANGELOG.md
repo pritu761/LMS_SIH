@@ -250,3 +250,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Implemented custom branding runtime injection (colors, logos, custom domain routing).
 - Added isolated admin console for tenant-level policy governance.
 
+## [v2.2.0] - 2022-04-14 - Unified Design Tokens & Dark Mode Theme Engine
+
+- Documented design tokens for typography, spacing scales, color ramps, and elevation shadows.
+- Implemented seamless light/dark mode theme switching with zero flash-of-unstyled-content (FOUC).
+- Ensured contrast ratios exceed WCAG AAA standards on high-contrast themes.
+
