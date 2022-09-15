@@ -262,3 +262,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Configured edge-level stale-while-revalidate caching headers.
 - Reduced 95th percentile page load times by 55% globally.
 
+## [v2.3.0] - 2022-09-15 - Enterprise SSO & Federated Identity Guidelines
+
+- Added integration blueprints for Google Workspace, Microsoft Azure AD, and institutional Shibboleth/SAML.
+- Automated Just-in-Time (JIT) trainee provisioning upon verified institutional login.
+- Secured token exchange lifecycle against replay attacks.
+
