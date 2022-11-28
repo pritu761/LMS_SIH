@@ -268,3 +268,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Automated Just-in-Time (JIT) trainee provisioning upon verified institutional login.
 - Secured token exchange lifecycle against replay attacks.
 
+## [v2.4.0] - 2022-11-28 - Tamper-Proof Certificate Verification Protocol
+
+- Specified automated cryptographic certificate generation upon course completion.
+- Introduced public verification URL with QR-code integration.
+- Standardized metadata representation conforming to Open Badges 2.0.
+
