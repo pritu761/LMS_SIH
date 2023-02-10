@@ -274,3 +274,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Introduced public verification URL with QR-code integration.
 - Standardized metadata representation conforming to Open Badges 2.0.
 
+## [v2.5.0] - 2023-02-10 - AI Learning Assistant & Conversational Tutor RFC
+
+- Designed contextual AI tutor architecture referencing lesson transcripts and syllabi.
+- Established prompt hygiene guardrails and hallucination mitigation protocols.
+- Formulated streaming token responses with responsive UI markdown rendering.
+
