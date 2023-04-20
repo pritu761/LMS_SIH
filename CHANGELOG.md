@@ -280,3 +280,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Established prompt hygiene guardrails and hallucination mitigation protocols.
 - Formulated streaming token responses with responsive UI markdown rendering.
 
+## [v2.5.4] - 2023-04-20 - Assessment Proctoring & Integrity Verification
+
+- Documented privacy-preserving tab-switch and focus-loss event monitoring.
+- Designed behavioral anomaly detection algorithms for timed examination sessions.
+- Formulated instructor review dashboard for flagged exam sessions.
+
