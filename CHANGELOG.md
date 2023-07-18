@@ -286,3 +286,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Designed behavioral anomaly detection algorithms for timed examination sessions.
 - Formulated instructor review dashboard for flagged exam sessions.
 
+## [v2.6.0] - 2023-07-18 - High-Volume Database Indexing & Query Tuning
+
+- Added composite B-tree indexes for user enrollment, course module status, and submission logs.
+- Refactored N+1 query patterns across batch gradebook views.
+- Achieved sub-50ms query execution times across million-row tables.
+
