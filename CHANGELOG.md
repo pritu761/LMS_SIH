@@ -292,3 +292,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Refactored N+1 query patterns across batch gradebook views.
 - Achieved sub-50ms query execution times across million-row tables.
 
+## [v2.7.0] - 2023-09-25 - Automated Rubrics & AI-Assisted Evaluation
+
+- Introduced structured rubric matrices with weighted scoring criteria.
+- Specified AI preliminary grading suggestions with explanatory feedback for instructors.
+- Enforced instructor human-in-the-loop review for all final grade releases.
+
