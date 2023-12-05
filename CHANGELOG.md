@@ -298,3 +298,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Specified AI preliminary grading suggestions with explanatory feedback for instructors.
 - Enforced instructor human-in-the-loop review for all final grade releases.
 
+## [v2.8.0] - 2023-12-05 - Vector Embeddings & Semantic Search Architecture
+
+- Architected vector embeddings for lecture transcripts, PDF reading materials, and forum discussions.
+- Implemented approximate nearest neighbor (ANN) retrieval for conceptual question answering.
+- Established similarity thresholding and benchmark recall evaluations.
+
