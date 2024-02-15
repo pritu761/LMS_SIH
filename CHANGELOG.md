@@ -304,3 +304,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Implemented approximate nearest neighbor (ANN) retrieval for conceptual question answering.
 - Established similarity thresholding and benchmark recall evaluations.
 
+## [v3.0.0-alpha.1] - 2024-02-15 - Prisma ORM Modernization Roadmap
+
+- Migrated relational schema definitions to modern Prisma ORM model files.
+- Enforced strict compile-time types for database relations, cascades, and enum definitions.
+- Automated client generation within developer build pipelines.
+
