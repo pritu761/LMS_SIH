@@ -310,3 +310,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Enforced strict compile-time types for database relations, cascades, and enum definitions.
 - Automated client generation within developer build pipelines.
 
+## [v3.0.0-beta.1] - 2024-04-28 - Interactive Classroom Chat & Forum Primitives
+
+- Implemented threaded discussions with rich markdown, math LaTeX rendering, and code snippets.
+- Added real-time presence indicators and unread count badges.
+- Implemented automated profanity and toxic speech filtering.
+
