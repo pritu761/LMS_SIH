@@ -316,3 +316,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Added real-time presence indicators and unread count badges.
 - Implemented automated profanity and toxic speech filtering.
 
+## [v3.0.0-rc.1] - 2024-07-10 - Mobile UX Audit & Touch Optimization
+
+- Refined touch target sizes (minimum 48x48px) across all interactive elements.
+- Optimized drawer navigation and bottom-sheet controls for mobile devices.
+- Verified smooth gesture interactions on lesson swipe transitions.
+
