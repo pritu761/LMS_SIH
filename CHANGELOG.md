@@ -322,3 +322,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Optimized drawer navigation and bottom-sheet controls for mobile devices.
 - Verified smooth gesture interactions on lesson swipe transitions.
 
+## [v3.0.0] - 2024-09-22 - v3.0.0 Stable Release & Bundle Optimization
+
+- Tagged major milestone v3.0.0 with modern Next.js + Prisma stack.
+- Split heavy client vendor libraries using dynamic dynamic imports (next/dynamic).
+- Achieved top-tier 98+ Lighthouse performance scores.
+
