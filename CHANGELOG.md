@@ -328,3 +328,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Split heavy client vendor libraries using dynamic dynamic imports (next/dynamic).
 - Achieved top-tier 98+ Lighthouse performance scores.
 
+## [v3.1.0] - 2024-11-18 - Interactive Labs & Virtual Simulator Specifications
+
+- Specified iframe sandbox protocol for embedded simulation environments.
+- Designed two-way telemetry event bridge between simulation and LMS gradebook.
+- Added state restoration specs for resuming interrupted laboratory sessions.
+
