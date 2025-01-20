@@ -334,3 +334,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Designed two-way telemetry event bridge between simulation and LMS gradebook.
 - Added state restoration specs for resuming interrupted laboratory sessions.
 
+## [v3.2.0] - 2025-01-20 - Multilingual Localization & Content Translation Pipeline
+
+- Introduced automated subtitle translation pipeline for educational videos.
+- Supported localized UI layouts including Right-to-Left (RTL) language standards.
+- Provided instructor portal for reviewing and refining automated translations.
+
