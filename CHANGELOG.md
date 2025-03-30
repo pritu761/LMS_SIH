@@ -340,3 +340,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Supported localized UI layouts including Right-to-Left (RTL) language standards.
 - Provided instructor portal for reviewing and refining automated translations.
 
+## [v3.2.4] - 2025-03-30 - Database Replication & Disaster Recovery Runbook
+
+- Documented read-replica topology for read-heavy student assessment days.
+- Automated point-in-time recovery (PITR) backups with automated restore verification.
+- Set Recovery Time Objective (RTO) < 15 mins and Recovery Point Objective (RPO) < 1 min.
+
