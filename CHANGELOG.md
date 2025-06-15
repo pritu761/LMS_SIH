@@ -346,3 +346,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Automated point-in-time recovery (PITR) backups with automated restore verification.
 - Set Recovery Time Objective (RTO) < 15 mins and Recovery Point Objective (RPO) < 1 min.
 
+## [v3.3.0] - 2025-06-15 - Comprehensive Security Audit & Vulnerability Remediation
+
+- Performed complete dependency tree audit and automated CVE vulnerability patches.
+- Hardened Content Security Policy (CSP) headers against XSS vectors.
+- Added strict input sanitization across user-generated course content.
+
