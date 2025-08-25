@@ -352,3 +352,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Hardened Content Security Policy (CSP) headers against XSS vectors.
 - Added strict input sanitization across user-generated course content.
 
+## [v3.3.5] - 2025-08-25 - Dashboard Query Latency & Cache Invalidation
+
+- Implemented tagged cache invalidation for instant course updates without full cache busts.
+- Optimized trainer grading dashboard load times from 2.4s to under 380ms.
+- Reduced cold-start query overhead on serverless API handlers.
+
