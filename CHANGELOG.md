@@ -358,3 +358,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Optimized trainer grading dashboard load times from 2.4s to under 380ms.
 - Reduced cold-start query overhead on serverless API handlers.
 
+## [v3.4.0] - 2025-11-12 - Micro-Credentials & Open Badges 3.0 Compliance
+
+- Implemented Open Badges 3.0 Verifiable Credentials specification.
+- Added cryptographic signing keys for tamper-evident digital skill credentials.
+- Integrated one-click sharing to professional networks.
+
