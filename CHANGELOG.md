@@ -364,3 +364,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Added cryptographic signing keys for tamper-evident digital skill credentials.
 - Integrated one-click sharing to professional networks.
 
+## [v4.0.0-alpha.1] - 2026-01-18 - Smart India Hackathon (SIH) Training & Challenge Architecture
+
+- Architected specialized SIH challenge management workflows and problem statement assignments.
+- Designed team collaboration workspaces with role-based permissions (Leader, Member, Mentor).
+- Created submission milestones: Idea Submission, Prototype, Codebase Review, Final Presentation.
+
