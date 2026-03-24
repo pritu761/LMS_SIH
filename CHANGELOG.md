@@ -370,3 +370,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Designed team collaboration workspaces with role-based permissions (Leader, Member, Mentor).
 - Created submission milestones: Idea Submission, Prototype, Codebase Review, Final Presentation.
 
+## [v4.0.0-beta.1] - 2026-03-24 - SIH Mentor Review Workflows & Evaluation Rubrics
+
+- Formulated multi-criteria evaluation rubric: Innovation, Feasibility, Code Quality, Impact.
+- Documented mentor feedback channels and scheduled sync checkpoints.
+- Published comprehensive guidelines for hackathon teams and institutional evaluators.
+
