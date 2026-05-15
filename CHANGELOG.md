@@ -376,3 +376,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Documented mentor feedback channels and scheduled sync checkpoints.
 - Published comprehensive guidelines for hackathon teams and institutional evaluators.
 
+## [v4.0.0-rc.1] - 2026-05-15 - Real-Time Leaderboards & Submission Pipeline Optimization
+
+- Implemented distributed cache layer for real-time live scoreboards.
+- Engineered asynchronous processing queue for multi-gigabyte project artifact submissions.
+- Verified system resilience under high-concurrency hackathon deadline spikes.
+
