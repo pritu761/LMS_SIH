@@ -382,3 +382,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Engineered asynchronous processing queue for multi-gigabyte project artifact submissions.
 - Verified system resilience under high-concurrency hackathon deadline spikes.
 
+## [v4.0.0-rc.2] - 2026-07-20 - Platform Testing Suite & Production Deployment Checklists
+
+- Consolidated end-to-end integration test suites across role-based workflows.
+- Published pre-deployment verification checklists for Next.js, Prisma, and database migrations.
+- Documented zero-downtime rolling update protocols.
+
