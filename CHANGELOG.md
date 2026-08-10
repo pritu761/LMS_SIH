@@ -388,3 +388,9 @@ This changelog records the architecture, feature evolution, and milestone releas
 - Published pre-deployment verification checklists for Next.js, Prisma, and database migrations.
 - Documented zero-downtime rolling update protocols.
 
+## [v4.0.0] - 2026-08-10 - LMS Platform Historical Archive (2014-2026) & Evolution Record
+
+- Compiled complete 12-year development history, architecture RFCs, and release milestones.
+- Integrated unified changelog artifact documenting platform progression from early specifications to production SIH LMS.
+- Prepared platform milestone release v4.0.0.
+
