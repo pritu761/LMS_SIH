@@ -1,0 +1,378 @@
+// Capacity Connect - Prisma Schema
+// Digital Capacity Building & Learning Management Portal
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// --------------------------------------------------------
+// ENUMS
+// --------------------------------------------------------
+
+enum UserRole {
+  TRAINEE
+  TRAINER
+  ADMIN
+}
+
+enum UserStatus {
+  PENDING
+  APPROVED
+  SUSPENDED
+  REJECTED
+}
+
+enum CourseStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum MaterialType {
+  VIDEO
+  PDF
+  PPT
+  DOC
+  LINK
+}
+
+enum EnrollmentStatus {
+  ACTIVE
+  COMPLETED
+  DROPPED
+}
+
+enum QuestionType {
+  SINGLE_CHOICE
+  MULTI_CHOICE
+}
+
+enum SubmissionStatus {
+  IN_PROGRESS
+  SUBMITTED
+  EXPIRED
+  GRADED
+}
+
+enum AnnouncementType {
+  ALERT
+  SPOTLIGHT
+  ACHIEVEMENT
+  GENERAL
+}
+
+// --------------------------------------------------------
+// CORE USER & PROFILE MODELS
+// --------------------------------------------------------
+
+model User {
+  id            String      @id @default(uuid())
+  email         String      @unique
+  passwordHash  String
+  role          UserRole    @default(TRAINEE)
+  status        UserStatus  @default(PENDING)
+  isVerified    Boolean     @default(false)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  // Relations
+  profile             Profile?
+  competencies        UserCompetency[]
+  coursesTaught       Course[]                @relation("TrainerCourses")
+  enrollments         Enrollment[]
+  submissions         AssessmentSubmission[]
+  feedbacks           Feedback[]
+  authoredAnnouncements Announcement[]       @relation("AdminAnnouncements")
+
+  @@index([role])
+  @@index([status])
+  @@index([email])
+}
+
+model Profile {
+  id             String    @id @default(uuid())
+  userId         String    @unique
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  fullName       String
+  avatarUrl      String?
+  headline       String?
+  bio            String?   @db.Text
+  organization   String?
+  department     String?
+  phone          String?
+  location       String?
+  
+  // Structured Qualifications, Experience, and Certificates as JSON arrays
+  qualifications Json?     @default("[]") // Array of { degree, institution, year, field }
+  experience     Json?     @default("[]") // Array of { title, company, startYear, endYear, description }
+  certificates   Json?     @default("[]") // Array of { title, issuer, issueDate, credentialUrl }
+
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([userId])
+}
+
+// --------------------------------------------------------
+// COMPETENCY MAPPING MODELS
+// --------------------------------------------------------
+
+model Competency {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  code        String   @unique
+  category    String   // e.g. "Cloud & DevOps", "Data Engineering", "Public Governance"
+  description String?  @db.Text
+  targetLevel Int      @default(3) // 1 (Novice) - 5 (Expert)
+  createdAt   DateTime @default(now())
+
+  // Relations
+  userCompetencies   UserCompetency[]
+  courseCompetencies CourseCompetency[]
+
+  @@index([category])
+  @@index([code])
+}
+
+model UserCompetency {
+  id               String      @id @default(uuid())
+  userId           String
+  user             User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  competencyId     String
+  competency       Competency  @relation(fields: [competencyId], references: [id], onDelete: Cascade)
+  
+  proficiencyLevel Int         @default(1) // 1 to 5
+  verified         Boolean     @default(false)
+  verifiedAt       DateTime?
+  verifiedBy       String?
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+
+  @@unique([userId, competencyId])
+  @@index([userId])
+  @@index([competencyId])
+  @@index([proficiencyLevel])
+}
+
+// --------------------------------------------------------
+// COURSE & CURRICULUM MODELS
+// --------------------------------------------------------
+
+model Course {
+  id            String       @id @default(uuid())
+  title         String
+  code          String       @unique
+  slug          String       @unique
+  description   String       @db.Text
+  category      String
+  level         String       @default("Intermediate") // Beginner, Intermediate, Advanced
+  durationHours Float        @default(10.0)
+  thumbnail     String?
+  status        CourseStatus @default(DRAFT)
+  
+  trainerId     String
+  trainer       User         @relation("TrainerCourses", fields: [trainerId], references: [id], onDelete: Restrict)
+  
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  // Relations
+  competencies CourseCompetency[]
+  materials    CourseMaterial[]
+  enrollments  Enrollment[]
+  assessments  Assessment[]
+  feedbacks    Feedback[]
+
+  @@index([trainerId])
+  @@index([status])
+  @@index([category])
+}
+
+model CourseCompetency {
+  id                  String     @id @default(uuid())
+  courseId            String
+  course              Course     @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  competencyId        String
+  competency          Competency @relation(fields: [competencyId], references: [id], onDelete: Cascade)
+  
+  requiredProficiency Int        @default(3) // 1 to 5
+  weight              Float      @default(1.0) // Relative weight in competency mapping
+
+  @@unique([courseId, competencyId])
+  @@index([courseId])
+  @@index([competencyId])
+}
+
+model CourseMaterial {
+  id              String       @id @default(uuid())
+  courseId        String
+  course          Course       @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  
+  title           String
+  description     String?      @db.Text
+  type            MaterialType @default(VIDEO)
+  url             String       // Media stream URL or Cloud/S3 key
+  downloadUrl     String?      // Download URL for PDFs / PPTs
+  durationSeconds Int?         @default(0) // For video lectures
+  fileSize        String?      // e.g. "45.2 MB"
+  sortOrder       Int          @default(1)
+  isPreview       Boolean      @default(false)
+  isDownloadable  Boolean      @default(true)
+
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+
+  @@index([courseId])
+  @@index([sortOrder])
+}
+
+// --------------------------------------------------------
+// ENROLLMENT & LEARNER PROGRESS
+// --------------------------------------------------------
+
+model Enrollment {
+  id                 String           @id @default(uuid())
+  userId             String
+  user               User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  courseId           String
+  course             Course           @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  
+  status             EnrollmentStatus @default(ACTIVE)
+  progressPercentage Float            @default(0.0) // 0.0 to 100.0
+  completedMaterialIds Json?          @default("[]") // Array of string material IDs completed
+  currentMaterialId  String?
+  
+  enrolledAt         DateTime         @default(now())
+  completedAt        DateTime?
+  lastAccessedAt     DateTime         @default(now())
+  
+  certificateId      String?          @unique
+  certificateUrl     String?
+
+  @@unique([userId, courseId])
+  @@index([userId])
+  @@index([courseId])
+  @@index([status])
+}
+
+// --------------------------------------------------------
+// ASSESSMENT ENGINE & AUTO-GRADING
+// --------------------------------------------------------
+
+model Assessment {
+  id                    String                 @id @default(uuid())
+  courseId              String
+  course                Course                 @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  
+  title                 String
+  description           String?                @db.Text
+  timeLimitMinutes      Int                    @default(30)
+  passingScorePercentage Float                 @default(70.0)
+  maxAttempts           Int                    @default(3)
+  submissionDeadline    DateTime?
+  totalQuestions        Int                    @default(0)
+  totalWeight           Float                  @default(0.0)
+  isPublished           Boolean                @default(true)
+
+  createdAt             DateTime               @default(now())
+  updatedAt             DateTime               @updatedAt
+
+  // Relations
+  questions   Question[]
+  submissions AssessmentSubmission[]
+
+  @@index([courseId])
+  @@index([isPublished])
+}
+
+model Question {
+  id            String       @id @default(uuid())
+  assessmentId  String
+  assessment    Assessment   @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+  
+  questionText  String       @db.Text
+  questionType  QuestionType @default(SINGLE_CHOICE)
+  options       Json         // Array of { id: string, text: string }
+  correctOption Json         // String ID (e.g. "opt_1") or Array of IDs for multi-choice
+  weight        Float        @default(1.0)
+  explanation   String?      @db.Text
+  sortOrder     Int          @default(1)
+
+  @@index([assessmentId])
+  @@index([sortOrder])
+}
+
+model AssessmentSubmission {
+  id               String           @id @default(uuid())
+  assessmentId     String
+  assessment       Assessment       @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+  userId           String
+  user             User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  answers          Json             // Map of { [questionId: string]: string | string[] }
+  score            Float            @default(0.0)
+  maxScore         Float            @default(0.0)
+  percentage       Float            @default(0.0)
+  passed           Boolean          @default(false)
+  timeSpentSeconds Int              @default(0)
+  
+  startedAt        DateTime         @default(now())
+  submittedAt      DateTime?
+  status           SubmissionStatus @default(IN_PROGRESS)
+  feedback         String?          @db.Text
+
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+
+  @@index([assessmentId])
+  @@index([userId])
+  @@index([status])
+  @@index([passed])
+}
+
+// --------------------------------------------------------
+// FEEDBACK & CMS ANNOUNCEMENTS
+// --------------------------------------------------------
+
+model Feedback {
+  id          String   @id @default(uuid())
+  courseId    String
+  course      Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  rating      Int      // 1 to 5
+  comment     String   @db.Text
+  isPublished Boolean  @default(true)
+  createdAt   DateTime @default(now())
+
+  @@unique([courseId, userId])
+  @@index([courseId])
+  @@index([rating])
+}
+
+model Announcement {
+  id        String           @id @default(uuid())
+  title     String
+  content   String           @db.Text
+  type      AnnouncementType @default(GENERAL)
+  isPinned  Boolean          @default(false)
+  
+  authorId  String
+  author    User             @relation("AdminAnnouncements", fields: [authorId], references: [id], onDelete: Restrict)
+  
+  expiresAt DateTime?
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+
+  @@index([isPinned])
+  @@index([type])
+  @@index([createdAt])
+}
