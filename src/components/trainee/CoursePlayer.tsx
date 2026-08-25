@@ -121,9 +121,10 @@ export function CoursePlayer({ course, initialEnrollment }: CoursePlayerProps) {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 animate-fade-in-up">
       {/* Top Banner & Quick Metrics */}
-      <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 backdrop-blur-xl">
+      <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 backdrop-blur-xl relative overflow-hidden">
+        <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-indigo-500/50 to-transparent animate-gradient-shift bg-[length:200%_100%]" />
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-1">
@@ -143,7 +144,7 @@ export function CoursePlayer({ course, initialEnrollment }: CoursePlayerProps) {
           <div className="flex items-center gap-3">
             <button
               onClick={() => setIsFeedbackOpen(true)}
-              className="flex items-center gap-2 rounded-xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 px-4 py-2.5 text-xs font-semibold text-slate-200 transition-all shadow-sm"
+              className="flex items-center gap-2 rounded-xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 px-4 py-2.5 text-xs font-semibold text-slate-200 transition-all duration-300 shadow-sm hover:shadow-glow-amber hover:border-amber-500/30"
             >
               <Star className="h-4 w-4 text-amber-400 fill-amber-400" />
               <span>Review Course</span>
@@ -151,7 +152,7 @@ export function CoursePlayer({ course, initialEnrollment }: CoursePlayerProps) {
 
             <Link
               href={`/trainee/assessments/${course.assessmentId}`}
-              className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 text-white px-5 py-2.5 text-xs font-semibold shadow-lg shadow-indigo-500/25 transition-all hover:scale-[1.02]"
+              className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 text-white px-5 py-2.5 text-xs font-semibold shadow-lg shadow-indigo-500/25 transition-all hover:scale-[1.02] hover:shadow-glow-md btn-shimmer"
             >
               <Award className="h-4 w-4" />
               <span>Take Assessment</span>
@@ -166,11 +167,13 @@ export function CoursePlayer({ course, initialEnrollment }: CoursePlayerProps) {
             <span className="font-semibold text-slate-300">Course Completion Progress</span>
             <span className="font-bold text-indigo-400">{progressPercent}% Completed</span>
           </div>
-          <div className="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
+          <div className="h-3 w-full bg-slate-800 rounded-full overflow-hidden">
             <div
-              className="h-full bg-gradient-to-r from-indigo-500 via-cyan-400 to-emerald-400 transition-all duration-500"
+              className="h-full bg-gradient-to-r from-indigo-500 via-cyan-400 to-emerald-400 transition-all duration-500 relative rounded-full"
               style={{ width: `${progressPercent}%` }}
-            />
+            >
+              <div className="absolute inset-0 animate-stripe opacity-30 rounded-full" />
+            </div>
           </div>
         </div>
       </div>
@@ -181,7 +184,7 @@ export function CoursePlayer({ course, initialEnrollment }: CoursePlayerProps) {
         {/* Left Column: Player & Resource Area */}
         <div className="lg:col-span-2 space-y-4">
           {activeMaterial.type === 'VIDEO' ? (
-            <div className="relative rounded-2xl overflow-hidden bg-slate-950 border border-slate-800 shadow-2xl group">
+            <div className="relative rounded-2xl overflow-hidden bg-slate-950 border border-slate-800 shadow-elevation-3 group">
               <video
                 ref={videoRef}
                 src={activeMaterial.url}
@@ -192,7 +195,7 @@ export function CoursePlayer({ course, initialEnrollment }: CoursePlayerProps) {
               />
 
               {/* Custom Video Controls Bar */}
-              <div className="p-4 bg-slate-950/90 border-t border-slate-800/80 space-y-3">
+              <div className="p-4 bg-slate-950/95 backdrop-blur-xl border-t border-slate-800/80 space-y-3">
                 {/* Seekbar */}
                 <input
                   type="range"
@@ -330,7 +333,7 @@ export function CoursePlayer({ course, initialEnrollment }: CoursePlayerProps) {
 
         {/* Right Column: Interactive Curriculum Checklist */}
         <div className="space-y-4">
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5 space-y-4 backdrop-blur-xl">
+          <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5 space-y-4 backdrop-blur-xl animate-fade-in-right animation-delay-200">
             <div className="flex items-center justify-between border-b border-slate-800 pb-3">
               <h2 className="text-base font-bold text-white">Course Curriculum</h2>
               <span className="text-xs font-semibold text-slate-400">
@@ -338,7 +341,7 @@ export function CoursePlayer({ course, initialEnrollment }: CoursePlayerProps) {
               </span>
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-2 stagger-children">
               {course.materials.map((mat, idx) => {
                 const isSelected = activeMaterial.id === mat.id;
                 const isDone = completedIds.includes(mat.id);
@@ -393,7 +396,7 @@ export function CoursePlayer({ course, initialEnrollment }: CoursePlayerProps) {
             </div>
 
             {/* Assessment Callout Banner */}
-            <div className="mt-4 rounded-xl border border-indigo-500/30 bg-gradient-to-br from-indigo-950/80 to-slate-900 p-4 space-y-3">
+            <div className="mt-4 rounded-xl border border-indigo-500/30 bg-gradient-to-br from-indigo-950/80 to-slate-900 p-4 space-y-3 animate-border-glow">
               <div className="flex items-center gap-2">
                 <Award className="h-5 w-5 text-indigo-400" />
                 <span className="text-xs font-bold text-white">Subject-Wise Assessment</span>
@@ -403,7 +406,7 @@ export function CoursePlayer({ course, initialEnrollment }: CoursePlayerProps) {
               </p>
               <Link
                 href={`/trainee/assessments/${course.assessmentId}`}
-                className="block text-center rounded-lg bg-indigo-600 hover:bg-indigo-500 py-2 text-xs font-bold text-white transition-all shadow-md shadow-indigo-600/30"
+                className="block text-center rounded-lg bg-indigo-600 hover:bg-indigo-500 py-2.5 text-xs font-bold text-white transition-all shadow-md shadow-indigo-600/30 hover:shadow-glow-md btn-shimmer"
               >
                 Launch Exam Room
               </Link>

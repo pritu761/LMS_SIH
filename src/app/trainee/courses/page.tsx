@@ -35,7 +35,7 @@ export default function CourseCatalogPage() {
       <Sidebar role="TRAINEE" />
 
       <main className="flex-1 min-w-0 space-y-6">
-        
+
         {/* Header */}
         <div className="rounded-3xl border border-slate-800 bg-slate-900/60 p-6 sm:p-8 backdrop-blur-xl space-y-2">
           <div className="flex items-center gap-2">
@@ -70,11 +70,10 @@ export default function CourseCatalogPage() {
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`rounded-xl px-3.5 py-2 text-xs font-semibold whitespace-nowrap transition-all ${
-                  selectedCategory === cat
+                className={`rounded-xl px-3.5 py-2 text-xs font-semibold whitespace-nowrap transition-all ${selectedCategory === cat
                     ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/30'
                     : 'bg-slate-900/60 text-slate-400 hover:text-white border border-slate-800'
-                }`}
+                  }`}
               >
                 {cat}
               </button>

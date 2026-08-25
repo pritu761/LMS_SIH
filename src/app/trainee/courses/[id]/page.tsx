@@ -4,8 +4,8 @@ import { CoursePlayer } from '@/components/trainee/CoursePlayer';
 import { Sidebar } from '@/components/layout/Sidebar';
 import { notFound } from 'next/navigation';
 
-export default function CourseStreamPage({ params }: { params: { id: string } }) {
-  const { id } = params;
+export default async function CourseStreamPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const course = initialCourses.find((c) => c.id === id || c.slug === id) || initialCourses[0];
 
   if (!course) {

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, use } from 'react';
 import { initialAssessments } from '@/lib/mockData';
 import { sanitizeAssessmentForTrainee, SanitizedQuizResponse } from '@/services/assessmentService';
 import { QuizEngine } from '@/components/assessment/QuizEngine';
@@ -8,8 +8,8 @@ import { Sidebar } from '@/components/layout/Sidebar';
 import { Clock, ShieldAlert, Award } from 'lucide-react';
 import Link from 'next/link';
 
-export default function AssessmentExamPage({ params }: { params: { id: string } }) {
-  const { id } = params;
+export default function AssessmentExamPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params);
   const [quizData, setQuizData] = useState<SanitizedQuizResponse | null>(null);
   const [hasStarted, setHasStarted] = useState(false);
   const [loading, setLoading] = useState(true);

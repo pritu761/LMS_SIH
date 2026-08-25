@@ -20,7 +20,7 @@ import {
 
 export default function TraineeProfilePage() {
   const defaultUser = initialUsers.find((u) => u.role === 'TRAINEE') || initialUsers[3];
-  
+
   const [profile, setProfile] = useState({ ...defaultUser.profile });
   const [competencies, setCompetencies] = useState([...defaultUser.competencies]);
   const [isSaved, setIsSaved] = useState(false);
@@ -72,7 +72,7 @@ export default function TraineeProfilePage() {
       <Sidebar role="TRAINEE" />
 
       <main className="flex-1 min-w-0 space-y-6">
-        
+
         {/* Header */}
         <div className="rounded-3xl border border-slate-800 bg-slate-900/60 p-6 sm:p-8 backdrop-blur-xl space-y-2">
           <div className="flex items-center gap-2">
@@ -97,7 +97,7 @@ export default function TraineeProfilePage() {
         )}
 
         <form onSubmit={handleSave} className="space-y-6">
-          
+
           {/* Section 1: Professional Bio & Metadata */}
           <div className="rounded-3xl border border-slate-800 bg-slate-900/60 p-6 backdrop-blur-xl space-y-4">
             <h3 className="text-base font-bold text-white flex items-center gap-2">
@@ -192,11 +192,10 @@ export default function TraineeProfilePage() {
                         type="button"
                         key={lvl}
                         onClick={() => handleProficiencyChange(comp.competencyId, lvl)}
-                        className={`flex-1 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                          lvl <= comp.proficiencyLevel
+                        className={`flex-1 py-1.5 rounded-lg text-xs font-bold transition-all ${lvl <= comp.proficiencyLevel
                             ? 'bg-indigo-600 text-white'
                             : 'bg-slate-900 text-slate-500 hover:bg-slate-800'
-                        }`}
+                          }`}
                       >
                         {lvl}
                       </button>
