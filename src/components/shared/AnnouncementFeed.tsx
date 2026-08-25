@@ -1,34 +1,55 @@
+'use client';
+
 import React from 'react';
 import { Megaphone, Pin, AlertTriangle, Sparkles, Trophy } from 'lucide-react';
 import { initialAnnouncements } from '@/lib/mockData';
 
+function timeAgo(dateStr: string): string {
+  const now = new Date();
+  const date = new Date(dateStr);
+  const diffMs = now.getTime() - date.getTime();
+  const diffMins = Math.floor(diffMs / 60000);
+  if (diffMins < 1) return 'Just now';
+  if (diffMins < 60) return `${diffMins}m ago`;
+  const diffHours = Math.floor(diffMins / 60);
+  if (diffHours < 24) return `${diffHours}h ago`;
+  const diffDays = Math.floor(diffHours / 24);
+  if (diffDays < 7) return `${diffDays}d ago`;
+  return new Date(dateStr).toLocaleDateString();
+}
+
 export function AnnouncementFeed() {
   return (
-    <div className="rounded-3xl border border-slate-800 bg-slate-900/60 p-6 backdrop-blur-xl space-y-4">
+    <div className="rounded-3xl border border-slate-800 bg-slate-900/60 p-6 backdrop-blur-xl space-y-4 animate-fade-in-up animation-delay-200">
       <div className="flex items-center justify-between border-b border-slate-800 pb-3">
         <h3 className="text-base font-bold text-white flex items-center gap-2">
-          <Megaphone className="h-4 w-4 text-indigo-400" />
+          <div className="h-8 w-8 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center">
+            <Megaphone className="h-4 w-4 text-indigo-400" />
+          </div>
           <span>Sitewide Bulletins & Ministry Directives</span>
         </h3>
-        <span className="text-xs text-slate-400">Official CMS</span>
+        <span className="text-xs text-slate-400 rounded-lg bg-slate-800/60 px-2 py-1 border border-slate-700/50">Official CMS</span>
       </div>
 
-      <div className="space-y-3">
+      <div className="space-y-3 stagger-children">
         {initialAnnouncements.map((ann) => {
           let badgeClass = 'bg-indigo-500/10 text-indigo-300 border-indigo-500/20';
           let Icon = Sparkles;
+          let hoverBorder = 'hover:border-indigo-500/40';
           if (ann.type === 'ALERT') {
             badgeClass = 'bg-rose-500/10 text-rose-300 border-rose-500/20';
             Icon = AlertTriangle;
+            hoverBorder = 'hover:border-rose-500/40';
           } else if (ann.type === 'ACHIEVEMENT') {
             badgeClass = 'bg-amber-500/10 text-amber-300 border-amber-500/20';
             Icon = Trophy;
+            hoverBorder = 'hover:border-amber-500/40';
           }
 
           return (
             <div
               key={ann.id}
-              className={`rounded-2xl border p-4 transition-all ${
+              className={`rounded-2xl border p-4 transition-all duration-300 ${hoverBorder} hover:-translate-y-0.5 hover:shadow-elevation-1 cursor-default ${
                 ann.isPinned
                   ? 'border-indigo-500/40 bg-indigo-950/20'
                   : 'border-slate-800 bg-slate-950/40'
@@ -42,12 +63,12 @@ export function AnnouncementFeed() {
                   </span>
                   {ann.isPinned && (
                     <span className="flex items-center gap-1 text-[10px] font-bold text-indigo-400">
-                      <Pin className="h-3 w-3" /> Pinned
+                      <Pin className="h-3 w-3 animate-pulse" /> Pinned
                     </span>
                   )}
                 </div>
-                <span className="text-[10px] text-slate-400 font-mono">
-                  {new Date(ann.createdAt).toLocaleDateString()}
+                <span className="text-[10px] text-slate-400 font-mono bg-slate-800/50 px-1.5 py-0.5 rounded">
+                  {timeAgo(ann.createdAt)}
                 </span>
               </div>
 

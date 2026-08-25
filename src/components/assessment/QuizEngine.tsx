@@ -133,11 +133,10 @@ export function QuizEngine({ quiz }: QuizEngineProps) {
         {/* Live Timer & Submit button */}
         <div className="flex items-center gap-3">
           <div
-            className={`flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-mono font-bold border transition-colors ${
-              isTimeCritical
+            className={`flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-mono font-bold border transition-colors ${isTimeCritical
                 ? 'bg-rose-500/15 border-rose-500/40 text-rose-300 animate-pulse'
                 : 'bg-indigo-950/40 border-indigo-500/30 text-indigo-200'
-            }`}
+              }`}
           >
             <Timer className={`h-4 w-4 ${isTimeCritical ? 'text-rose-400' : 'text-indigo-400'}`} />
             <span>{formatTimer(timeLeftSeconds)}</span>
@@ -156,11 +155,11 @@ export function QuizEngine({ quiz }: QuizEngineProps) {
 
       {/* Main Exam Room Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-        
+
         {/* Left Column: Active Question Workspace */}
         <div className="lg:col-span-3 space-y-4">
           <div className="rounded-3xl border border-slate-800 bg-slate-900/60 p-6 sm:p-8 backdrop-blur-xl shadow-xl space-y-6">
-            
+
             {/* Question Header & Flag Toggle */}
             <div className="flex items-center justify-between border-b border-slate-800 pb-4">
               <div className="flex items-center gap-2">
@@ -174,11 +173,10 @@ export function QuizEngine({ quiz }: QuizEngineProps) {
 
               <button
                 onClick={() => toggleFlag(currentQuestion.id)}
-                className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium border transition-colors ${
-                  flaggedIds.includes(currentQuestion.id)
+                className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium border transition-colors ${flaggedIds.includes(currentQuestion.id)
                     ? 'bg-amber-500/20 text-amber-300 border-amber-500/40'
                     : 'bg-slate-950/40 text-slate-400 border-slate-800 hover:text-white'
-                }`}
+                  }`}
               >
                 <Flag className="h-3.5 w-3.5" />
                 <span>{flaggedIds.includes(currentQuestion.id) ? 'Flagged for Review' : 'Flag for Review'}</span>
@@ -200,18 +198,16 @@ export function QuizEngine({ quiz }: QuizEngineProps) {
                   <div
                     key={opt.id}
                     onClick={() => handleSelectOption(currentQuestion.id, opt.id)}
-                    className={`rounded-2xl border p-4 sm:p-4.5 cursor-pointer transition-all flex items-start gap-4 ${
-                      isSelected
+                    className={`rounded-2xl border p-4 sm:p-4.5 cursor-pointer transition-all flex items-start gap-4 ${isSelected
                         ? 'border-indigo-500/80 bg-indigo-950/40 shadow-lg shadow-indigo-500/15'
                         : 'border-slate-800/90 bg-slate-950/50 hover:bg-slate-900 hover:border-slate-700'
-                    }`}
+                      }`}
                   >
                     <div
-                      className={`h-7 w-7 shrink-0 rounded-xl font-mono text-xs font-bold flex items-center justify-center border transition-all ${
-                        isSelected
+                      className={`h-7 w-7 shrink-0 rounded-xl font-mono text-xs font-bold flex items-center justify-center border transition-all ${isSelected
                           ? 'bg-indigo-600 text-white border-indigo-400 shadow-md shadow-indigo-600/40'
                           : 'bg-slate-900 text-slate-400 border-slate-700'
-                      }`}
+                        }`}
                     >
                       {letter}
                     </div>
@@ -307,7 +303,7 @@ export function QuizEngine({ quiz }: QuizEngineProps) {
             <div className="h-12 w-12 rounded-2xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
               <ShieldAlert className="h-6 w-6" />
             </div>
-            
+
             <div>
               <h3 className="text-lg font-bold text-white">Confirm Final Submission</h3>
               <p className="text-xs text-slate-300 mt-1">
