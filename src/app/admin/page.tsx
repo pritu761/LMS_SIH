@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Sidebar } from '@/components/layout/Sidebar';
 import { StatsCard } from '@/components/shared/StatsCard';
 import { AnnouncementFeed } from '@/components/shared/AnnouncementFeed';
-import { ScrollReveal } from '@/components/shared/ScrollReveal';
+import { MotionSection } from '@/components/shared/MotionPrimitives';
 import { initialUsers, initialAnnouncements } from '@/lib/mockData';
 import {
   ShieldCheck,
@@ -84,7 +84,7 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* Sitewide KPIs */}
-        <ScrollReveal animation="fade-up" delay={100}>
+        <MotionSection variant="fade-up" delay={100}>
           <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
             <StatsCard
               title="Active Learners"
@@ -115,10 +115,10 @@ export default function AdminDashboardPage() {
               color="amber"
             />
           </div>
-        </ScrollReveal>
+        </MotionSection>
 
         {/* Quick Navigation Action Cards */}
-        <ScrollReveal animation="fade-up" delay={200}>
+        <MotionSection variant="fade-up" delay={200}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Link
               href="/admin/users"
@@ -166,13 +166,13 @@ export default function AdminDashboardPage() {
               </div>
             </Link>
           </div>
-        </ScrollReveal>
+        </MotionSection>
 
         {/* Sitewide CMS Publisher & Live Feed */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           
           {/* Announcement Publisher */}
-          <ScrollReveal animation="fade-left" delay={100}>
+          <MotionSection variant="fade-left" delay={100}>
             <div className="rounded-3xl border border-slate-800 bg-slate-900/60 p-6 backdrop-blur-xl space-y-4">
               <h3 className="text-base font-bold text-white flex items-center gap-2">
                 <div className="h-8 w-8 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center">
@@ -253,12 +253,12 @@ export default function AdminDashboardPage() {
                 </div>
               </form>
             </div>
-          </ScrollReveal>
+          </MotionSection>
 
           {/* Live Feed Preview */}
-          <ScrollReveal animation="fade-right" delay={200}>
+          <MotionSection variant="fade-right" delay={200}>
             <AnnouncementFeed />
-          </ScrollReveal>
+          </MotionSection>
         </div>
       </main>
     </div>

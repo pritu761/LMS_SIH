@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { Sidebar } from '@/components/layout/Sidebar';
 import { initialAnnouncements } from '@/lib/mockData';
-import { ScrollReveal } from '@/components/shared/ScrollReveal';
+import { MotionSection } from '@/components/shared/MotionPrimitives';
 import {
   FileText,
   Megaphone,
@@ -182,7 +182,7 @@ export default function AdminCmsPage() {
         )}
 
         {/* CMS Analytics Cards */}
-        <ScrollReveal animation="fade-up" delay={100}>
+        <MotionSection variant="fade-up" delay={100}>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-4.5 space-y-1 card-tilt">
               <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Total Bulletins</span>
@@ -201,7 +201,7 @@ export default function AdminCmsPage() {
               <div className="text-2xl font-black text-amber-400">{spotlightCount} Features</div>
             </div>
           </div>
-        </ScrollReveal>
+        </MotionSection>
 
         {/* Filter and Search Bar */}
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 animate-fade-in-up animation-delay-150">

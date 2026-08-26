@@ -2,6 +2,8 @@
 
 import React from 'react';
 import { Megaphone, Pin, AlertTriangle, Sparkles, Trophy } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { staggerContainer, staggerItem, hoverLift, ease } from '@/lib/animations';
 import { initialAnnouncements } from '@/lib/mockData';
 
 function timeAgo(dateStr: string): string {
@@ -20,22 +22,32 @@ function timeAgo(dateStr: string): string {
 
 export function AnnouncementFeed() {
   return (
-    <div className="rounded-3xl border border-slate-800 bg-slate-900/60 p-6 backdrop-blur-xl space-y-4 animate-fade-in-up animation-delay-200">
-      <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, ease: ease.smooth }}
+      className="rounded-3xl border border-white/10 bg-[#09090e] p-6 backdrop-blur-xl space-y-4"
+    >
+      <div className="flex items-center justify-between border-b border-white/10 pb-3">
         <h3 className="text-base font-bold text-white flex items-center gap-2">
-          <div className="h-8 w-8 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center">
-            <Megaphone className="h-4 w-4 text-indigo-400" />
+          <div className="h-8 w-8 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
+            <Megaphone className="h-4 w-4 text-blue-400" />
           </div>
           <span>Sitewide Bulletins & Ministry Directives</span>
         </h3>
-        <span className="text-xs text-slate-400 rounded-lg bg-slate-800/60 px-2 py-1 border border-slate-700/50">Official CMS</span>
+        <span className="text-xs text-slate-400 rounded-lg bg-white/5 px-2.5 py-1 border border-white/10">Official CMS</span>
       </div>
 
-      <div className="space-y-3 stagger-children">
+      <motion.div
+        className="space-y-3"
+        variants={staggerContainer}
+        initial="hidden"
+        animate="visible"
+      >
         {initialAnnouncements.map((ann) => {
-          let badgeClass = 'bg-indigo-500/10 text-indigo-300 border-indigo-500/20';
+          let badgeClass = 'bg-blue-500/10 text-blue-300 border-blue-500/20';
           let Icon = Sparkles;
-          let hoverBorder = 'hover:border-indigo-500/40';
+          let hoverBorder = 'hover:border-blue-500/40';
           if (ann.type === 'ALERT') {
             badgeClass = 'bg-rose-500/10 text-rose-300 border-rose-500/20';
             Icon = AlertTriangle;
@@ -47,12 +59,14 @@ export function AnnouncementFeed() {
           }
 
           return (
-            <div
+            <motion.div
               key={ann.id}
-              className={`rounded-2xl border p-4 transition-all duration-300 ${hoverBorder} hover:-translate-y-0.5 hover:shadow-elevation-1 cursor-default ${
+              variants={staggerItem}
+              whileHover={{ y: -3, transition: { duration: 0.2 } }}
+              className={`rounded-2xl border p-4 transition-all duration-300 ${hoverBorder} cursor-default ${
                 ann.isPinned
-                  ? 'border-indigo-500/40 bg-indigo-950/20'
-                  : 'border-slate-800 bg-slate-950/40'
+                  ? 'border-blue-500/40 bg-blue-950/20 shadow-glow-sm'
+                  : 'border-white/10 bg-black/40'
               }`}
             >
               <div className="flex items-center justify-between gap-2">
@@ -62,12 +76,12 @@ export function AnnouncementFeed() {
                     {ann.type}
                   </span>
                   {ann.isPinned && (
-                    <span className="flex items-center gap-1 text-[10px] font-bold text-indigo-400">
+                    <span className="flex items-center gap-1 text-[10px] font-bold text-blue-400">
                       <Pin className="h-3 w-3 animate-pulse" /> Pinned
                     </span>
                   )}
                 </div>
-                <span className="text-[10px] text-slate-400 font-mono bg-slate-800/50 px-1.5 py-0.5 rounded">
+                <span className="text-[10px] text-slate-400 font-mono bg-white/5 px-2 py-0.5 rounded border border-white/5">
                   {timeAgo(ann.createdAt)}
                 </span>
               </div>
@@ -76,12 +90,13 @@ export function AnnouncementFeed() {
               <p className="text-xs text-slate-300 mt-1 leading-relaxed">{ann.content}</p>
 
               <div className="text-[10px] text-slate-400 mt-2 font-medium">
-                Published by <span className="text-slate-300 font-semibold">{ann.authorName}</span>
+                Published by <span className="text-slate-200 font-semibold">{ann.authorName}</span>
               </div>
-            </div>
+            </motion.div>
           );
         })}
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
+

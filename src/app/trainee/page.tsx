@@ -24,7 +24,7 @@ import {
 import { StatsCard } from '@/components/shared/StatsCard';
 import { AnnouncementFeed } from '@/components/shared/AnnouncementFeed';
 import { Sidebar } from '@/components/layout/Sidebar';
-import { ScrollReveal } from '@/components/shared/ScrollReveal';
+import { MotionSection } from '@/components/shared/MotionPrimitives';
 import { initialCourses, initialEnrollments } from '@/lib/mockData';
 
 function getGreeting(): { text: string; icon: React.ReactNode } {
@@ -88,7 +88,7 @@ export default function TraineeDashboard() {
         </div>
 
         {/* Trainee KPIs */}
-        <ScrollReveal animation="fade-up" delay={100}>
+        <MotionSection variant="fade-up" delay={100}>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <StatsCard
               title="Enrolled Courses"
@@ -112,10 +112,10 @@ export default function TraineeDashboard() {
               color="emerald"
             />
           </div>
-        </ScrollReveal>
+        </MotionSection>
 
         {/* Active Enrolled Course Banner */}
-        <ScrollReveal animation="fade-up" delay={200}>
+        <MotionSection variant="fade-up" delay={200}>
           <div className="rounded-3xl border border-indigo-500/25 bg-gradient-to-br from-indigo-950/40 via-slate-900/80 to-slate-950 p-6 sm:p-8 backdrop-blur-xl shadow-elevation-2 space-y-6 relative overflow-hidden">
             <div className="absolute -top-10 -right-10 w-40 h-40 bg-indigo-500/10 rounded-full blur-2xl pointer-events-none animate-breathe" />
             {/* Top gradient line */}
@@ -171,13 +171,13 @@ export default function TraineeDashboard() {
               </div>
             </div>
           </div>
-        </ScrollReveal>
+        </MotionSection>
 
         {/* Catalog Quick Spotlight & CMS Bulletins */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
           {/* Catalog Spotlight */}
-          <ScrollReveal animation="fade-left" delay={100}>
+          <MotionSection variant="fade-left" delay={100}>
             <div className="rounded-3xl border border-slate-800 bg-slate-900/60 p-6 backdrop-blur-xl space-y-4">
               <div className="flex items-center justify-between border-b border-slate-800 pb-3">
                 <h3 className="text-base font-bold text-white flex items-center gap-2">
@@ -218,12 +218,12 @@ export default function TraineeDashboard() {
                 ))}
               </div>
             </div>
-          </ScrollReveal>
+          </MotionSection>
 
           {/* Ministry CMS Bulletins */}
-          <ScrollReveal animation="fade-right" delay={200}>
+          <MotionSection variant="fade-right" delay={200}>
             <AnnouncementFeed />
-          </ScrollReveal>
+          </MotionSection>
         </div>
       </main>
     </div>

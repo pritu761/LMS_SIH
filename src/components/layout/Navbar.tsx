@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import {
@@ -166,13 +167,19 @@ export function Navbar() {
   return (
     <>
       {/* Scroll Progress Bar */}
-      <div
+      <motion.div
         className="scroll-progress-bar"
         style={{ width: `${scrollProgress}%` }}
+        initial={{ scaleX: 0 }}
+        animate={{ scaleX: 1 }}
+        transition={{ duration: 0.2 }}
       />
 
-      <header
+      <motion.header
         suppressHydrationWarning
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
         className={`sticky top-0 z-50 w-full border-b transition-all duration-500 ${
           isScrolled
             ? 'border-white/15 bg-black/90 backdrop-blur-2xl shadow-elevation-2'
@@ -264,39 +271,49 @@ export function Navbar() {
                 <ChevronDown className={`h-3 w-3 text-indigo-300 transition-transform duration-300 ${isRoleDropdownOpen ? 'rotate-180' : ''}`} />
               </button>
 
-              {isRoleDropdownOpen && (
-                <div className="absolute right-0 top-full mt-2 w-80 rounded-2xl border border-slate-700 bg-slate-900 p-2.5 shadow-2xl shadow-black/90 z-[100] animate-slide-down">
-                  <div className="flex items-center justify-between px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-slate-400 border-b border-slate-800">
-                    <span>Switch Active Persona</span>
-                    <span className="text-[9px] text-emerald-400 font-mono font-bold">● Instant RBAC</span>
-                  </div>
-                  <div className="space-y-1.5 mt-2">
-                    {roleEntries.map((entry) => {
-                      const RoleIcon = entry.icon;
-                      return (
-                        <button
-                          key={entry.role}
-                          onClick={() => handleDemoSwitch(entry.role)}
-                          className={`w-full flex items-center justify-between rounded-xl px-3 py-2.5 text-xs font-medium text-slate-200 bg-slate-950/80 border border-slate-800 ${entry.colorClass} hover:border-slate-700 hover:text-white transition-all group duration-150 text-left`}
-                        >
-                          <div className="flex items-center gap-3 min-w-0">
-                            <div className={`h-9 w-9 rounded-xl ${entry.iconBg} border flex items-center justify-center group-hover:scale-105 transition-transform duration-200 shrink-0`}>
-                              <RoleIcon className="h-4.5 w-4.5" />
-                            </div>
-                            <div className="min-w-0">
-                              <div className={`font-bold text-white text-xs ${entry.hoverText}`}>{entry.label}</div>
-                              <div className={`text-[11px] truncate ${entry.role === 'TRAINER_PENDING' ? 'text-amber-400/90 font-medium' : 'text-slate-400'}`}>
-                                {entry.sub}
+              <AnimatePresence>
+                {isRoleDropdownOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 8, scale: 0.95 }}
+                    transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                    className="absolute right-0 top-full mt-2 w-80 rounded-2xl border border-white/15 bg-[#09090f]/95 backdrop-blur-2xl p-2.5 shadow-2xl shadow-black/90 z-[100]"
+                  >
+                    <div className="flex items-center justify-between px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-slate-400 border-b border-white/10">
+                      <span>Switch Active Persona</span>
+                      <span className="text-[9px] text-emerald-400 font-mono font-bold">● Instant RBAC</span>
+                    </div>
+                    <div className="space-y-1.5 mt-2">
+                      {roleEntries.map((entry) => {
+                        const RoleIcon = entry.icon;
+                        return (
+                          <motion.button
+                            key={entry.role}
+                            whileHover={{ x: 4, transition: { duration: 0.15 } }}
+                            whileTap={{ scale: 0.98 }}
+                            onClick={() => handleDemoSwitch(entry.role)}
+                            className={`w-full flex items-center justify-between rounded-xl px-3 py-2.5 text-xs font-medium text-slate-200 bg-white/[0.03] border border-white/10 ${entry.colorClass} hover:border-white/20 hover:text-white transition-all group text-left`}
+                          >
+                            <div className="flex items-center gap-3 min-w-0">
+                              <div className={`h-9 w-9 rounded-xl ${entry.iconBg} border flex items-center justify-center group-hover:scale-105 transition-transform duration-200 shrink-0`}>
+                                <RoleIcon className="h-4.5 w-4.5" />
+                              </div>
+                              <div className="min-w-0">
+                                <div className={`font-bold text-white text-xs ${entry.hoverText}`}>{entry.label}</div>
+                                <div className={`text-[11px] truncate ${entry.role === 'TRAINER_PENDING' ? 'text-amber-400/90 font-medium' : 'text-slate-400'}`}>
+                                  {entry.sub}
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          {entry.check && <CheckCircle2 className={`h-4 w-4 shrink-0 ml-2 ${entry.checkColor}`} />}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
+                            {entry.check && <CheckCircle2 className={`h-4 w-4 shrink-0 ml-2 ${entry.checkColor}`} />}
+                          </motion.button>
+                        );
+                      })}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
 
             {/* User Profile / Auth State */}
@@ -392,7 +409,7 @@ export function Navbar() {
             )}
           </div>
         )}
-      </header>
+      </motion.header>
     </>
   );
 }

@@ -19,7 +19,7 @@ import {
 } from 'lucide-react';
 import { StatsCard } from '@/components/shared/StatsCard';
 import { Sidebar } from '@/components/layout/Sidebar';
-import { ScrollReveal } from '@/components/shared/ScrollReveal';
+import { MotionSection } from '@/components/shared/MotionPrimitives';
 import { initialCourses, initialFeedbacks } from '@/lib/mockData';
 
 function getGreeting(): { text: string; icon: React.ReactNode } {
@@ -64,7 +64,7 @@ export default function TrainerHubPage() {
         </div>
 
         {/* Trainer KPIs */}
-        <ScrollReveal animation="fade-up" delay={100}>
+        <MotionSection variant="fade-up" delay={100}>
           <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
             <StatsCard
               title="Courses Delivered"
@@ -95,10 +95,10 @@ export default function TrainerHubPage() {
               color="emerald"
             />
           </div>
-        </ScrollReveal>
+        </MotionSection>
 
         {/* Quick Action Navigation Buttons */}
-        <ScrollReveal animation="fade-up" delay={200}>
+        <MotionSection variant="fade-up" delay={200}>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <Link
               href="/trainer/library"
@@ -151,12 +151,12 @@ export default function TrainerHubPage() {
               </div>
             </Link>
           </div>
-        </ScrollReveal>
+        </MotionSection>
 
         {/* Active Module Curriculum & Recent Reviews */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Active Course */}
-          <ScrollReveal animation="fade-left" delay={100}>
+          <MotionSection variant="fade-left" delay={100}>
             <div className="rounded-3xl border border-slate-800 bg-slate-900/60 p-6 backdrop-blur-xl space-y-4">
               <div className="flex items-center justify-between border-b border-slate-800 pb-3">
                 <h3 className="text-base font-bold text-white flex items-center gap-2">
@@ -193,10 +193,10 @@ export default function TrainerHubPage() {
                 </div>
               </div>
             </div>
-          </ScrollReveal>
+          </MotionSection>
 
           {/* Qualitative Reviews Feed */}
-          <ScrollReveal animation="fade-right" delay={200}>
+          <MotionSection variant="fade-right" delay={200}>
             <div className="rounded-3xl border border-slate-800 bg-slate-900/60 p-6 backdrop-blur-xl space-y-4">
               <div className="flex items-center justify-between border-b border-slate-800 pb-3">
                 <h3 className="text-base font-bold text-white flex items-center gap-2">
@@ -225,7 +225,7 @@ export default function TrainerHubPage() {
                 ))}
               </div>
             </div>
-          </ScrollReveal>
+          </MotionSection>
         </div>
       </main>
     </div>
