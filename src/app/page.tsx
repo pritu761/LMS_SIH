@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import {
   GraduationCap,
   ShieldCheck,
@@ -30,8 +31,29 @@ import {
   Target,
 } from 'lucide-react';
 import { StatsCard } from '@/components/shared/StatsCard';
-import { ScrollReveal } from '@/components/shared/ScrollReveal';
 import { AnimatedCounter } from '@/components/shared/AnimatedCounter';
+import {
+  MotionSection,
+  MotionStagger,
+  MotionCard,
+  MotionButton,
+  MotionText,
+  Parallax,
+  Magnetic,
+  MotionCounter,
+} from '@/components/shared/MotionPrimitives';
+import {
+  staggerContainer,
+  staggerItem,
+  fadeInUp,
+  fadeInDown,
+  slideInUp,
+  scaleIn,
+  hoverGlow,
+  hoverLift,
+  buttonHover,
+  ease,
+} from '@/lib/animations';
 import { initialCourses } from '@/lib/mockData';
 
 export default function HomePage() {
@@ -123,62 +145,111 @@ export default function HomePage() {
 
   return (
     <div suppressHydrationWarning className="flex-1 flex flex-col space-y-0 pb-0 relative overflow-hidden">
-      
-      {/* ════════════════ HERO SECTION (BRIDGEMIND STYLE) ════════════════ */}
+
+      {/* ════════════════ HERO SECTION (BRIDGEMIND + FRAMER MOTION) ════════════════ */}
       <section className="relative pt-16 sm:pt-28 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
 
         {/* BridgeMind Signature Aurora Beam & Split Radiant Lighting */}
-        <div className="bridgemind-aurora" />
-        <div className="bridgemind-beam" />
+        <motion.div
+          className="bridgemind-aurora"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.5, ease: ease.smooth }}
+        />
+        <motion.div
+          className="bridgemind-beam"
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: 550 }}
+          transition={{ duration: 1.2, delay: 0.3, ease: ease.smooth }}
+        />
 
         <div className="max-w-7xl mx-auto text-center relative z-10">
 
           {/* Floating Verified Pill Badge */}
-          <div className="animate-fade-in-down inline-flex items-center gap-2.5 rounded-full border border-white/15 bg-white/5 px-5 py-2 text-xs font-semibold text-white backdrop-blur-xl shadow-2xl hover:scale-105 transition-transform cursor-default mb-8">
+          <motion.div
+            initial={{ opacity: 0, y: -20, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.6, delay: 0.2, ease: ease.smooth }}
+            className="inline-flex items-center gap-2.5 rounded-full border border-white/15 bg-white/5 px-5 py-2 text-xs font-semibold text-white backdrop-blur-xl shadow-2xl hover:scale-105 transition-transform cursor-default mb-8"
+          >
             <Sparkles className="h-3.5 w-3.5 text-amber-400 animate-spin-slow" />
             <span>The Sovereign Capacity Super App</span>
             <span className="h-1.5 w-1.5 rounded-full bg-blue-500 animate-ping" />
             <span className="rounded-full bg-blue-500/20 px-2 py-0.5 text-[10px] font-bold text-blue-400 border border-blue-500/30">
               GovTech v2.4
             </span>
-          </div>
+          </motion.div>
 
-          {/* Hero Title (BridgeMind commanding font) */}
+          {/* Hero Title (Framer Motion word-by-word reveal) */}
           <div className="space-y-6 max-w-4xl mx-auto">
-            <h1 className="text-5xl sm:text-7xl lg:text-8xl font-black text-white tracking-tight leading-[1.04] animate-fade-in-up">
+            <motion.h1
+              className="text-5xl sm:text-7xl lg:text-8xl font-black text-white tracking-tight leading-[1.04]"
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4, ease: ease.smooth }}
+            >
               The Capacity <br />
-              <span className="bg-gradient-to-r from-white via-slate-100 to-blue-300 bg-clip-text text-transparent">
+              <motion.span
+                className="bg-gradient-to-r from-white via-slate-100 to-blue-300 bg-clip-text text-transparent inline-block"
+                initial={{ opacity: 0, y: 20, filter: 'blur(8px)' }}
+                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                transition={{ duration: 0.8, delay: 0.7, ease: ease.smooth }}
+              >
                 Super App
-              </span>
-            </h1>
-            <p className="text-sm sm:text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed animate-fade-in-up animation-delay-200">
+              </motion.span>
+            </motion.h1>
+            <motion.p
+              className="text-sm sm:text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.9, ease: ease.smooth }}
+            >
               AI-driven competency matching, proctored exams, and sovereign institutional training that powers 25,000+ public sector leaders across India.
-            </p>
+            </motion.p>
           </div>
 
-          {/* Call to Action Buttons */}
-          <div className="flex flex-wrap items-center justify-center gap-4 pt-6 animate-fade-in-up animation-delay-400">
-            <Link
-              href="/auth/register"
-              className="btn-bridgemind-primary group gap-2.5"
-            >
-              <Sparkles className="h-4 w-4 text-amber-500 transition-transform group-hover:rotate-12" />
-              <span>Get Started Free</span>
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-            </Link>
+          {/* Call to Action Buttons with spring physics */}
+          <motion.div
+            className="flex flex-wrap items-center justify-center gap-4 pt-6"
+            initial={{ opacity: 0, y: 25 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 1.1, ease: ease.smooth }}
+          >
+            <motion.div whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.96 }}>
+              <Link
+                href="/auth/register"
+                className="btn-bridgemind-primary group gap-2.5"
+              >
+                <Sparkles className="h-4 w-4 text-amber-500 transition-transform group-hover:rotate-12" />
+                <span>Get Started Free</span>
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Link>
+            </motion.div>
 
-            <Link
-              href="/auth/login"
-              className="btn-bridgemind-secondary group gap-2.5"
-            >
-              <Lock className="h-4 w-4 text-slate-400 group-hover:text-blue-400 transition-colors" />
-              <span>Sign In with ID</span>
-            </Link>
-          </div>
+            <motion.div whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.96 }}>
+              <Link
+                href="/auth/login"
+                className="btn-bridgemind-secondary group gap-2.5"
+              >
+                <Lock className="h-4 w-4 text-slate-400 group-hover:text-blue-400 transition-colors" />
+                <span>Sign In with ID</span>
+              </Link>
+            </motion.div>
+          </motion.div>
 
           {/* Interactive BridgeMind App Window Mockup */}
-          <div className="pt-12 max-w-5xl mx-auto animate-slide-in-up animation-delay-600">
-            <div className="bridgemind-window p-6 sm:p-8 text-left space-y-5">
+          <motion.div
+            className="pt-12 max-w-5xl mx-auto"
+            initial={{ opacity: 0, y: 60, rotateX: 8, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, rotateX: 0, scale: 1 }}
+            transition={{ duration: 1, delay: 1.3, ease: ease.smooth }}
+            style={{ perspective: 1200 }}
+          >
+            <motion.div
+              className="bridgemind-window p-6 sm:p-8 text-left space-y-5"
+              whileHover={{ boxShadow: '0 0 80px -20px rgba(37, 99, 235, 0.4), 0 0 120px -30px rgba(245, 158, 11, 0.2)' }}
+              transition={{ duration: 0.4 }}
+            >
               
               {/* macOS Window Titlebar */}
               <div className="flex items-center justify-between border-b border-white/10 pb-4">
@@ -200,16 +271,26 @@ export default function HomePage() {
                 </div>
 
                 <span className="text-[11px] text-emerald-400 font-mono flex items-center gap-1.5 font-bold">
-                  <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+                  <motion.span
+                    className="h-2 w-2 rounded-full bg-emerald-400"
+                    animate={{ scale: [1, 1.4, 1], opacity: [1, 0.6, 1] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+                  />
                   Live Sandbox
                 </span>
               </div>
 
               {/* 1-Click Role Cards */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 pt-1 stagger-children">
+              <motion.div
+                className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 pt-1"
+                variants={staggerContainer}
+                initial="hidden"
+                animate="visible"
+              >
+                <motion.div variants={staggerItem} {...hoverLift}>
                 <button
                   onClick={() => handleQuickLogin('TRAINEE')}
-                  className="rounded-2xl border border-white/10 bg-[#0c0c13] hover:border-cyan-500/50 p-5 text-left transition-all group hover:-translate-y-1 hover:shadow-glow-cyan"
+                  className="w-full rounded-2xl border border-white/10 bg-[#0c0c13] hover:border-cyan-500/50 p-5 text-left transition-all group hover:shadow-glow-cyan"
                 >
                   <div className="flex items-center justify-between">
                     <div className="h-10 w-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
@@ -224,10 +305,12 @@ export default function HomePage() {
                   </div>
                   <div className="text-xs text-slate-400 mt-1">Stream lectures, track progress & take timed MCQs</div>
                 </button>
+                </motion.div>
 
+                <motion.div variants={staggerItem} {...hoverLift}>
                 <button
                   onClick={() => handleQuickLogin('TRAINER')}
-                  className="rounded-2xl border border-white/10 bg-[#0c0c13] hover:border-blue-500/50 p-5 text-left transition-all group hover:-translate-y-1 hover:shadow-glow-md"
+                  className="w-full rounded-2xl border border-white/10 bg-[#0c0c13] hover:border-blue-500/50 p-5 text-left transition-all group hover:shadow-glow-md"
                 >
                   <div className="flex items-center justify-between">
                     <div className="h-10 w-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
@@ -242,10 +325,12 @@ export default function HomePage() {
                   </div>
                   <div className="text-xs text-slate-400 mt-1">Manage media library, create exams & cohort analytics</div>
                 </button>
+                </motion.div>
 
+                <motion.div variants={staggerItem} {...hoverLift}>
                 <button
                   onClick={() => handleQuickLogin('ADMIN')}
-                  className="rounded-2xl border border-white/10 bg-[#0c0c13] hover:border-emerald-500/50 p-5 text-left transition-all group hover:-translate-y-1 hover:shadow-glow-emerald"
+                  className="w-full rounded-2xl border border-white/10 bg-[#0c0c13] hover:border-emerald-500/50 p-5 text-left transition-all group hover:shadow-glow-emerald"
                 >
                   <div className="flex items-center justify-between">
                     <div className="h-10 w-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
@@ -260,14 +345,15 @@ export default function HomePage() {
                   </div>
                   <div className="text-xs text-slate-400 mt-1">Approve users, manage RBAC & run competency matching</div>
                 </button>
-              </div>
-            </div>
-          </div>
+                </motion.div>
+              </motion.div>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 
       {/* ════════════════ TRUST BADGE MARQUEE ════════════════ */}
-      <ScrollReveal animation="fade-up">
+      <MotionSection variant="fade-up">
         <section className="py-6 border-y border-white/10 bg-black/60 backdrop-blur-md">
           <div className="marquee-container">
             <div className="marquee-track">
@@ -280,10 +366,10 @@ export default function HomePage() {
             </div>
           </div>
         </section>
-      </ScrollReveal>
+      </MotionSection>
 
       {/* ════════════════ SITEWIDE KPI COUNTERS ════════════════ */}
-      <ScrollReveal animation="fade-up">
+      <MotionSection variant="fade-up">
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-16">
           <div className="text-center mb-10">
             <span className="inline-flex items-center gap-2 rounded-full bg-blue-500/10 border border-blue-500/20 px-4 py-1.5 text-xs font-bold text-blue-300 mb-4">
@@ -360,10 +446,10 @@ export default function HomePage() {
             </div>
           </div>
         </section>
-      </ScrollReveal>
+      </MotionSection>
 
       {/* ════════════════ HOW IT WORKS ════════════════ */}
-      <ScrollReveal animation="fade-up">
+      <MotionSection variant="fade-up">
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-16">
           <div className="text-center mb-12">
             <span className="inline-flex items-center gap-2 rounded-full bg-cyan-500/10 border border-cyan-500/20 px-4 py-1.5 text-xs font-bold text-cyan-300 mb-4">
@@ -387,7 +473,7 @@ export default function HomePage() {
             {howItWorks.map((step, index) => {
               const StepIcon = step.icon;
               return (
-                <ScrollReveal key={index} animation="slide-up" delay={index * 150}>
+                <MotionSection key={index} variant="slide-up" delay={index * 150}>
                   <div className="relative text-center space-y-4 group">
                     {/* Step number & icon */}
                     <div className="relative inline-flex">
@@ -408,15 +494,15 @@ export default function HomePage() {
                       {step.description}
                     </p>
                   </div>
-                </ScrollReveal>
+                </MotionSection>
               );
             })}
           </div>
         </section>
-      </ScrollReveal>
+      </MotionSection>
 
       {/* ════════════════ INTERACTIVE ALGORITHM SIMULATOR (BRIDGEMIND CARD) ════════════════ */}
-      <ScrollReveal animation="fade-up">
+      <MotionSection variant="fade-up">
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-16">
           <div className="bridgemind-window p-6 sm:p-10 space-y-8 relative overflow-hidden">
 
@@ -536,10 +622,10 @@ export default function HomePage() {
             </div>
           </div>
         </section>
-      </ScrollReveal>
+      </MotionSection>
 
       {/* ════════════════ TESTIMONIALS ════════════════ */}
-      <ScrollReveal animation="fade-up">
+      <MotionSection variant="fade-up">
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-16">
           <div className="text-center mb-12">
             <span className="inline-flex items-center gap-2 rounded-full bg-amber-500/10 border border-amber-500/20 px-4 py-1.5 text-xs font-bold text-amber-300 mb-4">
@@ -553,7 +639,7 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {testimonials.map((t, i) => (
-              <ScrollReveal key={i} animation="slide-up" delay={i * 120}>
+              <MotionSection key={i} variant="slide-up" delay={i * 120}>
                 <div className="rounded-3xl border border-slate-800 bg-slate-900/50 p-6 backdrop-blur-xl space-y-4 hover:border-indigo-500/30 transition-all duration-500 card-tilt group">
                   <div className="flex items-center gap-0.5 text-amber-400">
                     {Array.from({ length: t.rating }, (_, j) => (
@@ -568,14 +654,14 @@ export default function HomePage() {
                     <div className="text-xs text-slate-400">{t.role}</div>
                   </div>
                 </div>
-              </ScrollReveal>
+              </MotionSection>
             ))}
           </div>
         </section>
-      </ScrollReveal>
+      </MotionSection>
 
       {/* ════════════════ FEATURED COURSES SHOWCASE ════════════════ */}
-      <ScrollReveal animation="fade-up">
+      <MotionSection variant="fade-up">
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-16 space-y-6">
           <div className="flex items-center justify-between">
             <div>
@@ -602,7 +688,7 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {initialCourses.map((course, idx) => (
-              <ScrollReveal key={course.id} animation="slide-up" delay={idx * 100}>
+              <MotionSection key={course.id} variant="slide-up" delay={idx * 100}>
                 <div
                   className="rounded-3xl border border-slate-800 bg-slate-900/60 p-6 backdrop-blur-xl space-y-4 hover:border-indigo-500/40 transition-all duration-500 group hover:-translate-y-1 shadow-xl hover:shadow-elevation-2 card-tilt"
                 >
@@ -630,14 +716,14 @@ export default function HomePage() {
                     </Link>
                   </div>
                 </div>
-              </ScrollReveal>
+              </MotionSection>
             ))}
           </div>
         </section>
-      </ScrollReveal>
+      </MotionSection>
 
       {/* ════════════════ FINAL CTA (BRIDGEMIND STYLE) ════════════════ */}
-      <ScrollReveal animation="scale">
+      <MotionSection variant="scale">
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-20">
           <div className="bridgemind-window p-10 sm:p-16 text-center relative overflow-hidden">
             <div className="relative z-10 space-y-6">
@@ -667,7 +753,7 @@ export default function HomePage() {
             </div>
           </div>
         </section>
-      </ScrollReveal>
+      </MotionSection>
     </div>
   );
 }
