@@ -16,7 +16,6 @@ import {
   X,
   Satellite,
   Bot,
-  Star,
   Layers,
   Brain,
   Rocket,
@@ -232,24 +231,13 @@ export function Navbar() {
             </nav>
           </div>
 
-          {/* Right Tools: AI Navigator + GitHub Stars + Persona Switcher + Launch */}
+          {/* Right Tools: AI Navigator + Persona Switcher + Launch Portal CTA */}
           <div className="flex items-center gap-2 sm:gap-2.5">
-            {/* GitHub Stars Badge */}
-            <Link
-              href="https://github.com/nestjs/nest"
-              target="_blank"
-              rel="noreferrer"
-              className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-mono text-slate-300 hover:text-white transition-all"
-            >
-              <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
-              <span className="font-bold">70.4k</span>
-            </Link>
-
             {/* AI Course Navigator Trigger */}
             <button
               type="button"
               onClick={() => openChat()}
-              className="relative group hidden sm:flex items-center gap-2 rounded-full border border-[#e0234e]/40 bg-[#e0234e]/10 px-3 py-1.5 text-xs font-bold font-mono text-[#ff4d6d] shadow-sm hover:border-[#e0234e] hover:bg-[#e0234e]/20 hover:text-white transition-all hover:scale-105 active:scale-95"
+              className="relative group hidden sm:flex items-center gap-2 h-9 rounded-full border border-[#e0234e]/35 bg-[#e0234e]/10 px-3.5 text-xs font-bold text-[#ff6b8b] shadow-sm hover:border-[#e0234e] hover:bg-[#e0234e]/20 hover:text-white transition-all hover:scale-105 active:scale-95 whitespace-nowrap"
             >
               <Bot className="h-3.5 w-3.5 text-[#ff4d6d] group-hover:text-white transition-colors" />
               <span>AI Navigator</span>
@@ -262,11 +250,11 @@ export function Navbar() {
                 type="button"
                 onClick={() => setIsRoleDropdownOpen(!isRoleDropdownOpen)}
                 disabled={loadingRole}
-                className="flex items-center gap-1.5 sm:gap-2 rounded-full border border-white/15 bg-black/60 px-3 py-1.5 text-xs font-bold text-white shadow-sm hover:border-[#e0234e]/50 transition-all hover:scale-105 active:scale-95 font-mono"
+                className="flex items-center gap-1.5 sm:gap-2 h-9 rounded-full border border-white/15 bg-black/60 px-3.5 text-xs font-medium text-white shadow-sm hover:border-[#e0234e]/50 hover:bg-slate-900 transition-all hover:scale-105 active:scale-95 whitespace-nowrap"
               >
                 <div className="h-2 w-2 rounded-full bg-[#e0234e] animate-pulse" />
-                <span className="hidden sm:inline text-slate-300">Persona:</span>
-                <span className="text-[#ff4d6d] font-black">{userRole}</span>
+                <span className="hidden sm:inline text-slate-400">Persona:</span>
+                <span className="text-[#ff4d6d] font-bold tracking-tight">{userRole}</span>
                 <ChevronDown className={`h-3 w-3 text-slate-400 transition-transform duration-300 ${isRoleDropdownOpen ? 'rotate-180' : ''}`} />
               </button>
 
@@ -332,15 +320,17 @@ export function Navbar() {
             {/* Launch / Action CTA Button */}
             <Link
               href={userRole === 'ADMIN' ? '/admin' : userRole === 'TRAINER' ? '/trainer' : userRole === 'TRAINEE' ? '/trainee' : '/admin/competency'}
-              className="px-3.5 sm:px-4 py-1.5 rounded-full bg-[#e0234e] hover:bg-[#ff2d55] text-white text-xs font-bold font-mono shadow-md shadow-[#e0234e]/30 transition-all hover:scale-105 active:scale-95"
+              className="group relative inline-flex items-center justify-center gap-2 h-9 px-4 sm:px-5 rounded-full bg-gradient-to-r from-[#e0234e] via-[#ea2845] to-[#ff4d6d] text-xs font-bold text-white shadow-lg shadow-[#e0234e]/35 hover:shadow-xl hover:shadow-[#e0234e]/55 border border-white/20 transition-all duration-300 hover:scale-105 hover:brightness-110 active:scale-95 whitespace-nowrap overflow-hidden"
             >
-              Launch Portal
+              <span className="relative z-10 tracking-tight">Launch Portal</span>
+              <ArrowRight className="relative z-10 h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
+              <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/25 to-transparent ease-in-out" />
             </Link>
 
             {/* Mobile menu trigger */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden p-1.5 rounded-full bg-slate-900 border border-slate-800 text-slate-300"
+              className="lg:hidden h-9 w-9 flex items-center justify-center rounded-full bg-slate-900 border border-slate-800 text-slate-300 hover:text-white"
             >
               {isMobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
             </button>
