@@ -11,23 +11,34 @@ import {
   ChevronRight,
   Star,
   Sparkles,
+  Compass,
+  Radio,
 } from 'lucide-react';
 import { Sidebar } from '@/components/layout/Sidebar';
-import { initialCourses, initialCompetencies } from '@/lib/mockData';
+import { initialCourses, initialCompetencies, initialCadres } from '@/lib/mockData';
 
 export default function CourseCatalogPage() {
   const [search, setSearch] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('ALL');
+  const [selectedTrack, setSelectedTrack] = useState<string>('ALL');
 
-  const categories = ['ALL', 'Cloud & DevOps', 'Data & AI', 'Governance & Leadership'];
+  const tracks = [
+    { id: 'ALL', label: 'All IMD Tracks' },
+    { id: 'DRSTC', label: 'DRSTC (Scientists Inductees)' },
+    { id: 'FTC', label: 'FTC (Forecasters Track)' },
+    { id: 'IMTC', label: 'IMTC (Integrated Met Officers)' },
+    { id: 'MODULAR', label: 'Modular Specialized (AI/HPC)' },
+  ];
 
   const filteredCourses = initialCourses.filter((course) => {
-    const matchesCategory = selectedCategory === 'ALL' || course.category === selectedCategory;
+    const matchesTrack = selectedTrack === 'ALL' || course.cadreTrack === selectedTrack;
     const matchesSearch =
       course.title.toLowerCase().includes(search.toLowerCase()) ||
       course.description.toLowerCase().includes(search.toLowerCase()) ||
-      course.code.toLowerCase().includes(search.toLowerCase());
-    return matchesCategory && matchesSearch;
+      course.code.toLowerCase().includes(search.toLowerCase()) ||
+      course.trainerName.toLowerCase().includes(search.toLowerCase()) ||
+      course.competencies.some((c) => c.competencyName.toLowerCase().includes(search.toLowerCase()));
+
+    return matchesTrack && matchesSearch;
   });
 
   return (
@@ -40,25 +51,25 @@ export default function CourseCatalogPage() {
         <div className="rounded-3xl border border-slate-800 bg-slate-900/60 p-6 sm:p-8 backdrop-blur-xl space-y-2">
           <div className="flex items-center gap-2">
             <span className="rounded-md bg-indigo-500/10 px-2.5 py-0.5 text-xs font-bold text-indigo-400 border border-indigo-500/20">
-              NATIONAL CURRICULUM
+              MISSION MAUSAM CURRICULUM
             </span>
-            <span className="text-xs text-slate-400">Accredited Capacity Building Catalog</span>
+            <span className="text-xs text-slate-400">IMD / MoES Official Training Tracks</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-            Explore Courses & Competencies
+            Meteorological Capacity Curriculum
           </h1>
           <p className="text-xs sm:text-sm text-slate-300">
-            Select high-impact modules to earn verified digital credentials and upgrade your skill portfolio.
+            Select specialized modules across DRSTC, FTC, IMTC, and Modular tracks to close competency gaps and earn WMO-compliant certifications.
           </p>
         </div>
 
-        {/* Search & Category Filter Bar */}
+        {/* Search & Cadre Track Filter Bar */}
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
           <div className="relative flex-1">
             <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
             <input
               type="text"
-              placeholder="Search by topic, competency, or course code..."
+              placeholder="Search by topic (e.g. Radar, NWP, Satellite, AI Nowcasting, HPC, Cyclone)..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="w-full rounded-2xl border border-slate-700/80 bg-slate-900/80 pl-10 pr-4 py-2.5 text-xs text-slate-200 placeholder-slate-500 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
@@ -66,16 +77,17 @@ export default function CourseCatalogPage() {
           </div>
 
           <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
-            {categories.map((cat) => (
+            {tracks.map((tr) => (
               <button
-                key={cat}
-                onClick={() => setSelectedCategory(cat)}
-                className={`rounded-xl px-3.5 py-2 text-xs font-semibold whitespace-nowrap transition-all ${selectedCategory === cat
+                key={tr.id}
+                onClick={() => setSelectedTrack(tr.id)}
+                className={`rounded-xl px-3.5 py-2 text-xs font-semibold whitespace-nowrap transition-all ${
+                  selectedTrack === tr.id
                     ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/30'
                     : 'bg-slate-900/60 text-slate-400 hover:text-white border border-slate-800'
-                  }`}
+                }`}
               >
-                {cat}
+                {tr.label}
               </button>
             ))}
           </div>
@@ -100,6 +112,9 @@ export default function CourseCatalogPage() {
                   <span className="rounded-md bg-slate-950/80 px-2 py-0.5 text-xs font-bold text-indigo-400 border border-slate-700 backdrop-blur-md">
                     {course.code}
                   </span>
+                  <span className="rounded-md bg-cyan-500/20 px-2 py-0.5 text-xs font-bold text-cyan-300 border border-cyan-500/30 backdrop-blur-md">
+                    {course.cadreTrack} TRACK
+                  </span>
                   <span className="rounded-md bg-emerald-500/20 px-2 py-0.5 text-xs font-bold text-emerald-300 border border-emerald-500/30 backdrop-blur-md">
                     {course.level}
                   </span>
@@ -112,7 +127,7 @@ export default function CourseCatalogPage() {
                   <h3 className="text-lg font-bold text-white group-hover:text-indigo-300 transition-colors leading-snug">
                     {course.title}
                   </h3>
-                  <p className="text-xs text-slate-300 line-clamp-2 leading-relaxed">
+                  <p className="text-xs text-slate-300 line-clamp-3 leading-relaxed">
                     {course.description}
                   </p>
                 </div>
@@ -128,7 +143,7 @@ export default function CourseCatalogPage() {
                         key={comp.competencyId}
                         className="rounded bg-indigo-950/70 px-2 py-0.5 text-[10px] font-medium text-indigo-300 border border-indigo-500/20"
                       >
-                        {comp.competencyName}
+                        {comp.competencyName} (Lvl {comp.requiredProficiency})
                       </span>
                     ))}
                   </div>
@@ -146,7 +161,7 @@ export default function CourseCatalogPage() {
 
                   <Link
                     href={`/trainee/courses/${course.id}`}
-                    className="flex items-center gap-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 px-4 py-2 text-xs font-bold text-white shadow-md shadow-indigo-600/30 transition-all"
+                    className="flex items-center gap-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 px-4 py-2 text-xs font-bold text-white shadow-md shadow-indigo-600/30 transition-all hover:scale-105"
                   >
                     <span>Enroll / Play</span>
                     <ChevronRight className="h-3.5 w-3.5" />

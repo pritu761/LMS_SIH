@@ -16,6 +16,8 @@ import {
   Sun,
   Moon,
   Sunrise,
+  Radio,
+  Cpu,
 } from 'lucide-react';
 import { StatsCard } from '@/components/shared/StatsCard';
 import { Sidebar } from '@/components/layout/Sidebar';
@@ -47,9 +49,9 @@ export default function TrainerHubPage() {
           <div className="relative z-10">
             <div className="flex items-center gap-2">
               <span className="rounded-md bg-indigo-500/10 px-2.5 py-0.5 text-xs font-bold text-indigo-400 border border-indigo-500/20">
-                FACULTY HUB
+                MISSION MAUSAM • FACULTY HUB
               </span>
-              <span className="text-xs text-slate-400">Accredited Senior Faculty</span>
+              <span className="text-xs text-slate-400">Accredited Lead Faculty • IMD Training Institute, Pune</span>
             </div>
             <div className="flex items-center gap-3 mt-1">
               {greeting.icon}
@@ -58,7 +60,7 @@ export default function TrainerHubPage() {
               </h1>
             </div>
             <p className="text-xs sm:text-sm text-slate-300 mt-1">
-              Principal Cloud Architect & Senior Faculty • National Institute of Smart Government
+              Principal Scientist & Chief Modeller • Numerical Weather Prediction & Pratyush HPC Parallel Dynamics
             </p>
           </div>
         </div>
@@ -67,30 +69,30 @@ export default function TrainerHubPage() {
         <MotionSection variant="fade-up" delay={100}>
           <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
             <StatsCard
-              title="Courses Delivered"
-              value="12 Cohorts"
-              change="1 Active"
+              title="DRSTC/FTC Cohorts"
+              value="14 Batches"
+              change="1 Active Cohort"
               icon={BookOpen}
               color="indigo"
             />
             <StatsCard
-              title="Learners Trained"
-              value="4,820"
-              change="96.2% Completion"
+              title="Officers Upskilled"
+              value="1,840"
+              change="98.4% Certification"
               icon={Users}
               color="cyan"
             />
             <StatsCard
               title="Faculty Rating"
-              value="4.85 ★"
-              change="Top 5% National"
+              value="4.92 ★"
+              change="Top 2% MoES"
               icon={Star}
               color="amber"
             />
             <StatsCard
-              title="Matching Compatibility"
-              value="94.2%"
-              change="Cloud Arch Track"
+              title="55/30/15 Match Index"
+              value="96.4%"
+              change="NWP & HPC Track"
               icon={Sparkles}
               color="emerald"
             />
@@ -109,10 +111,10 @@ export default function TrainerHubPage() {
               </div>
               <div>
                 <h3 className="font-bold text-white text-sm group-hover:text-indigo-300 transition-colors">
-                  Media Library & Uploads
+                  Meteorological Media & Lectures
                 </h3>
                 <p className="text-xs text-slate-400 mt-1">
-                  Upload MP4 lectures, PDF slide decks, and module reading references.
+                  Upload MP4 technical lectures, NetCDF slide decks, and atmospheric physics references.
                 </p>
               </div>
             </Link>
@@ -126,10 +128,10 @@ export default function TrainerHubPage() {
               </div>
               <div>
                 <h3 className="font-bold text-white text-sm group-hover:text-cyan-300 transition-colors">
-                  MCQ Assessment Builder
+                  Cadre Assessment Authoring
                 </h3>
                 <p className="text-xs text-slate-400 mt-1">
-                  Author timed subject-wise exams, time limits, weights, and explanations.
+                  Author timed DRSTC & FTC exams with CFL criteria, Doppler formulas, and automated grading.
                 </p>
               </div>
             </Link>
@@ -143,10 +145,10 @@ export default function TrainerHubPage() {
               </div>
               <div>
                 <h3 className="font-bold text-white text-sm group-hover:text-emerald-300 transition-colors">
-                  Cohort Analytics
+                  Cohort Telemetry & Gap Metrics
                 </h3>
                 <p className="text-xs text-slate-400 mt-1">
-                  Live roster tracking trainee completion percentages and scores.
+                  Live roster tracking officer completion percentages, score distributions, and competency upgrades.
                 </p>
               </div>
             </Link>
@@ -163,17 +165,17 @@ export default function TrainerHubPage() {
                   <div className="h-8 w-8 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center">
                     <BookOpen className="h-4 w-4 text-indigo-400" />
                   </div>
-                  <span>Active Assigned Course</span>
+                  <span>Active Assigned Track</span>
                 </h3>
                 <span className="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
                   <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                  PUBLISHED
+                  DRSTC INDUCTION 2026
                 </span>
               </div>
 
               <div className="space-y-2">
                 <span className="text-[10px] font-mono text-indigo-400 uppercase font-bold">
-                  {course.code}
+                  {course.code} • {course.cadreTrack} TRACK
                 </span>
                 <h4 className="text-sm font-bold text-white">{course.title}</h4>
                 <p className="text-xs text-slate-300 leading-relaxed">{course.description}</p>
@@ -181,7 +183,7 @@ export default function TrainerHubPage() {
 
               <div className="rounded-2xl bg-slate-950/60 border border-slate-800 p-3.5 space-y-2">
                 <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                  Uploaded Curriculum Assets ({course.materials.length})
+                  Curriculum Asset Modules ({course.materials.length})
                 </span>
                 <div className="space-y-1.5 stagger-children">
                   {course.materials.map((m) => (
@@ -203,9 +205,9 @@ export default function TrainerHubPage() {
                   <div className="h-8 w-8 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center">
                     <Star className="h-4 w-4 text-amber-400 fill-amber-400" />
                   </div>
-                  <span>Recent Trainee Reviews</span>
+                  <span>Recent Trainee Feedback</span>
                 </h3>
-                <span className="text-xs text-slate-400 rounded-lg bg-slate-800/60 px-2 py-1 border border-slate-700/50">Rating Impact: 30%</span>
+                <span className="text-xs text-slate-400 rounded-lg bg-slate-800/60 px-2 py-1 border border-slate-700/50">Rating Weight: 30%</span>
               </div>
 
               <div className="space-y-3 stagger-children">
