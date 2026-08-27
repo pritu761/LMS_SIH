@@ -20,12 +20,14 @@ import {
   Sun,
   Moon,
   Sunrise,
+  Radio,
 } from 'lucide-react';
 import { StatsCard } from '@/components/shared/StatsCard';
 import { AnnouncementFeed } from '@/components/shared/AnnouncementFeed';
 import { Sidebar } from '@/components/layout/Sidebar';
 import { MotionSection } from '@/components/shared/MotionPrimitives';
-import { initialCourses, initialEnrollments } from '@/lib/mockData';
+import { TraineeSkillGapCard } from '@/components/trainee/TraineeSkillGapCard';
+import { initialCourses, initialEnrollments, initialUsers } from '@/lib/mockData';
 
 function getGreeting(): { text: string; icon: React.ReactNode } {
   const hour = new Date().getHours();
@@ -37,14 +39,14 @@ function getGreeting(): { text: string; icon: React.ReactNode } {
 export default function TraineeDashboard() {
   const enrollment = initialEnrollments[0];
   const enrolledCourse = initialCourses.find((c) => c.id === enrollment.courseId) || initialCourses[0];
-  const [userName, setUserName] = useState('Trainee');
+  const [userName, setUserName] = useState('Aarav Patel');
   const greeting = getGreeting();
 
   useEffect(() => {
     fetch('/api/auth/me')
       .then((r) => r.json())
       .then((d) => {
-        if (d.user) setUserName(d.user.fullName || d.user.profile?.fullName || 'Trainee');
+        if (d.user) setUserName(d.user.fullName || d.user.profile?.fullName || 'Aarav Patel');
       })
       .catch(() => {});
   }, []);
@@ -59,20 +61,19 @@ export default function TraineeDashboard() {
         <div className="rounded-3xl border border-slate-800 bg-slate-900/60 p-6 sm:p-8 backdrop-blur-xl space-y-3 relative overflow-hidden animate-fade-in-up">
           <div className="absolute top-0 right-0 w-72 h-72 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none" />
           <div className="absolute bottom-0 left-0 w-48 h-48 bg-indigo-500/5 rounded-full blur-3xl pointer-events-none" />
-          {/* Top gradient line */}
           <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent animate-gradient-shift bg-[length:200%_100%]" />
 
           <div className="relative z-10">
             <div className="flex items-center gap-2">
               <span className="rounded-md bg-cyan-500/10 px-2.5 py-0.5 text-xs font-bold text-cyan-400 border border-cyan-500/20">
-                TRAINEE PORTAL
+                MISSION MAUSAM • DRSTC INDUCTION
               </span>
               <span className="flex items-center gap-1.5 text-xs text-emerald-400">
                 <span className="relative flex h-2 w-2">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
                 </span>
-                Verified & Active
+                Active Cadre Track
               </span>
             </div>
             <div className="flex items-center gap-3 mt-2">
@@ -82,43 +83,54 @@ export default function TraineeDashboard() {
               </h1>
             </div>
             <p className="text-xs sm:text-sm text-slate-300 mt-1">
-              Continue your learning journey and track your professional development milestones.
+              Scientist-B • Numerical Weather Prediction Division, Mausam Bhavan, New Delhi
             </p>
           </div>
         </div>
 
         {/* Trainee KPIs */}
         <MotionSection variant="fade-up" delay={100}>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
             <StatsCard
-              title="Enrolled Courses"
-              value="1 Active"
-              change="In Progress"
+              title="Active Curriculum"
+              value="1 Module"
+              change="DRSTC-101 (50%)"
               icon={BookOpen}
               color="indigo"
             />
             <StatsCard
-              title="Verified Competencies"
-              value="2 Mapped"
-              change="Lvl 2 Average"
+              title="Verified Skills"
+              value="6 Mapped"
+              change="NWP, HPC, Satellite"
               icon={Award}
               color="cyan"
             />
             <StatsCard
-              title="Avg Exam Score"
-              value="--"
-              change="Pending Assessment"
-              icon={TrendingUp}
+              title="Cadre Readiness"
+              value="64%"
+              change="DRSTC 2026 Batch"
+              icon={Target}
               color="emerald"
             />
+            <StatsCard
+              title="Skill Gaps"
+              value="2 Deficits"
+              change="Radar & AI Focus"
+              icon={TrendingUp}
+              color="amber"
+            />
           </div>
+        </MotionSection>
+
+        {/* Key Differentiator: Personal Competency Gap & Cadre Progression Recommender */}
+        <MotionSection variant="fade-up" delay={150}>
+          <TraineeSkillGapCard />
         </MotionSection>
 
         {/* Active Enrolled Course Banner */}
         <MotionSection variant="fade-up" delay={200}>
           <div className="rounded-3xl border border-indigo-500/25 bg-gradient-to-br from-indigo-950/40 via-slate-900/80 to-slate-950 p-6 sm:p-8 backdrop-blur-xl shadow-elevation-2 space-y-6 relative overflow-hidden">
             <div className="absolute -top-10 -right-10 w-40 h-40 bg-indigo-500/10 rounded-full blur-2xl pointer-events-none animate-breathe" />
-            {/* Top gradient line */}
             <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-indigo-500/50 to-transparent animate-gradient-shift bg-[length:200%_100%]" />
 
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
@@ -128,13 +140,13 @@ export default function TraineeDashboard() {
                     <Flame className="h-3 w-3 text-amber-400" />
                     IN PROGRESS • {enrollment.progressPercentage}% COMPLETE
                   </span>
-                  <span className="text-xs text-slate-400">{enrolledCourse.category}</span>
+                  <span className="text-xs text-slate-400">{enrolledCourse.cadreTrack} Track • {enrolledCourse.category}</span>
                 </div>
                 <h2 className="text-xl font-bold text-white tracking-tight">
                   {enrolledCourse.title}
                 </h2>
                 <p className="text-xs text-slate-300 mt-1">
-                  Delivered by <span className="text-white font-semibold">{enrolledCourse.trainerName}</span>
+                  Delivered by <span className="text-white font-semibold">{enrolledCourse.trainerName}</span> ({enrolledCourse.trainerSpecialization})
                 </p>
               </div>
 
@@ -143,7 +155,7 @@ export default function TraineeDashboard() {
                 className="flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 px-6 py-3 text-xs font-bold text-white shadow-lg shadow-indigo-600/30 transition-all hover:scale-105 active:scale-95 hover:shadow-glow-md btn-shimmer"
               >
                 <Video className="h-4 w-4" />
-                <span>Resume Learning</span>
+                <span>Resume Lecture</span>
                 <ChevronRight className="h-4 w-4" />
               </Link>
             </div>
@@ -155,18 +167,17 @@ export default function TraineeDashboard() {
                   className="h-full bg-gradient-to-r from-indigo-500 via-cyan-400 to-emerald-400 rounded-full transition-all duration-1000 relative"
                   style={{ width: `${enrollment.progressPercentage}%` }}
                 >
-                  {/* Animated stripe overlay */}
                   <div className="absolute inset-0 animate-stripe opacity-30 rounded-full" />
                 </div>
               </div>
               <div className="flex justify-between text-[11px] text-slate-400 font-medium">
                 <span className="flex items-center gap-1">
                   <CheckCircle2 className="h-3 w-3 text-emerald-400" />
-                  {enrollment.completedMaterialIds.length} of {enrolledCourse.materials.length} Lessons
+                  {enrollment.completedMaterialIds.length} of {enrolledCourse.materials.length} Modules Completed
                 </span>
                 <span className="flex items-center gap-1">
                   <Target className="h-3 w-3 text-amber-400" />
-                  Assessment Ready
+                  Exam Window Ready
                 </span>
               </div>
             </div>
@@ -184,7 +195,7 @@ export default function TraineeDashboard() {
                   <div className="h-8 w-8 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center">
                     <Sparkles className="h-4 w-4 text-cyan-400" />
                   </div>
-                  <span>Recommended for Your Track</span>
+                  <span>Mission Mausam Curated Catalog</span>
                 </h3>
                 <Link href="/trainee/courses" className="text-xs text-indigo-400 hover:text-indigo-300 transition-colors flex items-center gap-0.5 group">
                   <span>View All</span>
@@ -200,7 +211,7 @@ export default function TraineeDashboard() {
                     className="block rounded-2xl border border-slate-800 bg-slate-950/40 p-4 space-y-2 hover:border-indigo-500/40 transition-all duration-300 group hover:-translate-y-0.5 hover:shadow-elevation-1"
                   >
                     <div className="flex items-center justify-between text-[10px] text-slate-400">
-                      <span className="text-indigo-400 font-bold">{c.code}</span>
+                      <span className="text-indigo-400 font-bold">{c.code} • {c.cadreTrack}</span>
                       <span className="flex items-center gap-1">
                         <Clock className="h-3 w-3" />
                         {c.durationHours}h

@@ -18,6 +18,8 @@ import {
   Settings,
   HelpCircle,
   FileText,
+  Compass,
+  Satellite,
 } from 'lucide-react';
 import { staggerContainer, staggerItem, ease } from '@/lib/animations';
 
@@ -32,24 +34,24 @@ export function Sidebar({ role }: SidebarProps) {
     switch (role) {
       case 'ADMIN':
         return [
-          { href: '/admin', label: 'Executive Overview', icon: LayoutDashboard },
+          { href: '/admin', label: 'National Overview', icon: LayoutDashboard },
           { href: '/admin/users', label: 'User Governance', icon: UserCheck, badge: 'RBAC' },
-          { href: '/admin/competency', label: 'Competency Matcher', icon: Brain, badge: '55/30/15', highlight: true },
-          { href: '/admin/cms', label: 'Announcements & CMS', icon: FileText },
+          { href: '/admin/competency', label: 'Competency & Gap Engine', icon: Brain, badge: '55/30/15', highlight: true },
+          { href: '/admin/cms', label: 'Directives & CMS', icon: FileText },
         ];
       case 'TRAINER':
         return [
           { href: '/trainer', label: 'Faculty Hub', icon: LayoutDashboard },
           { href: '/trainer/library', label: 'Media Library', icon: Video },
-          { href: '/trainer/assessments/create', label: 'Assessment Creator', icon: FileCheck },
-          { href: '/trainer/analytics', label: 'Cohort Analytics', icon: BarChart3 },
+          { href: '/trainer/assessments/create', label: 'Cadre Assessment Creator', icon: FileCheck },
+          { href: '/trainer/analytics', label: 'Cohort Telemetry', icon: BarChart3 },
         ];
       case 'TRAINEE':
       default:
         return [
           { href: '/trainee', label: 'Learning Dashboard', icon: LayoutDashboard },
-          { href: '/trainee/courses', label: 'Course Catalog', icon: BookOpen },
-          { href: '/trainee/profile', label: 'Competency Profile', icon: Award },
+          { href: '/trainee/courses', label: 'Mission Mausam Tracks', icon: BookOpen },
+          { href: '/trainee/profile', label: 'Competency Dossier', icon: Award },
         ];
     }
   };
@@ -73,10 +75,10 @@ export function Sidebar({ role }: SidebarProps) {
       <div className="space-y-1">
         <div className="flex items-center justify-between px-2 py-1">
           <span className={`text-[10px] font-black uppercase tracking-wider ${roleColors[role].label}`}>
-            {role} Workspace
+            IMD {role} Workspace
           </span>
           <motion.span
-            className="h-1.5 w-1.5 rounded-full bg-blue-500"
+            className="h-1.5 w-1.5 rounded-full bg-cyan-400"
             animate={{ scale: [1, 1.5, 1], opacity: [1, 0.4, 1] }}
             transition={{ duration: 2, repeat: Infinity }}
           />
@@ -104,15 +106,15 @@ export function Sidebar({ role }: SidebarProps) {
                   href={item.href}
                   className={`relative flex items-center justify-between gap-2.5 px-3.5 py-2.5 rounded-2xl text-xs font-semibold transition-all duration-200 group ${
                     isActive
-                      ? 'text-white border border-blue-500/40 shadow-sm shadow-blue-500/20 font-bold'
+                      ? 'text-white border border-cyan-500/40 shadow-sm shadow-cyan-500/20 font-bold'
                       : 'text-slate-400 hover:text-white hover:bg-white/5 border border-transparent'
-                  } ${item.highlight && !isActive ? 'border-dashed border-blue-500/30 bg-blue-950/20' : ''}`}
+                  } ${item.highlight && !isActive ? 'border-dashed border-cyan-500/30 bg-cyan-950/20' : ''}`}
                 >
                   {/* Shared Active Sliding Indicator Background */}
                   {isActive && (
                     <motion.div
                       layoutId={`sidebar-active-pill-${role}`}
-                      className="absolute inset-0 rounded-2xl bg-blue-600/20"
+                      className="absolute inset-0 rounded-2xl bg-cyan-600/20"
                       transition={{ type: 'spring', stiffness: 350, damping: 30 }}
                     />
                   )}
@@ -121,21 +123,21 @@ export function Sidebar({ role }: SidebarProps) {
                   {isActive && (
                     <motion.div
                       layoutId="sidebar-active-bar"
-                      className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 rounded-r-full bg-blue-400 shadow-glow-sm z-10"
+                      className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 rounded-r-full bg-cyan-400 shadow-glow-sm z-10"
                       transition={{ type: 'spring', stiffness: 350, damping: 30 }}
                     />
                   )}
 
                   <div className="relative z-10 flex items-center gap-2.5 min-w-0 flex-1">
                     <Icon className={`h-4 w-4 shrink-0 transition-all duration-200 ${
-                      isActive ? 'text-blue-400' : 'text-slate-400 group-hover:text-white group-hover:scale-105'
+                      isActive ? 'text-cyan-400' : 'text-slate-400 group-hover:text-white group-hover:scale-105'
                     }`} />
                     <span className="truncate whitespace-nowrap overflow-hidden text-ellipsis">{item.label}</span>
                   </div>
 
                   {item.badge && (
                     <span className={`relative z-10 rounded-full px-2 py-0.5 text-[9px] font-black uppercase border shrink-0 ${
-                      isActive ? 'bg-blue-500/20 text-blue-300 border-blue-400/40' : 'bg-white/5 text-slate-400 border-white/10'
+                      isActive ? 'bg-cyan-500/20 text-cyan-300 border-cyan-400/40' : 'bg-white/5 text-slate-400 border-white/10'
                     }`}>
                       {item.badge}
                     </span>
@@ -154,20 +156,19 @@ export function Sidebar({ role }: SidebarProps) {
       >
         <div className="flex items-center gap-2 text-xs font-bold text-white">
           <div className="relative">
-            <Shield className="h-3.5 w-3.5 text-blue-400" />
-            <div className="absolute -inset-1 rounded-full bg-blue-400/20 animate-breathe pointer-events-none" />
+            <Satellite className="h-3.5 w-3.5 text-cyan-400" />
+            <div className="absolute -inset-1 rounded-full bg-cyan-400/20 animate-breathe pointer-events-none" />
           </div>
-          <span>Security Guard Active</span>
+          <span>Mission Mausam Node</span>
         </div>
         <p className="text-[11px] text-slate-400 leading-relaxed">
-          Access is enforced at the edge via JWT and RBAC headers.
+          National capacity telemetry synced with IMD HQ Mausam Bhavan.
         </p>
         <div className="flex items-center gap-1.5 pt-1">
-          <span className="h-1.5 w-1.5 rounded-full bg-blue-400" />
-          <span className="text-[10px] text-blue-400 font-bold">All systems nominal</span>
+          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+          <span className="text-[10px] text-emerald-400 font-bold font-mono">Telemetry Active</span>
         </div>
       </motion.div>
     </motion.aside>
   );
 }
-

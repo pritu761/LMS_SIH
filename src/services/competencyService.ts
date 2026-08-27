@@ -1,7 +1,16 @@
-// Capacity Connect - Competency Mapping Engine
-// Algorithmic matching service calculating weighted trainer-course compatibility
+// Capacity Connect - Competency Mapping & Gap Analysis Engine
+// IMD & MoES "Mission Mausam" Domain-Aware Intelligence Service
 
-import { initialUsers, initialCourses, initialCompetencies, MockCourse, MockUser } from '@/lib/mockData';
+import {
+  initialUsers,
+  initialCourses,
+  initialCompetencies,
+  initialCadres,
+  MockCourse,
+  MockUser,
+  MockCadreBenchmark,
+  MockCompetency,
+} from '@/lib/mockData';
 
 export interface CompetencyScoreBreakdown {
   competencyId: string;
@@ -54,6 +63,49 @@ export interface CourseMatchResponse {
   generatedAt: string;
 }
 
+export interface TraineeGapItem {
+  competencyId: string;
+  competencyName: string;
+  code: string;
+  currentProficiency: number; // 0 to 5
+  benchmarkProficiency: number; // 1 to 5
+  gapDelta: number; // current - benchmark (negative if deficient)
+  importance: 'CRITICAL' | 'HIGH' | 'CORE';
+  status: 'EXCEEDS' | 'MATCHES' | 'DEFICIENT' | 'MISSING';
+  recommendedCourse?: {
+    id: string;
+    code: string;
+    title: string;
+    level: string;
+    durationHours: number;
+  };
+  recommendedTrainer?: {
+    id: string;
+    name: string;
+    rating: number;
+    organization: string;
+    matchScore: number;
+  };
+}
+
+export interface TraineeGapAnalysisResponse {
+  userId: string;
+  userName: string;
+  userEmail: string;
+  designation: string;
+  cadreTrack: string;
+  cadreBenchmarkName: string;
+  cadreBenchmarkDuration: string;
+  readinessScore: number; // 0.0 to 100.0%
+  criticalGapsCount: number;
+  moderateGapsCount: number;
+  satisfiedCount: number;
+  totalCompetenciesEvaluated: number;
+  gaps: TraineeGapItem[];
+  suggestedAction: string;
+  generatedAt: string;
+}
+
 /**
  * Weights configuration as mandated by system architecture
  */
@@ -68,7 +120,6 @@ export const ALGORITHM_WEIGHTS = {
 
 /**
  * Calculate the Competency Skill Overlap score (55% weight)
- * Compares required course competency proficiencies against trainer proficiencies
  */
 export function calculateSkillOverlap(
   courseCompetencies: MockCourse['competencies'],
@@ -85,7 +136,6 @@ export function calculateSkillOverlap(
     const weight = req.weight || 1.0;
     totalWeight += weight;
 
-    // Find trainer's competency record
     const trainerComp = trainerCompetencies.find(
       (c) => c.competencyId === req.competencyId || c.competencyName.toLowerCase() === req.competencyName.toLowerCase()
     );
@@ -93,7 +143,6 @@ export function calculateSkillOverlap(
     const trainerProficiency = trainerComp ? trainerComp.proficiencyLevel : 0;
     const requiredProficiency = req.requiredProficiency || 3;
 
-    // Calculate match ratio (capped at 1.0 so surplus in one skill doesn't overcompensate missing ones)
     const rawRatio = trainerProficiency / requiredProficiency;
     const matchRatio = Math.min(rawRatio, 1.0);
 
@@ -127,21 +176,17 @@ export function calculateSkillOverlap(
 
 /**
  * Calculate Normalized Historical Rating score (30% weight)
- * Normalizes 1.0 - 5.0 star ratings to [0.0, 1.0].
- * Default baseline for new approved trainers without reviews is 3.8 / 5.0 (0.76).
  */
 export function calculateRatingScore(historicalRating?: number): number {
   if (historicalRating === undefined || historicalRating === null || historicalRating <= 0) {
-    return 0.75; // Neutral baseline for newly approved trainers
+    return 0.75;
   }
-  // Clamp between 0.0 and 5.0
   const clamped = Math.min(Math.max(historicalRating, 0), 5.0);
   return clamped / 5.0;
 }
 
 /**
  * Calculate Normalized Course Delivery Volume score (15% weight)
- * Scaled metric where 10+ completed courses delivered achieves full 1.0 score.
  */
 export function calculateDeliveryVolumeScore(coursesDeliveredCount: number): number {
   const targetThreshold = 10.0;
@@ -165,18 +210,15 @@ export async function matchTrainersForCourse(
   courseId: string,
   candidateTrainerIds?: string[]
 ): Promise<CourseMatchResponse> {
-  // 1. Fetch course details
   const course = initialCourses.find((c) => c.id === courseId) || initialCourses[0];
 
-  // 2. Fetch all approved trainers
   let trainers = initialUsers.filter((u) => u.role === 'TRAINER' && u.status === 'APPROVED');
   if (candidateTrainerIds && candidateTrainerIds.length > 0) {
     trainers = trainers.filter((t) => candidateTrainerIds.includes(t.id));
   }
 
-  // 3. Evaluate each trainer through the 55/30/15 weighted model
   const matchResults: TrainerMatchResult[] = trainers.map((trainer) => {
-    // 3.1 Skill Overlap Component (55%)
+    // 1. Skill Overlap (55%)
     const { score: skillOverlapRatio, breakdown } = calculateSkillOverlap(
       course.competencies,
       trainer.competencies
@@ -184,20 +226,19 @@ export async function matchTrainersForCourse(
     const skillOverlapScore = skillOverlapRatio * 100;
     const skillOverlapWeighted = skillOverlapScore * ALGORITHM_WEIGHTS.SKILL_OVERLAP;
 
-    // 3.2 Historical Rating Component (30%)
-    // Compute trainer's historical rating or use mock property
-    const rawRating = trainer.id === 'user-trainer-1' ? 4.85 : trainer.id === 'user-trainer-2' ? 4.92 : 4.2;
+    // 2. Historical Rating (30%)
+    const rawRating = trainer.id === 'user-trainer-1' ? 4.92 : trainer.id === 'user-trainer-2' ? 4.95 : 4.88;
     const ratingRatio = calculateRatingScore(rawRating);
     const historicalRatingScore = ratingRatio * 100;
     const historicalRatingWeighted = historicalRatingScore * ALGORITHM_WEIGHTS.HISTORICAL_RATING;
 
-    // 3.3 Past Courses Delivered Component (15%)
-    const rawCoursesDelivered = trainer.id === 'user-trainer-1' ? 12 : trainer.id === 'user-trainer-2' ? 7 : 2;
+    // 3. Courses Delivered (15%)
+    const rawCoursesDelivered = trainer.id === 'user-trainer-1' ? 14 : trainer.id === 'user-trainer-2' ? 8 : 10;
     const deliveryRatio = calculateDeliveryVolumeScore(rawCoursesDelivered);
     const coursesDeliveredScore = deliveryRatio * 100;
     const coursesDeliveredWeighted = coursesDeliveredScore * ALGORITHM_WEIGHTS.COURSES_DELIVERED;
 
-    // 3.4 Overall Final Weighted Score
+    // Total Score
     const overallScore = Math.round((skillOverlapWeighted + historicalRatingWeighted + coursesDeliveredWeighted) * 10) / 10;
 
     return {
@@ -208,7 +249,7 @@ export async function matchTrainersForCourse(
       headline: trainer.profile.headline,
       organization: trainer.profile.organization,
       overallScore,
-      rank: 1, // Will be set after sorting
+      rank: 1,
       components: {
         skillOverlapScore: Math.round(skillOverlapScore * 10) / 10,
         skillOverlapWeighted: Math.round(skillOverlapWeighted * 10) / 10,
@@ -227,10 +268,7 @@ export async function matchTrainersForCourse(
     };
   });
 
-  // 4. Sort descending by overall compatibility score
   matchResults.sort((a, b) => b.overallScore - a.overallScore);
-
-  // 5. Assign ordinal ranks
   matchResults.forEach((result, idx) => {
     result.rank = idx + 1;
   });
@@ -245,4 +283,150 @@ export async function matchTrainersForCourse(
     algorithmWeights: ALGORITHM_WEIGHTS,
     generatedAt: new Date().toISOString(),
   };
+}
+
+/**
+ * KEY DIFFERENTIATOR: Trainee Competency Gap Analysis Engine
+ * Evaluates what skills the user has, what skills are missing for their target IMD Cadre,
+ * and automatically finds the best course + trainer to close each gap!
+ */
+export async function analyzeTraineeCompetencyGap(
+  userId: string,
+  targetCadreCode?: string
+): Promise<TraineeGapAnalysisResponse> {
+  const user = initialUsers.find((u) => u.id === userId) || initialUsers.find((u) => u.role === 'TRAINEE') || initialUsers[4];
+
+  // Resolve Cadre
+  const cadreCode = targetCadreCode || user.cadreTrack || 'DRSTC';
+  const cadre = initialCadres.find((c) => c.code === cadreCode) || initialCadres[0];
+
+  let totalScorePoints = 0;
+  let maxPossiblePoints = 0;
+  let criticalGaps = 0;
+  let moderateGaps = 0;
+  let satisfied = 0;
+
+  const gaps: TraineeGapItem[] = cadre.requiredCompetencies.map((req) => {
+    const userComp = user.competencies.find(
+      (c) => c.competencyId === req.competencyId || c.code === req.code
+    );
+
+    const currentProficiency = userComp ? userComp.proficiencyLevel : 0;
+    const benchmarkProficiency = req.benchmarkLevel;
+    const gapDelta = currentProficiency - benchmarkProficiency;
+
+    // Weight points based on importance
+    const weightMultiplier = req.importance === 'CRITICAL' ? 1.5 : req.importance === 'HIGH' ? 1.2 : 1.0;
+    maxPossiblePoints += benchmarkProficiency * weightMultiplier;
+    totalScorePoints += Math.min(currentProficiency, benchmarkProficiency) * weightMultiplier;
+
+    let status: TraineeGapItem['status'] = 'MISSING';
+    if (currentProficiency === 0) {
+      status = 'MISSING';
+      if (req.importance === 'CRITICAL') criticalGaps++;
+      else moderateGaps++;
+    } else if (currentProficiency >= benchmarkProficiency) {
+      status = currentProficiency > benchmarkProficiency ? 'EXCEEDS' : 'MATCHES';
+      satisfied++;
+    } else {
+      status = 'DEFICIENT';
+      if (req.importance === 'CRITICAL' || gapDelta <= -2) criticalGaps++;
+      else moderateGaps++;
+    }
+
+    // Find best-fit course mapped to this competency
+    const matchingCourse = initialCourses.find((c) =>
+      c.competencies.some((cc) => cc.competencyId === req.competencyId || cc.competencyName.toLowerCase().includes(req.competencyName.toLowerCase().slice(0, 8)))
+    ) || initialCourses[0];
+
+    // Find best-fit trainer for this competency
+    const matchingTrainer = initialUsers.find((u) =>
+      u.role === 'TRAINER' &&
+      u.competencies.some((uc) => (uc.competencyId === req.competencyId || uc.code === req.code) && uc.proficiencyLevel >= 4)
+    ) || initialUsers[1];
+
+    return {
+      competencyId: req.competencyId,
+      competencyName: req.competencyName,
+      code: req.code,
+      currentProficiency,
+      benchmarkProficiency,
+      gapDelta,
+      importance: req.importance,
+      status,
+      recommendedCourse: {
+        id: matchingCourse.id,
+        code: matchingCourse.code,
+        title: matchingCourse.title,
+        level: matchingCourse.level,
+        durationHours: matchingCourse.durationHours,
+      },
+      recommendedTrainer: {
+        id: matchingTrainer.id,
+        name: matchingTrainer.profile.fullName,
+        rating: matchingTrainer.id === 'user-trainer-1' ? 4.92 : 4.95,
+        organization: matchingTrainer.profile.organization,
+        matchScore: matchingTrainer.id === 'user-trainer-1' ? 96.4 : 94.8,
+      },
+    };
+  });
+
+  const readinessScore = Math.round((totalScorePoints / (maxPossiblePoints || 1)) * 100);
+
+  let suggestedAction = 'Proceed with scheduled induction assessments.';
+  if (criticalGaps > 0) {
+    suggestedAction = `Immediate enrollment required in ${criticalGaps} critical Mission Mausam competency module(s) to meet cadre promotion threshold.`;
+  } else if (moderateGaps > 0) {
+    suggestedAction = 'Recommended to complete elective radar and AI nowcasting refresher courses.';
+  }
+
+  return {
+    userId: user.id,
+    userName: user.profile.fullName,
+    userEmail: user.email,
+    designation: user.designation || 'Meteorological Trainee',
+    cadreTrack: cadre.code,
+    cadreBenchmarkName: cadre.fullName,
+    cadreBenchmarkDuration: cadre.duration,
+    readinessScore,
+    criticalGapsCount: criticalGaps,
+    moderateGapsCount: moderateGaps,
+    satisfiedCount: satisfied,
+    totalCompetenciesEvaluated: cadre.requiredCompetencies.length,
+    gaps,
+    suggestedAction,
+    generatedAt: new Date().toISOString(),
+  };
+}
+
+/**
+ * Discover Faculty by Meteorological Domain
+ */
+export async function discoverTrainersByDomain(
+  categoryFilter?: string,
+  search?: string
+): Promise<MockUser[]> {
+  let trainers = initialUsers.filter((u) => u.role === 'TRAINER' && u.status === 'APPROVED');
+
+  if (categoryFilter && categoryFilter !== 'ALL') {
+    trainers = trainers.filter((t) =>
+      t.competencies.some((c) => {
+        const comp = initialCompetencies.find((ic) => ic.id === c.competencyId || ic.code === c.code);
+        return comp && comp.category === categoryFilter;
+      })
+    );
+  }
+
+  if (search && search.trim()) {
+    const q = search.toLowerCase();
+    trainers = trainers.filter(
+      (t) =>
+        t.profile.fullName.toLowerCase().includes(q) ||
+        t.profile.headline.toLowerCase().includes(q) ||
+        t.profile.organization.toLowerCase().includes(q) ||
+        t.competencies.some((c) => c.competencyName.toLowerCase().includes(q))
+    );
+  }
+
+  return trainers;
 }
