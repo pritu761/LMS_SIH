@@ -19,19 +19,19 @@
     --border: 240 6% 14%;
     --input: 240 6% 14%;
 
-    --primary: 217 91% 60%;
+    --primary: 346 77% 51%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 240 6% 10%;
     --secondary-foreground: 0 0% 98%;
 
-    --accent: 217 91% 60%;
+    --accent: 346 77% 51%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
 
-    --ring: 217 91% 60%;
+    --ring: 346 77% 51%;
     --radius: 1rem;
   }
 }
@@ -41,9 +41,14 @@
     @apply border-border;
   }
   body {
-    @apply bg-black text-foreground antialiased selection:bg-blue-600 selection:text-white;
+    @apply text-foreground antialiased selection:bg-[#E0234E] selection:text-white;
     font-feature-settings: "rlig" 1, "calt" 1;
-    background-color: #000000;
+    background-color: #0d111d;
+    background-image: 
+      radial-gradient(circle at 50% -10%, rgba(224, 35, 78, 0.22) 0%, transparent 60%),
+      radial-gradient(circle at 85% 25%, rgba(234, 40, 69, 0.12) 0%, transparent 45%),
+      radial-gradient(circle at 15% 65%, rgba(224, 35, 78, 0.08) 0%, transparent 50%);
+    background-attachment: fixed;
     min-height: 100vh;
     transition: background-color 0.4s ease, color 0.4s ease;
   }
@@ -51,6 +56,7 @@
   [data-mode='light'] body,
   .light body {
     background-color: #fafafb;
+    background-image: none;
     color: #090a0f;
   }
 }
@@ -148,6 +154,20 @@
 
 [data-mode='light'] .text-aurora,
 .light .text-aurora {
+  background: linear-gradient(135deg, #e0234e 0%, #ea2845 40%, #ff4d6d 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+[data-mode='light'][data-theme='nestjs'] .text-aurora,
+.light[data-theme='nestjs'] .text-aurora {
+  background: linear-gradient(135deg, #e0234e 0%, #ea2845 40%, #ff4d6d 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+[data-mode='light'][data-theme='emerald'] .text-aurora,
+.light[data-theme='emerald'] .text-aurora {
   background: linear-gradient(135deg, #059669 0%, #0d9488 40%, #d97706 100%) !important;
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
@@ -618,25 +638,34 @@
    ══════════════════════════════════════════════════════════════ */
 .cyber-grid {
   background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-  background-size: 48px 48px;
-  mask-image: radial-gradient(ellipse 80% 60% at 50% 10%, #000 60%, transparent 100%);
-  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 10%, #000 60%, transparent 100%);
+    linear-gradient(to right, rgba(224, 35, 78, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(224, 35, 78, 0.08) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(ellipse 85% 65% at 50% 10%, #000 65%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 85% 65% at 50% 10%, #000 65%, transparent 100%);
 }
 
 .bridgemind-aurora {
   position: absolute;
-  top: 0;
+  top: -80px;
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
-  max-width: 1400px;
-  height: 800px;
-  background: radial-gradient(ellipse 70% 60% at 50% -10%, rgba(16, 185, 129, 0.38) 0%, rgba(13, 148, 136, 0.22) 25%, rgba(245, 158, 11, 0.12) 50%, transparent 80%);
+  max-width: 1500px;
+  height: 850px;
+  background: radial-gradient(ellipse 75% 65% at 50% 0%, rgba(224, 35, 78, 0.52) 0%, rgba(234, 40, 69, 0.28) 25%, rgba(255, 107, 139, 0.12) 50%, transparent 78%);
   pointer-events: none;
   z-index: 0;
+  filter: blur(12px);
   transition: background 0.8s ease;
+}
+
+[data-theme='nestjs'] .bridgemind-aurora {
+  background: radial-gradient(ellipse 75% 65% at 50% 0%, rgba(224, 35, 78, 0.52) 0%, rgba(234, 40, 69, 0.28) 25%, rgba(255, 107, 139, 0.12) 50%, transparent 78%);
+}
+
+[data-theme='emerald'] .bridgemind-aurora {
+  background: radial-gradient(ellipse 70% 60% at 50% -10%, rgba(16, 185, 129, 0.38) 0%, rgba(13, 148, 136, 0.22) 25%, rgba(245, 158, 11, 0.12) 50%, transparent 80%);
 }
 
 [data-theme='violet'] .bridgemind-aurora {
@@ -658,14 +687,30 @@
   transform: translateX(-50%);
   width: 2px;
   height: 620px;
+  background: linear-gradient(180deg, rgba(255, 107, 139, 1) 0%, rgba(224, 35, 78, 0.95) 30%, rgba(234, 40, 69, 0.8) 60%, transparent 100%);
+  box-shadow: 
+    0 0 40px 14px rgba(224, 35, 78, 0.6),
+    0 0 100px 40px rgba(234, 40, 69, 0.35),
+    0 0 140px 50px rgba(255, 107, 139, 0.2);
+  pointer-events: none;
+  filter: blur(1px);
+  transition: all 0.8s ease;
+}
+
+[data-theme='nestjs'] .bridgemind-beam {
+  background: linear-gradient(180deg, rgba(255, 107, 139, 1) 0%, rgba(224, 35, 78, 0.95) 30%, rgba(234, 40, 69, 0.8) 60%, transparent 100%);
+  box-shadow: 
+    0 0 40px 14px rgba(224, 35, 78, 0.6),
+    0 0 100px 40px rgba(234, 40, 69, 0.35),
+    0 0 140px 50px rgba(255, 107, 139, 0.2);
+}
+
+[data-theme='emerald'] .bridgemind-beam {
   background: linear-gradient(180deg, rgba(52, 211, 153, 1) 0%, rgba(16, 185, 129, 0.9) 30%, rgba(245, 158, 11, 0.8) 60%, transparent 100%);
   box-shadow: 
     0 0 40px 14px rgba(16, 185, 129, 0.6),
     0 0 100px 40px rgba(5, 150, 105, 0.35),
     0 0 140px 50px rgba(245, 158, 11, 0.2);
-  pointer-events: none;
-  filter: blur(1px);
-  transition: all 0.8s ease;
 }
 
 [data-theme='violet'] .bridgemind-beam {
@@ -693,15 +738,33 @@
 }
 
 .bridgemind-window {
-  background: radial-gradient(120% 100% at 50% 0%, #0c0f14 0%, #050608 100%);
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: radial-gradient(120% 100% at 50% 0%, #171b2b 0%, #0d101a 100%);
+  border: 1px solid rgba(224, 35, 78, 0.3);
   border-radius: 1.75rem;
+  box-shadow: 
+    0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 30px 80px -15px rgba(0, 0, 0, 0.98),
+    0 0 70px -10px rgba(224, 35, 78, 0.45),
+    0 0 110px -20px rgba(234, 40, 69, 0.3);
+  position: relative;
+}
+
+[data-theme='nestjs'] .bridgemind-window {
+  background: radial-gradient(120% 100% at 50% 0%, #171b2b 0%, #0d101a 100%);
+  box-shadow: 
+    0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 30px 80px -15px rgba(0, 0, 0, 0.98),
+    0 0 70px -10px rgba(224, 35, 78, 0.45),
+    0 0 110px -20px rgba(234, 40, 69, 0.3);
+}
+
+[data-theme='emerald'] .bridgemind-window {
+  background: radial-gradient(120% 100% at 50% 0%, #0c0f14 0%, #050608 100%);
   box-shadow: 
     0 0 0 1px rgba(255, 255, 255, 0.06),
     0 30px 80px -15px rgba(0, 0, 0, 0.98),
     0 0 60px -10px rgba(16, 185, 129, 0.35),
     0 0 90px -20px rgba(245, 158, 11, 0.2);
-  position: relative;
 }
 
 [data-theme='violet'] .bridgemind-window {
@@ -731,17 +794,16 @@
     0 0 90px -20px rgba(20, 184, 166, 0.2);
 }
 
-
 .bridgemind-card {
-  background: #08080d;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #141828;
+  border: 1px solid rgba(224, 35, 78, 0.2);
   border-radius: 1.25rem;
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.85);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .bridgemind-card:hover {
-  border-color: rgba(59, 130, 246, 0.4);
-  box-shadow: 0 15px 40px -10px rgba(0, 0, 0, 0.9), 0 0 35px -5px rgba(37, 99, 235, 0.25);
+  border-color: rgba(224, 35, 78, 0.65);
+  box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.95), 0 0 35px -5px rgba(224, 35, 78, 0.4);
   transform: translateY(-2px);
 }
 
@@ -766,14 +828,36 @@
   height: 200%;
   background: conic-gradient(
     from 0deg at 50% 50%,
+    #e0234e 0deg,
+    #ff4d6d 90deg,
+    #ff758c 180deg,
+    #ea2845 270deg,
+    #e0234e 360deg
+  );
+  animation: spinSlow 6s linear infinite;
+  z-index: 0;
+}
+
+[data-theme='nestjs'] .btn-conic-glow::before {
+  background: conic-gradient(
+    from 0deg at 50% 50%,
+    #e0234e 0deg,
+    #ff4d6d 90deg,
+    #ff758c 180deg,
+    #ea2845 270deg,
+    #e0234e 360deg
+  );
+}
+
+[data-theme='emerald'] .btn-conic-glow::before {
+  background: conic-gradient(
+    from 0deg at 50% 50%,
     #10b981 0deg,
     #0d9488 90deg,
     #f59e0b 180deg,
     #34d399 270deg,
     #10b981 360deg
   );
-  animation: spinSlow 6s linear infinite;
-  z-index: 0;
 }
 
 [data-theme='violet'] .btn-conic-glow::before {
@@ -811,6 +895,14 @@
 
 .btn-conic-glow:hover {
   transform: scale(1.04);
+  box-shadow: 0 0 35px rgba(224, 35, 78, 0.6), 0 0 60px rgba(255, 77, 109, 0.35);
+}
+
+[data-theme='nestjs'] .btn-conic-glow:hover {
+  box-shadow: 0 0 35px rgba(224, 35, 78, 0.6), 0 0 60px rgba(255, 77, 109, 0.35);
+}
+
+[data-theme='emerald'] .btn-conic-glow:hover {
   box-shadow: 0 0 35px rgba(16, 185, 129, 0.5), 0 0 60px rgba(245, 158, 11, 0.3);
 }
 
@@ -1651,3 +1743,106 @@
 .stagger-children > *:nth-child(8) { animation-delay: 0.4s; }
 .stagger-children > *:nth-child(9) { animation-delay: 0.45s; }
 .stagger-children > *:nth-child(10) { animation-delay: 0.5s; }
+
+/* ══════════════════════════════════════════════════════════════
+   NESTJS DESIGN SYSTEM & THEME TOKENS
+   ══════════════════════════════════════════════════════════════ */
+.nestjs-hero-bg {
+  background: radial-gradient(circle at 50% 30%, #540c1b 0%, #1c050a 45%, #050303 90%);
+}
+
+.nestjs-hero-frame {
+  background: linear-gradient(135deg, #0d0407 0%, #200810 50%, #080305 100%);
+  border: 1px solid rgba(224, 35, 78, 0.22);
+  box-shadow: 0 30px 100px -20px rgba(224, 35, 78, 0.15), 0 0 60px -15px rgba(224, 35, 78, 0.1);
+}
+
+.btn-nestjs-primary {
+  background-color: #ffffff;
+  color: #050303;
+  font-weight: 700;
+  border-radius: 20px;
+  padding: 1rem 2rem;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.2), 0 0 30px rgba(224, 35, 78, 0.25);
+}
+
+.btn-nestjs-primary:hover {
+  transform: scale(0.98);
+  box-shadow: 0 8px 30px rgba(255, 255, 255, 0.35), 0 0 40px rgba(224, 35, 78, 0.45);
+}
+
+.btn-nestjs-primary:active {
+  transform: scale(0.95);
+}
+
+.btn-nestjs-secondary {
+  background-color: rgba(25, 12, 18, 0.7);
+  color: #ffffff;
+  font-weight: 700;
+  border-radius: 20px;
+  padding: 1rem 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-nestjs-secondary:hover {
+  background-color: rgba(224, 35, 78, 0.15);
+  border-color: rgba(224, 35, 78, 0.4);
+  transform: scale(0.98);
+  color: #ff758c;
+}
+
+.btn-nestjs-secondary:active {
+  transform: scale(0.95);
+}
+
+.text-nestjs-glow {
+  text-shadow: 0 0 35px rgba(224, 35, 78, 0.6);
+}
+
+.text-nestjs-gradient {
+  background: linear-gradient(135deg, #ffffff 30%, #ff758c 70%, #e0234e 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.nestjs-bento-card {
+  background: radial-gradient(circle at 50% 0%, rgba(224, 35, 78, 0.08) 0%, rgba(12, 5, 8, 0.85) 75%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  backdrop-filter: blur(16px);
+}
+
+.nestjs-bento-card:hover {
+  border-color: rgba(224, 35, 78, 0.45);
+  box-shadow: 0 20px 50px -10px rgba(224, 35, 78, 0.2), 0 0 25px rgba(224, 35, 78, 0.15);
+  transform: translateY(-3px);
+}
+
+.nestjs-code-container {
+  background: #080305;
+  border: 1px solid rgba(224, 35, 78, 0.3);
+  border-radius: 20px;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8), 0 0 30px rgba(224, 35, 78, 0.15);
+}
+
+.cursor-blink {
+  animation: blink 1s step-start infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}

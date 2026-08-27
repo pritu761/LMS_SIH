@@ -11,7 +11,7 @@ interface StatsCardProps {
   change?: string;
   isPositive?: boolean;
   icon: LucideIcon;
-  color?: 'indigo' | 'emerald' | 'amber' | 'cyan' | 'purple';
+  color?: 'indigo' | 'emerald' | 'amber' | 'cyan' | 'purple' | 'red';
 }
 
 export function StatsCard({
@@ -20,11 +20,17 @@ export function StatsCard({
   change,
   isPositive = true,
   icon: Icon,
-  color = 'indigo',
+  color = 'red',
 }: StatsCardProps) {
   const [isHovered, setIsHovered] = useState(false);
 
   const colorMap = {
+    red: {
+      icon: 'bg-[#e0234e]/10 text-[#ff4d6d] border-[#e0234e]/30',
+      glow: 'group-hover:border-[#e0234e]/50',
+      gradient: 'from-[#e0234e]/20 via-transparent to-transparent',
+      shadow: 'rgba(224, 35, 78, 0.3)',
+    },
     indigo: {
       icon: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
       glow: 'group-hover:border-blue-500/40',
@@ -57,7 +63,7 @@ export function StatsCard({
     },
   };
 
-  const scheme = colorMap[color];
+  const scheme = colorMap[color] || colorMap.red;
 
   return (
     <motion.div
@@ -67,7 +73,7 @@ export function StatsCard({
         transition: { duration: 0.25, ease: ease.smooth },
       }}
       whileTap={{ scale: 0.98 }}
-      className={`group relative rounded-3xl border border-white/10 bg-[#09090e] p-5 sm:p-6 backdrop-blur-xl transition-colors duration-300 hover:border-white/20 overflow-hidden ${scheme.glow}`}
+      className={`group relative rounded-3xl border border-white/10 bg-[#131726]/90 p-5 sm:p-6 backdrop-blur-xl transition-colors duration-300 hover:border-white/25 overflow-hidden ${scheme.glow}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >

@@ -4,6 +4,8 @@ import './globals.css';
 import { Navbar } from '@/components/layout/Navbar';
 import { BackToTop } from '@/components/shared/BackToTop';
 import { ThemeProvider } from '@/context/ThemeContext';
+import { ChatProvider } from '@/context/ChatContext';
+import { CourseChatbot } from '@/components/chat/CourseChatbot';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -62,93 +64,84 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`dark ${inter.variable} ${outfit.variable}`} suppressHydrationWarning>
-      <body className="min-h-screen bg-black text-slate-100 flex flex-col font-sans antialiased selection:bg-emerald-500 selection:text-black" suppressHydrationWarning>
+      <body className="min-h-screen bg-[#0b0e14] text-slate-100 flex flex-col font-sans antialiased selection:bg-[#e0234e] selection:text-white" suppressHydrationWarning>
         <ThemeProvider>
-          <Navbar />
-          <main className="flex-1 flex flex-col">{children}</main>
+          <ChatProvider>
+            <Navbar />
+            <main className="flex-1 flex flex-col">{children}</main>
 
-          {/* BridgeMind-inspired Minimalist Footer */}
-          <footer className="relative border-t border-white/10 bg-black/90 backdrop-blur-2xl">
-            {/* Subtle electric separator */}
-            <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-emerald-500/40 to-transparent" />
-
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-              <div className="grid grid-cols-1 sm:grid-cols-4 gap-8">
-                <div className="sm:col-span-1 space-y-3">
-                  <div className="flex items-center gap-2">
-                    <div className="h-8 w-8 rounded-lg bg-gradient-to-tr from-emerald-500 to-amber-500 p-[1.5px]">
-                      <div className="h-full w-full rounded-[6px] bg-black flex items-center justify-center">
-                        <svg className="h-4 w-4 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
-                          <path d="M6 12v5c3 3 9 3 12 0v-5" />
-                        </svg>
-                      </div>
+            {/* Rich NestJS-style Global Footer */}
+            <footer className="w-full border-t border-white/10 bg-[#040102] py-16 px-4 sm:px-6 lg:px-8 mt-auto">
+              <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
+                
+                {/* Col 1: Brand & Gov Info (2 cols) */}
+                <div className="lg:col-span-2 space-y-4">
+                  <div className="flex items-center gap-3">
+                    <div className="h-8 w-8 rounded-xl bg-[#e0234e] flex items-center justify-center text-white shadow-md shadow-[#e0234e]/40">
+                      <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+                        <path d="M6 12v5c3 3 9 3 12 0v-5" />
+                      </svg>
                     </div>
-                    <span className="font-black text-sm text-white">CAPACITY<span className="text-emerald-400">CONNECT</span></span>
+                    <span className="font-black text-lg tracking-tight text-white">
+                      Capacity<span className="text-[#e0234e]">Connect</span>
+                    </span>
                   </div>
-                  <p className="text-xs text-slate-400 leading-relaxed">
-                    India&apos;s sovereign digital capacity building and learning management platform for public sector institutions.
+                  <p className="text-xs text-slate-400 leading-relaxed max-w-sm">
+                    Sovereign meteorological competency assessment, cadre mapping, and faculty allocation platform built for the India Meteorological Department (IMD) and Ministry of Earth Sciences (MoES).
                   </p>
-                </div>
-
-                <div>
-                  <h4 className="text-xs font-bold text-slate-300 uppercase tracking-wider mb-3">Platform</h4>
-                  <ul className="text-xs text-slate-400 space-y-2">
-                    <li className="hover:text-slate-200 transition-colors cursor-default">Role-Based Access Control (RBAC)</li>
-                    <li className="hover:text-slate-200 transition-colors cursor-default">Timed Proctored MCQ Exams</li>
-                    <li className="hover:text-slate-200 transition-colors cursor-default">55/30/15 Competency Mapping</li>
-                    <li className="hover:text-slate-200 transition-colors cursor-default">Lecture Video Streaming & PDF</li>
-                  </ul>
-                </div>
-
-                <div>
-                  <h4 className="text-xs font-bold text-slate-300 uppercase tracking-wider mb-3">Compliance</h4>
-                  <ul className="text-xs text-slate-400 space-y-2">
-                    <li className="flex items-center gap-1.5 hover:text-slate-200 transition-colors cursor-default">
-                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-400/60" />
-                      NISG Accredited
-                    </li>
-                    <li className="flex items-center gap-1.5 hover:text-slate-200 transition-colors cursor-default">
-                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-400/60" />
-                      MeitY Framework Aligned
-                    </li>
-                    <li className="flex items-center gap-1.5 hover:text-slate-200 transition-colors cursor-default">
-                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-400/60" />
-                      Digital India Standards
-                    </li>
-                    <li className="flex items-center gap-1.5 hover:text-slate-200 transition-colors cursor-default">
-                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-400/60" />
-                      AES-256 Data Encryption
-                    </li>
-                  </ul>
-                </div>
-
-                <div>
-                  <h4 className="text-xs font-bold text-slate-300 uppercase tracking-wider mb-3">Stack & Architecture</h4>
-                  <div className="flex flex-wrap gap-1.5 mb-3">
-                    <span className="rounded-md bg-white/5 px-2 py-0.5 text-[10px] text-slate-300 border border-white/10">Next.js 16</span>
-                    <span className="rounded-md bg-white/5 px-2 py-0.5 text-[10px] text-slate-300 border border-white/10">Framer Motion</span>
-                    <span className="rounded-md bg-white/5 px-2 py-0.5 text-[10px] text-slate-300 border border-white/10">PostgreSQL</span>
-                    <span className="rounded-md bg-white/5 px-2 py-0.5 text-[10px] text-slate-300 border border-white/10">Tailwind CSS</span>
-                    <span className="rounded-md bg-white/5 px-2 py-0.5 text-[10px] text-slate-300 border border-white/10">Edge JWT</span>
+                  <div className="flex items-center gap-2 pt-2 text-[11px] font-mono text-emerald-400">
+                    <span className="h-2 w-2 rounded-full bg-emerald-400 animate-ping" />
+                    <span>All 38 Doppler Radar Nodes Online</span>
                   </div>
-                  <p className="text-[11px] text-slate-400">Smart India Hackathon • Problem Statement #1734</p>
+                </div>
+
+                {/* Col 2: Documentation */}
+                <div className="space-y-3 text-xs">
+                  <div className="font-mono font-bold uppercase tracking-wider text-white">Documentation</div>
+                  <ul className="space-y-2 text-slate-400">
+                    <li><a href="/admin/competency" className="hover:text-white transition-colors">55/30/15 Algorithm</a></li>
+                    <li><a href="/trainee/courses" className="hover:text-white transition-colors">Cadre Curricula</a></li>
+                    <li><a href="/admin/reports" className="hover:text-white transition-colors">WMO RTC Rubrics</a></li>
+                    <li><a href="/admin/batches" className="hover:text-white transition-colors">Batch Directives</a></li>
+                  </ul>
+                </div>
+
+                {/* Col 3: Ecosystem */}
+                <div className="space-y-3 text-xs">
+                  <div className="font-mono font-bold uppercase tracking-wider text-white">Ecosystem</div>
+                  <ul className="space-y-2 text-slate-400">
+                    <li><a href="/admin/competency" className="hover:text-white transition-colors">Capacity Observe</a></li>
+                    <li><a href="/admin/competency" className="hover:text-white transition-colors">Competency DevTools</a></li>
+                    <li><a href="/admin/batches" className="hover:text-white transition-colors">Deploy & Orchestrate</a></li>
+                    <li><a href="/trainee/courses" className="hover:text-white transition-colors">IMD Masterclass</a></li>
+                  </ul>
+                </div>
+
+                {/* Col 4: Institutional Links */}
+                <div className="space-y-3 text-xs">
+                  <div className="font-mono font-bold uppercase tracking-wider text-white">Governance</div>
+                  <ul className="space-y-2 text-slate-400">
+                    <li><a href="https://mausam.imd.gov.in" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">IMD Official</a></li>
+                    <li><a href="https://moes.gov.in" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">MoES Portal</a></li>
+                    <li><a href="https://www.tropmet.res.in" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">IITM Pune</a></li>
+                    <li><a href="https://ncmrwf.gov.in" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">NCMRWF HPC</a></li>
+                  </ul>
                 </div>
               </div>
 
-              <div className="mt-10 pt-6 border-t border-slate-800/40 flex flex-col sm:flex-row items-center justify-between gap-3">
-                <span className="text-[11px] text-slate-500">
-                  © {new Date().getFullYear()} Capacity Connect • National Digital Capacity Building Framework
-                </span>
-                <span className="text-[11px] text-slate-500 flex items-center gap-1.5">
-                  Smart India Hackathon • Built for India
-                  <span className="text-base">🇮🇳</span>
-                </span>
+              <div className="max-w-7xl mx-auto pt-10 mt-10 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 font-mono gap-4">
+                <div>© 2026 Ministry of Earth Sciences & India Meteorological Department. Built with NestJS Architecture.</div>
+                <div className="flex items-center gap-4">
+                  <span className="text-slate-400">Smart India Hackathon</span>
+                  <span className="flex items-center gap-1">Built for India 🇮🇳</span>
+                </div>
               </div>
-            </div>
-          </footer>
+            </footer>
 
-          <BackToTop />
+            <BackToTop />
+            <CourseChatbot />
+          </ChatProvider>
         </ThemeProvider>
       </body>
     </html>

@@ -22,7 +22,7 @@ export function ThemeSwitcher() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const activeConfig = mounted ? config : THEME_CONFIGS.emerald;
+  const activeConfig = mounted ? config : THEME_CONFIGS.nestjs;
   const isLight = mounted && mode === 'light';
   const themesList = Object.values(THEME_CONFIGS);
 

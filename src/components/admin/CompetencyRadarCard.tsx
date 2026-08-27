@@ -57,12 +57,12 @@ export function CompetencyRadarCard() {
   return (
     <div className="space-y-6">
       {/* Top Hub Level Navigation Tabs */}
-      <div className="flex items-center gap-2 p-1.5 rounded-2xl bg-slate-900/90 border border-slate-800 backdrop-blur-xl overflow-x-auto">
+      <div className="flex items-center gap-2 p-1.5 rounded-2xl bg-[#0e121e]/90 border border-white/10 backdrop-blur-xl overflow-x-auto shadow-xl">
         <button
           onClick={() => setActiveTab('ALLOCATION')}
           className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
             activeTab === 'ALLOCATION'
-              ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30'
+              ? 'bg-gradient-to-r from-[#e0234e] to-[#ff4d6d] text-white shadow-lg shadow-[#e0234e]/30'
               : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
           }`}
         >
@@ -74,13 +74,13 @@ export function CompetencyRadarCard() {
           onClick={() => setActiveTab('GAP_ANALYSIS')}
           className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap relative ${
             activeTab === 'GAP_ANALYSIS'
-              ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30'
+              ? 'bg-gradient-to-r from-[#e0234e] to-[#ff4d6d] text-white shadow-lg shadow-[#e0234e]/30'
               : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
           }`}
         >
-          <Brain className="h-4 w-4 text-cyan-400" />
+          <Brain className="h-4 w-4 text-[#ff4d6d]" />
           <span>Trainee Competency Gap Analyzer</span>
-          <span className="rounded-full bg-cyan-500/20 text-cyan-300 text-[9px] px-1.5 py-0.2 border border-cyan-500/30 font-black">
+          <span className="rounded-full bg-[#e0234e]/20 text-[#ff758c] text-[9px] px-1.5 py-0.2 border border-[#e0234e]/30 font-black">
             CORE
           </span>
         </button>
@@ -89,7 +89,7 @@ export function CompetencyRadarCard() {
           onClick={() => setActiveTab('DISCOVERY')}
           className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
             activeTab === 'DISCOVERY'
-              ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30'
+              ? 'bg-gradient-to-r from-[#e0234e] to-[#ff4d6d] text-white shadow-lg shadow-[#e0234e]/30'
               : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
           }`}
         >
