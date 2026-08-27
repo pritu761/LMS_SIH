@@ -51,12 +51,47 @@ I can help you explore and enroll in specialized training modules across all cad
 How can I assist your upskilling journey today? You can type any topic, faculty name, or select a prompt below.`,
       matchedCourses: allCourses.slice(0, 3),
       suggestedQueries: [
+        'Show all courses',
         'Show me Doppler Radar courses',
         'Find HPC & Numerical Modelling modules',
         'What AI/ML courses are available?',
         'Courses by Prof. Vikramaditya Sen',
       ],
       intent: 'GREETING',
+    };
+  }
+
+  // 2. Check for "Show all courses" / Catalog Intent
+  if (
+    cleanQuery === 'show all courses' ||
+    cleanQuery === 'all courses' ||
+    cleanQuery === 'show courses' ||
+    cleanQuery === 'list courses' ||
+    cleanQuery === 'browse courses' ||
+    cleanQuery === 'course catalog' ||
+    cleanQuery === 'view courses' ||
+    cleanQuery.includes('all course')
+  ) {
+    const allCourses = await getAllCourses();
+    return {
+      reply: `📚 **Capacity Connect National Meteorological Curriculum**:
+
+Here is the complete roster of specialized modules across all 4 cadre tracks (**DRSTC, FTC, IMTC, and Modular AI**):
+
+- 🌟 **DRSTC Track**: Inductee Scientist High-Performance Numerical Modelling & Supercomputing
+- 🌪️ **FTC Track**: Forecasters Training Course on Doppler Weather Radar (DWR) & Nowcasting
+- 🛰️ **IMTC Track**: Intermediate Synoptic Observation, INSAT-3DS & Surface Stations
+- 🤖 **Modular Track**: Physics-Informed Neural Networks (PINNs) & Deep Learning Masterclasses
+
+Select any module below to inspect the syllabus, preview video lessons, or take the timed assessment:`,
+      matchedCourses: allCourses,
+      suggestedQueries: [
+        'Find Doppler Radar courses',
+        'Earth-System HPC Modelling on Pratyush',
+        'AI/ML Precipitation Nowcasting',
+        'Courses by Prof. Vikramaditya Sen',
+      ],
+      intent: 'ALL_COURSES',
     };
   }
 
@@ -114,8 +149,8 @@ Here are the certified flagship modules available for immediate enrollment:`,
 | **Target Level** | ${c1.level} | ${c2.level} |
 | **Duration** | **${c1.durationHours} Hours** | **${c2.durationHours} Hours** |
 | **Lead Faculty** | ${c1.trainerName} (${c1.trainerRating} ★) | ${c2.trainerName} (${c2.trainerRating} ★) |
-| **Core Focus** | ${c1.competencies.map((c) => c.competencyName.split('&')[0]).join(', ')} | ${c2.competencies.map((c) => c.competencyName.split('&')[0]).join(', ')} |
-| **Materials** | ${c1.materials.length} Lectures & Reference Guides | ${c2.materials.length} Lectures & Handbooks |
+| **Core Focus** | ${(c1.competencies || []).map((c) => c.competencyName?.split('&')[0] || '').filter(Boolean).join(', ') || 'Domain Fundamentals'} | ${(c2.competencies || []).map((c) => c.competencyName?.split('&')[0] || '').filter(Boolean).join(', ') || 'Domain Fundamentals'} |
+| **Materials** | ${(c1.materials || []).length} Lectures & Reference Guides | ${(c2.materials || []).length} Lectures & Handbooks |
 
 💡 **Recommendation**: If your focus is high-performance modelling, select **${c1.code}**; for operational nowcasting or synoptic observation, choose **${c2.code}**.`,
         matchedCourses: [c1, c2],

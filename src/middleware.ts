@@ -46,6 +46,8 @@ const PUBLIC_ROUTES = [
   '/api/auth/demo-login',
   '/api/health',
   '/api/health/db',
+  '/api/chat',
+  '/api/courses/search',
 ];
 
 /**

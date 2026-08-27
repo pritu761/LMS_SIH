@@ -118,20 +118,26 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
         }),
       });
 
-      if (!response.ok) {
-        throw new Error(`Server returned error ${response.status}`);
+      let data: any;
+      try {
+        data = await response.json();
+      } catch {
+        throw new Error(`Server returned status ${response.status}`);
       }
 
-      const data = await response.json();
+      if (!response.ok || !data?.success) {
+        throw new Error(data?.error || `Server returned error ${response.status}`);
+      }
+
       const assistantData = data.data;
 
       const assistantMessage: ChatMessage = {
         id: `asst-${Date.now()}`,
         role: 'assistant',
-        content: assistantData.reply,
+        content: assistantData?.reply || 'Received response with no content.',
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        matchedCourses: assistantData.matchedCourses || [],
-        suggestedQueries: assistantData.suggestedQueries || [],
+        matchedCourses: assistantData?.matchedCourses || [],
+        suggestedQueries: assistantData?.suggestedQueries || [],
       };
 
       setMessages((prev) => [...prev, assistantMessage]);
@@ -144,7 +150,7 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
       const errorMessage: ChatMessage = {
         id: `err-${Date.now()}`,
         role: 'assistant',
-        content: `⚠️ *Unable to connect to course indexing service. Please try again.*`,
+        content: `⚠️ *Unable to connect to course indexing service (${err?.message || 'Network error'}). Please try again.*`,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         suggestedQueries: ['Show all courses', 'Search Radar courses'],
       };

@@ -61,9 +61,9 @@ export async function getAllCourses(): Promise<MockCourse[]> {
         id: c.id,
         title: c.title,
         code: c.code,
-        slug: c.slug,
-        description: c.description,
-        category: c.category,
+        slug: c.slug || c.code.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+        description: c.description || '',
+        category: c.category || 'Meteorology',
         cadreTrack: (c.code.includes('DRSTC')
           ? 'DRSTC'
           : c.code.includes('FTC')
@@ -71,33 +71,33 @@ export async function getAllCourses(): Promise<MockCourse[]> {
           : c.code.includes('IMTC')
           ? 'IMTC'
           : 'MODULAR') as 'DRSTC' | 'FTC' | 'IMTC' | 'MODULAR',
-        level: c.level,
-        durationHours: c.durationHours,
+        level: c.level || 'Intermediate',
+        durationHours: c.durationHours || 10,
         thumbnail: c.thumbnail || 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&auto=format&fit=crop&q=80',
-        status: c.status as 'PUBLISHED' | 'DRAFT',
-        trainerId: c.trainerId,
+        status: (c.status as 'PUBLISHED' | 'DRAFT') || 'PUBLISHED',
+        trainerId: c.trainerId || 'user-trainer-1',
         trainerName: c.trainer?.profile?.fullName || 'Faculty Specialist',
         trainerRating: 4.9,
         trainerSpecialization: c.trainer?.profile?.headline || 'IMD Senior Specialist',
-        competencies: c.competencies.map((cc) => ({
+        competencies: (c.competencies || []).map((cc) => ({
           competencyId: cc.competencyId,
-          competencyName: cc.competency.name,
-          requiredProficiency: cc.requiredProficiency,
-          weight: cc.weight,
+          competencyName: cc.competency?.name || 'Competency Module',
+          requiredProficiency: cc.requiredProficiency || 3,
+          weight: cc.weight || 1,
         })),
-        materials: c.materials.map((m) => ({
+        materials: (c.materials || []).map((m) => ({
           id: m.id,
-          title: m.title,
+          title: m.title || 'Course Material',
           description: m.description || '',
-          type: m.type as 'VIDEO' | 'PDF' | 'PPT' | 'DOC',
-          url: m.url,
+          type: (m.type as 'VIDEO' | 'PDF' | 'PPT' | 'DOC') || 'VIDEO',
+          url: m.url || '',
           downloadUrl: m.downloadUrl || undefined,
           durationSeconds: m.durationSeconds || 0,
           fileSize: m.fileSize || '10 MB',
-          sortOrder: m.sortOrder,
-          isPreview: m.isPreview,
+          sortOrder: m.sortOrder || 0,
+          isPreview: m.isPreview || false,
         })),
-        assessmentId: c.assessments[0]?.id || `assess-${c.id}`,
+        assessmentId: c.assessments?.[0]?.id || `assess-${c.id}`,
       }));
 
       // Combine with mock courses (dedup by code or id)
