@@ -57,9 +57,9 @@ export function Sidebar({ role }: SidebarProps) {
   };
 
   const roleColors = {
-    ADMIN: { label: 'text-emerald-400', badge: 'bg-emerald-500/10 text-emerald-300 border-emerald-500/30' },
+    ADMIN: { label: 'text-[#ff4d6d]', badge: 'bg-[#e0234e]/15 text-[#ff758c] border-[#e0234e]/30' },
     TRAINER: { label: 'text-indigo-400', badge: 'bg-indigo-500/10 text-indigo-300 border-indigo-500/30' },
-    TRAINEE: { label: 'text-cyan-400', badge: 'bg-cyan-500/10 text-cyan-300 border-cyan-500/30' },
+    TRAINEE: { label: 'text-[#ff4d6d]', badge: 'bg-[#e0234e]/15 text-[#ff758c] border-[#e0234e]/30' },
   };
 
   const navItems = getNavItems();
@@ -69,7 +69,7 @@ export function Sidebar({ role }: SidebarProps) {
       initial={{ opacity: 0, x: -30 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.5, ease: ease.smooth }}
-      className="w-64 lg:w-72 shrink-0 hidden lg:flex flex-col rounded-3xl border border-white/10 bg-[#08080d] backdrop-blur-2xl p-5 space-y-6 shadow-elevation-2 self-start sticky top-20"
+      className="w-64 lg:w-72 shrink-0 hidden lg:flex flex-col rounded-3xl border border-[#e0234e]/20 bg-[#0e121e]/95 backdrop-blur-2xl p-5 space-y-6 shadow-2xl shadow-[#e0234e]/10 self-start sticky top-20"
     >
       {/* Workspace Tag Header */}
       <div className="space-y-1">
@@ -78,7 +78,7 @@ export function Sidebar({ role }: SidebarProps) {
             IMD {role} Workspace
           </span>
           <motion.span
-            className="h-1.5 w-1.5 rounded-full bg-cyan-400"
+            className="h-1.5 w-1.5 rounded-full bg-[#e0234e]"
             animate={{ scale: [1, 1.5, 1], opacity: [1, 0.4, 1] }}
             transition={{ duration: 2, repeat: Infinity }}
           />
@@ -106,15 +106,15 @@ export function Sidebar({ role }: SidebarProps) {
                   href={item.href}
                   className={`relative flex items-center justify-between gap-2.5 px-3.5 py-2.5 rounded-2xl text-xs font-semibold transition-all duration-200 group ${
                     isActive
-                      ? 'text-white border border-cyan-500/40 shadow-sm shadow-cyan-500/20 font-bold'
+                      ? 'text-white border border-[#e0234e]/50 shadow-sm shadow-[#e0234e]/25 font-bold'
                       : 'text-slate-400 hover:text-white hover:bg-white/5 border border-transparent'
-                  } ${item.highlight && !isActive ? 'border-dashed border-cyan-500/30 bg-cyan-950/20' : ''}`}
+                  } ${item.highlight && !isActive ? 'border-dashed border-[#e0234e]/30 bg-[#e0234e]/10' : ''}`}
                 >
                   {/* Shared Active Sliding Indicator Background */}
                   {isActive && (
                     <motion.div
                       layoutId={`sidebar-active-pill-${role}`}
-                      className="absolute inset-0 rounded-2xl bg-cyan-600/20"
+                      className="absolute inset-0 rounded-2xl bg-[#e0234e]/20"
                       transition={{ type: 'spring', stiffness: 350, damping: 30 }}
                     />
                   )}
@@ -123,21 +123,21 @@ export function Sidebar({ role }: SidebarProps) {
                   {isActive && (
                     <motion.div
                       layoutId="sidebar-active-bar"
-                      className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 rounded-r-full bg-cyan-400 shadow-glow-sm z-10"
+                      className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 rounded-r-full bg-[#e0234e] shadow-glow-sm z-10"
                       transition={{ type: 'spring', stiffness: 350, damping: 30 }}
                     />
                   )}
 
                   <div className="relative z-10 flex items-center gap-2.5 min-w-0 flex-1">
                     <Icon className={`h-4 w-4 shrink-0 transition-all duration-200 ${
-                      isActive ? 'text-cyan-400' : 'text-slate-400 group-hover:text-white group-hover:scale-105'
+                      isActive ? 'text-[#ff4d6d]' : 'text-slate-400 group-hover:text-white group-hover:scale-105'
                     }`} />
                     <span className="truncate whitespace-nowrap overflow-hidden text-ellipsis">{item.label}</span>
                   </div>
 
                   {item.badge && (
                     <span className={`relative z-10 rounded-full px-2 py-0.5 text-[9px] font-black uppercase border shrink-0 ${
-                      isActive ? 'bg-cyan-500/20 text-cyan-300 border-cyan-400/40' : 'bg-white/5 text-slate-400 border-white/10'
+                      isActive ? 'bg-[#e0234e]/20 text-[#ff758c] border-[#e0234e]/40' : 'bg-white/5 text-slate-400 border-white/10'
                     }`}>
                       {item.badge}
                     </span>
@@ -156,8 +156,8 @@ export function Sidebar({ role }: SidebarProps) {
       >
         <div className="flex items-center gap-2 text-xs font-bold text-white">
           <div className="relative">
-            <Satellite className="h-3.5 w-3.5 text-cyan-400" />
-            <div className="absolute -inset-1 rounded-full bg-cyan-400/20 animate-breathe pointer-events-none" />
+            <Satellite className="h-3.5 w-3.5 text-[#ff4d6d]" />
+            <div className="absolute -inset-1 rounded-full bg-[#e0234e]/20 animate-breathe pointer-events-none" />
           </div>
           <span>Mission Mausam Node</span>
         </div>

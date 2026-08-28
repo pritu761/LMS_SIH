@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
-export type VisualTheme = 'emerald' | 'violet' | 'amber' | 'cyan';
+export type VisualTheme = 'nestjs' | 'emerald' | 'violet' | 'amber' | 'cyan';
 export type ThemeMode = 'dark' | 'light';
 
 export interface ThemeConfig {
@@ -17,6 +17,16 @@ export interface ThemeConfig {
 }
 
 export const THEME_CONFIGS: Record<VisualTheme, ThemeConfig> = {
+  nestjs: {
+    id: 'nestjs',
+    name: 'NestJS Crimson',
+    subtitle: 'Progressive Ruby Red & Carbon Architecture',
+    primaryColor: '#E0234E',
+    accentColor: '#FF4D6D',
+    glowColor: 'rgba(224, 35, 78, 0.42)',
+    previewGradient: 'from-[#E0234E] via-[#EA2845] to-[#FF758C]',
+    badgeText: 'NESTJS CORE',
+  },
   emerald: {
     id: 'emerald',
     name: 'Cyber Emerald',
@@ -69,24 +79,24 @@ interface ThemeContextType {
 }
 
 const ThemeContext = createContext<ThemeContextType>({
-  theme: 'emerald',
+  theme: 'nestjs',
   setTheme: () => {},
   mode: 'dark',
   setMode: () => {},
   toggleMode: () => {},
-  config: THEME_CONFIGS.emerald,
+  config: THEME_CONFIGS.nestjs,
 });
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<VisualTheme>('emerald');
+  const [theme, setThemeState] = useState<VisualTheme>('nestjs');
   const [mode, setModeState] = useState<ThemeMode>('dark');
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    // Restore saved theme
+    // Restore saved theme or default to nestjs
     const savedTheme = localStorage.getItem('capacity_connect_visual_theme') as VisualTheme;
-    const initialTheme = savedTheme && THEME_CONFIGS[savedTheme] ? savedTheme : 'emerald';
+    const initialTheme = savedTheme && THEME_CONFIGS[savedTheme] ? savedTheme : 'nestjs';
     setThemeState(initialTheme);
     document.documentElement.setAttribute('data-theme', initialTheme);
 
@@ -127,7 +137,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     setMode(mode === 'dark' ? 'light' : 'dark');
   };
 
-  const config = THEME_CONFIGS[theme] || THEME_CONFIGS.emerald;
+  const config = THEME_CONFIGS[theme] || THEME_CONFIGS.nestjs;
 
   return (
     <ThemeContext.Provider value={{ theme, setTheme, mode, setMode, toggleMode, config }}>
