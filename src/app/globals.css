@@ -2256,3 +2256,26 @@
 @keyframes blink {
   50% { opacity: 0; }
 }
+
+/* Universal Site-Wide Watermark Overlay */
+.watermark-bg {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 25;
+  opacity: 0.08;
+  background-image: url('/hero-banner.jpg');
+  background-size: cover;
+  background-position: center 25%;
+  background-repeat: no-repeat;
+  mix-blend-mode: multiply;
+  transition: opacity 0.3s ease;
+}
+
+[data-mode='dark'] .watermark-bg,
+.dark .watermark-bg {
+  opacity: 0.06;
+  mix-blend-mode: screen;
+}

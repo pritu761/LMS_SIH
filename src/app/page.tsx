@@ -293,95 +293,68 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Main Title & Subtitle Grid matching image */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
-              {/* Brand Typography */}
-              <div>
-                <div className="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight text-[#0b1e36] leading-[1.05]">
-                  CAPACITY
-                </div>
-                <div className="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight text-[#c59b48] leading-[1.05]">
-                  CONNECT
-                </div>
-              </div>
+          {/* Main Centered Hero Title & Subtitle */}
+          <div className="max-w-4xl mx-auto text-center space-y-6">
+            {/* Brand Typography */}
+            <div className="space-y-1">
+              <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight text-[#0b1e36] dark:text-white leading-[1.05]">
+                CAPACITY <span className="text-[#c59b48]">CONNECT</span>
+              </h1>
+            </div>
 
-              {/* Official Subtitle & Tagline */}
-              <div className="space-y-2">
-                <h2 className="text-lg sm:text-xl font-bold text-slate-800 tracking-tight">
-                  Digital Capacity Building & Learning Management Portal
-                </h2>
-                <div className="flex items-center justify-center lg:justify-start gap-2 text-xs sm:text-sm text-slate-600 font-medium">
-                  <span className="text-[#c59b48] font-bold">★</span>
-                  <span>Empowering People. Strengthening Competencies. Building a Future-Ready Workforce.</span>
-                </div>
-              </div>
-
-              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-2xl">
-                CapacityConnect replaces static course tracking with an end-to-end meteorological intelligence pipeline: dynamically assessing officer skills, diagnosing cadre gaps, and matching certified faculty via our weighted <strong>55/30/15 algorithm</strong>.
-              </p>
-
-              {/* 6-Stage Journey Ribbon (Problem -> Outcome) */}
-              <div className="pt-2 pb-2">
-                <div className="flex items-center justify-center lg:justify-start gap-1.5 sm:gap-2 flex-wrap">
-                  <span className="text-[11px] font-mono font-bold text-slate-500 uppercase tracking-wider mr-1">
-                    Evaluation Flow:
-                  </span>
-                  {judgeJourneyStages.map((stage, idx) => (
-                    <a
-                      key={stage.num}
-                      href={stage.href}
-                      className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-mono font-bold border transition-all hover:scale-105 ${stage.color}`}
-                    >
-                      <span>{stage.num}.</span>
-                      <span>{stage.label}</span>
-                      {idx < judgeJourneyStages.length - 1 && <span className="opacity-40">→</span>}
-                    </a>
-                  ))}
-                </div>
-              </div>
-
-              {/* Dual Primary CTA Buttons */}
-              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 pt-2">
-                <Link href="/admin/competency" className="btn-nestjs-primary group">
-                  <Brain className="h-4 w-4 text-[#c59b48]" />
-                  <span>Launch 55/30/15 Matcher</span>
-                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </Link>
-
-                <Link href="/trainee/courses" className="btn-gold group">
-                  <BookOpen className="h-4 w-4" />
-                  <span>Explore Curriculum</span>
-                </Link>
-
-                <Link href="/architecture" className="btn-nestjs-secondary group border-dashed">
-                  <Code2 className="h-4 w-4 text-slate-500 group-hover:text-[#c59b48] transition-colors" />
-                  <span>Technical Architecture</span>
-                  <ChevronRight className="h-4 w-4" />
-                </Link>
+            {/* Official Subtitle & Tagline */}
+            <div className="space-y-3">
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-slate-800 dark:text-slate-200 tracking-tight">
+                Digital Capacity Building & Learning Management Portal
+              </h2>
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#c59b48]/10 border border-[#c59b48]/30 text-xs sm:text-sm text-[#0b1e36] dark:text-[#dfb76c] font-semibold">
+                <span className="text-[#c59b48] font-bold">★</span>
+                <span>Empowering People. Strengthening Competencies. Building a Future-Ready Workforce.</span>
               </div>
             </div>
 
-            {/* Right: Official Portal Banner Frame */}
-            <div className="lg:col-span-5 relative">
-              <div className="relative rounded-3xl overflow-hidden border-2 border-[#c59b48]/50 shadow-2xl shadow-[#0b1e36]/15 group">
-                <img
-                  src="/hero-banner.jpg"
-                  alt="Capacity Connect - Official IMD & MoES Portal Banner"
-                  className="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700"
-                />
-                
-                {/* Floating Telemetry Badges */}
-                <div className="absolute top-3 left-3 bg-[#0b1e36]/90 backdrop-blur-md border border-[#c59b48]/60 rounded-xl px-3 py-1.5 text-white text-[11px] font-mono flex items-center gap-2 shadow-lg">
-                  <span className="h-2 w-2 rounded-full bg-emerald-400 animate-ping" />
-                  <span className="font-bold">38 Radar Nodes Active</span>
-                </div>
+            <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl mx-auto">
+              CapacityConnect replaces static course tracking with an end-to-end meteorological intelligence pipeline: dynamically assessing officer skills, diagnosing cadre gaps, and matching certified faculty via our weighted <strong>55/30/15 algorithm</strong>.
+            </p>
 
-                <div className="absolute bottom-3 right-3 bg-[#0b1e36]/90 backdrop-blur-md border border-[#c59b48]/60 rounded-xl px-3 py-1.5 text-white text-[11px] font-mono flex items-center gap-2 shadow-lg">
-                  <span className="text-[#c59b48] font-bold">WMO RTC</span>
-                  <span className="text-slate-300">Audit-Ready</span>
-                </div>
+            {/* 6-Stage Journey Ribbon (Problem -> Outcome) */}
+            <div className="pt-2 pb-1">
+              <div className="flex items-center justify-center gap-1.5 sm:gap-2 flex-wrap">
+                <span className="text-[11px] font-mono font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mr-1">
+                  Evaluation Flow:
+                </span>
+                {judgeJourneyStages.map((stage, idx) => (
+                  <a
+                    key={stage.num}
+                    href={stage.href}
+                    className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold border transition-all hover:scale-105 ${stage.color}`}
+                  >
+                    <span>{stage.num}.</span>
+                    <span>{stage.label}</span>
+                    {idx < judgeJourneyStages.length - 1 && <span className="opacity-40">→</span>}
+                  </a>
+                ))}
               </div>
+            </div>
+
+            {/* Centered CTA Buttons */}
+            <div className="flex flex-wrap items-center justify-center gap-3 pt-3">
+              <Link href="/admin/competency" className="btn-nestjs-primary group">
+                <Brain className="h-4 w-4 text-[#c59b48]" />
+                <span>Launch 55/30/15 Matcher</span>
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Link>
+
+              <Link href="/trainee/courses" className="btn-gold group">
+                <BookOpen className="h-4 w-4" />
+                <span>Explore Curriculum</span>
+              </Link>
+
+              <Link href="/architecture" className="btn-nestjs-secondary group border-dashed">
+                <Code2 className="h-4 w-4 text-slate-500 group-hover:text-[#c59b48] transition-colors" />
+                <span>Technical Architecture</span>
+                <ChevronRight className="h-4 w-4" />
+              </Link>
             </div>
           </div>
 

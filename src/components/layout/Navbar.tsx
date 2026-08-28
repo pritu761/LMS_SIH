@@ -20,7 +20,6 @@ import {
   Compass,
 } from 'lucide-react';
 import { useCourseChat } from '@/context/ChatContext';
-import { ModeToggle } from '@/components/layout/ModeToggle';
 
 export function Navbar() {
   const pathname = usePathname();

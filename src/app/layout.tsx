@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next';
+import Link from 'next/link';
 import { Plus_Jakarta_Sans, Outfit, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { Navbar } from '@/components/layout/Navbar';
@@ -63,7 +64,8 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: '#ffffff',
+  themeColor: '#0b1e36',
+  maximumScale: 5,
 };
 
 export default function RootLayout({
@@ -74,13 +76,14 @@ export default function RootLayout({
   return (
     <html lang="en" className={`light ${jakarta.variable} ${outfit.variable} ${jetbrains.variable}`} suppressHydrationWarning>
       <body className="min-h-screen bg-white text-slate-900 dark:bg-[#070f1a] dark:text-slate-100 flex flex-col font-sans antialiased selection:bg-[#0b1e36] selection:text-[#c59b48] transition-colors duration-300" suppressHydrationWarning>
+        <div className="watermark-bg" suppressHydrationWarning />
         <ThemeProvider>
           <ChatProvider>
             <Navbar />
-            <main className="flex-1 flex flex-col">{children}</main>
+            <main className="flex-1 flex flex-col relative z-10" suppressHydrationWarning>{children}</main>
 
             {/* Sovereign Navy & Gold Global Footer with Wave & Gold Trim */}
-            <footer className="w-full mt-auto relative overflow-hidden bg-[#0b1e36] text-white border-t-2 border-[#c59b48]">
+            <footer className="w-full mt-auto relative overflow-hidden bg-[#0b1e36] text-white border-t-2 border-[#c59b48]" suppressHydrationWarning>
               {/* Subtle top gold accent glow */}
               <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#c59b48] to-transparent opacity-80" />
               
@@ -115,10 +118,10 @@ export default function RootLayout({
                 <div className="space-y-3 text-xs">
                   <div className="font-mono font-bold uppercase tracking-wider text-[#c59b48]">Core Engine</div>
                   <ul className="space-y-2 text-slate-300">
-                    <li><a href="/admin/competency" className="hover:text-[#c59b48] transition-colors">55/30/15 Allocation Algorithm</a></li>
-                    <li><a href="/trainee/courses" className="hover:text-[#c59b48] transition-colors">Cadre Curricula & Tracks</a></li>
-                    <li><a href="/admin/competency" className="hover:text-[#c59b48] transition-colors">WMO RTC Rubrics</a></li>
-                    <li><a href="/trainee/profile" className="hover:text-[#c59b48] transition-colors">Competency Gap Dossier</a></li>
+                    <li><Link href="/admin/competency" className="hover:text-[#c59b48] transition-colors">55/30/15 Allocation Algorithm</Link></li>
+                    <li><Link href="/trainee/courses" className="hover:text-[#c59b48] transition-colors">Cadre Curricula & Tracks</Link></li>
+                    <li><Link href="/admin/competency" className="hover:text-[#c59b48] transition-colors">WMO RTC Rubrics</Link></li>
+                    <li><Link href="/trainee/profile" className="hover:text-[#c59b48] transition-colors">Competency Gap Dossier</Link></li>
                   </ul>
                 </div>
 
@@ -126,10 +129,10 @@ export default function RootLayout({
                 <div className="space-y-3 text-xs">
                   <div className="font-mono font-bold uppercase tracking-wider text-[#c59b48]">Technical Specs</div>
                   <ul className="space-y-2 text-slate-300">
-                    <li><a href="/architecture" className="hover:text-[#c59b48] font-semibold text-[#c59b48] transition-colors">Technical Architecture</a></li>
-                    <li><a href="/architecture#ioc" className="hover:text-[#c59b48] transition-colors">Inversion of Control (IoC)</a></li>
-                    <li><a href="/architecture#dtos" className="hover:text-[#c59b48] transition-colors">TypeScript DTOs & Schemas</a></li>
-                    <li><a href="/architecture#hpc" className="hover:text-[#c59b48] transition-colors">HPC Parallelism Sandbox</a></li>
+                    <li><Link href="/architecture" className="hover:text-[#c59b48] font-semibold text-[#c59b48] transition-colors">Technical Architecture</Link></li>
+                    <li><Link href="/architecture#ioc" className="hover:text-[#c59b48] transition-colors">Inversion of Control (IoC)</Link></li>
+                    <li><Link href="/architecture#dtos" className="hover:text-[#c59b48] transition-colors">TypeScript DTOs & Schemas</Link></li>
+                    <li><Link href="/architecture#hpc" className="hover:text-[#c59b48] transition-colors">HPC Parallelism Sandbox</Link></li>
                   </ul>
                 </div>
 
