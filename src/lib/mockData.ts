@@ -556,10 +556,10 @@ export const initialCourses: MockCourse[] = [
     materials: [
       {
         id: 'mat-nwp-1',
-        title: 'Module 1: Atmospheric Governing Equations & Numerical Discretization',
+        title: 'Module 1: What Are Numerical Weather Prediction (NWP) Models & Governing Equations',
         description: 'Comprehensive breakdown of primitive hydrostatic equations, baroclinic instability, and finite difference grid staggerings (Arakawa A-E).',
         type: 'VIDEO',
-        url: 'https://www.youtube.com/watch?v=FjS6o9Nq_sE',
+        url: 'https://www.youtube.com/watch?v=XVNdacklXCk',
         durationSeconds: 1680,
         fileSize: '165 MB',
         sortOrder: 1,
@@ -578,10 +578,10 @@ export const initialCourses: MockCourse[] = [
       },
       {
         id: 'mat-nwp-3',
-        title: 'Module 2: 4D-Var Data Assimilation with INSAT-3DS Sounders',
+        title: 'Module 2: Atmospheric Supercomputing & High-Performance Modelling on Pratyush',
         description: 'Mathematical formulation of cost function minimization, background error covariance matrices, and radiance bias correction on supercomputers.',
         type: 'VIDEO',
-        url: 'https://www.youtube.com/watch?v=kYJ_x24Y32k',
+        url: 'https://www.youtube.com/watch?v=SsJmhSHPe40',
         durationSeconds: 1940,
         fileSize: '210 MB',
         sortOrder: 3,
@@ -625,10 +625,10 @@ export const initialCourses: MockCourse[] = [
     materials: [
       {
         id: 'mat-radar-1',
-        title: 'Module 1: Dual-Polarimetric Radar Signatures & Hydrometeor Identification',
+        title: 'Module 1: Dual-Polarization Doppler Weather Radar & Storm Nowcasting',
         description: 'Dissecting ZDR columns, correlation coefficient (CC) drops for hail detection, Doppler velocity de-aliasing, and convective storm tracking.',
         type: 'VIDEO',
-        url: 'https://www.youtube.com/watch?v=tY8Vw_Y4-7c',
+        url: 'https://www.youtube.com/watch?v=NZ7rNeQck2A',
         durationSeconds: 1520,
         fileSize: '140 MB',
         sortOrder: 1,
@@ -672,10 +672,10 @@ export const initialCourses: MockCourse[] = [
     materials: [
       {
         id: 'mat-ai-1',
-        title: 'Module 1: Physics-Informed Neural Networks & GraphCast in Atmospheric Nowcasting',
+        title: 'Module 1: The AI Weather Forecasting Revolution & Neural Nowcasting',
         description: 'Constraining deep neural networks (GraphCast, ConvLSTM, UNet) with Navier-Stokes continuity equations and moisture advection.',
         type: 'VIDEO',
-        url: 'https://www.youtube.com/watch?v=kYJ_x24Y32k',
+        url: 'https://www.youtube.com/watch?v=JUsFvifyZeM',
         durationSeconds: 1350,
         fileSize: '128 MB',
         sortOrder: 1,
@@ -719,10 +719,10 @@ export const initialCourses: MockCourse[] = [
     materials: [
       {
         id: 'mat-imtc-1',
-        title: 'Module 1: Synoptic Weather Chart Analysis, Frontal Boundaries & INSAT Imagery',
+        title: 'Module 1: How Meteorological Satellites & Synoptic Systems Work',
         description: 'Plotting isobars, pressure tendency symbols, frontal boundaries, and interpreting INSAT-3DS thermal infrared water vapor channels.',
         type: 'VIDEO',
-        url: 'https://www.youtube.com/watch?v=p499gZqF3c0',
+        url: 'https://www.youtube.com/watch?v=olmwTIVo5ss',
         durationSeconds: 1450,
         fileSize: '150 MB',
         sortOrder: 1,

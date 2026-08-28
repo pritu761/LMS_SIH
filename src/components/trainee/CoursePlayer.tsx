@@ -42,7 +42,7 @@ function getYouTubeEmbedInfo(url?: string): { isYouTube: boolean; embedUrl: stri
     const videoId = match[1];
     return {
       isYouTube: true,
-      embedUrl: `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&enablejsapi=1`,
+      embedUrl: `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`,
       originalUrl: `https://www.youtube.com/watch?v=${videoId}`,
     };
   }

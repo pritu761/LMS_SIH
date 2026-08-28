@@ -209,10 +209,10 @@ async function main() {
       materials: {
         create: [
           {
-            title: 'Module 1: Atmospheric Governing Equations & Numerical Discretization',
+            title: 'Module 1: What Are Numerical Weather Prediction (NWP) Models & Governing Equations',
             description: 'Comprehensive breakdown of primitive hydrostatic equations, baroclinic instability, and finite difference grid staggerings.',
             type: 'VIDEO',
-            url: 'https://www.youtube.com/watch?v=FjS6o9Nq_sE',
+            url: 'https://www.youtube.com/watch?v=XVNdacklXCk',
             durationSeconds: 1680,
             fileSize: '165 MB',
             sortOrder: 1,
