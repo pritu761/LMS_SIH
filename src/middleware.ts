@@ -47,7 +47,10 @@ const PUBLIC_ROUTES = [
   '/api/health',
   '/api/health/db',
   '/api/chat',
+  '/api/courses',
   '/api/courses/search',
+  '/trainee/courses',
+  '/courses',
 ];
 
 /**
@@ -66,16 +69,41 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // 2. Allow public routes
-  const isPublic = PUBLIC_ROUTES.some((route) => pathname === route || pathname.startsWith(route + '/'));
-  if (isPublic && !pathname.startsWith('/trainee') && !pathname.startsWith('/trainer') && !pathname.startsWith('/admin')) {
-    return NextResponse.next();
-  }
+  // 2. Allow public routes (including course catalog & streaming modules)
+  const isPublic =
+    PUBLIC_ROUTES.some((route) => pathname === route || pathname.startsWith(route + '/')) ||
+    pathname.startsWith('/trainee/courses') ||
+    pathname.startsWith('/courses');
 
   // 3. Extract JWT token from httpOnly cookie or Authorization header
   const token =
     request.cookies.get(TOKEN_COOKIE_NAME)?.value ||
     request.headers.get('authorization')?.replace(/^Bearer\s+/i, '');
+
+  // If this is a public route and user has no token, permit immediate access
+  if (isPublic && !token) {
+    return NextResponse.next();
+  }
+
+  // If public route with token, attempt to verify and pass user headers downstream
+  if (isPublic && token) {
+    try {
+      const { payload } = await jwtVerify(token, JWT_SECRET);
+      const decodedUser = payload as unknown as DecodedToken;
+      const requestHeaders = new Headers(request.headers);
+      requestHeaders.set('x-user-id', decodedUser.userId);
+      requestHeaders.set('x-user-role', decodedUser.role);
+      requestHeaders.set('x-user-email', decodedUser.email);
+      requestHeaders.set('x-user-name', encodeURIComponent(decodedUser.fullName || 'User'));
+      return NextResponse.next({
+        request: {
+          headers: requestHeaders,
+        },
+      });
+    } catch {
+      return NextResponse.next();
+    }
+  }
 
   const isApiRoute = pathname.startsWith('/api/');
 
@@ -132,27 +160,29 @@ export async function middleware(request: NextRequest) {
   }
 
   // 7. Enforce Role-Based Access Control (RBAC)
-  for (const rule of RBAC_RULES) {
-    if (pathname.startsWith(rule.prefix)) {
-      const hasPermission = rule.roles.includes(decodedUser.role);
+  if (!pathname.startsWith('/trainee/courses')) {
+    for (const rule of RBAC_RULES) {
+      if (pathname.startsWith(rule.prefix)) {
+        const hasPermission = rule.roles.includes(decodedUser.role);
 
-      if (!hasPermission) {
-        if (isApiRoute) {
-          return NextResponse.json(
-            {
-              error: `Forbidden: Insufficient privileges. Required: [${rule.roles.join(', ')}], Current: ${decodedUser.role}`,
-              code: 'FORBIDDEN_ROLE',
-            },
-            { status: 403 }
-          );
+        if (!hasPermission) {
+          if (isApiRoute) {
+            return NextResponse.json(
+              {
+                error: `Forbidden: Insufficient privileges. Required: [${rule.roles.join(', ')}], Current: ${decodedUser.role}`,
+                code: 'FORBIDDEN_ROLE',
+              },
+              { status: 403 }
+            );
+          }
+
+          // Redirect user to their own role's primary dashboard
+          let targetDashboard = '/trainee';
+          if (decodedUser.role === 'TRAINER') targetDashboard = '/trainer';
+          if (decodedUser.role === 'ADMIN') targetDashboard = '/admin';
+
+          return NextResponse.redirect(new URL(targetDashboard, request.url));
         }
-
-        // Redirect user to their own role's primary dashboard
-        let targetDashboard = '/trainee';
-        if (decodedUser.role === 'TRAINER') targetDashboard = '/trainer';
-        if (decodedUser.role === 'ADMIN') targetDashboard = '/admin';
-
-        return NextResponse.redirect(new URL(targetDashboard, request.url));
       }
     }
   }

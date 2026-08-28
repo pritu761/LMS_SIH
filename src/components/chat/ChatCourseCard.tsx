@@ -24,7 +24,11 @@ export function ChatCourseCard({ course, onNavigate }: ChatCourseCardProps) {
     <div className="my-2 group relative overflow-hidden rounded-2xl border border-white/10 bg-slate-900/90 p-3.5 backdrop-blur-md transition-all duration-300 hover:border-[#e0234e]/50 hover:bg-slate-800/90 shadow-lg hover:shadow-[#e0234e]/15">
       <div className="flex gap-3">
         {/* Thumbnail Preview */}
-        <div className="relative h-16 w-20 flex-shrink-0 overflow-hidden rounded-xl bg-slate-800">
+        <Link
+          href={`/trainee/courses/${course.id}`}
+          onClick={onNavigate}
+          className="relative h-16 w-20 flex-shrink-0 overflow-hidden rounded-xl bg-slate-800 block cursor-pointer"
+        >
           <img
             src={course.thumbnail}
             alt={course.title}
@@ -35,7 +39,7 @@ export function ChatCourseCard({ course, onNavigate }: ChatCourseCardProps) {
             <Clock className="h-2.5 w-2.5 text-[#ff4d6d]" />
             {course.durationHours}h
           </div>
-        </div>
+        </Link>
 
         {/* Course Info */}
         <div className="flex-1 min-w-0">
@@ -53,9 +57,11 @@ export function ChatCourseCard({ course, onNavigate }: ChatCourseCardProps) {
             </span>
           </div>
 
-          <h4 className="text-xs font-bold text-white group-hover:text-[#ff758c] transition-colors line-clamp-1">
-            {course.title}
-          </h4>
+          <Link href={`/trainee/courses/${course.id}`} onClick={onNavigate} className="block">
+            <h4 className="text-xs font-bold text-white group-hover:text-[#ff758c] transition-colors line-clamp-1 hover:underline cursor-pointer">
+              {course.title}
+            </h4>
+          </Link>
 
           <div className="mt-1 flex items-center justify-between text-[11px] text-slate-400">
             <span className="truncate max-w-[140px]">

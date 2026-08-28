@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   MessageSquare,
@@ -38,9 +39,24 @@ function MarkdownView({ content }: { content: string }) {
   let tableRows: string[][] = [];
 
   const parseInline = (text: string): React.ReactNode => {
-    // Bold: **text**
-    const parts = text.split(/(\*\*.*?\*\*|\*.*?\*|`.*?`)/g);
+    // Links: [text](url), Bold: **text**, Italic: *text*, Code: `code`
+    const parts = text.split(/(\[.*?\]\(.*?\)|\*\*.*?\*\*|\*.*?\*|`.*?`)/g);
     return parts.map((part, i) => {
+      if (part.startsWith('[') && part.includes('](') && part.endsWith(')')) {
+        const linkMatch = part.match(/^\[(.*?)\]\((.*?)\)$/);
+        if (linkMatch) {
+          const [, linkText, linkHref] = linkMatch;
+          return (
+            <Link
+              key={i}
+              href={linkHref}
+              className="text-[#ff758c] font-semibold underline underline-offset-2 hover:text-white transition-colors"
+            >
+              {linkText}
+            </Link>
+          );
+        }
+      }
       if (part.startsWith('**') && part.endsWith('**')) {
         return (
           <strong key={i} className="font-semibold text-white">
