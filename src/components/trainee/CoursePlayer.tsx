@@ -365,31 +365,31 @@ export function CoursePlayer({ course, initialEnrollment }: CoursePlayerProps) {
             )
           ) : (
             /* Document / PDF / Slides Resource Viewer */
-            <div className="rounded-2xl border border-slate-800 bg-slate-900/60 overflow-hidden shadow-2xl space-y-0">
+            <div className="rounded-2xl border border-slate-800 bg-slate-900/80 overflow-hidden shadow-2xl space-y-0">
               {/* Document Header & Action Toolbar */}
-              <div className="p-5 bg-slate-950/90 border-b border-slate-800 flex flex-wrap items-center justify-between gap-4">
+              <div className="p-5 bg-slate-950/95 border-b border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div className="flex items-center gap-3">
-                  <div className="h-11 w-11 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-400">
-                    <FileText className="h-5 w-5" />
+                  <div className="h-12 w-12 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-400 shrink-0 shadow-inner">
+                    <FileText className="h-6 w-6" />
                   </div>
                   <div>
                     <div className="flex items-center gap-2">
-                      <span className="rounded bg-red-950/80 px-2 py-0.5 text-[9px] font-extrabold text-red-300 uppercase border border-red-500/20">
+                      <span className="rounded bg-red-950/80 px-2 py-0.5 text-[9px] font-extrabold text-red-300 uppercase border border-red-500/30">
                         {activeMaterial.type} DOCUMENT
                       </span>
-                      <span className="text-[10px] text-slate-400 font-mono">Size: {activeMaterial.fileSize}</span>
+                      <span className="text-[11px] text-slate-400 font-mono">File: {activeMaterial.fileSize}</span>
                     </div>
-                    <h3 className="text-sm font-bold text-white mt-0.5">{activeMaterial.title}</h3>
+                    <h3 className="text-sm font-bold text-white mt-1">{activeMaterial.title}</h3>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2">
                   <a
                     href={activeMaterial.downloadUrl || activeMaterial.url}
                     download
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 px-4 py-2 text-xs font-bold text-white shadow-md shadow-indigo-600/30 transition-all hover:scale-105"
+                    className="flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 px-4 py-2 text-xs font-bold text-white shadow-md shadow-indigo-600/30 transition-all hover:scale-[1.03] btn-shimmer"
                   >
                     <Download className="h-3.5 w-3.5" />
                     <span>Download PDF</span>
@@ -399,11 +399,10 @@ export function CoursePlayer({ course, initialEnrollment }: CoursePlayerProps) {
                     href={activeMaterial.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 px-3 py-2 text-xs font-semibold text-slate-300 border border-slate-700 transition-all"
-                    title="Open in new window"
+                    className="flex items-center gap-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 px-3.5 py-2 text-xs font-semibold text-slate-200 border border-slate-700 transition-all hover:scale-105"
                   >
-                    <ExternalLink className="h-3.5 w-3.5" />
-                    <span className="hidden sm:inline">Popout</span>
+                    <ExternalLink className="h-3.5 w-3.5 text-indigo-400" />
+                    <span>Open in New Tab</span>
                   </a>
 
                   <button
@@ -420,13 +419,47 @@ export function CoursePlayer({ course, initialEnrollment }: CoursePlayerProps) {
                 </div>
               </div>
 
-              {/* Embedded Document / PDF Reader Canvas */}
-              <div className="relative w-full h-[520px] bg-slate-950">
-                <iframe
-                  src={`${activeMaterial.url}#toolbar=1&navpanes=0`}
-                  title={activeMaterial.title}
-                  className="w-full h-full border-0 rounded-b-2xl bg-slate-900"
-                />
+              {/* PDF Document Canvas with Safe Object Embedding */}
+              <div className="relative w-full min-h-[480px] sm:h-[540px] bg-slate-950">
+                <object
+                  data={activeMaterial.url}
+                  type="application/pdf"
+                  className="w-full h-full min-h-[480px] sm:min-h-[540px] border-0 rounded-b-2xl bg-slate-900"
+                >
+                  {/* Fallback card if browser sandbox blocks direct plugin inlining */}
+                  <div className="p-8 h-full flex flex-col items-center justify-center text-center space-y-4 bg-gradient-to-b from-slate-900 to-slate-950">
+                    <div className="h-16 w-16 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
+                      <FileText className="h-8 w-8" />
+                    </div>
+                    <div className="max-w-md space-y-1">
+                      <h4 className="text-base font-bold text-white">{activeMaterial.title}</h4>
+                      <p className="text-xs text-slate-400">
+                        {activeMaterial.description}
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-3 pt-2">
+                      <a
+                        href={activeMaterial.downloadUrl || activeMaterial.url}
+                        download
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 px-5 py-2.5 text-xs font-bold text-white shadow-lg shadow-indigo-600/30 transition-all"
+                      >
+                        <Download className="h-4 w-4" />
+                        <span>Download & Read PDF</span>
+                      </a>
+                      <a
+                        href={activeMaterial.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 rounded-xl bg-slate-800 hover:bg-slate-700 px-4 py-2.5 text-xs font-semibold text-slate-300 border border-slate-700 transition-all"
+                      >
+                        <ExternalLink className="h-4 w-4" />
+                        <span>Open Fullscreen</span>
+                      </a>
+                    </div>
+                  </div>
+                </object>
               </div>
             </div>
           )}
