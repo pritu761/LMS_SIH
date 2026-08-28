@@ -269,7 +269,7 @@ export default function HomePage() {
       {/* ════════════════ HERO SECTION WITH OFFICIAL BANNER ════════════════ */}
       <section className="w-full bg-gradient-to-b from-[#faf9f6]/70 via-white/65 to-slate-50/70 dark:from-[#0b1a2e]/85 dark:via-[#070f1a]/85 dark:to-[#081424]/85 border-b border-slate-200 dark:border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-14 space-y-10">
-          
+
           {/* Top Government Emblems Header */}
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pb-6 border-b border-slate-200/80">
             <div className="flex items-center gap-3 text-center sm:text-left">
@@ -765,7 +765,7 @@ export default function HomePage() {
       {/* ════════════════ PHASE 5: RECOMMENDATION & 55/30/15 ALGORITHM ════════════════ */}
       <section id="algorithm" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-20">
         <div className="rounded-[32px] bg-white border-2 border-[#c59b48]/40 p-6 sm:p-12 space-y-8 relative overflow-hidden shadow-2xl shadow-[#0b1e36]/10">
-          
+
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div>
               <div className="flex items-center gap-2 mb-2">
@@ -794,19 +794,18 @@ export default function HomePage() {
                 {calculatedSimScore}%
               </div>
               <span
-                className={`inline-block rounded-full px-3 py-0.5 text-[9px] font-black uppercase tracking-wider mt-2 border font-mono ${
-                  calculatedSimScore >= 85
+                className={`inline-block rounded-full px-3 py-0.5 text-[9px] font-black uppercase tracking-wider mt-2 border font-mono ${calculatedSimScore >= 85
                     ? 'bg-emerald-50 text-emerald-700 border-emerald-300'
                     : calculatedSimScore >= 70
-                    ? 'bg-[#c59b48]/15 text-[#9a7224] border-[#c59b48]/40'
-                    : 'bg-amber-50 text-amber-700 border-amber-300'
-                }`}
+                      ? 'bg-[#c59b48]/15 text-[#9a7224] border-[#c59b48]/40'
+                      : 'bg-amber-50 text-amber-700 border-amber-300'
+                  }`}
               >
                 {calculatedSimScore >= 85
                   ? 'HIGHLY RECOMMENDED'
                   : calculatedSimScore >= 70
-                  ? 'QUALIFIED'
-                  : 'NEEDS UPSKILLING'}
+                    ? 'QUALIFIED'
+                    : 'NEEDS UPSKILLING'}
               </span>
             </div>
           </div>

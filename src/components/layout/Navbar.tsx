@@ -111,7 +111,7 @@ export function Navbar() {
 
   const navLinkClass = (href: string, exact = false) => {
     const isActive = exact ? pathname === href : pathname.startsWith(href);
-    return `px-2.5 xl:px-3 py-1 rounded-full text-[11px] xl:text-xs font-semibold font-mono whitespace-nowrap transition-all duration-200 ${
+    return `px-2.5 py-1 rounded-full text-xs font-semibold font-mono whitespace-nowrap transition-all duration-200 ${
       isActive
         ? 'bg-[#0b1e36] text-white shadow-sm border border-[#c59b48]/40 dark:bg-[#122c4d]'
         : 'text-slate-600 hover:text-[#0b1e36] hover:bg-slate-100 dark:text-slate-300 dark:hover:text-white dark:hover:bg-white/10'
@@ -163,36 +163,36 @@ export function Navbar() {
       />
 
       {/* Main Header Container with Pixel-Perfect Bounded Floating Pill */}
-      <header className="sticky top-0 z-50 w-full pt-2.5 pb-1 px-3 sm:px-4 lg:px-6 pointer-events-none" suppressHydrationWarning>
+      <header className="sticky top-0 z-50 w-full pt-2 sm:pt-2.5 pb-1 px-2.5 sm:px-4 lg:px-6 pointer-events-none bg-transparent" suppressHydrationWarning>
         <motion.div
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          className={`pointer-events-auto mx-auto max-w-7xl flex items-center justify-between gap-2 px-3 sm:px-4 py-2 rounded-full border transition-all duration-300 ${
+          className={`pointer-events-auto mx-auto max-w-7xl flex items-center justify-between gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border transition-all duration-300 ${
             isScrolled
-              ? 'border-slate-200 bg-white/95 backdrop-blur-2xl shadow-xl shadow-slate-900/5 dark:border-white/10 dark:bg-[#0b1e36]/90 dark:shadow-black/30'
+              ? 'border-slate-200/90 bg-white/95 backdrop-blur-2xl shadow-xl shadow-slate-900/5 dark:border-white/10 dark:bg-[#0b1e36]/90 dark:shadow-black/30'
               : 'border-slate-200/80 bg-white/90 backdrop-blur-xl shadow-md shadow-slate-900/5 dark:border-white/10 dark:bg-[#0b1e36]/80 dark:shadow-black/20'
           }`}
           suppressHydrationWarning
         >
           {/* Left: Brand Identity & Logo */}
-          <div className="flex items-center gap-3 xl:gap-5 shrink-0">
+          <div className="flex items-center gap-2 sm:gap-3 xl:gap-4 min-w-0">
             <Link href="/" className="flex items-center gap-2 group shrink-0">
               <div className="h-8 w-8 rounded-lg bg-[#0b1e36] border border-[#c59b48]/40 flex items-center justify-center text-[#c59b48] shadow-md shadow-[#0b1e36]/25 group-hover:scale-105 transition-transform duration-300 shrink-0">
                 <Satellite className="h-4 w-4" />
               </div>
               <div className="flex items-center gap-1.5">
-                <span className="font-black text-sm tracking-tight text-[#0b1e36] group-hover:text-[#c59b48] transition-colors dark:text-white whitespace-nowrap">
+                <span className="font-black text-xs sm:text-sm tracking-tight text-[#0b1e36] group-hover:text-[#c59b48] transition-colors dark:text-white whitespace-nowrap">
                   CAPACITY<span className="text-[#c59b48] ml-0.5">CONNECT</span>
                 </span>
-                <span className="hidden xl:inline-block rounded-full px-1.5 py-0.5 text-[8px] font-mono font-bold bg-[#c59b48]/15 text-[#9a7224] border border-[#c59b48]/30">
+                <span className="hidden 2xl:inline-block rounded-full px-1.5 py-0.5 text-[8px] font-mono font-bold bg-[#c59b48]/15 text-[#9a7224] border border-[#c59b48]/30">
                   IMD • MoES
                 </span>
               </div>
             </Link>
 
-            {/* Public / Landing Navigation Links (Desktop) */}
-            <nav className="hidden lg:flex items-center gap-0.5 xl:gap-1 text-xs">
+            {/* Public / Landing Navigation Links (Desktop: xl+) */}
+            <nav className="hidden xl:flex items-center gap-1 text-xs">
               <Link href="/#problem" className={`hidden 2xl:inline-block ${navLinkClass('/#problem', true)}`}>
                 Problem
               </Link>
@@ -211,23 +211,6 @@ export function Navbar() {
               <Link href="/architecture" className={navLinkClass('/architecture')}>
                 Architecture
               </Link>
-
-              {/* Logged in role shortcuts */}
-              {userRole === 'ADMIN' && (
-                <Link href="/admin" className={navLinkClass('/admin', true)}>
-                  Admin
-                </Link>
-              )}
-              {userRole === 'TRAINER' && (
-                <Link href="/trainer" className={navLinkClass('/trainer', true)}>
-                  Faculty
-                </Link>
-              )}
-              {userRole === 'TRAINEE' && (
-                <Link href="/trainee" className={navLinkClass('/trainee', true)}>
-                  My Cadre
-                </Link>
-              )}
             </nav>
           </div>
 
@@ -237,12 +220,12 @@ export function Navbar() {
             <button
               type="button"
               onClick={() => openChat()}
-              className="relative group flex items-center gap-1.5 h-8 rounded-full border border-[#c59b48]/40 bg-[#c59b48]/10 px-2.5 text-xs font-bold text-[#0b1e36] shadow-sm hover:border-[#0b1e36] hover:bg-[#0b1e36] hover:text-white transition-all hover:scale-105 active:scale-95 whitespace-nowrap shrink-0 dark:text-slate-100 dark:hover:text-white"
+              className="relative group flex items-center justify-center gap-1.5 h-8 rounded-full border border-[#c59b48]/40 bg-[#c59b48]/10 px-2 sm:px-2.5 text-xs font-bold text-[#0b1e36] shadow-sm hover:border-[#0b1e36] hover:bg-[#0b1e36] hover:text-white transition-all hover:scale-105 active:scale-95 whitespace-nowrap shrink-0 dark:text-slate-100 dark:hover:text-white"
               title="Ask AI Course Navigator"
             >
-              <Bot className="h-3.5 w-3.5 text-[#c59b48]" />
-              <span className="hidden sm:inline text-[11px]">AI Guide</span>
-              <Sparkles className="h-2.5 w-2.5 text-amber-500 animate-pulse hidden sm:inline" />
+              <Bot className="h-3.5 w-3.5 text-[#c59b48] shrink-0" />
+              <span className="hidden md:inline text-[11px]">AI Guide</span>
+              <Sparkles className="h-2.5 w-2.5 text-amber-500 animate-pulse hidden lg:inline shrink-0" />
             </button>
 
             {/* Dark / Light Mode Toggle Button */}
@@ -254,7 +237,7 @@ export function Navbar() {
                 type="button"
                 onClick={() => setIsRoleDropdownOpen(!isRoleDropdownOpen)}
                 disabled={loadingRole}
-                className="flex items-center gap-1.5 h-8 rounded-full border border-slate-200 bg-white px-2.5 sm:px-3 text-xs font-medium text-slate-800 shadow-sm hover:border-[#c59b48]/50 hover:bg-slate-50 transition-all active:scale-95 whitespace-nowrap shrink-0 dark:border-white/15 dark:bg-white/5 dark:text-slate-100 dark:hover:border-[#c59b48]/50 dark:hover:bg-white/10"
+                className="flex items-center gap-1 sm:gap-1.5 h-8 rounded-full border border-slate-200 bg-white px-2 sm:px-2.5 text-xs font-medium text-slate-800 shadow-sm hover:border-[#c59b48]/50 hover:bg-slate-50 transition-all active:scale-95 whitespace-nowrap shrink-0 dark:border-white/15 dark:bg-white/5 dark:text-slate-100 dark:hover:border-[#c59b48]/50 dark:hover:bg-white/10"
               >
                 <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse shrink-0" />
                 <span className="text-[#0b1e36] font-bold text-[11px] tracking-tight dark:text-slate-100">{userRole}</span>
@@ -320,21 +303,21 @@ export function Navbar() {
               </AnimatePresence>
             </div>
 
-            {/* Explore Curriculum CTA Button */}
+            {/* Explore Curriculum / Portal CTA Button */}
             <Link
               href={userRole === 'ADMIN' ? '/admin' : userRole === 'TRAINER' ? '/trainer' : userRole === 'TRAINEE' ? '/trainee' : '/trainee/courses'}
-              className="group relative inline-flex items-center justify-center gap-1.5 h-8 px-3.5 sm:px-4 rounded-full bg-[#0b1e36] text-[11px] xl:text-xs font-bold text-white border border-[#c59b48]/50 shadow-sm shadow-[#0b1e36]/25 hover:bg-[#122c4d] hover:border-[#c59b48] transition-all duration-200 active:scale-95 whitespace-nowrap shrink-0 overflow-hidden dark:bg-[#122c4d]"
+              className="group relative inline-flex items-center justify-center gap-1 sm:gap-1.5 h-8 px-2.5 sm:px-3.5 rounded-full bg-[#0b1e36] text-[11px] font-bold text-white border border-[#c59b48]/50 shadow-sm shadow-[#0b1e36]/25 hover:bg-[#122c4d] hover:border-[#c59b48] transition-all duration-200 active:scale-95 whitespace-nowrap shrink-0 overflow-hidden dark:bg-[#122c4d]"
             >
               <span className="relative z-10 tracking-tight">
-                {userRole === 'GUEST' ? 'Explore Curriculum' : `${userRole} Portal`}
+                {userRole === 'GUEST' ? 'Explore' : `${userRole} Portal`}
               </span>
               <ArrowRight className="relative z-10 h-3 w-3 text-[#c59b48] transition-transform duration-300 group-hover:translate-x-0.5 shrink-0" />
             </Link>
 
-            {/* Mobile menu trigger */}
+            {/* Mobile / Tablet menu trigger (<xl) */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden h-8 w-8 flex items-center justify-center rounded-full bg-slate-100 border border-slate-200 text-slate-700 hover:text-slate-900 shrink-0 dark:bg-white/10 dark:border-white/15 dark:text-slate-200"
+              className="xl:hidden h-8 w-8 flex items-center justify-center rounded-full bg-slate-100 border border-slate-200 text-slate-700 hover:text-slate-900 shrink-0 dark:bg-white/10 dark:border-white/15 dark:text-slate-200"
               aria-label="Toggle mobile menu"
             >
               {isMobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
@@ -349,7 +332,7 @@ export function Navbar() {
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
-              className="pointer-events-auto lg:hidden mt-2 mx-auto max-w-7xl rounded-2xl border border-slate-200 bg-white p-4 space-y-2 font-mono text-xs shadow-xl dark:border-white/10 dark:bg-[#0b1e36]/95"
+              className="pointer-events-auto xl:hidden mt-2 mx-auto max-w-7xl rounded-2xl border border-slate-200 bg-white p-4 space-y-2 font-mono text-xs shadow-xl dark:border-white/10 dark:bg-[#0b1e36]/95"
             >
               <Link href="/#problem" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-slate-700 hover:text-[#0b1e36] dark:text-slate-200 dark:hover:text-white">Problem → Outcome</Link>
               <Link href="/admin/competency" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-slate-700 hover:text-[#0b1e36] dark:text-slate-200 dark:hover:text-white">Competency Matcher</Link>
