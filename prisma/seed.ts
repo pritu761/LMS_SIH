@@ -212,7 +212,7 @@ async function main() {
             title: 'Module 1: Atmospheric Governing Equations & Numerical Discretization',
             description: 'Comprehensive breakdown of primitive hydrostatic equations, baroclinic instability, and finite difference grid staggerings.',
             type: 'VIDEO',
-            url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+            url: 'https://www.youtube.com/watch?v=FjS6o9Nq_sE',
             durationSeconds: 1680,
             fileSize: '165 MB',
             sortOrder: 1,

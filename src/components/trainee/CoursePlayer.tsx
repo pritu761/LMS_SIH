@@ -17,7 +17,10 @@ import {
   Sparkles,
   Share2,
   ChevronRight,
+  ChevronLeft,
   ExternalLink,
+  Youtube,
+  Radio,
 } from 'lucide-react';
 import { MockCourse } from '@/lib/mockData';
 import { FeedbackModal } from './FeedbackModal';
@@ -26,6 +29,24 @@ import Link from 'next/link';
 interface CoursePlayerProps {
   course: MockCourse;
   initialEnrollment?: any;
+}
+
+/**
+ * Extract YouTube Video ID and format embed/watch URLs
+ */
+function getYouTubeEmbedInfo(url?: string): { isYouTube: boolean; embedUrl: string; originalUrl: string } | null {
+  if (!url) return null;
+  const regExp = /(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/;
+  const match = url.match(regExp);
+  if (match && match[1]) {
+    const videoId = match[1];
+    return {
+      isYouTube: true,
+      embedUrl: `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&enablejsapi=1`,
+      originalUrl: `https://www.youtube.com/watch?v=${videoId}`,
+    };
+  }
+  return null;
 }
 
 export function CoursePlayer({ course, initialEnrollment }: CoursePlayerProps) {
@@ -44,6 +65,26 @@ export function CoursePlayer({ course, initialEnrollment }: CoursePlayerProps) {
   );
 
   const videoRef = useRef<HTMLVideoElement>(null);
+  const ytInfo = getYouTubeEmbedInfo(activeMaterial.url);
+
+  const currentIndex = course.materials.findIndex((m) => m.id === activeMaterial.id);
+  const hasNextMaterial = currentIndex >= 0 && currentIndex < course.materials.length - 1;
+  const hasPrevMaterial = currentIndex > 0;
+
+  const handleNextLesson = () => {
+    if (hasNextMaterial) {
+      if (!completedIds.includes(activeMaterial.id)) {
+        toggleMaterialComplete(activeMaterial.id);
+      }
+      setActiveMaterial(course.materials[currentIndex + 1]);
+    }
+  };
+
+  const handlePrevLesson = () => {
+    if (hasPrevMaterial) {
+      setActiveMaterial(course.materials[currentIndex - 1]);
+    }
+  };
 
   useEffect(() => {
     // Scroll to top on material change
@@ -184,73 +225,144 @@ export function CoursePlayer({ course, initialEnrollment }: CoursePlayerProps) {
         {/* Left Column: Player & Resource Area */}
         <div className="lg:col-span-2 space-y-4">
           {activeMaterial.type === 'VIDEO' ? (
-            <div className="relative rounded-2xl overflow-hidden bg-slate-950 border border-slate-800 shadow-elevation-3 group">
-              <video
-                ref={videoRef}
-                src={activeMaterial.url}
-                className="w-full aspect-video object-cover bg-black"
-                onTimeUpdate={handleTimeUpdate}
-                onLoadedMetadata={handleLoadedMetadata}
-                onEnded={() => toggleMaterialComplete(activeMaterial.id)}
-              />
+            ytInfo?.isYouTube ? (
+              /* YouTube Embedded Player with Rich Controls */
+              <div className="relative rounded-2xl overflow-hidden bg-slate-950 border border-slate-800 shadow-2xl group">
+                <div className="relative aspect-video w-full bg-black">
+                  <iframe
+                    src={ytInfo.embedUrl}
+                    title={activeMaterial.title}
+                    className="w-full h-full border-0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  />
+                </div>
 
-              {/* Custom Video Controls Bar */}
-              <div className="p-4 bg-slate-950/95 backdrop-blur-xl border-t border-slate-800/80 space-y-3">
-                {/* Seekbar */}
-                <input
-                  type="range"
-                  min={0}
-                  max={duration || 100}
-                  value={currentTime}
-                  onChange={handleSeek}
-                  className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-indigo-500"
-                />
-
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
+                {/* Video Info & Quick Actions Bar */}
+                <div className="p-4 bg-slate-950/95 backdrop-blur-xl border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-3">
+                  <div className="flex items-center gap-2 sm:gap-3">
                     <button
-                      onClick={handlePlayPause}
-                      className="h-9 w-9 flex items-center justify-center rounded-lg bg-indigo-600 text-white hover:bg-indigo-500 transition-colors shadow-md shadow-indigo-600/30"
+                      onClick={() => toggleMaterialComplete(activeMaterial.id)}
+                      className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
+                        completedIds.includes(activeMaterial.id)
+                          ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 hover:bg-emerald-500/30 shadow-sm'
+                          : 'bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 text-white shadow-md shadow-indigo-600/30'
+                      }`}
                     >
-                      {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4 fill-white ml-0.5" />}
+                      <CheckCircle className="h-4 w-4" />
+                      <span>{completedIds.includes(activeMaterial.id) ? 'Lesson Completed' : 'Mark as Completed'}</span>
                     </button>
 
-                    <button
-                      onClick={() => {
-                        if (videoRef.current) {
-                          videoRef.current.muted = !isMuted;
-                          setIsMuted(!isMuted);
-                        }
-                      }}
-                      className="p-2 text-slate-400 hover:text-white transition-colors"
+                    <a
+                      href={ytInfo.originalUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-red-600/15 text-red-300 hover:bg-red-600/25 border border-red-500/30 text-xs font-semibold transition-all"
                     >
-                      {isMuted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
-                    </button>
-
-                    <span className="text-xs font-mono text-slate-400">
-                      {formatVideoTime(currentTime)} / {formatVideoTime(duration || activeMaterial.durationSeconds || 0)}
-                    </span>
+                      <Youtube className="h-3.5 w-3.5 text-red-500" />
+                      <span className="hidden sm:inline">Watch on YouTube</span>
+                      <ExternalLink className="h-3 w-3 text-red-400" />
+                    </a>
                   </div>
 
-                  {/* Playback speed selector */}
-                  <div className="flex items-center gap-2">
-                    {[1, 1.25, 1.5, 2].map((speed) => (
+                  <div className="flex items-center gap-2 text-xs text-slate-400">
+                    <span className="hidden md:flex items-center gap-1.5 text-[11px] font-mono text-slate-300 bg-slate-900/90 px-2.5 py-1 rounded-lg border border-slate-800">
+                      <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+                      HD Topic Stream
+                    </span>
+
+                    {hasPrevMaterial && (
                       <button
-                        key={speed}
-                        onClick={() => handleSpeedChange(speed)}
-                        className={`px-2 py-1 rounded text-[11px] font-semibold transition-colors ${
-                          playbackSpeed === speed
-                            ? 'bg-indigo-600/30 text-indigo-300 border border-indigo-500/40'
-                            : 'text-slate-400 hover:text-white bg-slate-900'
-                        }`}
+                        onClick={handlePrevLesson}
+                        className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-xs font-semibold text-slate-300 border border-slate-800 transition-all hover:scale-105"
                       >
-                        {speed}x
+                        <ChevronLeft className="h-3.5 w-3.5" />
+                        <span className="hidden sm:inline">Prev</span>
                       </button>
-                    ))}
+                    )}
+
+                    {hasNextMaterial && (
+                      <button
+                        onClick={handleNextLesson}
+                        className="flex items-center gap-1 px-3 py-1.5 rounded-xl bg-indigo-600/20 hover:bg-indigo-600/30 text-xs font-bold text-indigo-300 border border-indigo-500/30 transition-all hover:scale-105"
+                      >
+                        <span>Next Lesson</span>
+                        <ChevronRight className="h-3.5 w-3.5" />
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>
-            </div>
+            ) : (
+              /* Custom HTML5 Video Player */
+              <div className="relative rounded-2xl overflow-hidden bg-slate-950 border border-slate-800 shadow-elevation-3 group">
+                <video
+                  ref={videoRef}
+                  src={activeMaterial.url}
+                  className="w-full aspect-video object-cover bg-black"
+                  onTimeUpdate={handleTimeUpdate}
+                  onLoadedMetadata={handleLoadedMetadata}
+                  onEnded={() => toggleMaterialComplete(activeMaterial.id)}
+                />
+
+                {/* Custom Video Controls Bar */}
+                <div className="p-4 bg-slate-950/95 backdrop-blur-xl border-t border-slate-800/80 space-y-3">
+                  {/* Seekbar */}
+                  <input
+                    type="range"
+                    min={0}
+                    max={duration || 100}
+                    value={currentTime}
+                    onChange={handleSeek}
+                    className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-indigo-500"
+                  />
+
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <button
+                        onClick={handlePlayPause}
+                        className="h-9 w-9 flex items-center justify-center rounded-lg bg-indigo-600 text-white hover:bg-indigo-500 transition-colors shadow-md shadow-indigo-600/30"
+                      >
+                        {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4 fill-white ml-0.5" />}
+                      </button>
+
+                      <button
+                        onClick={() => {
+                          if (videoRef.current) {
+                            videoRef.current.muted = !isMuted;
+                            setIsMuted(!isMuted);
+                          }
+                        }}
+                        className="p-2 text-slate-400 hover:text-white transition-colors"
+                      >
+                        {isMuted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
+                      </button>
+
+                      <span className="text-xs font-mono text-slate-400">
+                        {formatVideoTime(currentTime)} / {formatVideoTime(duration || activeMaterial.durationSeconds || 0)}
+                      </span>
+                    </div>
+
+                    {/* Playback speed selector */}
+                    <div className="flex items-center gap-2">
+                      {[1, 1.25, 1.5, 2].map((speed) => (
+                        <button
+                          key={speed}
+                          onClick={() => handleSpeedChange(speed)}
+                          className={`px-2 py-1 rounded text-[11px] font-semibold transition-colors ${
+                            playbackSpeed === speed
+                              ? 'bg-indigo-600/30 text-indigo-300 border border-indigo-500/40'
+                              : 'text-slate-400 hover:text-white bg-slate-900'
+                          }`}
+                        >
+                          {speed}x
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )
           ) : (
             /* Document / PDF / Slides Resource Viewer */
             <div className="rounded-2xl border border-slate-800 bg-slate-900/50 p-8 text-center space-y-4">
