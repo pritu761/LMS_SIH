@@ -76,17 +76,17 @@ export default function AssessmentCreatorPage() {
       <main className="flex-1 min-w-0 space-y-6">
         
         {/* Header */}
-        <div className="rounded-3xl border border-slate-800 bg-slate-900/60 p-6 sm:p-8 backdrop-blur-xl space-y-2">
+        <div className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 p-6 sm:p-8 backdrop-blur-xl space-y-2">
           <div className="flex items-center gap-2">
             <span className="rounded-md bg-cyan-500/10 px-2.5 py-0.5 text-xs font-bold text-cyan-400 border border-cyan-500/20">
               ASSESSMENT DESIGNER
             </span>
-            <span className="text-xs text-slate-400">Automated MCQ Auto-Grading Framework</span>
+            <span className="text-xs text-slate-500 dark:text-slate-400">Automated MCQ Auto-Grading Framework</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
             MCQ Assessment Creator
           </h1>
-          <p className="text-xs sm:text-sm text-slate-300">
+          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300">
             Define exam parameters, question weights, answer keys, explanations, and time limit bounds.
           </p>
         </div>
@@ -101,19 +101,19 @@ export default function AssessmentCreatorPage() {
         <form onSubmit={handleSave} className="space-y-6">
           
           {/* Assessment Meta Parameters */}
-          <div className="rounded-3xl border border-slate-800 bg-slate-900/60 p-6 backdrop-blur-xl space-y-4">
-            <h3 className="text-base font-bold text-white flex items-center gap-2">
+          <div className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 p-6 backdrop-blur-xl space-y-4">
+            <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
               <Timer className="h-4 w-4 text-indigo-400" />
               <span>Assessment Configuration & Thresholds</span>
             </h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-1.5 sm:col-span-2">
-                <label className="text-xs font-semibold text-slate-300">Target Course</label>
+                <label className="text-xs font-semibold text-slate-600 dark:text-slate-300">Target Course</label>
                 <select
                   value={courseId}
                   onChange={(e) => setCourseId(e.target.value)}
-                  className="w-full rounded-xl border border-slate-700 bg-slate-950 px-3 py-2 text-xs text-slate-200 focus:border-indigo-500 focus:outline-none"
+                  className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-3 py-2 text-xs text-slate-900 dark:text-slate-200 focus:border-indigo-500 focus:outline-none"
                 >
                   {initialCourses.map((c) => (
                     <option key={c.id} value={c.id}>
@@ -124,18 +124,18 @@ export default function AssessmentCreatorPage() {
               </div>
 
               <div className="space-y-1.5 sm:col-span-2">
-                <label className="text-xs font-semibold text-slate-300">Exam Title</label>
+                <label className="text-xs font-semibold text-slate-600 dark:text-slate-300">Exam Title</label>
                 <input
                   type="text"
                   required
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  className="w-full rounded-xl border border-slate-700 bg-slate-950 px-3 py-2 text-xs text-slate-200 focus:border-indigo-500 focus:outline-none"
+                  className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-3 py-2 text-xs text-slate-900 dark:text-slate-200 focus:border-indigo-500 focus:outline-none"
                 />
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-slate-300">
+                <label className="text-xs font-semibold text-slate-600 dark:text-slate-300">
                   Time Limit (Minutes)
                 </label>
                 <input
@@ -144,12 +144,12 @@ export default function AssessmentCreatorPage() {
                   max={180}
                   value={timeLimitMinutes}
                   onChange={(e) => setTimeLimitMinutes(parseInt(e.target.value) || 30)}
-                  className="w-full rounded-xl border border-slate-700 bg-slate-950 px-3 py-2 text-xs text-slate-200 focus:border-indigo-500 focus:outline-none"
+                  className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-3 py-2 text-xs text-slate-900 dark:text-slate-200 focus:border-indigo-500 focus:outline-none"
                 />
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-slate-300">
+                <label className="text-xs font-semibold text-slate-600 dark:text-slate-300">
                   Passing Percentage (%)
                 </label>
                 <input
@@ -158,40 +158,40 @@ export default function AssessmentCreatorPage() {
                   max={100}
                   value={passingPercentage}
                   onChange={(e) => setPassingPercentage(parseFloat(e.target.value) || 70)}
-                  className="w-full rounded-xl border border-slate-700 bg-slate-950 px-3 py-2 text-xs text-slate-200 focus:border-indigo-500 focus:outline-none"
+                  className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-3 py-2 text-xs text-slate-900 dark:text-slate-200 focus:border-indigo-500 focus:outline-none"
                 />
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-slate-300">Max Attempts</label>
+                <label className="text-xs font-semibold text-slate-600 dark:text-slate-300">Max Attempts</label>
                 <input
                   type="number"
                   min={1}
                   max={10}
                   value={maxAttempts}
                   onChange={(e) => setMaxAttempts(parseInt(e.target.value) || 3)}
-                  className="w-full rounded-xl border border-slate-700 bg-slate-950 px-3 py-2 text-xs text-slate-200 focus:border-indigo-500 focus:outline-none"
+                  className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-3 py-2 text-xs text-slate-900 dark:text-slate-200 focus:border-indigo-500 focus:outline-none"
                 />
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-slate-300">
+                <label className="text-xs font-semibold text-slate-600 dark:text-slate-300">
                   Submission Cutoff Date
                 </label>
                 <input
                   type="datetime-local"
                   value={cutoffDate}
                   onChange={(e) => setCutoffDate(e.target.value)}
-                  className="w-full rounded-xl border border-slate-700 bg-slate-950 px-3 py-2 text-xs text-slate-200 focus:border-indigo-500 focus:outline-none"
+                  className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-3 py-2 text-xs text-slate-900 dark:text-slate-200 focus:border-indigo-500 focus:outline-none"
                 />
               </div>
             </div>
           </div>
 
           {/* Question Builder */}
-          <div className="rounded-3xl border border-slate-800 bg-slate-900/60 p-6 backdrop-blur-xl space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-              <h3 className="text-base font-bold text-white flex items-center gap-2">
+          <div className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 p-6 backdrop-blur-xl space-y-4">
+            <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
+              <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
                 <FileCheck className="h-4 w-4 text-cyan-400" />
                 <span>MCQ Questions ({questions.length})</span>
               </h3>
@@ -209,14 +209,14 @@ export default function AssessmentCreatorPage() {
               {questions.map((q, qIdx) => (
                 <div
                   key={q.id}
-                  className="rounded-2xl border border-slate-800 bg-slate-950/60 p-5 space-y-4"
+                  className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950/60 p-5 space-y-4"
                 >
                   <div className="flex items-center justify-between">
                     <span className="rounded-lg bg-indigo-600/20 px-2.5 py-0.5 text-xs font-bold text-indigo-300 border border-indigo-500/30">
                       Question {qIdx + 1}
                     </span>
                     <div className="flex items-center gap-2">
-                      <span className="text-xs text-slate-400">Weight:</span>
+                      <span className="text-xs text-slate-500 dark:text-slate-400">Weight:</span>
                       <input
                         type="number"
                         step="0.5"
@@ -226,7 +226,7 @@ export default function AssessmentCreatorPage() {
                           updated[qIdx].weight = parseFloat(e.target.value) || 1.0;
                           setQuestions(updated);
                         }}
-                        className="w-16 rounded-lg bg-slate-900 border border-slate-700 px-2 py-1 text-xs text-slate-200 text-center"
+                        className="w-16 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 px-2 py-1 text-xs text-slate-900 dark:text-slate-200 text-center"
                       />
                       <button
                         type="button"
@@ -239,7 +239,7 @@ export default function AssessmentCreatorPage() {
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-slate-300">Question Prompt</label>
+                    <label className="text-xs font-semibold text-slate-600 dark:text-slate-300">Question Prompt</label>
                     <textarea
                       rows={2}
                       value={q.questionText}
@@ -248,13 +248,13 @@ export default function AssessmentCreatorPage() {
                         updated[qIdx].questionText = e.target.value;
                         setQuestions(updated);
                       }}
-                      className="w-full rounded-xl border border-slate-700 bg-slate-900 p-2.5 text-xs text-slate-200 focus:border-indigo-500 focus:outline-none"
+                      className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-2.5 text-xs text-slate-900 dark:text-slate-200 focus:border-indigo-500 focus:outline-none"
                     />
                   </div>
 
                   {/* Options */}
                   <div className="space-y-2">
-                    <label className="text-xs font-semibold text-slate-300">
+                    <label className="text-xs font-semibold text-slate-600 dark:text-slate-300">
                       Options & Correct Answer Key
                     </label>
                     {q.options.map((opt, optIdx) => (
@@ -278,7 +278,7 @@ export default function AssessmentCreatorPage() {
                             updated[qIdx].options[optIdx].text = e.target.value;
                             setQuestions(updated);
                           }}
-                          className="flex-1 rounded-lg bg-slate-900 border border-slate-700 px-2.5 py-1.5 text-xs text-slate-200 focus:border-indigo-500 focus:outline-none"
+                          className="flex-1 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 px-2.5 py-1.5 text-xs text-slate-900 dark:text-slate-200 focus:border-indigo-500 focus:outline-none"
                         />
                       </div>
                     ))}
@@ -286,7 +286,7 @@ export default function AssessmentCreatorPage() {
 
                   {/* Explanation */}
                   <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-slate-300">
+                    <label className="text-xs font-semibold text-slate-600 dark:text-slate-300">
                       Pedagogical Explanation (Shown after grading)
                     </label>
                     <textarea
@@ -297,7 +297,7 @@ export default function AssessmentCreatorPage() {
                         updated[qIdx].explanation = e.target.value;
                         setQuestions(updated);
                       }}
-                      className="w-full rounded-xl border border-slate-700 bg-slate-900 p-2.5 text-xs text-slate-200 focus:border-indigo-500 focus:outline-none"
+                      className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-2.5 text-xs text-slate-900 dark:text-slate-200 focus:border-indigo-500 focus:outline-none"
                     />
                   </div>
                 </div>

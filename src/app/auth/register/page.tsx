@@ -87,10 +87,10 @@ export default function RegisterPage() {
             <GraduationCap className="h-8 w-8" />
           </div>
           <div>
-            <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
               Register for Capacity Connect
             </h1>
-            <p className="text-xs text-slate-400 mt-1">
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
               Join the national digital civil service capacity building network
             </p>
           </div>
@@ -106,7 +106,7 @@ export default function RegisterPage() {
           </div>
         </div>
 
-        <div className="rounded-3xl border border-slate-800 bg-slate-900/70 p-6 sm:p-8 backdrop-blur-2xl shadow-elevation-3 space-y-5 animate-scale-in animation-delay-200">
+        <div className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/70 p-6 sm:p-8 backdrop-blur-2xl shadow-elevation-3 space-y-5 animate-scale-in animation-delay-200">
           {error && (
             <div className="rounded-xl bg-rose-500/10 border border-rose-500/25 p-3 text-xs text-rose-300 flex items-center gap-2 animate-shake">
               <span className="h-1.5 w-1.5 rounded-full bg-rose-400 flex-shrink-0 animate-pulse" />
@@ -116,25 +116,25 @@ export default function RegisterPage() {
 
           {/* Role Choice */}
           <div className="space-y-2">
-            <label className="text-xs font-semibold text-slate-300">Registration Role</label>
+            <label className="text-xs font-semibold text-slate-600 dark:text-slate-300">Registration Role</label>
             <div className="grid grid-cols-2 gap-3">
               <button
                 type="button"
                 onClick={() => setRole('TRAINEE')}
                 className={`flex items-center gap-3 rounded-2xl border p-4 text-left transition-all duration-500 hover:-translate-y-0.5 ${
                   role === 'TRAINEE'
-                    ? 'border-cyan-500/60 bg-cyan-950/30 text-white shadow-lg shadow-cyan-500/10 ring-1 ring-cyan-500/30'
-                    : 'border-slate-800 bg-slate-950/40 text-slate-400 hover:border-slate-700'
+                    ? 'border-cyan-500/60 bg-cyan-950/30 text-slate-900 dark:text-white shadow-lg shadow-cyan-500/10 ring-1 ring-cyan-500/30'
+                    : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950/40 text-slate-500 dark:text-slate-400 hover:border-slate-200 dark:border-slate-700'
                 }`}
               >
                 <div className={`h-10 w-10 rounded-xl flex items-center justify-center transition-all duration-300 ${
-                  role === 'TRAINEE' ? 'bg-cyan-500/10 border border-cyan-500/30' : 'bg-slate-800/60'
+                  role === 'TRAINEE' ? 'bg-cyan-500/10 border border-cyan-500/30' : 'bg-slate-100 dark:bg-slate-800/60'
                 }`}>
                   <Award className={`h-5 w-5 transition-colors duration-300 ${role === 'TRAINEE' ? 'text-cyan-400' : 'text-slate-500'}`} />
                 </div>
                 <div>
                   <div className="text-xs font-bold">Civil Service Trainee</div>
-                  <div className="text-[10px] text-slate-400">Upskill & get certified</div>
+                  <div className="text-[10px] text-slate-500 dark:text-slate-400">Upskill & get certified</div>
                 </div>
               </button>
 
@@ -143,18 +143,18 @@ export default function RegisterPage() {
                 onClick={() => setRole('TRAINER')}
                 className={`flex items-center gap-3 rounded-2xl border p-4 text-left transition-all duration-500 hover:-translate-y-0.5 ${
                   role === 'TRAINER'
-                    ? 'border-indigo-500/60 bg-indigo-950/30 text-white shadow-lg shadow-indigo-500/10 ring-1 ring-indigo-500/30'
-                    : 'border-slate-800 bg-slate-950/40 text-slate-400 hover:border-slate-700'
+                    ? 'border-indigo-500/60 bg-indigo-950/30 text-slate-900 dark:text-white shadow-lg shadow-indigo-500/10 ring-1 ring-indigo-500/30'
+                    : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950/40 text-slate-500 dark:text-slate-400 hover:border-slate-200 dark:border-slate-700'
                 }`}
               >
                 <div className={`h-10 w-10 rounded-xl flex items-center justify-center transition-all duration-300 ${
-                  role === 'TRAINER' ? 'bg-indigo-500/10 border border-indigo-500/30' : 'bg-slate-800/60'
+                  role === 'TRAINER' ? 'bg-indigo-500/10 border border-indigo-500/30' : 'bg-slate-100 dark:bg-slate-800/60'
                 }`}>
                   <BookOpen className={`h-5 w-5 transition-colors duration-300 ${role === 'TRAINER' ? 'text-indigo-400' : 'text-slate-500'}`} />
                 </div>
                 <div>
                   <div className="text-xs font-bold">Accredited Trainer</div>
-                  <div className="text-[10px] text-slate-400">Author & lecture cohorts</div>
+                  <div className="text-[10px] text-slate-500 dark:text-slate-400">Author & lecture cohorts</div>
                 </div>
               </button>
             </div>
@@ -162,7 +162,7 @@ export default function RegisterPage() {
 
           <form onSubmit={handleRegister} className="space-y-4">
             <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-slate-300">Full Official Name</label>
+              <label className="text-xs font-semibold text-slate-600 dark:text-slate-300">Full Official Name</label>
               <div className="relative group">
                 <User className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500 group-focus-within:text-indigo-400 transition-colors" />
                 <input
@@ -171,13 +171,13 @@ export default function RegisterPage() {
                   placeholder="e.g. Priya Sharma"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
-                  className="w-full rounded-xl border border-slate-700 bg-slate-950 pl-10 pr-4 py-2.5 text-sm text-slate-200 placeholder-slate-500 input-glow transition-all"
+                  className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 pl-10 pr-4 py-2.5 text-sm text-slate-900 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 input-glow transition-all"
                 />
               </div>
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-slate-300">Government Email ID</label>
+              <label className="text-xs font-semibold text-slate-600 dark:text-slate-300">Government Email ID</label>
               <div className="relative group">
                 <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500 group-focus-within:text-indigo-400 transition-colors" />
                 <input
@@ -186,13 +186,13 @@ export default function RegisterPage() {
                   placeholder="e.g. priya.sharma@gov.in"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full rounded-xl border border-slate-700 bg-slate-950 pl-10 pr-4 py-2.5 text-sm text-slate-200 placeholder-slate-500 input-glow transition-all"
+                  className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 pl-10 pr-4 py-2.5 text-sm text-slate-900 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 input-glow transition-all"
                 />
               </div>
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-slate-300">Create Password</label>
+              <label className="text-xs font-semibold text-slate-600 dark:text-slate-300">Create Password</label>
               <div className="relative group">
                 <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500 group-focus-within:text-indigo-400 transition-colors" />
                 <input
@@ -202,12 +202,12 @@ export default function RegisterPage() {
                   placeholder="At least 6 characters"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full rounded-xl border border-slate-700 bg-slate-950 pl-10 pr-12 py-2.5 text-sm text-slate-200 placeholder-slate-500 input-glow transition-all"
+                  className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 pl-10 pr-12 py-2.5 text-sm text-slate-900 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 input-glow transition-all"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-600 dark:text-slate-300 transition-colors"
                 >
                   {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </button>
@@ -220,7 +220,7 @@ export default function RegisterPage() {
                       <div
                         key={level}
                         className={`h-1.5 flex-1 rounded-full transition-all duration-500 ${
-                          passwordStrength >= level ? strengthColors[passwordStrength] : 'bg-slate-800'
+                          passwordStrength >= level ? strengthColors[passwordStrength] : 'bg-slate-100 dark:bg-slate-800'
                         }`}
                       />
                     ))}
@@ -236,7 +236,7 @@ export default function RegisterPage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-slate-300">Organization / Ministry</label>
+                <label className="text-xs font-semibold text-slate-600 dark:text-slate-300">Organization / Ministry</label>
                 <div className="relative group">
                   <Building className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500 group-focus-within:text-indigo-400 transition-colors" />
                   <input
@@ -244,13 +244,13 @@ export default function RegisterPage() {
                     placeholder="e.g. MeitY"
                     value={organization}
                     onChange={(e) => setOrganization(e.target.value)}
-                    className="w-full rounded-xl border border-slate-700 bg-slate-950 pl-10 pr-3 py-2.5 text-sm text-slate-200 placeholder-slate-500 input-glow transition-all"
+                    className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 pl-10 pr-3 py-2.5 text-sm text-slate-900 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 input-glow transition-all"
                   />
                 </div>
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-slate-300">Professional Headline</label>
+                <label className="text-xs font-semibold text-slate-600 dark:text-slate-300">Professional Headline</label>
                 <div className="relative group">
                   <Briefcase className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500 group-focus-within:text-indigo-400 transition-colors" />
                   <input
@@ -258,7 +258,7 @@ export default function RegisterPage() {
                     placeholder="e.g. Systems Analyst"
                     value={headline}
                     onChange={(e) => setHeadline(e.target.value)}
-                    className="w-full rounded-xl border border-slate-700 bg-slate-950 pl-10 pr-3 py-2.5 text-sm text-slate-200 placeholder-slate-500 input-glow transition-all"
+                    className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 pl-10 pr-3 py-2.5 text-sm text-slate-900 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 input-glow transition-all"
                   />
                 </div>
               </div>
@@ -278,7 +278,7 @@ export default function RegisterPage() {
             </button>
           </form>
 
-          <div className="pt-4 border-t border-slate-800 text-center text-xs text-slate-400">
+          <div className="pt-4 border-t border-slate-200 dark:border-slate-800 text-center text-xs text-slate-500 dark:text-slate-400">
             Already have an active account?{' '}
             <Link href="/auth/login" className="font-bold text-indigo-400 hover:text-indigo-300 transition-colors">
               Sign In

@@ -36,7 +36,7 @@ export function ThemeSwitcher() {
         className={`flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-bold transition-all shadow-md border ${
           isLight
             ? 'border-slate-300 bg-white text-slate-900 hover:bg-slate-50 shadow-sm'
-            : 'border-white/15 bg-white/[0.06] hover:bg-white/[0.1] text-white'
+            : 'border-white/15 bg-white/[0.06] hover:bg-white/[0.1] text-slate-900 dark:text-white'
         }`}
         title="Switch Theme & Palette"
       >
@@ -44,7 +44,7 @@ export function ThemeSwitcher() {
           className="h-2.5 w-2.5 rounded-full shadow-sm animate-pulse"
           style={{ backgroundColor: activeConfig.primaryColor, boxShadow: `0 0 10px ${activeConfig.primaryColor}` }}
         />
-        <Palette className={`h-3.5 w-3.5 ${isLight ? 'text-slate-700' : 'text-slate-300'}`} />
+        <Palette className={`h-3.5 w-3.5 ${isLight ? 'text-slate-700' : 'text-slate-600 dark:text-slate-300'}`} />
         <span className="hidden sm:inline font-mono text-[11px] font-bold">{activeConfig.name}</span>
       </motion.button>
 
@@ -63,14 +63,14 @@ export function ThemeSwitcher() {
                 : '0 25px 70px -10px rgba(0, 0, 0, 0.95), 0 0 0 1px rgba(255, 255, 255, 0.12)',
             }}
             className={`absolute right-0 top-full mt-2 w-80 rounded-2xl p-3.5 z-[200] border ${
-              isLight ? 'border-slate-200 text-slate-900' : 'border-white/15 text-white'
+              isLight ? 'border-slate-200 text-slate-900' : 'border-white/15 text-slate-900 dark:text-white'
             }`}
           >
             {/* Header with Title */}
             <div className={`flex items-center justify-between px-2 py-1 text-[10px] font-mono font-bold uppercase tracking-wider border-b mb-3 ${
-              isLight ? 'border-slate-100 text-slate-500' : 'border-white/10 text-slate-400'
+              isLight ? 'border-slate-100 text-slate-500' : 'border-white/10 text-slate-500 dark:text-slate-400'
             }`}>
-              <span className={`flex items-center gap-1.5 font-bold ${isLight ? 'text-slate-900' : 'text-white'}`}>
+              <span className={`flex items-center gap-1.5 font-bold ${isLight ? 'text-slate-900' : 'text-slate-900 dark:text-white'}`}>
                 <Sparkles className="h-3 w-3 text-amber-500" />
                 Visual Palette & Mode
               </span>
@@ -92,7 +92,7 @@ export function ThemeSwitcher() {
                 }}
                 className="flex-1 flex items-center justify-center gap-2 py-1.5 px-3 rounded-lg text-xs font-bold transition-all shadow-sm"
               >
-                <Moon className={`h-3.5 w-3.5 ${mode === 'dark' ? 'text-indigo-300' : 'text-slate-400'}`} />
+                <Moon className={`h-3.5 w-3.5 ${mode === 'dark' ? 'text-indigo-300' : 'text-slate-500 dark:text-slate-400'}`} />
                 <span>Dark Mode</span>
               </button>
               <button
@@ -105,7 +105,7 @@ export function ThemeSwitcher() {
                   mode === 'light' && isLight ? 'border border-slate-200/90' : ''
                 }`}
               >
-                <Sun className={`h-3.5 w-3.5 ${mode === 'light' ? 'text-amber-500' : 'text-slate-400'}`} />
+                <Sun className={`h-3.5 w-3.5 ${mode === 'light' ? 'text-amber-500' : 'text-slate-500 dark:text-slate-400'}`} />
                 <span>Light Mode</span>
               </button>
             </div>
@@ -156,17 +156,17 @@ export function ThemeSwitcher() {
                       </div>
 
                       <div className="min-w-0">
-                        <div className={`text-xs font-bold flex items-center gap-1.5 ${isLight ? 'text-slate-900' : 'text-white'}`}>
+                        <div className={`text-xs font-bold flex items-center gap-1.5 ${isLight ? 'text-slate-900' : 'text-slate-900 dark:text-white'}`}>
                           <span>{item.name}</span>
                         </div>
-                        <div className={`text-[10px] truncate ${isLight ? 'text-slate-500 font-medium' : 'text-slate-400'}`}>
+                        <div className={`text-[10px] truncate ${isLight ? 'text-slate-500 font-medium' : 'text-slate-500 dark:text-slate-400'}`}>
                           {item.subtitle}
                         </div>
                       </div>
                     </div>
 
                     {isActive && (
-                      <Check className={`h-4 w-4 shrink-0 ml-2 ${isLight ? 'text-emerald-600 font-bold' : 'text-white'}`} />
+                      <Check className={`h-4 w-4 shrink-0 ml-2 ${isLight ? 'text-emerald-600 font-bold' : 'text-slate-900 dark:text-white'}`} />
                     )}
                   </motion.button>
                 );

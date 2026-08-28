@@ -50,7 +50,7 @@ export default function CourseCatalogPage() {
 
       <main className="flex-1 min-w-0 space-y-6">
 
-        {/* Header */}
+        {/* Header - dark hero retained for brand impact */}
         <div className="rounded-3xl border border-[#e0234e]/25 bg-gradient-to-br from-[#1a0e16]/60 via-slate-900/80 to-[#0f121d] p-6 sm:p-8 backdrop-blur-xl space-y-2 relative overflow-hidden shadow-xl">
           <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#e0234e]/60 to-transparent" />
           <div className="flex items-center gap-2">
@@ -77,7 +77,7 @@ export default function CourseCatalogPage() {
                 placeholder="Search by topic (e.g. Radar, NWP, Satellite, AI Nowcasting, HPC, Cyclone)..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full rounded-2xl border border-slate-700/80 bg-slate-900/80 pl-10 pr-4 py-2.5 text-xs text-slate-200 placeholder-slate-500 focus:border-[#e0234e] focus:outline-none focus:ring-1 focus:ring-[#e0234e]"
+                className="w-full rounded-2xl border border-slate-200 dark:border-slate-700/80 bg-white dark:bg-slate-900/80 pl-10 pr-4 py-2.5 text-xs text-slate-900 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 focus:border-[#e0234e] focus:outline-none focus:ring-1 focus:ring-[#e0234e]"
               />
             </div>
 
@@ -100,7 +100,7 @@ export default function CourseCatalogPage() {
                 className={`rounded-xl px-3.5 py-2 text-xs font-semibold whitespace-nowrap transition-all ${
                   selectedTrack === tr.id
                     ? 'bg-gradient-to-r from-[#e0234e] to-[#ff4d6d] text-white shadow-md shadow-[#e0234e]/30'
-                    : 'bg-slate-900/60 text-slate-400 hover:text-white border border-slate-800'
+                    : 'bg-white dark:bg-slate-900/60 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:text-white border border-slate-200 dark:border-slate-800'
                 }`}
               >
                 {tr.label}
@@ -114,10 +114,10 @@ export default function CourseCatalogPage() {
           {filteredCourses.map((course) => (
             <div
               key={course.id}
-              className="rounded-3xl border border-white/10 bg-[#131726]/90 backdrop-blur-xl overflow-hidden shadow-xl hover:border-[#e0234e]/50 hover:shadow-[#e0234e]/15 transition-all flex flex-col group"
+              className="rounded-3xl border border-slate-200 bg-white dark:border-white/10 dark:bg-[#131726]/90 backdrop-blur-xl overflow-hidden shadow-sm hover:shadow-md dark:shadow-xl hover:border-[#e0234e]/40 dark:hover:border-[#e0234e]/50 hover:shadow-[#e0234e]/10 dark:hover:shadow-[#e0234e]/15 transition-all flex flex-col group"
             >
               {/* Thumbnail / Header */}
-              <div className="relative h-48 w-full bg-slate-950 overflow-hidden">
+              <div className="relative h-48 w-full bg-white dark:bg-slate-950 overflow-hidden">
                 <img
                   src={course.thumbnail}
                   alt={course.title}
@@ -125,7 +125,7 @@ export default function CourseCatalogPage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#131726] via-[#131726]/40 to-transparent" />
                 <div className="absolute top-4 left-4 flex items-center gap-2">
-                  <span className="rounded-md bg-slate-950/80 px-2 py-0.5 text-xs font-bold text-[#ff4d6d] border border-[#e0234e]/30 backdrop-blur-md">
+                  <span className="rounded-md bg-white dark:bg-slate-950/80 px-2 py-0.5 text-xs font-bold text-[#ff4d6d] border border-[#e0234e]/30 backdrop-blur-md">
                     {course.code}
                   </span>
                   <span className="rounded-md bg-[#e0234e]/20 px-2 py-0.5 text-xs font-bold text-[#ff758c] border border-[#e0234e]/30 backdrop-blur-md">
@@ -140,17 +140,17 @@ export default function CourseCatalogPage() {
               {/* Body */}
               <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
                 <div className="space-y-2">
-                  <h3 className="text-lg font-bold text-white group-hover:text-[#ff758c] transition-colors leading-snug">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-[#ff758c] transition-colors leading-snug">
                     {course.title}
                   </h3>
-                  <p className="text-xs text-slate-300 line-clamp-3 leading-relaxed">
+                  <p className="text-xs text-slate-600 dark:text-slate-300 line-clamp-3 leading-relaxed">
                     {course.description}
                   </p>
                 </div>
 
                 {/* Target Competencies */}
                 <div className="space-y-1.5 pt-2">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                     Mapped Competencies
                   </span>
                   <div className="flex flex-wrap gap-1">
@@ -166,10 +166,10 @@ export default function CourseCatalogPage() {
                 </div>
 
                 {/* Footer / CTA */}
-                <div className="pt-4 border-t border-slate-800 flex items-center justify-between">
+                <div className="pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
                   <div>
-                    <div className="text-xs font-semibold text-slate-200">{course.trainerName}</div>
-                    <div className="text-[10px] text-slate-400 flex items-center gap-1">
+                    <div className="text-xs font-semibold text-slate-900 dark:text-slate-200">{course.trainerName}</div>
+                    <div className="text-[10px] text-slate-500 dark:text-slate-400 flex items-center gap-1">
                       <Star className="h-3 w-3 text-amber-400 fill-amber-400" />
                       <span>{course.trainerRating} ★ • {course.durationHours} Hours</span>
                     </div>

@@ -21,13 +21,13 @@ export function ChatCourseCard({ course, onNavigate }: ChatCourseCardProps) {
   const style = cadreColors[course.cadreTrack] || cadreColors.DRSTC;
 
   return (
-    <div className="my-2 group relative overflow-hidden rounded-2xl border border-white/10 bg-slate-900/90 p-3.5 backdrop-blur-md transition-all duration-300 hover:border-[#e0234e]/50 hover:bg-slate-800/90 shadow-lg hover:shadow-[#e0234e]/15">
+    <div className="my-2 group relative overflow-hidden rounded-2xl border border-white/10 bg-white dark:bg-slate-900/90 p-3.5 backdrop-blur-md transition-all duration-300 hover:border-[#e0234e]/50 hover:bg-slate-800/90 shadow-lg hover:shadow-[#e0234e]/15">
       <div className="flex gap-3">
         {/* Thumbnail Preview */}
         <Link
           href={`/trainee/courses/${course.id}`}
           onClick={onNavigate}
-          className="relative h-16 w-20 flex-shrink-0 overflow-hidden rounded-xl bg-slate-800 block cursor-pointer"
+          className="relative h-16 w-20 flex-shrink-0 overflow-hidden rounded-xl bg-slate-100 dark:bg-slate-800 block cursor-pointer"
         >
           <img
             src={course.thumbnail}
@@ -35,7 +35,7 @@ export function ChatCourseCard({ course, onNavigate }: ChatCourseCardProps) {
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
-          <div className="absolute bottom-1 right-1 flex items-center gap-0.5 rounded bg-black/80 px-1 py-0.5 text-[9px] font-bold text-slate-300">
+          <div className="absolute bottom-1 right-1 flex items-center gap-0.5 rounded bg-black/80 px-1 py-0.5 text-[9px] font-bold text-slate-600 dark:text-slate-300">
             <Clock className="h-2.5 w-2.5 text-[#ff4d6d]" />
             {course.durationHours}h
           </div>
@@ -49,21 +49,21 @@ export function ChatCourseCard({ course, onNavigate }: ChatCourseCardProps) {
             >
               {course.cadreTrack}
             </span>
-            <span className="rounded-md bg-white/5 px-1.5 py-0.5 text-[9px] font-semibold text-slate-400 border border-white/5">
+            <span className="rounded-md bg-white/5 px-1.5 py-0.5 text-[9px] font-semibold text-slate-500 dark:text-slate-400 border border-white/5">
               {course.code}
             </span>
-            <span className="rounded-md bg-white/5 px-1.5 py-0.5 text-[9px] font-medium text-slate-300">
+            <span className="rounded-md bg-white/5 px-1.5 py-0.5 text-[9px] font-medium text-slate-600 dark:text-slate-300">
               {course.level}
             </span>
           </div>
 
           <Link href={`/trainee/courses/${course.id}`} onClick={onNavigate} className="block">
-            <h4 className="text-xs font-bold text-white group-hover:text-[#ff758c] transition-colors line-clamp-1 hover:underline cursor-pointer">
+            <h4 className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-[#ff758c] transition-colors line-clamp-1 hover:underline cursor-pointer">
               {course.title}
             </h4>
           </Link>
 
-          <div className="mt-1 flex items-center justify-between text-[11px] text-slate-400">
+          <div className="mt-1 flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400">
             <span className="truncate max-w-[140px]">
               {course.trainerName}
             </span>
@@ -77,7 +77,7 @@ export function ChatCourseCard({ course, onNavigate }: ChatCourseCardProps) {
 
       {/* Action Footer */}
       <div className="mt-3 pt-2.5 border-t border-white/5 flex items-center justify-between gap-2">
-        <div className="text-[10px] text-slate-400 flex items-center gap-1">
+        <div className="text-[10px] text-slate-500 dark:text-slate-400 flex items-center gap-1">
           <BookOpen className="h-3 w-3 text-[#ff4d6d]" />
           <span>{course.materials?.length || 0} Lectures & Docs</span>
         </div>

@@ -57,7 +57,7 @@ export default function TraineeDashboard() {
 
       <main className="flex-1 min-w-0 space-y-6">
 
-        {/* Trainee Welcome Header */}
+        {/* Trainee Welcome Header - retains dark hero for contrast in both modes */}
         <div className="rounded-3xl border border-[#e0234e]/25 bg-gradient-to-br from-[#1a0e16]/60 via-slate-900/80 to-[#0f121d] p-6 sm:p-8 backdrop-blur-xl space-y-3 relative overflow-hidden animate-fade-in-up shadow-xl">
           <div className="absolute top-0 right-0 w-72 h-72 bg-[#e0234e]/5 rounded-full blur-3xl pointer-events-none" />
           <div className="absolute bottom-0 left-0 w-48 h-48 bg-[#e0234e]/5 rounded-full blur-3xl pointer-events-none" />
@@ -129,7 +129,7 @@ export default function TraineeDashboard() {
 
         {/* Active Enrolled Course Banner */}
         <MotionSection variant="fade-up" delay={200}>
-          <div className="rounded-3xl border border-indigo-500/25 bg-gradient-to-br from-indigo-950/40 via-slate-900/80 to-slate-950 p-6 sm:p-8 backdrop-blur-xl shadow-elevation-2 space-y-6 relative overflow-hidden">
+          <div className="rounded-3xl border border-indigo-500/25 bg-gradient-to-br from-indigo-50 dark:from-indigo-950/40 via-white dark:via-slate-900/80 to-white dark:to-slate-950 p-6 sm:p-8 backdrop-blur-xl shadow-elevation-2 space-y-6 relative overflow-hidden">
             <div className="absolute -top-10 -right-10 w-40 h-40 bg-indigo-500/10 rounded-full blur-2xl pointer-events-none animate-breathe" />
             <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-indigo-500/50 to-transparent animate-gradient-shift bg-[length:200%_100%]" />
 
@@ -140,13 +140,13 @@ export default function TraineeDashboard() {
                     <Flame className="h-3 w-3 text-amber-400" />
                     IN PROGRESS • {enrollment.progressPercentage}% COMPLETE
                   </span>
-                  <span className="text-xs text-slate-400">{enrolledCourse.cadreTrack} Track • {enrolledCourse.category}</span>
+                  <span className="text-xs text-slate-500 dark:text-slate-400">{enrolledCourse.cadreTrack} Track • {enrolledCourse.category}</span>
                 </div>
-                <h2 className="text-xl font-bold text-white tracking-tight">
+                <h2 className="text-xl font-bold text-slate-900 dark:text-white tracking-tight">
                   {enrolledCourse.title}
                 </h2>
-                <p className="text-xs text-slate-300 mt-1">
-                  Delivered by <span className="text-white font-semibold">{enrolledCourse.trainerName}</span> ({enrolledCourse.trainerSpecialization})
+                <p className="text-xs text-slate-600 dark:text-slate-300 mt-1">
+                  Delivered by <span className="text-slate-900 dark:text-white font-semibold">{enrolledCourse.trainerName}</span> ({enrolledCourse.trainerSpecialization})
                 </p>
               </div>
 
@@ -162,7 +162,7 @@ export default function TraineeDashboard() {
 
             {/* Animated Progress bar */}
             <div className="space-y-2">
-              <div className="h-3 w-full bg-slate-800 rounded-full overflow-hidden relative">
+              <div className="h-3 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden relative">
                 <div
                   className="h-full bg-gradient-to-r from-indigo-500 via-cyan-400 to-emerald-400 rounded-full transition-all duration-1000 relative"
                   style={{ width: `${enrollment.progressPercentage}%` }}
@@ -170,7 +170,7 @@ export default function TraineeDashboard() {
                   <div className="absolute inset-0 animate-stripe opacity-30 rounded-full" />
                 </div>
               </div>
-              <div className="flex justify-between text-[11px] text-slate-400 font-medium">
+              <div className="flex justify-between text-[11px] text-slate-500 dark:text-slate-400 font-medium">
                 <span className="flex items-center gap-1">
                   <CheckCircle2 className="h-3 w-3 text-emerald-400" />
                   {enrollment.completedMaterialIds.length} of {enrolledCourse.materials.length} Modules Completed
@@ -189,9 +189,9 @@ export default function TraineeDashboard() {
 
           {/* Catalog Spotlight */}
           <MotionSection variant="fade-left" delay={100}>
-            <div className="rounded-3xl border border-slate-800 bg-slate-900/60 p-6 backdrop-blur-xl space-y-4">
-              <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-                <h3 className="text-base font-bold text-white flex items-center gap-2">
+            <div className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 p-6 backdrop-blur-xl space-y-4">
+              <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
+                <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
                   <div className="h-8 w-8 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center">
                     <Sparkles className="h-4 w-4 text-cyan-400" />
                   </div>
@@ -208,18 +208,18 @@ export default function TraineeDashboard() {
                   <Link
                     key={c.id}
                     href={`/trainee/courses/${c.id}`}
-                    className="block rounded-2xl border border-slate-800 bg-slate-950/40 p-4 space-y-2 hover:border-indigo-500/40 transition-all duration-300 group hover:-translate-y-0.5 hover:shadow-elevation-1"
+                    className="block rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950/40 p-4 space-y-2 hover:border-indigo-500/40 transition-all duration-300 group hover:-translate-y-0.5 hover:shadow-elevation-1"
                   >
-                    <div className="flex items-center justify-between text-[10px] text-slate-400">
+                    <div className="flex items-center justify-between text-[10px] text-slate-500 dark:text-slate-400">
                       <span className="text-indigo-400 font-bold">{c.code} • {c.cadreTrack}</span>
                       <span className="flex items-center gap-1">
                         <Clock className="h-3 w-3" />
                         {c.durationHours}h
                       </span>
                     </div>
-                    <h4 className="text-xs font-bold text-white group-hover:text-indigo-300 transition-colors">{c.title}</h4>
+                    <h4 className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-indigo-300 transition-colors">{c.title}</h4>
                     <div className="flex items-center justify-between pt-1">
-                      <span className="text-[11px] text-slate-400">{c.trainerName}</span>
+                      <span className="text-[11px] text-slate-500 dark:text-slate-400">{c.trainerName}</span>
                       <span className="text-xs font-bold text-cyan-400 group-hover:text-cyan-300 flex items-center gap-0.5">
                         <span>Open</span>
                         <ChevronRight className="h-3 w-3 group-hover:translate-x-0.5 transition-transform" />

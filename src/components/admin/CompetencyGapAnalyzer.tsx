@@ -219,7 +219,7 @@ export function CompetencyGapAnalyzer({ initialUserId }: Props) {
       )}
 
       {/* Control Bar: Select Trainee & Target Cadre Benchmark */}
-      <div className="rounded-3xl border border-indigo-500/30 bg-gradient-to-br from-indigo-950/40 via-slate-900/80 to-slate-950 p-6 backdrop-blur-2xl shadow-xl relative overflow-hidden space-y-4">
+      <div className="rounded-3xl border border-indigo-500/30 bg-gradient-to-br from-indigo-50 dark:from-indigo-950/40 via-white dark:via-slate-900/80 to-white dark:to-slate-950 p-6 backdrop-blur-2xl shadow-xl relative overflow-hidden space-y-4">
         <div className="absolute top-0 right-0 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
 
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10">
@@ -228,13 +228,13 @@ export function CompetencyGapAnalyzer({ initialUserId }: Props) {
               <span className="rounded-md bg-indigo-500/20 px-2.5 py-0.5 text-[10px] font-black text-indigo-300 border border-indigo-500/30 uppercase tracking-wider">
                 CORE DIFFERENTIATOR • IMD GAP INTELLIGENCE
               </span>
-              <span className="text-xs text-slate-400 font-mono">Mission Mausam Protocol</span>
+              <span className="text-xs text-slate-500 dark:text-slate-400 font-mono">Mission Mausam Protocol</span>
             </div>
-            <h2 className="text-2xl font-black text-white tracking-tight flex items-center gap-2">
+            <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
               <Brain className="h-6 w-6 text-indigo-400" />
               <span>Trainee Competency Gap Analysis & Upskilling Engine</span>
             </h2>
-            <p className="text-xs text-slate-300 mt-1 max-w-2xl leading-relaxed">
+            <p className="text-xs text-slate-600 dark:text-slate-300 mt-1 max-w-2xl leading-relaxed">
               Pinpoints exact skill deficiencies between verified officer proficiencies and IMD Cadre Benchmarks, automatically generating best-fit Course + Faculty matching to close gaps.
             </p>
           </div>
@@ -242,13 +242,13 @@ export function CompetencyGapAnalyzer({ initialUserId }: Props) {
           {/* Selectors */}
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0">
             <div className="space-y-1">
-              <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+              <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                 Select Trainee Officer
               </label>
               <select
                 value={selectedUserId}
                 onChange={(e) => setSelectedUserId(e.target.value)}
-                className="w-full rounded-2xl border border-slate-700 bg-slate-950 px-3.5 py-2 text-xs font-bold text-white focus:border-indigo-500 focus:outline-none shadow-lg"
+                className="w-full rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-3.5 py-2 text-xs font-bold text-slate-900 dark:text-white focus:border-indigo-500 focus:outline-none shadow-lg"
               >
                 {trainees.map((t) => (
                   <option key={t.id} value={t.id}>
@@ -259,13 +259,13 @@ export function CompetencyGapAnalyzer({ initialUserId }: Props) {
             </div>
 
             <div className="space-y-1">
-              <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+              <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                 Target Cadre Benchmark
               </label>
               <select
                 value={selectedCadreCode}
                 onChange={(e) => setSelectedCadreCode(e.target.value)}
-                className="w-full rounded-2xl border border-slate-700 bg-slate-950 px-3.5 py-2 text-xs font-bold text-white focus:border-indigo-500 focus:outline-none shadow-lg"
+                className="w-full rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-3.5 py-2 text-xs font-bold text-slate-900 dark:text-white focus:border-indigo-500 focus:outline-none shadow-lg"
               >
                 {initialCadres.map((c) => (
                   <option key={c.code} value={c.code}>
@@ -279,7 +279,7 @@ export function CompetencyGapAnalyzer({ initialUserId }: Props) {
       </div>
 
       {loading || !analysis ? (
-        <div className="rounded-3xl border border-slate-800 bg-slate-900/40 p-12 text-center text-xs text-slate-400 animate-pulse">
+        <div className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/40 p-12 text-center text-xs text-slate-500 dark:text-slate-400 animate-pulse">
           Evaluating meteorological competency matrix and computing cadre gap vectors...
         </div>
       ) : (
@@ -287,7 +287,7 @@ export function CompetencyGapAnalyzer({ initialUserId }: Props) {
           {/* KPI Header & Readiness Score */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             {/* Officer Card */}
-            <div className="rounded-3xl border border-slate-800 bg-slate-900/60 p-5 space-y-2 backdrop-blur-xl">
+            <div className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 p-5 space-y-2 backdrop-blur-xl">
               <div className="flex items-center gap-3">
                 <img
                   src={
@@ -298,18 +298,18 @@ export function CompetencyGapAnalyzer({ initialUserId }: Props) {
                   className="h-11 w-11 rounded-2xl object-cover border border-indigo-500/30"
                 />
                 <div>
-                  <h4 className="text-sm font-bold text-white leading-tight">{analysis.userName}</h4>
+                  <h4 className="text-sm font-bold text-slate-900 dark:text-white leading-tight">{analysis.userName}</h4>
                   <p className="text-[11px] text-indigo-400 font-medium">{analysis.designation}</p>
                 </div>
               </div>
-              <div className="pt-2 border-t border-slate-800/80 text-[11px] text-slate-400 space-y-1">
-                <div>Benchmark: <span className="text-white font-bold">{analysis.cadreBenchmarkName}</span></div>
-                <div>Cadre Duration: <span className="text-slate-300 font-mono">{analysis.cadreBenchmarkDuration}</span></div>
+              <div className="pt-2 border-t border-slate-200 dark:border-slate-800/80 text-[11px] text-slate-500 dark:text-slate-400 space-y-1">
+                <div>Benchmark: <span className="text-slate-900 dark:text-white font-bold">{analysis.cadreBenchmarkName}</span></div>
+                <div>Cadre Duration: <span className="text-slate-600 dark:text-slate-300 font-mono">{analysis.cadreBenchmarkDuration}</span></div>
               </div>
             </div>
 
             {/* Readiness Index */}
-            <div className="rounded-3xl border border-indigo-500/30 bg-gradient-to-br from-indigo-950/40 to-slate-900/60 p-5 space-y-2 backdrop-blur-xl relative overflow-hidden">
+            <div className="rounded-3xl border border-indigo-500/30 bg-gradient-to-br from-indigo-50 dark:from-indigo-950/40 to-white dark:to-slate-900/60 p-5 space-y-2 backdrop-blur-xl relative overflow-hidden">
               <div className="flex items-center justify-between">
                 <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-300">
                   Cadre Readiness Index
@@ -317,10 +317,10 @@ export function CompetencyGapAnalyzer({ initialUserId }: Props) {
                 <Sparkles className="h-4 w-4 text-indigo-400" />
               </div>
               <div className="flex items-baseline gap-2">
-                <span className="text-3xl font-black text-white">{analysis.readinessScore}%</span>
-                <span className="text-[11px] text-slate-400">of cadre benchmark</span>
+                <span className="text-3xl font-black text-slate-900 dark:text-white">{analysis.readinessScore}%</span>
+                <span className="text-[11px] text-slate-500 dark:text-slate-400">of cadre benchmark</span>
               </div>
-              <div className="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
+              <div className="h-2 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
                 <div
                   className="h-full bg-gradient-to-r from-indigo-500 via-cyan-400 to-emerald-400 rounded-full transition-all duration-700"
                   style={{ width: `${analysis.readinessScore}%` }}
@@ -337,7 +337,7 @@ export function CompetencyGapAnalyzer({ initialUserId }: Props) {
                 <AlertTriangle className="h-4 w-4 text-rose-400" />
               </div>
               <div className="text-3xl font-black text-rose-300">{analysis.criticalGapsCount}</div>
-              <p className="text-[11px] text-slate-400">
+              <p className="text-[11px] text-slate-500 dark:text-slate-400">
                 {analysis.criticalGapsCount > 0
                   ? 'Blocks cadre certification until bridged.'
                   : 'All critical competencies satisfied!'}
@@ -355,7 +355,7 @@ export function CompetencyGapAnalyzer({ initialUserId }: Props) {
               <div className="text-3xl font-black text-emerald-300">
                 {analysis.satisfiedCount} / {analysis.totalCompetenciesEvaluated}
               </div>
-              <p className="text-[11px] text-slate-400">
+              <p className="text-[11px] text-slate-500 dark:text-slate-400">
                 Competencies matching or exceeding cadre target.
               </p>
             </div>
@@ -364,32 +364,32 @@ export function CompetencyGapAnalyzer({ initialUserId }: Props) {
           {/* Visual Radar & Detailed Matrix Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
             {/* Left: SVG Radar Chart */}
-            <div className="lg:col-span-5 rounded-3xl border border-slate-800 bg-slate-900/60 p-6 backdrop-blur-xl space-y-4 flex flex-col justify-between">
+            <div className="lg:col-span-5 rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 p-6 backdrop-blur-xl space-y-4 flex flex-col justify-between">
               <div>
-                <h3 className="text-base font-bold text-white flex items-center gap-2">
+                <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
                   <Compass className="h-4 w-4 text-cyan-400" />
                   <span>Cadre Competency Radar Profile</span>
                 </h3>
-                <p className="text-xs text-slate-400 mt-1">
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
                   Geometric overlap between verified officer skills and cadre requirements.
                 </p>
               </div>
 
               {renderRadarChart(analysis.gaps)}
 
-              <div className="rounded-2xl bg-slate-950/70 border border-slate-800 p-3 text-xs text-slate-300 leading-relaxed">
+              <div className="rounded-2xl bg-white dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 p-3 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
                 <span className="text-indigo-400 font-bold">Recommendation:</span> {analysis.suggestedAction}
               </div>
             </div>
 
             {/* Right: Competency Deficit Matrix & 1-Click Upskilling Courses */}
-            <div className="lg:col-span-7 rounded-3xl border border-slate-800 bg-slate-900/60 p-6 backdrop-blur-xl space-y-4">
-              <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-                <h3 className="text-base font-bold text-white flex items-center gap-2">
+            <div className="lg:col-span-7 rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 p-6 backdrop-blur-xl space-y-4">
+              <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
+                <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
                   <Layers className="h-4 w-4 text-indigo-400" />
                   <span>Competency Breakdown & Gap Closing Recommendations</span>
                 </h3>
-                <span className="text-xs text-slate-400 font-mono">
+                <span className="text-xs text-slate-500 dark:text-slate-400 font-mono">
                   {analysis.gaps.length} Target Skills
                 </span>
               </div>
@@ -411,7 +411,7 @@ export function CompetencyGapAnalyzer({ initialUserId }: Props) {
                       className={`rounded-2xl border p-4 transition-all duration-300 space-y-3 ${
                         item.status === 'DEFICIENT' || item.status === 'MISSING'
                           ? 'border-rose-500/25 bg-rose-950/10 hover:border-rose-500/40'
-                          : 'border-slate-800 bg-slate-950/40 hover:border-slate-700'
+                          : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950/40 hover:border-slate-200 dark:border-slate-700'
                       }`}
                     >
                       {/* Skill Header */}
@@ -424,15 +424,15 @@ export function CompetencyGapAnalyzer({ initialUserId }: Props) {
                             <span className={`text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded border ${statusBadge}`}>
                               {item.status === 'DEFICIENT' ? `DEFICIT (${item.gapDelta} LVL)` : item.status}
                             </span>
-                            <span className="text-[9px] font-bold text-slate-400 uppercase">
+                            <span className="text-[9px] font-bold text-slate-500 dark:text-slate-400 uppercase">
                               {item.importance} PRIORITY
                             </span>
                           </div>
-                          <h4 className="text-xs font-bold text-white mt-1">{item.competencyName}</h4>
+                          <h4 className="text-xs font-bold text-slate-900 dark:text-white mt-1">{item.competencyName}</h4>
                         </div>
 
                         {/* Level comparison pill */}
-                        <div className="flex items-center gap-3 shrink-0 bg-slate-900/80 px-3 py-1.5 rounded-xl border border-slate-800 text-xs">
+                        <div className="flex items-center gap-3 shrink-0 bg-white dark:bg-slate-900/80 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-800 text-xs">
                           <div>
                             <span className="text-[9px] text-slate-500 block uppercase font-bold">Current</span>
                             <span className="font-bold text-indigo-300">Level {item.currentProficiency}</span>
@@ -447,7 +447,7 @@ export function CompetencyGapAnalyzer({ initialUserId }: Props) {
 
                       {/* Gap Closing Recommender (If deficient or missing) */}
                       {(item.status === 'DEFICIENT' || item.status === 'MISSING') && item.recommendedCourse && item.recommendedTrainer && (
-                        <div className="rounded-xl bg-slate-900/90 border border-indigo-500/20 p-3 space-y-2">
+                        <div className="rounded-xl bg-white dark:bg-slate-900/90 border border-indigo-500/20 p-3 space-y-2">
                           <div className="flex items-center justify-between">
                             <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-400 flex items-center gap-1">
                               <Zap className="h-3 w-3 text-amber-400" /> Optimal Gap-Closing Course & Faculty
@@ -459,11 +459,11 @@ export function CompetencyGapAnalyzer({ initialUserId }: Props) {
 
                           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                             <div>
-                              <div className="text-xs font-bold text-white">
+                              <div className="text-xs font-bold text-slate-900 dark:text-white">
                                 {item.recommendedCourse.code}: {item.recommendedCourse.title}
                               </div>
-                              <div className="text-[11px] text-slate-400 mt-0.5">
-                                Lead Faculty: <span className="text-slate-200 font-semibold">{item.recommendedTrainer.name}</span> ({item.recommendedTrainer.rating} ★) • {item.recommendedCourse.durationHours}h
+                              <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
+                                Lead Faculty: <span className="text-slate-900 dark:text-slate-200 font-semibold">{item.recommendedTrainer.name}</span> ({item.recommendedTrainer.rating} ★) • {item.recommendedCourse.durationHours}h
                               </div>
                             </div>
 

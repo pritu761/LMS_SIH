@@ -50,7 +50,7 @@ function MarkdownView({ content }: { content: string }) {
             <Link
               key={i}
               href={linkHref}
-              className="text-[#ff758c] font-semibold underline underline-offset-2 hover:text-white transition-colors"
+              className="text-[#ff758c] font-semibold underline underline-offset-2 hover:text-slate-900 dark:text-white transition-colors"
             >
               {linkText}
             </Link>
@@ -59,14 +59,14 @@ function MarkdownView({ content }: { content: string }) {
       }
       if (part.startsWith('**') && part.endsWith('**')) {
         return (
-          <strong key={i} className="font-semibold text-white">
+          <strong key={i} className="font-semibold text-slate-900 dark:text-white">
             {part.slice(2, -2)}
           </strong>
         );
       }
       if (part.startsWith('*') && part.endsWith('*') && !part.startsWith('**')) {
         return (
-          <em key={i} className="italic text-slate-300">
+          <em key={i} className="italic text-slate-600 dark:text-slate-300">
             {part.slice(1, -1)}
           </em>
         );
@@ -106,7 +106,7 @@ function MarkdownView({ content }: { content: string }) {
               {rows.map((row, rIdx) => (
                 <tr key={rIdx} className="hover:bg-white/[0.02]">
                   {row.map((cell, cIdx) => (
-                    <td key={cIdx} className="p-2 text-slate-300 text-[11px]">
+                    <td key={cIdx} className="p-2 text-slate-600 dark:text-slate-300 text-[11px]">
                       {parseInline(cell.trim())}
                     </td>
                   ))}
@@ -146,7 +146,7 @@ function MarkdownView({ content }: { content: string }) {
     // Bullet point
     if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
       renderedElements.push(
-        <div key={index} className="flex items-start gap-2 text-xs text-slate-300 my-1 ml-1">
+        <div key={index} className="flex items-start gap-2 text-xs text-slate-600 dark:text-slate-300 my-1 ml-1">
           <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 mt-1.5 flex-shrink-0" />
           <span className="leading-relaxed">{parseInline(trimmed.slice(2))}</span>
         </div>
@@ -159,7 +159,7 @@ function MarkdownView({ content }: { content: string }) {
       const num = trimmed.match(/^(\d+)\.\s/)?.[1];
       const rest = trimmed.replace(/^\d+\.\s/, '');
       renderedElements.push(
-        <div key={index} className="flex items-start gap-2 text-xs text-slate-300 my-1 ml-1">
+        <div key={index} className="flex items-start gap-2 text-xs text-slate-600 dark:text-slate-300 my-1 ml-1">
           <span className="font-bold text-cyan-400 text-[11px] min-w-[14px]">{num}.</span>
           <span className="leading-relaxed">{parseInline(rest)}</span>
         </div>
@@ -178,7 +178,7 @@ function MarkdownView({ content }: { content: string }) {
     }
     if (trimmed.startsWith('## ') || trimmed.startsWith('# ')) {
       renderedElements.push(
-        <h3 key={index} className="text-sm font-bold text-white mt-3 mb-1.5">
+        <h3 key={index} className="text-sm font-bold text-slate-900 dark:text-white mt-3 mb-1.5">
           {parseInline(trimmed.replace(/^#+\s/, ''))}
         </h3>
       );
@@ -187,7 +187,7 @@ function MarkdownView({ content }: { content: string }) {
 
     // Normal paragraph
     renderedElements.push(
-      <p key={index} className="text-xs text-slate-300 leading-relaxed my-1">
+      <p key={index} className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed my-1">
         {parseInline(trimmed)}
       </p>
     );
@@ -337,8 +337,8 @@ export function CourseChatbot() {
               {/* Outer subtle glow ring */}
               <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-[#e0234e] to-[#ff758c] opacity-40 blur-md group-hover:opacity-75 transition duration-500 animate-pulse" />
 
-              <div className="relative flex h-full w-full items-center justify-center rounded-[14px] bg-slate-950/90 backdrop-blur-sm">
-                <Bot className="h-6 w-6 text-[#ff4d6d] transition-transform duration-300 group-hover:scale-110 group-hover:text-white" />
+              <div className="relative flex h-full w-full items-center justify-center rounded-[14px] bg-white dark:bg-slate-950/90 backdrop-blur-sm">
+                <Bot className="h-6 w-6 text-[#ff4d6d] transition-transform duration-300 group-hover:scale-110 group-hover:text-slate-900 dark:text-white" />
                 <Sparkles className="absolute top-2 right-2 h-2.5 w-2.5 text-amber-400 animate-pulse" />
               </div>
 
@@ -350,7 +350,7 @@ export function CourseChatbot() {
               )}
 
               {/* Floating Tooltip */}
-              <div className="pointer-events-none absolute right-16 top-1/2 -translate-y-1/2 whitespace-nowrap rounded-xl border border-white/10 bg-black/90 px-3 py-1.5 text-xs font-semibold text-slate-200 shadow-xl opacity-0 transition-opacity duration-200 group-hover:opacity-100 backdrop-blur-md">
+              <div className="pointer-events-none absolute right-16 top-1/2 -translate-y-1/2 whitespace-nowrap rounded-xl border border-white/10 bg-black/90 px-3 py-1.5 text-xs font-semibold text-slate-900 dark:text-slate-200 shadow-xl opacity-0 transition-opacity duration-200 group-hover:opacity-100 backdrop-blur-md">
                 Ask Course Navigator AI
               </div>
             </button>
@@ -379,7 +379,7 @@ export function CourseChatbot() {
             }`}
           >
             {/* Header */}
-            <div className="relative flex items-center justify-between border-b border-white/10 bg-slate-900/80 px-4 py-3.5 backdrop-blur-xl select-none">
+            <div className="relative flex items-center justify-between border-b border-white/10 bg-white dark:bg-slate-900/80 px-4 py-3.5 backdrop-blur-xl select-none">
               {/* Electric subtle gradient highlight */}
               <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#e0234e] via-[#ea2845] to-[#ff758c]" />
 
@@ -392,14 +392,14 @@ export function CourseChatbot() {
                 </div>
                 <div>
                   <div className="flex items-center gap-1.5">
-                    <h3 className="text-xs font-bold text-white tracking-tight">
+                    <h3 className="text-xs font-bold text-slate-900 dark:text-white tracking-tight">
                       MausamBot <span className="text-[#ff4d6d]">AI Navigator</span>
                     </h3>
                     <span className="rounded-full bg-[#e0234e]/10 px-1.5 py-0.2 text-[8px] font-black text-[#ff4d6d] border border-[#e0234e]/20">
                       NESTJS CORE
                     </span>
                   </div>
-                  <p className="text-[10px] text-slate-400 flex items-center gap-1">
+                  <p className="text-[10px] text-slate-500 dark:text-slate-400 flex items-center gap-1">
                     <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#e0234e] animate-pulse" />
                     Live Course Intelligence • WMO BIP-M
                   </p>
@@ -407,7 +407,7 @@ export function CourseChatbot() {
               </div>
 
               {/* Action Buttons */}
-              <div className="flex items-center gap-1 text-slate-400">
+              <div className="flex items-center gap-1 text-slate-500 dark:text-slate-400">
                 {/* Voice Audio Readout Toggle */}
                 <button
                   type="button"
@@ -425,7 +425,7 @@ export function CourseChatbot() {
                   type="button"
                   onClick={clearChat}
                   title="Clear Chat History"
-                  className="rounded-lg p-1.5 hover:bg-white/5 hover:text-white transition-colors"
+                  className="rounded-lg p-1.5 hover:bg-white/5 hover:text-slate-900 dark:text-white transition-colors"
                 >
                   <RotateCcw className="h-4 w-4" />
                 </button>
@@ -435,7 +435,7 @@ export function CourseChatbot() {
                   type="button"
                   onClick={toggleMinimize}
                   title={isMinimized ? 'Expand Chat' : 'Minimize'}
-                  className="rounded-lg p-1.5 hover:bg-white/5 hover:text-white transition-colors"
+                  className="rounded-lg p-1.5 hover:bg-white/5 hover:text-slate-900 dark:text-white transition-colors"
                 >
                   {isMinimized ? <ChevronDown className="h-4 w-4 rotate-180" /> : <ChevronDown className="h-4 w-4" />}
                 </button>
@@ -445,7 +445,7 @@ export function CourseChatbot() {
                   type="button"
                   onClick={toggleMaximize}
                   title={isMaximized ? 'Standard View' : 'Full Screen'}
-                  className="hidden sm:inline-flex rounded-lg p-1.5 hover:bg-white/5 hover:text-white transition-colors"
+                  className="hidden sm:inline-flex rounded-lg p-1.5 hover:bg-white/5 hover:text-slate-900 dark:text-white transition-colors"
                 >
                   {isMaximized ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
                 </button>
@@ -486,7 +486,7 @@ export function CourseChatbot() {
                           className={`group relative max-w-[85%] rounded-2xl px-3.5 py-2.5 transition-all ${
                             isUser
                               ? 'bg-gradient-to-r from-[#e0234e] to-[#ea2845] text-white shadow-md shadow-[#e0234e]/20 rounded-tr-none'
-                              : 'border border-white/10 bg-slate-900/90 text-slate-200 rounded-tl-none backdrop-blur-md'
+                              : 'border border-white/10 bg-white dark:bg-slate-900/90 text-slate-900 dark:text-slate-200 rounded-tl-none backdrop-blur-md'
                           }`}
                         >
                           {/* Markdown or plain message */}
@@ -508,7 +508,7 @@ export function CourseChatbot() {
                           {/* Suggested follow-up prompt pills */}
                           {msg.suggestedQueries && msg.suggestedQueries.length > 0 && (
                             <div className="mt-3 pt-2 border-t border-white/10">
-                              <span className="text-[10px] font-semibold text-slate-400 block mb-1">
+                              <span className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 block mb-1">
                                 Related Inquiries:
                               </span>
                               <ChatSuggestedPills
@@ -529,7 +529,7 @@ export function CourseChatbot() {
                               <button
                                 type="button"
                                 onClick={() => handleCopy(msg.id, msg.content)}
-                                className="opacity-0 group-hover:opacity-100 transition-opacity hover:text-slate-300 flex items-center gap-1"
+                                className="opacity-0 group-hover:opacity-100 transition-opacity hover:text-slate-600 dark:text-slate-300 flex items-center gap-1"
                                 title="Copy response"
                               >
                                 {copiedId === msg.id ? (
@@ -549,8 +549,8 @@ export function CourseChatbot() {
                         </div>
 
                         {isUser && (
-                          <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-xl bg-slate-800 p-[1px] mt-0.5 border border-white/10">
-                            <User className="h-3.5 w-3.5 text-slate-300" />
+                          <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800 p-[1px] mt-0.5 border border-white/10">
+                            <User className="h-3.5 w-3.5 text-slate-600 dark:text-slate-300" />
                           </div>
                         )}
                       </div>
@@ -563,7 +563,7 @@ export function CourseChatbot() {
                       <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-xl bg-[#e0234e]/30 p-[1px]">
                         <Bot className="h-3.5 w-3.5 text-[#ff4d6d]" />
                       </div>
-                      <div className="rounded-2xl border border-white/10 bg-slate-900/90 px-4 py-3 text-xs text-slate-400 rounded-tl-none flex items-center gap-1.5">
+                      <div className="rounded-2xl border border-white/10 bg-white dark:bg-slate-900/90 px-4 py-3 text-xs text-slate-500 dark:text-slate-400 rounded-tl-none flex items-center gap-1.5">
                         <span className="h-1.5 w-1.5 rounded-full bg-[#e0234e] animate-bounce [animation-delay:-0.3s]" />
                         <span className="h-1.5 w-1.5 rounded-full bg-[#e0234e] animate-bounce [animation-delay:-0.15s]" />
                         <span className="h-1.5 w-1.5 rounded-full bg-[#e0234e] animate-bounce" />
@@ -578,7 +578,7 @@ export function CourseChatbot() {
                 </div>
 
                 {/* Input Form & Quick Controls */}
-                <div className="border-t border-white/10 bg-slate-950/90 p-3 backdrop-blur-xl">
+                <div className="border-t border-white/10 bg-white dark:bg-slate-950/90 p-3 backdrop-blur-xl">
                   {/* Speech recognition active notice */}
                   {isRecording && (
                     <div className="mb-2 flex items-center justify-between rounded-xl bg-red-500/10 border border-red-500/30 px-3 py-1.5 text-xs text-red-300 animate-pulse">
@@ -604,7 +604,7 @@ export function CourseChatbot() {
                       onChange={(e) => setInput(e.target.value)}
                       placeholder="Ask about Radar, NWP, HPC, AI/ML courses..."
                       disabled={isTyping}
-                      className="w-full rounded-2xl border border-white/10 bg-slate-900/90 pl-4 pr-20 py-2.5 text-xs text-white placeholder-slate-500 focus:border-[#e0234e] focus:outline-none focus:ring-1 focus:ring-[#e0234e] disabled:opacity-50 transition-all shadow-inner"
+                      className="w-full rounded-2xl border border-white/10 bg-white dark:bg-slate-900/90 pl-4 pr-20 py-2.5 text-xs text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:border-[#e0234e] focus:outline-none focus:ring-1 focus:ring-[#e0234e] disabled:opacity-50 transition-all shadow-inner"
                     />
 
                     {/* Speech to text mic button */}
@@ -614,8 +614,8 @@ export function CourseChatbot() {
                       title={isRecording ? 'Stop Recording' : 'Search by Voice'}
                       className={`absolute right-10 top-1/2 -translate-y-1/2 rounded-xl p-1.5 transition-all ${
                         isRecording
-                          ? 'bg-red-500 text-white animate-pulse'
-                          : 'text-slate-400 hover:bg-white/10 hover:text-white'
+                          ? 'bg-red-500 text-slate-900 dark:text-white animate-pulse'
+                          : 'text-slate-500 dark:text-slate-400 hover:bg-white/10 hover:text-slate-900 dark:text-white'
                       }`}
                     >
                       {isRecording ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}

@@ -29,13 +29,13 @@ export function AnnouncementFeed() {
       className="rounded-3xl border border-white/10 bg-[#09090e] p-6 backdrop-blur-xl space-y-4"
     >
       <div className="flex items-center justify-between border-b border-white/10 pb-3">
-        <h3 className="text-base font-bold text-white flex items-center gap-2">
+        <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
           <div className="h-8 w-8 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
             <Megaphone className="h-4 w-4 text-blue-400" />
           </div>
           <span>Sitewide Bulletins & Ministry Directives</span>
         </h3>
-        <span className="text-xs text-slate-400 rounded-lg bg-white/5 px-2.5 py-1 border border-white/10">Official CMS</span>
+        <span className="text-xs text-slate-500 dark:text-slate-400 rounded-lg bg-white/5 px-2.5 py-1 border border-white/10">Official CMS</span>
       </div>
 
       <motion.div
@@ -81,16 +81,16 @@ export function AnnouncementFeed() {
                     </span>
                   )}
                 </div>
-                <span className="text-[10px] text-slate-400 font-mono bg-white/5 px-2 py-0.5 rounded border border-white/5">
+                <span className="text-[10px] text-slate-500 dark:text-slate-400 font-mono bg-white/5 px-2 py-0.5 rounded border border-white/5">
                   {timeAgo(ann.createdAt)}
                 </span>
               </div>
 
-              <h4 className="text-sm font-bold text-white mt-2">{ann.title}</h4>
-              <p className="text-xs text-slate-300 mt-1 leading-relaxed">{ann.content}</p>
+              <h4 className="text-sm font-bold text-slate-900 dark:text-white mt-2">{ann.title}</h4>
+              <p className="text-xs text-slate-600 dark:text-slate-300 mt-1 leading-relaxed">{ann.content}</p>
 
-              <div className="text-[10px] text-slate-400 mt-2 font-medium">
-                Published by <span className="text-slate-200 font-semibold">{ann.authorName}</span>
+              <div className="text-[10px] text-slate-500 dark:text-slate-400 mt-2 font-medium">
+                Published by <span className="text-slate-900 dark:text-slate-200 font-semibold">{ann.authorName}</span>
               </div>
             </motion.div>
           );
@@ -99,4 +99,3 @@ export function AnnouncementFeed() {
     </motion.div>
   );
 }
-

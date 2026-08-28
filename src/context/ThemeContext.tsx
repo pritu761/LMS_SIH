@@ -19,13 +19,13 @@ export interface ThemeConfig {
 export const THEME_CONFIGS: Record<VisualTheme, ThemeConfig> = {
   nestjs: {
     id: 'nestjs',
-    name: 'NestJS Crimson',
-    subtitle: 'Progressive Ruby Red & Carbon Architecture',
-    primaryColor: '#E0234E',
-    accentColor: '#FF4D6D',
-    glowColor: 'rgba(224, 35, 78, 0.42)',
-    previewGradient: 'from-[#E0234E] via-[#EA2845] to-[#FF758C]',
-    badgeText: 'NESTJS CORE',
+    name: 'Sovereign Navy & Gold',
+    subtitle: 'Official IMD / MoES Capacity Portal Aesthetic',
+    primaryColor: '#0b1e36',
+    accentColor: '#c59b48',
+    glowColor: 'rgba(197, 155, 72, 0.3)',
+    previewGradient: 'from-[#0b1e36] via-[#162a45] to-[#c59b48]',
+    badgeText: 'IMD • MOES SOVEREIGN',
   },
   emerald: {
     id: 'emerald',
@@ -81,7 +81,7 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType>({
   theme: 'nestjs',
   setTheme: () => {},
-  mode: 'dark',
+  mode: 'light',
   setMode: () => {},
   toggleMode: () => {},
   config: THEME_CONFIGS.nestjs,
@@ -89,7 +89,7 @@ const ThemeContext = createContext<ThemeContextType>({
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setThemeState] = useState<VisualTheme>('nestjs');
-  const [mode, setModeState] = useState<ThemeMode>('dark');
+  const [mode, setModeState] = useState<ThemeMode>('light');
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -100,9 +100,9 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     setThemeState(initialTheme);
     document.documentElement.setAttribute('data-theme', initialTheme);
 
-    // Restore saved mode (dark or light)
+    // Initialize with light mode as default
     const savedMode = localStorage.getItem('capacity_connect_theme_mode') as ThemeMode;
-    const initialMode = savedMode === 'light' ? 'light' : 'dark';
+    const initialMode = savedMode === 'dark' ? 'dark' : 'light';
     setModeState(initialMode);
     document.documentElement.setAttribute('data-mode', initialMode);
     if (initialMode === 'light') {
@@ -111,6 +111,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     } else {
       document.documentElement.classList.remove('light');
       document.documentElement.classList.add('dark');
+    }
+    // Ensure clean light mode for current session if not explicitly set
+    if (!savedMode) {
+      localStorage.setItem('capacity_connect_theme_mode', 'light');
     }
   }, []);
 

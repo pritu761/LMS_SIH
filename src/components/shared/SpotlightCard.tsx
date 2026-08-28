@@ -55,7 +55,7 @@ export function SpotlightCard({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       whileHover={{ y: -4, transition: { duration: 0.25 } }}
-      className={`spotlight-card relative overflow-hidden rounded-3xl border border-white/[0.08] bg-[#07070b]/90 backdrop-blur-xl p-6 transition-all duration-300 hover:border-white/[0.18] group ${className}`}
+      className={`spotlight-card relative overflow-hidden rounded-3xl border border-slate-200 bg-white text-slate-900 dark:border-white/10 dark:bg-[#0b1a2e]/90 dark:text-white backdrop-blur-xl p-6 transition-all duration-300 hover:border-[#c59b48]/60 dark:hover:border-[#c59b48]/60 shadow-sm hover:shadow-md group ${className}`}
     >
       {/* Dynamic Cursor Spotlight Radial Glow */}
       <div
