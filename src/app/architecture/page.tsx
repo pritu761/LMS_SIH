@@ -88,7 +88,7 @@ export default function TechnicalArchitecturePage() {
   ];
 
   return (
-    <div className="flex-1 flex flex-col bg-white text-slate-900 dark:bg-[#070f1a] dark:text-slate-100 selection:bg-[#0b1e36] selection:text-[#c59b48]">
+    <div className="flex-1 flex flex-col bg-white/85 text-slate-900 dark:bg-[#070f1a] dark:text-slate-100 selection:bg-[#0b1e36] selection:text-[#c59b48]">
       {/* Top Banner / Breadcrumb */}
       <section className="border-b border-slate-200 bg-slate-50/80 py-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto space-y-4">

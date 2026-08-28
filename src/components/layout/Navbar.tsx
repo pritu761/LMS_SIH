@@ -17,9 +17,9 @@ import {
   Satellite,
   Bot,
   ArrowRight,
-  Compass,
 } from 'lucide-react';
 import { useCourseChat } from '@/context/ChatContext';
+import { ModeToggle } from '@/components/layout/ModeToggle';
 
 export function Navbar() {
   const pathname = usePathname();
@@ -244,6 +244,9 @@ export function Navbar() {
               <span className="hidden sm:inline text-[11px]">AI Guide</span>
               <Sparkles className="h-2.5 w-2.5 text-amber-500 animate-pulse hidden sm:inline" />
             </button>
+
+            {/* Dark / Light Mode Toggle Button */}
+            <ModeToggle />
 
             {/* Quick Demo Role Switcher Dropdown */}
             <div className="relative shrink-0" ref={dropdownRef}>

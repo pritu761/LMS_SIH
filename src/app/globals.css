@@ -758,17 +758,36 @@
 /* Text Hierarchy in Dark Mode */
 [data-mode='dark'],
 .dark {
+  color-scheme: dark;
   color: #f8fafc;
 }
 
-[data-mode='dark'] h1, [data-mode='dark'] h2, [data-mode='dark'] h3, [data-mode='dark'] h4, [data-mode='dark'] h5,
-.dark h1, .dark h2, .dark h3, .dark h4, .dark h5 {
+[data-mode='dark'] h1, [data-mode='dark'] h2, [data-mode='dark'] h3, [data-mode='dark'] h4, [data-mode='dark'] h5, [data-mode='dark'] h6,
+.dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6 {
   color: #ffffff !important;
 }
 
 [data-mode='dark'] p,
 .dark p {
-  color: #cbd5e1;
+  color: #cbd5e1 !important;
+}
+
+[data-mode='dark'] label,
+.dark label {
+  color: #e2e8f0 !important;
+}
+
+[data-mode='dark'] th,
+.dark th {
+  color: #ffffff !important;
+  background-color: #081424 !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+[data-mode='dark'] td,
+.dark td {
+  color: #cbd5e1 !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
 }
 
 [data-mode='dark'] a:not([class*="text-"]):not([class*="bg-"]):not([class*="btn-"]),
@@ -780,23 +799,40 @@
 .dark .text-slate-900,
 [data-mode='dark'] .text-slate-800,
 .dark .text-slate-800,
+[data-mode='dark'] .text-slate-700,
+.dark .text-slate-700,
+[data-mode='dark'] .text-black,
+.dark .text-black {
+  color: #ffffff !important;
+}
+
+[data-mode='dark'] .text-slate-600,
+.dark .text-slate-600,
+[data-mode='dark'] .text-slate-500,
+.dark .text-slate-500 {
+  color: #cbd5e1 !important;
+}
+
+[data-mode='dark'] .text-slate-400,
+.dark .text-slate-400 {
+  color: #94a3b8 !important;
+}
+
+/* Brand Navy Text converted to White in dark mode (except inside gold buttons) */
 [data-mode='dark'] .text-\[\#0b1e36\],
 .dark .text-\[\#0b1e36\] {
   color: #ffffff !important;
 }
 
-[data-mode='dark'] .text-slate-700,
-.dark .text-slate-700,
-[data-mode='dark'] .text-slate-600,
-.dark .text-slate-600 {
-  color: #cbd5e1 !important;
-}
-
-[data-mode='dark'] .text-slate-500,
-.dark .text-slate-500,
-[data-mode='dark'] .text-slate-400,
-.dark .text-slate-400 {
-  color: #94a3b8 !important;
+/* Gold Button MUST ALWAYS have crisp dark navy text in both modes */
+.btn-gold,
+.btn-gold *,
+[data-mode='dark'] .btn-gold,
+.dark .btn-gold,
+[data-mode='dark'] .btn-gold *,
+.dark .btn-gold * {
+  color: #08172a !important;
+  font-weight: 800 !important;
 }
 
 /* Colored Text High-Contrast in Dark Mode */
@@ -2257,25 +2293,28 @@
   50% { opacity: 0; }
 }
 
-/* Universal Site-Wide Watermark Overlay */
-.watermark-bg {
+/* Universal Site-Wide Watermark (Visible in Light Mode Only) */
+.watermark-bg,
+[data-mode='light'] .watermark-bg,
+.light .watermark-bg {
   position: fixed;
   inset: 0;
   width: 100vw;
   height: 100vh;
   pointer-events: none;
-  z-index: 25;
-  opacity: 0.08;
-  background-image: url('/hero-banner.jpg');
+  z-index: 0;
+  opacity: 0.25;
+  background-image: url('/watermark.png');
   background-size: cover;
-  background-position: center 25%;
+  background-position: center;
   background-repeat: no-repeat;
-  mix-blend-mode: multiply;
+  filter: contrast(1.1) saturate(1.1);
   transition: opacity 0.3s ease;
 }
 
 [data-mode='dark'] .watermark-bg,
 .dark .watermark-bg {
-  opacity: 0.06;
-  mix-blend-mode: screen;
+  opacity: 0 !important;
+  display: none !important;
+  visibility: hidden !important;
 }

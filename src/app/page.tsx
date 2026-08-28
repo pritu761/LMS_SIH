@@ -264,9 +264,10 @@ export default function HomePage() {
   return (
     <div
       suppressHydrationWarning
-      className="flex-1 flex flex-col space-y-0 pb-0 relative overflow-hidden bg-white text-slate-900 selection:bg-[#e0234e] selection:text-white"
-    >      {/* ════════════════ HERO SECTION WITH OFFICIAL BANNER ════════════════ */}
-      <section className="w-full bg-gradient-to-b from-[#faf9f6] via-white to-slate-50 border-b border-slate-200">
+      className="flex-1 flex flex-col space-y-0 pb-0 relative overflow-hidden bg-transparent dark:bg-[#070f1a]/80 text-slate-900 dark:text-slate-100 selection:bg-[#0b1e36] selection:text-[#c59b48]"
+    >
+      {/* ════════════════ HERO SECTION WITH OFFICIAL BANNER ════════════════ */}
+      <section className="w-full bg-gradient-to-b from-[#faf9f6]/70 via-white/65 to-slate-50/70 dark:from-[#0b1a2e]/85 dark:via-[#070f1a]/85 dark:to-[#081424]/85 border-b border-slate-200 dark:border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-14 space-y-10">
           
           {/* Top Government Emblems Header */}
@@ -294,66 +295,66 @@ export default function HomePage() {
           </div>
 
           {/* Main Centered Hero Title & Subtitle */}
-          <div className="max-w-4xl mx-auto text-center space-y-6">
+          <div className="max-w-5xl mx-auto text-center space-y-7">
             {/* Brand Typography */}
-            <div className="space-y-1">
-              <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight text-[#0b1e36] dark:text-white leading-[1.05]">
+            <div className="space-y-2">
+              <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-tight text-[#0b1e36] dark:text-white leading-[1.02]">
                 CAPACITY <span className="text-[#c59b48]">CONNECT</span>
               </h1>
             </div>
 
             {/* Official Subtitle & Tagline */}
-            <div className="space-y-3">
-              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-slate-800 dark:text-slate-200 tracking-tight">
+            <div className="space-y-4">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-800 dark:text-slate-200 tracking-tight">
                 Digital Capacity Building & Learning Management Portal
               </h2>
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#c59b48]/10 border border-[#c59b48]/30 text-xs sm:text-sm text-[#0b1e36] dark:text-[#dfb76c] font-semibold">
-                <span className="text-[#c59b48] font-bold">★</span>
+              <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-[#c59b48]/15 border-2 border-[#c59b48]/40 text-sm sm:text-base md:text-lg text-[#0b1e36] dark:text-[#dfb76c] font-bold shadow-sm">
+                <span className="text-[#c59b48] font-black text-lg">★</span>
                 <span>Empowering People. Strengthening Competencies. Building a Future-Ready Workforce.</span>
               </div>
             </div>
 
-            <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl mx-auto">
+            <p className="text-base sm:text-lg md:text-xl text-slate-700 dark:text-slate-300 leading-relaxed max-w-3xl mx-auto font-medium">
               CapacityConnect replaces static course tracking with an end-to-end meteorological intelligence pipeline: dynamically assessing officer skills, diagnosing cadre gaps, and matching certified faculty via our weighted <strong>55/30/15 algorithm</strong>.
             </p>
 
-            {/* 6-Stage Journey Ribbon (Problem -> Outcome) */}
-            <div className="pt-2 pb-1">
-              <div className="flex items-center justify-center gap-1.5 sm:gap-2 flex-wrap">
-                <span className="text-[11px] font-mono font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mr-1">
-                  Evaluation Flow:
+            {/* 6-Stage Journey Ribbon (Problem -> Outcome) - Enlarged for High Readability */}
+            <div className="pt-4 pb-2">
+              <div className="flex items-center justify-center gap-2 sm:gap-3 flex-wrap">
+                <span className="text-xs sm:text-sm md:text-base font-mono font-black text-[#0b1e36] dark:text-slate-200 uppercase tracking-wider mr-1">
+                  EVALUATION FLOW:
                 </span>
                 {judgeJourneyStages.map((stage, idx) => (
                   <a
                     key={stage.num}
                     href={stage.href}
-                    className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold border transition-all hover:scale-105 ${stage.color}`}
+                    className={`inline-flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm md:text-base font-mono font-extrabold border-2 shadow-sm transition-all duration-300 hover:scale-105 hover:shadow-md ${stage.color}`}
                   >
-                    <span>{stage.num}.</span>
+                    <span className="opacity-90">{stage.num}.</span>
                     <span>{stage.label}</span>
-                    {idx < judgeJourneyStages.length - 1 && <span className="opacity-40">→</span>}
+                    {idx < judgeJourneyStages.length - 1 && <span className="opacity-70 text-sm md:text-base">→</span>}
                   </a>
                 ))}
               </div>
             </div>
 
             {/* Centered CTA Buttons */}
-            <div className="flex flex-wrap items-center justify-center gap-3 pt-3">
-              <Link href="/admin/competency" className="btn-nestjs-primary group">
-                <Brain className="h-4 w-4 text-[#c59b48]" />
+            <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
+              <Link href="/admin/competency" className="btn-nestjs-primary group text-sm sm:text-base font-bold px-6 sm:px-8 py-3.5 sm:py-4">
+                <Brain className="h-5 w-5 text-[#c59b48]" />
                 <span>Launch 55/30/15 Matcher</span>
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
               </Link>
 
-              <Link href="/trainee/courses" className="btn-gold group">
-                <BookOpen className="h-4 w-4" />
+              <Link href="/trainee/courses" className="btn-gold group text-sm sm:text-base font-bold px-6 sm:px-8 py-3.5 sm:py-4">
+                <BookOpen className="h-5 w-5" />
                 <span>Explore Curriculum</span>
               </Link>
 
-              <Link href="/architecture" className="btn-nestjs-secondary group border-dashed">
-                <Code2 className="h-4 w-4 text-slate-500 group-hover:text-[#c59b48] transition-colors" />
+              <Link href="/architecture" className="btn-nestjs-secondary group border-dashed text-sm sm:text-base font-bold px-6 sm:px-8 py-3.5 sm:py-4">
+                <Code2 className="h-5 w-5 text-slate-500 group-hover:text-[#c59b48] transition-colors" />
                 <span>Technical Architecture</span>
-                <ChevronRight className="h-4 w-4" />
+                <ChevronRight className="h-5 w-5" />
               </Link>
             </div>
           </div>
