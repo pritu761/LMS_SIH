@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Inter, Outfit } from 'next/font/google';
+import { Plus_Jakarta_Sans, Outfit, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { Navbar } from '@/components/layout/Navbar';
 import { BackToTop } from '@/components/shared/BackToTop';
@@ -7,16 +7,25 @@ import { ThemeProvider } from '@/context/ThemeContext';
 import { ChatProvider } from '@/context/ChatContext';
 import { CourseChatbot } from '@/components/chat/CourseChatbot';
 
-const inter = Inter({
+const jakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
   variable: '--font-sans',
   display: 'swap',
+  weight: ['400', '500', '600', '700', '800'],
 });
 
 const outfit = Outfit({
   subsets: ['latin'],
   variable: '--font-display',
   display: 'swap',
+  weight: ['500', '600', '700', '800', '900'],
+});
+
+const jetbrains = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-mono',
+  display: 'swap',
+  weight: ['400', '500', '700'],
 });
 
 export const metadata: Metadata = {
@@ -54,7 +63,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: '#060911',
+  themeColor: '#ffffff',
 };
 
 export default function RootLayout({
@@ -63,78 +72,84 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`dark ${inter.variable} ${outfit.variable}`} suppressHydrationWarning>
-      <body className="min-h-screen bg-[#0b0e14] text-slate-100 flex flex-col font-sans antialiased selection:bg-[#e0234e] selection:text-white" suppressHydrationWarning>
+    <html lang="en" className={`light ${jakarta.variable} ${outfit.variable} ${jetbrains.variable}`} suppressHydrationWarning>
+      <body className="min-h-screen bg-white text-slate-900 dark:bg-[#070f1a] dark:text-slate-100 flex flex-col font-sans antialiased selection:bg-[#0b1e36] selection:text-[#c59b48] transition-colors duration-300" suppressHydrationWarning>
         <ThemeProvider>
           <ChatProvider>
             <Navbar />
             <main className="flex-1 flex flex-col">{children}</main>
 
-            {/* Rich NestJS-style Global Footer */}
-            <footer className="w-full border-t border-white/10 bg-[#040102] py-16 px-4 sm:px-6 lg:px-8 mt-auto">
-              <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
+            {/* Sovereign Navy & Gold Global Footer with Wave & Gold Trim */}
+            <footer className="w-full mt-auto relative overflow-hidden bg-[#0b1e36] text-white border-t-2 border-[#c59b48]">
+              {/* Subtle top gold accent glow */}
+              <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#c59b48] to-transparent opacity-80" />
+              
+              <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 relative z-10">
                 
                 {/* Col 1: Brand & Gov Info (2 cols) */}
                 <div className="lg:col-span-2 space-y-4">
                   <div className="flex items-center gap-3">
-                    <div className="h-8 w-8 rounded-xl bg-[#e0234e] flex items-center justify-center text-white shadow-md shadow-[#e0234e]/40">
-                      <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <div className="h-10 w-10 rounded-xl bg-[#122c4d] border border-[#c59b48]/40 flex items-center justify-center text-[#c59b48] shadow-lg shadow-[#08172a]/50">
+                      <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                         <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
                         <path d="M6 12v5c3 3 9 3 12 0v-5" />
                       </svg>
                     </div>
-                    <span className="font-black text-lg tracking-tight text-white">
-                      Capacity<span className="text-[#e0234e]">Connect</span>
+                    <span className="font-black text-xl tracking-tight text-white">
+                      CAPACITY<span className="text-[#c59b48] ml-1">CONNECT</span>
                     </span>
                   </div>
-                  <p className="text-xs text-slate-400 leading-relaxed max-w-sm">
+                  <div className="text-xs text-[#c59b48] font-semibold tracking-wide">
+                    Empowering People. Strengthening Competencies. Building a Future-Ready Workforce.
+                  </div>
+                  <p className="text-xs text-slate-300 leading-relaxed max-w-sm">
                     Sovereign meteorological competency assessment, cadre mapping, and faculty allocation platform built for the India Meteorological Department (IMD) and Ministry of Earth Sciences (MoES).
                   </p>
                   <div className="flex items-center gap-2 pt-2 text-[11px] font-mono text-emerald-400">
                     <span className="h-2 w-2 rounded-full bg-emerald-400 animate-ping" />
-                    <span>All 38 Doppler Radar Nodes Online</span>
+                    <span>All 38 Doppler Radar Nodes Online • WMO Compliance Ready</span>
                   </div>
                 </div>
 
-                {/* Col 2: Documentation */}
+                {/* Col 2: Problem & Algorithms */}
                 <div className="space-y-3 text-xs">
-                  <div className="font-mono font-bold uppercase tracking-wider text-white">Documentation</div>
-                  <ul className="space-y-2 text-slate-400">
-                    <li><a href="/admin/competency" className="hover:text-white transition-colors">55/30/15 Algorithm</a></li>
-                    <li><a href="/trainee/courses" className="hover:text-white transition-colors">Cadre Curricula</a></li>
-                    <li><a href="/admin/reports" className="hover:text-white transition-colors">WMO RTC Rubrics</a></li>
-                    <li><a href="/admin/batches" className="hover:text-white transition-colors">Batch Directives</a></li>
+                  <div className="font-mono font-bold uppercase tracking-wider text-[#c59b48]">Core Engine</div>
+                  <ul className="space-y-2 text-slate-300">
+                    <li><a href="/admin/competency" className="hover:text-[#c59b48] transition-colors">55/30/15 Allocation Algorithm</a></li>
+                    <li><a href="/trainee/courses" className="hover:text-[#c59b48] transition-colors">Cadre Curricula & Tracks</a></li>
+                    <li><a href="/admin/competency" className="hover:text-[#c59b48] transition-colors">WMO RTC Rubrics</a></li>
+                    <li><a href="/trainee/profile" className="hover:text-[#c59b48] transition-colors">Competency Gap Dossier</a></li>
                   </ul>
                 </div>
 
-                {/* Col 3: Ecosystem */}
+                {/* Col 3: Architecture Deep Dive */}
                 <div className="space-y-3 text-xs">
-                  <div className="font-mono font-bold uppercase tracking-wider text-white">Ecosystem</div>
-                  <ul className="space-y-2 text-slate-400">
-                    <li><a href="/admin/competency" className="hover:text-white transition-colors">Capacity Observe</a></li>
-                    <li><a href="/admin/competency" className="hover:text-white transition-colors">Competency DevTools</a></li>
-                    <li><a href="/admin/batches" className="hover:text-white transition-colors">Deploy & Orchestrate</a></li>
-                    <li><a href="/trainee/courses" className="hover:text-white transition-colors">IMD Masterclass</a></li>
+                  <div className="font-mono font-bold uppercase tracking-wider text-[#c59b48]">Technical Specs</div>
+                  <ul className="space-y-2 text-slate-300">
+                    <li><a href="/architecture" className="hover:text-[#c59b48] font-semibold text-[#c59b48] transition-colors">Technical Architecture</a></li>
+                    <li><a href="/architecture#ioc" className="hover:text-[#c59b48] transition-colors">Inversion of Control (IoC)</a></li>
+                    <li><a href="/architecture#dtos" className="hover:text-[#c59b48] transition-colors">TypeScript DTOs & Schemas</a></li>
+                    <li><a href="/architecture#hpc" className="hover:text-[#c59b48] transition-colors">HPC Parallelism Sandbox</a></li>
                   </ul>
                 </div>
 
                 {/* Col 4: Institutional Links */}
                 <div className="space-y-3 text-xs">
-                  <div className="font-mono font-bold uppercase tracking-wider text-white">Governance</div>
-                  <ul className="space-y-2 text-slate-400">
-                    <li><a href="https://mausam.imd.gov.in" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">IMD Official</a></li>
-                    <li><a href="https://moes.gov.in" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">MoES Portal</a></li>
-                    <li><a href="https://www.tropmet.res.in" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">IITM Pune</a></li>
-                    <li><a href="https://ncmrwf.gov.in" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">NCMRWF HPC</a></li>
+                  <div className="font-mono font-bold uppercase tracking-wider text-[#c59b48]">Governance</div>
+                  <ul className="space-y-2 text-slate-300">
+                    <li><a href="https://mausam.imd.gov.in" target="_blank" rel="noreferrer" className="hover:text-[#c59b48] transition-colors">IMD Official (mausam.imd.gov.in)</a></li>
+                    <li><a href="https://moes.gov.in" target="_blank" rel="noreferrer" className="hover:text-[#c59b48] transition-colors">Ministry of Earth Sciences (MoES)</a></li>
+                    <li><a href="https://www.tropmet.res.in" target="_blank" rel="noreferrer" className="hover:text-[#c59b48] transition-colors">IITM Pune</a></li>
+                    <li><a href="https://ncmrwf.gov.in" target="_blank" rel="noreferrer" className="hover:text-[#c59b48] transition-colors">NCMRWF HPC Center</a></li>
                   </ul>
                 </div>
               </div>
 
-              <div className="max-w-7xl mx-auto pt-10 mt-10 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 font-mono gap-4">
-                <div>© 2026 Ministry of Earth Sciences & India Meteorological Department. Built with NestJS Architecture.</div>
-                <div className="flex items-center gap-4">
-                  <span className="text-slate-400">Smart India Hackathon</span>
-                  <span className="flex items-center gap-1">Built for India 🇮🇳</span>
+              {/* Bottom Copyright & Gov Note */}
+              <div className="border-t border-white/10 bg-[#08172a] py-4 px-4 sm:px-6 lg:px-8">
+                <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-400 font-mono gap-2">
+                  <div>© 2026 CapacityConnect • Smart India Hackathon (SIH) • Ministry of Earth Sciences & IMD</div>
+                  <div className="text-[#c59b48]">Built with Inversion of Control, Type-Safe DTOs & WMO Rubrics</div>
                 </div>
               </div>
             </footer>

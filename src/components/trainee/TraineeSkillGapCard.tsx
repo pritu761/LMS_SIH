@@ -48,7 +48,7 @@ export function TraineeSkillGapCard({ userId }: Props) {
 
   if (loading || !analysis) {
     return (
-      <div className="rounded-3xl border border-slate-800 bg-slate-900/40 p-8 text-center text-xs text-slate-400 animate-pulse">
+      <div className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/40 p-8 text-center text-xs text-slate-500 dark:text-slate-400 animate-pulse">
         Analyzing your personal meteorological competency gaps...
       </div>
     );
@@ -57,7 +57,7 @@ export function TraineeSkillGapCard({ userId }: Props) {
   const deficientSkills = analysis.gaps.filter((g) => g.status === 'DEFICIENT' || g.status === 'MISSING');
 
   return (
-    <div className="rounded-3xl border border-[#e0234e]/30 bg-gradient-to-br from-[#200a12]/40 via-slate-900/80 to-slate-950 p-6 sm:p-8 backdrop-blur-xl shadow-elevation-2 space-y-6 relative overflow-hidden">
+    <div className="rounded-3xl border border-[#e0234e]/30 bg-gradient-to-br from-[#200a12]/40 via-white dark:via-slate-900/80 to-white dark:to-slate-950 p-6 sm:p-8 backdrop-blur-xl shadow-elevation-2 space-y-6 relative overflow-hidden">
       {/* Top accent glow */}
       <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#e0234e]/60 to-transparent animate-gradient-shift bg-[length:200%_100%]" />
       <div className="absolute top-0 right-0 w-64 h-64 bg-[#e0234e]/5 rounded-full blur-3xl pointer-events-none" />
@@ -69,26 +69,26 @@ export function TraineeSkillGapCard({ userId }: Props) {
             <span className="rounded-md bg-[#e0234e]/15 px-2.5 py-0.5 text-[10px] font-black text-[#ff4d6d] border border-[#e0234e]/30 uppercase tracking-wider">
               CADRE BENCHMARK TRACKING
             </span>
-            <span className="text-xs text-slate-400 font-mono">Mission Mausam Protocol</span>
+            <span className="text-xs text-slate-500 dark:text-slate-400 font-mono">Mission Mausam Protocol</span>
           </div>
-          <h2 className="text-xl font-bold text-white tracking-tight flex items-center gap-2">
+          <h2 className="text-xl font-bold text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
             <Brain className="h-5 w-5 text-[#ff4d6d]" />
             <span>Personal Competency Gap & Cadre Progression</span>
           </h2>
-          <p className="text-xs text-slate-300 mt-1">
+          <p className="text-xs text-slate-600 dark:text-slate-300 mt-1">
             Track your verified skills against <span className="text-[#ff758c] font-semibold">{analysis.cadreBenchmarkName}</span> requirements.
           </p>
         </div>
 
         {/* Cadre Selector */}
         <div className="shrink-0 space-y-1">
-          <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+          <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
             Cadre Track
           </label>
           <select
             value={selectedCadre}
             onChange={(e) => setSelectedCadre(e.target.value as any)}
-            className="rounded-2xl border border-slate-700 bg-slate-950 px-3.5 py-1.5 text-xs font-bold text-white focus:border-[#e0234e] focus:outline-none shadow-md"
+            className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-3.5 py-1.5 text-xs font-bold text-slate-900 dark:text-white focus:border-[#e0234e] focus:outline-none shadow-md"
           >
             {initialCadres.map((c) => (
               <option key={c.code} value={c.code}>
@@ -101,34 +101,34 @@ export function TraineeSkillGapCard({ userId }: Props) {
 
       {/* Overview Metric Bar */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        <div className="rounded-2xl border border-white/5 bg-slate-950/60 p-3.5 flex items-center gap-3">
+        <div className="rounded-2xl border border-white/5 bg-white dark:bg-slate-950/60 p-3.5 flex items-center gap-3">
           <div className="h-9 w-9 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center shrink-0">
             <CheckCircle2 className="h-5 w-5 text-emerald-400" />
           </div>
           <div>
-            <span className="text-[10px] text-slate-400 font-medium block">Cadre Readiness Score</span>
-            <span className="text-base font-black text-white">{analysis.readinessScore}% Ready</span>
+            <span className="text-[10px] text-slate-500 dark:text-slate-400 font-medium block">Cadre Readiness Score</span>
+            <span className="text-base font-black text-slate-900 dark:text-white">{analysis.readinessScore}% Ready</span>
           </div>
         </div>
 
-        <div className="rounded-2xl border border-white/5 bg-slate-950/60 p-3.5 flex items-center gap-3">
+        <div className="rounded-2xl border border-white/5 bg-white dark:bg-slate-950/60 p-3.5 flex items-center gap-3">
           <div className="h-9 w-9 rounded-xl bg-[#e0234e]/10 border border-[#e0234e]/20 flex items-center justify-center shrink-0">
             <AlertTriangle className="h-5 w-5 text-[#ff4d6d]" />
           </div>
           <div>
-            <span className="text-[10px] text-slate-400 font-medium block">Identified Skill Deficits</span>
+            <span className="text-[10px] text-slate-500 dark:text-slate-400 font-medium block">Identified Skill Deficits</span>
             <span className="text-base font-black text-[#ff4d6d]">
               {deficientSkills.length} Deficiencies
             </span>
           </div>
         </div>
 
-        <div className="rounded-2xl border border-white/5 bg-slate-950/60 p-3.5 flex items-center gap-3">
+        <div className="rounded-2xl border border-white/5 bg-white dark:bg-slate-950/60 p-3.5 flex items-center gap-3">
           <div className="h-9 w-9 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center shrink-0">
             <Target className="h-5 w-5 text-amber-400" />
           </div>
           <div>
-            <span className="text-[10px] text-slate-400 font-medium block">Cadre Promotion Status</span>
+            <span className="text-[10px] text-slate-500 dark:text-slate-400 font-medium block">Cadre Promotion Status</span>
             <span className="text-base font-black text-amber-300">
               {deficientSkills.length === 0 ? 'Eligible' : 'In Training'}
             </span>
@@ -138,7 +138,7 @@ export function TraineeSkillGapCard({ userId }: Props) {
 
       {/* Identified Skill Deficits & Recommended Courses */}
       <div className="space-y-3">
-        <h3 className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-1.5">
+        <h3 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-1.5">
           <Zap className="h-3.5 w-3.5 text-[#ff4d6d]" />
           <span>Recommended Gap-Closing Modules</span>
         </h3>
@@ -147,26 +147,26 @@ export function TraineeSkillGapCard({ userId }: Props) {
           {deficientSkills.slice(0, 2).map((item) => (
             <div
               key={item.competencyId}
-              className="rounded-2xl border border-[#e0234e]/30 bg-slate-950/70 p-4 space-y-3 hover:border-[#e0234e]/60 transition-all shadow-lg hover:shadow-[#e0234e]/10"
+              className="rounded-2xl border border-[#e0234e]/30 bg-white dark:bg-slate-950/70 p-4 space-y-3 hover:border-[#e0234e]/60 transition-all shadow-lg hover:shadow-[#e0234e]/10"
             >
               <div className="flex items-center justify-between">
                 <div>
                   <span className="text-[10px] font-mono text-[#ff4d6d] font-bold">{item.code}</span>
-                  <h4 className="text-xs font-bold text-white">{item.competencyName}</h4>
+                  <h4 className="text-xs font-bold text-slate-900 dark:text-white">{item.competencyName}</h4>
                 </div>
                 <div className="text-right shrink-0">
                   <span className="text-[10px] text-[#ff4d6d] font-bold block">Deficit: {item.gapDelta} Lvl</span>
-                  <span className="text-[9px] text-slate-400 font-mono">
+                  <span className="text-[9px] text-slate-500 dark:text-slate-400 font-mono">
                     Lvl {item.currentProficiency} → Target {item.benchmarkProficiency}
                   </span>
                 </div>
               </div>
 
               {item.recommendedCourse && item.recommendedTrainer && (
-                <div className="pt-2 border-t border-slate-800 flex items-center justify-between">
-                  <div className="text-[11px] text-slate-300 truncate max-w-[240px]">
-                    <span className="text-white font-semibold">{item.recommendedCourse.code}</span>
-                    <span className="text-slate-400 block text-[10px] truncate">
+                <div className="pt-2 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                  <div className="text-[11px] text-slate-600 dark:text-slate-300 truncate max-w-[240px]">
+                    <span className="text-slate-900 dark:text-white font-semibold">{item.recommendedCourse.code}</span>
+                    <span className="text-slate-500 dark:text-slate-400 block text-[10px] truncate">
                       Faculty: {item.recommendedTrainer.name}
                     </span>
                   </div>

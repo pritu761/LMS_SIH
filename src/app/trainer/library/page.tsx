@@ -128,7 +128,7 @@ export default function TrainerLibraryPage() {
       <main className="flex-1 min-w-0 space-y-6">
         
         {/* Header */}
-        <div className="rounded-3xl border border-slate-800 bg-slate-900/60 p-6 sm:p-8 backdrop-blur-xl space-y-2 relative overflow-hidden animate-fade-in-up">
+        <div className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 p-6 sm:p-8 backdrop-blur-xl space-y-2 relative overflow-hidden animate-fade-in-up">
           <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-indigo-500/50 to-transparent animate-gradient-shift bg-[length:200%_100%]" />
           <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/5 rounded-full blur-3xl pointer-events-none" />
 
@@ -137,12 +137,12 @@ export default function TrainerLibraryPage() {
               <span className="rounded-md bg-indigo-500/10 px-2.5 py-0.5 text-xs font-bold text-indigo-400 border border-indigo-500/20">
                 MEDIA MANAGEMENT
               </span>
-              <span className="text-xs text-slate-400">Course: {course.code}</span>
+              <span className="text-xs text-slate-500 dark:text-slate-400">Course: {course.code}</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight mt-1">
+            <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight mt-1">
               Curriculum Media Library & Uploads
             </h1>
-            <p className="text-xs sm:text-sm text-slate-300 mt-1">
+            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-1">
               Upload recorded lectures (MP4), high-resolution slide decks (PDF/PPT), and reading documentation.
             </p>
           </div>
@@ -156,8 +156,8 @@ export default function TrainerLibraryPage() {
         )}
 
         {/* Drag and Drop Zone + Upload Form */}
-        <div className="rounded-3xl border border-slate-800 bg-slate-900/60 p-6 backdrop-blur-xl space-y-6 animate-fade-in-up animation-delay-100">
-          <h3 className="text-base font-bold text-white flex items-center gap-2">
+        <div className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 p-6 backdrop-blur-xl space-y-6 animate-fade-in-up animation-delay-100">
+          <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
             <div className="h-8 w-8 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center">
               <UploadCloud className="h-4 w-4 text-indigo-400" />
             </div>
@@ -172,7 +172,7 @@ export default function TrainerLibraryPage() {
             className={`rounded-2xl border-2 border-dashed p-8 text-center transition-all duration-300 ${
               dragActive
                 ? 'border-indigo-500 bg-indigo-950/40 shadow-glow-sm scale-[1.01]'
-                : 'border-slate-700/80 bg-slate-950/40 hover:border-slate-600'
+                : 'border-slate-200 dark:border-slate-700/80 bg-white dark:bg-slate-950/40 hover:border-slate-600'
             }`}
           >
             <input
@@ -185,13 +185,13 @@ export default function TrainerLibraryPage() {
             <div className="h-14 w-14 mx-auto rounded-2xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 mb-3 shadow-glow-sm">
               <UploadCloud className="h-7 w-7" />
             </div>
-            <h4 className="text-sm font-bold text-white">Drag and drop file here, or browse local system</h4>
-            <p className="text-xs text-slate-400 mt-1">
+            <h4 className="text-sm font-bold text-slate-900 dark:text-white">Drag and drop file here, or browse local system</h4>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
               Supports MP4 (H.264), PDF, PPTX, and DOCX (Zero-Cost Local Disk Storage)
             </p>
             <label
               htmlFor="file-upload"
-              className="mt-4 inline-block rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 px-5 py-2 text-xs font-semibold text-slate-200 cursor-pointer transition-all hover:scale-105"
+              className="mt-4 inline-block rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-700 border border-slate-200 dark:border-slate-700 px-5 py-2 text-xs font-semibold text-slate-900 dark:text-slate-200 cursor-pointer transition-all hover:scale-105"
             >
               {selectedFile ? `Selected: ${selectedFile.name}` : 'Browse Files from Computer'}
             </label>
@@ -201,23 +201,23 @@ export default function TrainerLibraryPage() {
           <form onSubmit={handleAddMaterial} className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div className="space-y-1.5 sm:col-span-2">
-                <label className="text-xs font-semibold text-slate-300">Material Title</label>
+                <label className="text-xs font-semibold text-slate-600 dark:text-slate-300">Material Title</label>
                 <input
                   type="text"
                   required
                   placeholder="e.g. Module 3: Distributed Consensus & Raft Protocols"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  className="w-full rounded-xl border border-slate-700 bg-slate-950 px-3.5 py-2.5 text-xs text-slate-200 input-glow transition-all"
+                  className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-3.5 py-2.5 text-xs text-slate-900 dark:text-slate-200 input-glow transition-all"
                 />
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-slate-300">Asset Type</label>
+                <label className="text-xs font-semibold text-slate-600 dark:text-slate-300">Asset Type</label>
                 <select
                   value={type}
                   onChange={(e) => setType(e.target.value as any)}
-                  className="w-full rounded-xl border border-slate-700 bg-slate-950 px-3.5 py-2.5 text-xs text-slate-200 input-glow transition-all"
+                  className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-3.5 py-2.5 text-xs text-slate-900 dark:text-slate-200 input-glow transition-all"
                 >
                   <option value="VIDEO">VIDEO (MP4 Lecture)</option>
                   <option value="PDF">PDF (Slide Deck)</option>
@@ -228,13 +228,13 @@ export default function TrainerLibraryPage() {
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-slate-300">Description & Notes</label>
+              <label className="text-xs font-semibold text-slate-600 dark:text-slate-300">Description & Notes</label>
               <textarea
                 rows={2}
                 placeholder="Key lecture takeaways, code repo links, and reference bibliography..."
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                className="w-full rounded-xl border border-slate-700 bg-slate-950 p-3.5 text-xs text-slate-200 input-glow transition-all"
+                className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 p-3.5 text-xs text-slate-900 dark:text-slate-200 input-glow transition-all"
               />
             </div>
 
@@ -252,22 +252,22 @@ export default function TrainerLibraryPage() {
         </div>
 
         {/* Existing Materials Table */}
-        <div className="rounded-3xl border border-slate-800 bg-slate-900/60 p-6 backdrop-blur-xl space-y-4 animate-fade-in-up animation-delay-200">
-          <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-            <h3 className="text-base font-bold text-white">
+        <div className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 p-6 backdrop-blur-xl space-y-4 animate-fade-in-up animation-delay-200">
+          <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
+            <h3 className="text-base font-bold text-slate-900 dark:text-white">
               Published Course Assets ({materials.length})
             </h3>
-            <span className="text-xs text-slate-400 bg-slate-800/60 px-2.5 py-1 rounded-lg border border-slate-700/50">Ordered by curriculum index</span>
+            <span className="text-xs text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800/60 px-2.5 py-1 rounded-lg border border-slate-200 dark:border-slate-700/50">Ordered by curriculum index</span>
           </div>
 
           <div className="space-y-2 stagger-children">
             {materials.map((m, idx) => (
               <div
                 key={m.id}
-                className="rounded-2xl border border-slate-800 bg-slate-950/50 p-4 flex items-center justify-between gap-4 hover:border-indigo-500/30 hover:bg-slate-950/80 transition-all duration-300 group"
+                className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950/50 p-4 flex items-center justify-between gap-4 hover:border-indigo-500/30 hover:bg-white dark:bg-slate-950/80 transition-all duration-300 group"
               >
                 <div className="flex items-center gap-3 min-w-0">
-                  <div className="h-10 w-10 shrink-0 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-indigo-400 font-bold text-xs group-hover:scale-110 transition-transform">
+                  <div className="h-10 w-10 shrink-0 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-center text-indigo-400 font-bold text-xs group-hover:scale-110 transition-transform">
                     {idx + 1}
                   </div>
                   <div className="min-w-0">
@@ -275,9 +275,9 @@ export default function TrainerLibraryPage() {
                       <span className="rounded-md bg-indigo-950/80 px-2 py-0.5 text-[10px] font-bold text-indigo-300 uppercase border border-indigo-500/20">
                         {m.type}
                       </span>
-                      <h4 className="text-xs font-bold text-white truncate group-hover:text-indigo-200 transition-colors">{m.title}</h4>
+                      <h4 className="text-xs font-bold text-slate-900 dark:text-white truncate group-hover:text-indigo-200 transition-colors">{m.title}</h4>
                     </div>
-                    <div className="text-[11px] text-slate-400 flex items-center gap-2 mt-0.5">
+                    <div className="text-[11px] text-slate-500 dark:text-slate-400 flex items-center gap-2 mt-0.5">
                       <span>Size: {m.fileSize}</span>
                       {m.durationSeconds && <span>• Duration: {Math.floor(m.durationSeconds / 60)} mins</span>}
                     </div>

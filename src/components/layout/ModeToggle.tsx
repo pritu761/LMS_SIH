@@ -13,40 +13,47 @@ export function ModeToggle() {
     setMounted(true);
   }, []);
 
-  const isDark = mounted ? mode === 'dark' : true;
+  const isDark = mode === 'dark';
+
+  if (!mounted) {
+    return (
+      <div className="h-9 w-[68px] rounded-full border border-slate-200 bg-slate-100 dark:border-white/10 dark:bg-white/5 animate-pulse" />
+    );
+  }
 
   return (
-    <motion.button
-      whileHover={{ scale: 1.08 }}
-      whileTap={{ scale: 0.92 }}
-      onClick={toggleMode}
-      className="relative flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-white/[0.04] hover:bg-white/[0.1] dark:border-white/15 light:border-slate-300 light:bg-slate-100 text-slate-200 light:text-slate-800 transition-colors backdrop-blur-xl shadow-lg"
-      title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-      aria-label="Toggle Theme Mode"
-    >
-      <AnimatePresence mode="wait" initial={false}>
-        {isDark ? (
-          <motion.div
-            key="moon"
-            initial={{ opacity: 0, rotate: -90, scale: 0.6 }}
-            animate={{ opacity: 1, rotate: 0, scale: 1 }}
-            exit={{ opacity: 0, rotate: 90, scale: 0.6 }}
-            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <Moon className="h-4 w-4 text-indigo-300" />
-          </motion.div>
-        ) : (
-          <motion.div
-            key="sun"
-            initial={{ opacity: 0, rotate: 90, scale: 0.6 }}
-            animate={{ opacity: 1, rotate: 0, scale: 1 }}
-            exit={{ opacity: 0, rotate: -90, scale: 0.6 }}
-            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <Sun className="h-4 w-4 text-amber-500" />
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.button>
+    <div className="flex items-center gap-1 rounded-full border border-slate-200 bg-slate-100 p-1 dark:border-white/15 dark:bg-white/10 backdrop-blur-xl">
+      <motion.button
+        whileTap={{ scale: 0.92 }}
+        onClick={() => !isDark || toggleMode()}
+        aria-label="Switch to Light Mode"
+        aria-pressed={!isDark}
+        className={`relative flex h-7 w-7 items-center justify-center rounded-full transition-all duration-300 ${
+          !isDark
+            ? 'bg-white text-amber-500 shadow-md border border-amber-200'
+            : 'text-slate-400 hover:text-slate-600 dark:text-slate-400 dark:hover:text-white'
+        }`}
+        title="Light mode"
+      >
+        <Sun className="h-3.5 w-3.5" />
+        {!isDark && <motion.div layoutId="mode-glow" className="absolute inset-0 rounded-full bg-amber-400/20 blur-[6px] -z-10" />}
+      </motion.button>
+
+      <motion.button
+        whileTap={{ scale: 0.92 }}
+        onClick={() => isDark || toggleMode()}
+        aria-label="Switch to Dark Mode"
+        aria-pressed={isDark}
+        className={`relative flex h-7 w-7 items-center justify-center rounded-full transition-all duration-300 ${
+          isDark
+            ? 'bg-[#e0234e] text-white shadow-md border border-[#e0234e]/50'
+            : 'text-slate-400 hover:text-slate-700'
+        }`}
+        title="Dark mode"
+      >
+        <Moon className="h-3.5 w-3.5" />
+        {isDark && <motion.div layoutId="mode-glow" className="absolute inset-0 rounded-full bg-[#e0234e]/30 blur-[6px] -z-10" />}
+      </motion.button>
+    </div>
   );
 }

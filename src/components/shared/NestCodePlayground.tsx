@@ -192,8 +192,8 @@ export function NestCodePlayground() {
             <span className="h-3 w-3 rounded-full bg-amber-500/80 inline-block" />
             <span className="h-3 w-3 rounded-full bg-emerald-500/80 inline-block" />
           </div>
-          <span className="text-xs font-mono font-bold text-slate-300 flex items-center gap-2 pl-2 border-l border-white/10">
-            <Code2 className="h-4 w-4 text-[#ff4d6d]" />
+          <span className="text-xs font-mono font-bold text-slate-200 flex items-center gap-2 pl-2 border-l border-white/10">
+            <Code2 className="h-4 w-4 text-[#c59b48]" />
             <span>Architecture Code Sandbox</span>
           </span>
         </div>
@@ -208,8 +208,8 @@ export function NestCodePlayground() {
                 onClick={() => handleSelectTab(snippet)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-mono font-semibold transition-all ${
                   isActive
-                    ? 'bg-[#e0234e] text-white shadow-lg shadow-[#e0234e]/30'
-                    : 'text-slate-400 hover:text-white hover:bg-white/5'
+                    ? 'bg-[#0b1e36] text-white border border-[#c59b48]/60 shadow-lg'
+                    : 'text-slate-300 hover:text-white hover:bg-white/10'
                 }`}
               >
                 {snippet.filename}
@@ -222,7 +222,7 @@ export function NestCodePlayground() {
         <div className="flex items-center gap-2">
           <button
             onClick={handleCopy}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-xs text-slate-300 font-mono transition-all hover:text-white"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 border border-white/10 text-xs text-slate-200 font-mono transition-all hover:text-white"
             title="Copy code"
           >
             {copied ? (
@@ -241,7 +241,7 @@ export function NestCodePlayground() {
           <button
             onClick={handleRun}
             disabled={isRunning}
-            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-[#e0234e] to-[#ff4d6d] hover:from-[#c71c42] hover:to-[#ff2d55] text-white text-xs font-bold font-mono shadow-md shadow-[#e0234e]/30 transition-all hover:scale-105 active:scale-95 disabled:opacity-50"
+            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-[#0b1e36] hover:bg-[#122c4d] border border-[#c59b48]/60 text-white text-xs font-bold font-mono shadow-md shadow-[#0b1e36]/30 transition-all hover:scale-105 active:scale-95 disabled:opacity-50"
           >
             <Play className={`h-3.5 w-3.5 fill-current ${isRunning ? 'animate-spin' : ''}`} />
             <span>{isRunning ? 'Running...' : 'Run Test'}</span>
@@ -250,19 +250,19 @@ export function NestCodePlayground() {
       </div>
 
       {/* Description line */}
-      <div className="px-5 py-2.5 bg-[#12070b] border-b border-white/5 flex items-center justify-between text-xs text-slate-400 font-mono">
+      <div className="px-5 py-2.5 bg-[#0a1220] border-b border-white/5 flex items-center justify-between text-xs text-slate-300 font-mono">
         <span className="flex items-center gap-2">
-          <Sparkles className="h-3.5 w-3.5 text-[#ff4d6d]" />
+          <Sparkles className="h-3.5 w-3.5 text-[#c59b48]" />
           <span>{activeSnippet.description}</span>
         </span>
-        <span className="text-[#ff758c] font-bold">TypeScript Decorator Paradigm</span>
+        <span className="text-[#c59b48] font-bold">TypeScript Decorator Paradigm</span>
       </div>
 
       {/* Split Code and Output Area */}
       <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[380px]">
         {/* Code editor view (7 cols) */}
-        <div className="lg:col-span-7 p-5 overflow-x-auto font-mono text-xs sm:text-[13px] leading-relaxed bg-[#060204] border-b lg:border-b-0 lg:border-r border-white/10 text-slate-200">
-          <pre className="selection:bg-[#e0234e] selection:text-white">
+        <div className="lg:col-span-7 p-5 overflow-x-auto font-mono text-xs sm:text-[13px] leading-relaxed bg-[#060a12] border-b lg:border-b-0 lg:border-r border-white/10 text-slate-100">
+          <pre className="selection:bg-[#0b1e36] selection:text-white">
             <code>
               {activeSnippet.code.split('\n').map((line, idx) => {
                 const isDecorator = line.trim().startsWith('@');
@@ -271,20 +271,20 @@ export function NestCodePlayground() {
 
                 return (
                   <div key={idx} className="flex hover:bg-white/[0.03] px-2 py-0.5 rounded">
-                    <span className="w-8 select-none text-slate-600 text-right pr-4 text-[11px]">
+                    <span className="w-8 select-none text-slate-500 text-right pr-4 text-[11px]">
                       {idx + 1}
                     </span>
                     <span
                       className={`flex-1 ${
                         isDecorator
-                          ? 'text-[#ff4d6d] font-bold'
+                          ? 'text-[#c59b48] font-bold'
                           : isComment
-                          ? 'text-slate-500 italic'
+                          ? 'text-slate-400 italic'
                           : isKeyword
                           ? 'text-cyan-300 font-medium'
                           : line.includes(':') || line.includes('{') || line.includes('}')
-                          ? 'text-slate-200'
-                          : 'text-slate-300'
+                          ? 'text-slate-100'
+                          : 'text-slate-200'
                       }`}
                     >
                       {line}
@@ -297,9 +297,9 @@ export function NestCodePlayground() {
         </div>
 
         {/* Terminal output view (5 cols) */}
-        <div className="lg:col-span-5 p-5 bg-[#030102] flex flex-col justify-between font-mono text-xs text-slate-300">
+        <div className="lg:col-span-5 p-5 bg-[#04070d] flex flex-col justify-between font-mono text-xs text-slate-200">
           <div className="space-y-3">
-            <div className="flex items-center justify-between pb-2 border-b border-white/10 text-[11px] text-slate-400">
+            <div className="flex items-center justify-between pb-2 border-b border-white/10 text-[11px] text-slate-500 dark:text-slate-400">
               <span className="flex items-center gap-1.5 text-emerald-400 font-bold">
                 <Terminal className="h-3.5 w-3.5" />
                 <span>Live Inversion-of-Control Console</span>
@@ -310,7 +310,7 @@ export function NestCodePlayground() {
               </span>
             </div>
 
-            <div className="space-y-2 text-[11px] leading-relaxed overflow-y-auto max-h-[300px] text-slate-300">
+            <div className="space-y-2 text-[11px] leading-relaxed overflow-y-auto max-h-[300px] text-slate-600 dark:text-slate-300">
               {terminalOutput.map((log, i) => (
                 <div
                   key={i}
@@ -318,10 +318,10 @@ export function NestCodePlayground() {
                     log.startsWith('✔')
                       ? 'bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 font-bold'
                       : log.startsWith('[Nest]')
-                      ? 'text-slate-400'
+                      ? 'text-slate-500 dark:text-slate-400'
                       : log.startsWith('⚡') || log.startsWith('▶')
                       ? 'text-[#ff758c]'
-                      : 'text-slate-200'
+                      : 'text-slate-900 dark:text-slate-200'
                   }`}
                 >
                   {log}

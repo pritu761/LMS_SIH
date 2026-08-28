@@ -4,35 +4,50 @@
 
 @layer base {
   :root {
-    --background: 240 10% 2%;
-    --foreground: 0 0% 98%;
+    --background: 0 0% 100%;
+    --foreground: 216 66% 13%;
 
-    --muted: 240 6% 10%;
-    --muted-foreground: 240 5% 65%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
 
-    --popover: 240 10% 4%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 216 66% 13%;
 
-    --card: 240 10% 4%;
-    --card-foreground: 0 0% 98%;
+    --card: 0 0% 100%;
+    --card-foreground: 216 66% 13%;
 
-    --border: 240 6% 14%;
-    --input: 240 6% 14%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
 
-    --primary: 346 77% 51%;
+    --primary: 216 66% 13%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 240 6% 10%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 40 54% 53%;
+    --secondary-foreground: 216 66% 13%;
 
-    --accent: 346 77% 51%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 40 54% 53%;
+    --accent-foreground: 216 66% 13%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
 
-    --ring: 346 77% 51%;
+    --ring: 40 54% 53%;
     --radius: 1rem;
+  }
+
+  .dark {
+    --background: 240 10% 2%;
+    --foreground: 0 0% 98%;
+    --muted: 240 6% 10%;
+    --muted-foreground: 240 5% 65%;
+    --popover: 240 10% 4%;
+    --popover-foreground: 0 0% 98%;
+    --card: 240 10% 4%;
+    --card-foreground: 0 0% 98%;
+    --border: 240 6% 14%;
+    --input: 240 6% 14%;
+    --secondary: 240 6% 10%;
+    --secondary-foreground: 0 0% 98%;
   }
 }
 
@@ -40,24 +55,56 @@
   * {
     @apply border-border;
   }
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+  }
   body {
     @apply text-foreground antialiased selection:bg-[#E0234E] selection:text-white;
-    font-feature-settings: "rlig" 1, "calt" 1;
-    background-color: #0d111d;
-    background-image: 
-      radial-gradient(circle at 50% -10%, rgba(224, 35, 78, 0.22) 0%, transparent 60%),
-      radial-gradient(circle at 85% 25%, rgba(234, 40, 69, 0.12) 0%, transparent 45%),
-      radial-gradient(circle at 15% 65%, rgba(224, 35, 78, 0.08) 0%, transparent 50%);
-    background-attachment: fixed;
+    font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+    font-feature-settings: "rlig" 1, "calt" 1, "ss01" 1;
+    font-optical-sizing: auto;
+    background-color: #fcfcfd;
+    background-image: none;
+    color: #0f172a;
     min-height: 100vh;
     transition: background-color 0.4s ease, color 0.4s ease;
+    letter-spacing: -0.011em;
+    line-height: 1.6;
+  }
+
+  h1, h2, h3, h4, h5 {
+    font-family: var(--font-display), var(--font-sans), sans-serif;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    font-weight: 800;
+  }
+
+  code, pre, .font-mono {
+    font-family: var(--font-mono), ui-monospace, monospace;
+  }
+
+  .dark body,
+  [data-mode='dark'] body {
+    background-color: #070f1a !important;
+    background-image: 
+      radial-gradient(circle at 50% -10%, rgba(197, 155, 72, 0.12) 0%, transparent 60%),
+      radial-gradient(circle at 85% 25%, rgba(11, 30, 54, 0.5) 0%, transparent 45%),
+      radial-gradient(circle at 15% 65%, rgba(197, 155, 72, 0.06) 0%, transparent 50%) !important;
+    background-attachment: fixed;
+    color: #f8fafc !important;
   }
 
   [data-mode='light'] body,
   .light body {
-    background-color: #fafafb;
-    background-image: none;
-    color: #090a0f;
+    background-color: #ffffff;
+    background-image:
+      radial-gradient(ellipse 80% 60% at 50% -10%, rgba(197, 155, 72, 0.04) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 85% 20%, rgba(11, 30, 54, 0.03) 0%, transparent 50%);
+    background-attachment: fixed;
+    color: #0f172a;
   }
 }
 
@@ -233,21 +280,33 @@
   color: #090a0f !important;
 }
 
-/* Headings & Text Color Overrides for Light Mode */
+/* Headings & Text Color Overrides for Light Mode - surgical, preserves buttons */
 [data-mode='light'] h1, [data-mode='light'] h2, [data-mode='light'] h3, [data-mode='light'] h4,
 .light h1, .light h2, .light h3, .light h4 {
-  color: #090a0f;
-  letter-spacing: -0.025em;
+  color: #0f172a;
+  letter-spacing: -0.03em;
+  font-family: var(--font-display), var(--font-sans), sans-serif;
 }
 
-[data-mode='light'] .text-white,
-.light .text-white {
-  color: #090a0f !important;
+/* Only override text-white when inside light cards (bg-white), not on colored buttons */
+[data-mode='light'] :is(.bg-white, .bg-slate-50, .bg-slate-100):not([class*="from-"]):not([class*="bg-indigo"]):not([class*="bg-[#"]):not(.btn-nestjs-primary):not(.bg-gradient-to-r) .text-white,
+.light :is(.bg-white, .bg-slate-50, .bg-slate-100):not([class*="from-"]):not([class*="bg-indigo"]):not([class*="bg-[#"]):not(.btn-nestjs-primary):not(.bg-gradient-to-r) .text-white {
+  color: #0f172a !important;
+}
+
+/* Preserve white text on primary/indigo/crimson buttons and dark gradients */
+[data-mode='light'] .bg-indigo-600 .text-white,
+[data-mode='light'] .bg-indigo-500 .text-white,
+[data-mode='light'] .bg-\[\#e0234e\] .text-white,
+[data-mode='light'] [class*="bg-gradient-to"] .text-white,
+.light .bg-indigo-600 .text-white,
+.light .bg-indigo-500 .text-white {
+  color: #ffffff !important;
 }
 
 [data-mode='light'] .text-slate-300,
 .light .text-slate-300 {
-  color: #1e293b !important;
+  color: #334155 !important;
   font-weight: 500;
 }
 
@@ -264,7 +323,7 @@
 
 [data-mode='light'] .bg-black,
 .light .bg-black {
-  background-color: #fafafb !important;
+  background-color: #ffffff !important;
 }
 
 /* ══════════════════════════════════════════════════════════════
@@ -313,9 +372,9 @@
 [data-mode='light'] .bg-slate-800\/80,
 .light .bg-slate-800\/80 {
   background-color: #ffffff !important;
-  border-color: rgba(0, 0, 0, 0.08) !important;
-  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04), 0 0 0 1px rgba(0, 0, 0, 0.03) !important;
-  color: #090a0f !important;
+  border-color: rgba(226, 232, 240, 0.9) !important;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04), 0 8px 24px -6px rgba(15, 23, 42, 0.06), 0 0 0 1px rgba(226,232,240,0.8) !important;
+  color: #0f172a !important;
 }
 
 [data-mode='light'] .border-slate-800,
@@ -342,18 +401,24 @@
 }
 
 [data-mode='light'] .bg-black\/40,
-.light .bg-black\/40,
+.light .bg-black\/40 {
+  background-color: rgba(255,255,255,0.7) !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+  backdrop-filter: blur(8px) !important;
+}
+/* Keep modal backdrops dark even in light mode for focus */
 [data-mode='light'] .bg-black\/60,
 .light .bg-black\/60,
 [data-mode='light'] .bg-black\/70,
 .light .bg-black\/70,
 [data-mode='light'] .bg-black\/80,
 .light .bg-black\/80,
+[data-mode='light'] .bg-black\/85,
+.light .bg-black\/85,
 [data-mode='light'] .bg-black\/90,
 .light .bg-black\/90 {
-  background-color: #ffffff !important;
-  border-color: rgba(0, 0, 0, 0.08) !important;
-  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04) !important;
+  background-color: rgba(15, 23, 42, 0.6) !important;
+  backdrop-filter: blur(6px) !important;
 }
 
 [data-mode='light'] .bg-\[\#0c0c14\],
@@ -628,6 +693,269 @@
   border-color: #e2e8f0 !important;
   color: #090a0f !important;
   box-shadow: 0 25px 70px -10px rgba(15, 23, 42, 0.2) !important;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   SOVEREIGN NAVY & GOLD DARK MODE SYSTEM
+   ══════════════════════════════════════════════════════════════ */
+[data-mode='dark'],
+.dark {
+  color-scheme: dark;
+}
+
+[data-mode='dark'] .cyber-grid,
+.dark .cyber-grid {
+  background-image: 
+    linear-gradient(to right, rgba(197, 155, 72, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(197, 155, 72, 0.08) 1px, transparent 1px);
+}
+
+[data-mode='dark'] .bridgemind-aurora,
+.dark .bridgemind-aurora {
+  background: radial-gradient(ellipse 75% 65% at 50% -10%, rgba(11, 30, 54, 0.9) 0%, rgba(197, 155, 72, 0.15) 35%, rgba(7, 15, 26, 0.8) 70%, transparent 90%);
+}
+
+/* Base Surfaces in Dark Mode */
+[data-mode='dark'] .bg-white:not(.keep-white):not([class*="bg-amber"]):not([class*="bg-emerald"]):not([class*="bg-rose"]):not([class*="bg-blue"]):not([class*="bg-cyan"]):not([class*="bg-indigo"]):not([class*="bg-[#"]),
+.dark .bg-white:not(.keep-white):not([class*="bg-amber"]):not([class*="bg-emerald"]):not([class*="bg-rose"]):not([class*="bg-blue"]):not([class*="bg-cyan"]):not([class*="bg-indigo"]):not([class*="bg-[#"]) {
+  background-color: #0b1a2e !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  color: #f8fafc !important;
+}
+
+[data-mode='dark'] .bg-slate-50,
+.dark .bg-slate-50,
+[data-mode='dark'] .bg-slate-50\/70,
+.dark .bg-slate-50\/70,
+[data-mode='dark'] .bg-slate-50\/60,
+.dark .bg-slate-50\/60,
+[data-mode='dark'] .bg-slate-50\/50,
+.dark .bg-slate-50\/50 {
+  background-color: #081424 !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  color: #f1f5f9 !important;
+}
+
+[data-mode='dark'] .bg-slate-100,
+.dark .bg-slate-100,
+[data-mode='dark'] .bg-slate-100\/80,
+.dark .bg-slate-100\/80 {
+  background-color: #0f223d !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  color: #f8fafc !important;
+}
+
+/* Borders in Dark Mode */
+[data-mode='dark'] .border-slate-200,
+.dark .border-slate-200,
+[data-mode='dark'] .border-slate-100,
+.dark .border-slate-100,
+[data-mode='dark'] .border-slate-300,
+.dark .border-slate-300 {
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Text Hierarchy in Dark Mode */
+[data-mode='dark'],
+.dark {
+  color: #f8fafc;
+}
+
+[data-mode='dark'] h1, [data-mode='dark'] h2, [data-mode='dark'] h3, [data-mode='dark'] h4, [data-mode='dark'] h5,
+.dark h1, .dark h2, .dark h3, .dark h4, .dark h5 {
+  color: #ffffff !important;
+}
+
+[data-mode='dark'] p,
+.dark p {
+  color: #cbd5e1;
+}
+
+[data-mode='dark'] a:not([class*="text-"]):not([class*="bg-"]):not([class*="btn-"]),
+.dark a:not([class*="text-"]):not([class*="bg-"]):not([class*="btn-"]) {
+  color: #f1f5f9;
+}
+
+[data-mode='dark'] .text-slate-900,
+.dark .text-slate-900,
+[data-mode='dark'] .text-slate-800,
+.dark .text-slate-800,
+[data-mode='dark'] .text-\[\#0b1e36\],
+.dark .text-\[\#0b1e36\] {
+  color: #ffffff !important;
+}
+
+[data-mode='dark'] .text-slate-700,
+.dark .text-slate-700,
+[data-mode='dark'] .text-slate-600,
+.dark .text-slate-600 {
+  color: #cbd5e1 !important;
+}
+
+[data-mode='dark'] .text-slate-500,
+.dark .text-slate-500,
+[data-mode='dark'] .text-slate-400,
+.dark .text-slate-400 {
+  color: #94a3b8 !important;
+}
+
+/* Colored Text High-Contrast in Dark Mode */
+[data-mode='dark'] .text-rose-600, [data-mode='dark'] .text-rose-700, [data-mode='dark'] .text-rose-800,
+.dark .text-rose-600, .dark .text-rose-700, .dark .text-rose-800 {
+  color: #fb7185 !important;
+}
+
+[data-mode='dark'] .text-blue-600, [data-mode='dark'] .text-blue-700, [data-mode='dark'] .text-blue-800,
+.dark .text-blue-600, .dark .text-blue-700, .dark .text-blue-800 {
+  color: #60a5fa !important;
+}
+
+[data-mode='dark'] .text-emerald-600, [data-mode='dark'] .text-emerald-700, [data-mode='dark'] .text-emerald-800,
+.dark .text-emerald-600, .dark .text-emerald-700, .dark .text-emerald-800 {
+  color: #34d399 !important;
+}
+
+[data-mode='dark'] .text-amber-600, [data-mode='dark'] .text-amber-700, [data-mode='dark'] .text-amber-800,
+.dark .text-amber-600, .dark .text-amber-700, .dark .text-amber-800 {
+  color: #fbbf24 !important;
+}
+
+[data-mode='dark'] .text-cyan-600, [data-mode='dark'] .text-cyan-700, [data-mode='dark'] .text-cyan-800,
+.dark .text-cyan-600, .dark .text-cyan-700, .dark .text-cyan-800 {
+  color: #38bdf8 !important;
+}
+
+[data-mode='dark'] .text-purple-600, [data-mode='dark'] .text-purple-700, [data-mode='dark'] .text-purple-800,
+.dark .text-purple-600, .dark .text-purple-700, .dark .text-purple-800 {
+  color: #c084fc !important;
+}
+
+[data-mode='dark'] .text-indigo-600, [data-mode='dark'] .text-indigo-700, [data-mode='dark'] .text-indigo-800,
+.dark .text-indigo-600, .dark .text-indigo-700, .dark .text-indigo-800 {
+  color: #a5b4fc !important;
+}
+
+/* Light / Pastel Badge Containers in Dark Mode */
+[data-mode='dark'] .bg-rose-50,
+.dark .bg-rose-50 {
+  background-color: rgba(244, 63, 94, 0.15) !important;
+  border-color: rgba(244, 63, 94, 0.3) !important;
+  color: #fb7185 !important;
+}
+
+[data-mode='dark'] .bg-blue-50, [data-mode='dark'] .bg-blue-50\/50,
+.dark .bg-blue-50, .dark .bg-blue-50\/50 {
+  background-color: rgba(59, 130, 246, 0.15) !important;
+  border-color: rgba(59, 130, 246, 0.3) !important;
+  color: #60a5fa !important;
+}
+
+[data-mode='dark'] .bg-emerald-50, [data-mode='dark'] .bg-emerald-50\/50,
+.dark .bg-emerald-50, .dark .bg-emerald-50\/50 {
+  background-color: rgba(16, 185, 129, 0.15) !important;
+  border-color: rgba(16, 185, 129, 0.3) !important;
+  color: #34d399 !important;
+}
+
+[data-mode='dark'] .bg-amber-50, [data-mode='dark'] .bg-amber-50\/50,
+.dark .bg-amber-50, .dark .bg-amber-50\/50 {
+  background-color: rgba(245, 158, 11, 0.15) !important;
+  border-color: rgba(245, 158, 11, 0.3) !important;
+  color: #fbbf24 !important;
+}
+
+[data-mode='dark'] .bg-cyan-50, [data-mode='dark'] .bg-cyan-50\/50,
+.dark .bg-cyan-50, .dark .bg-cyan-50\/50 {
+  background-color: rgba(6, 182, 212, 0.15) !important;
+  border-color: rgba(6, 182, 212, 0.3) !important;
+  color: #38bdf8 !important;
+}
+
+[data-mode='dark'] .bg-purple-50, [data-mode='dark'] .bg-purple-50\/50,
+.dark .bg-purple-50, .dark .bg-purple-50\/50 {
+  background-color: rgba(168, 85, 247, 0.15) !important;
+  border-color: rgba(168, 85, 247, 0.3) !important;
+  color: #c084fc !important;
+}
+
+[data-mode='dark'] .bg-indigo-50, [data-mode='dark'] .bg-indigo-50\/50,
+.dark .bg-indigo-50, .dark .bg-indigo-50\/50 {
+  background-color: rgba(99, 102, 241, 0.15) !important;
+  border-color: rgba(99, 102, 241, 0.3) !important;
+  color: #a5b4fc !important;
+}
+
+/* Gold Accents Glow in Dark Mode */
+[data-mode='dark'] .text-\[\#c59b48\],
+.dark .text-\[\#c59b48\] {
+  color: #dfb76c !important;
+}
+
+[data-mode='dark'] .border-\[\#c59b48\]\/40,
+.dark .border-\[\#c59b48\]\/40,
+[data-mode='dark'] .border-\[\#c59b48\]\/50,
+.dark .border-\[\#c59b48\]\/50,
+[data-mode='dark'] .border-\[\#c59b48\]\/60,
+.dark .border-\[\#c59b48\]\/60 {
+  border-color: rgba(223, 183, 108, 0.4) !important;
+}
+
+/* Form Controls & Inputs in Dark Mode */
+[data-mode='dark'] input,
+.dark input,
+[data-mode='dark'] textarea,
+.dark textarea,
+[data-mode='dark'] select,
+.dark select {
+  background-color: #0b1a2e !important;
+  border-color: rgba(255, 255, 255, 0.18) !important;
+  color: #ffffff !important;
+}
+
+[data-mode='dark'] input::placeholder,
+.dark input::placeholder,
+[data-mode='dark'] textarea::placeholder,
+.dark textarea::placeholder {
+  color: #64748b !important;
+}
+
+/* Modals & Dialogs in Dark Mode */
+[data-mode='dark'] [role="dialog"],
+.dark [role="dialog"] {
+  background-color: #0b1a2e !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+  color: #ffffff !important;
+  box-shadow: 0 25px 80px -10px rgba(0, 0, 0, 0.8) !important;
+}
+
+/* Floating Header & Aside in Dark Mode */
+[data-mode='dark'] header,
+.dark header {
+  background-color: rgba(11, 30, 54, 0.88) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.5) !important;
+}
+
+[data-mode='dark'] aside,
+.dark aside {
+  background-color: #0b1a2e !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.6) !important;
+}
+
+/* SpotlightCard in Dark Mode */
+[data-mode='dark'] .spotlight-card,
+.dark .spotlight-card {
+  background-color: #0b1a2e !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+  box-shadow: 0 8px 30px -5px rgba(0, 0, 0, 0.5) !important;
+}
+
+[data-mode='dark'] .spotlight-card:hover,
+.dark .spotlight-card:hover {
+  border-color: rgba(223, 183, 108, 0.5) !important;
+  box-shadow: 0 14px 40px -8px rgba(0, 0, 0, 0.7), 0 0 25px -5px rgba(197, 155, 72, 0.2) !important;
 }
 
 
@@ -1689,7 +2017,7 @@
 }
 
 /* ══════════════════════════════════════════════════════════════
-   CUSTOM SCROLLBARS (Sleek)
+   CUSTOM SCROLLBARS (Sleek) - adaptive
    ══════════════════════════════════════════════════════════════ */
 ::-webkit-scrollbar {
   width: 7px;
@@ -1699,14 +2027,26 @@
 ::-webkit-scrollbar-track {
   background: rgba(10, 15, 29, 0.6);
 }
+.light ::-webkit-scrollbar-track,
+[data-mode='light'] ::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
 
 ::-webkit-scrollbar-thumb {
   background: rgba(99, 102, 241, 0.25);
   border-radius: 4px;
 }
+.light ::-webkit-scrollbar-thumb,
+[data-mode='light'] ::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.5);
+}
 
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(99, 102, 241, 0.55);
+}
+.light ::-webkit-scrollbar-thumb:hover,
+[data-mode='light'] ::-webkit-scrollbar-thumb:hover {
+  background: rgba(100, 116, 139, 0.7);
 }
 
 /* ══════════════════════════════════════════════════════════════
@@ -1745,24 +2085,35 @@
 .stagger-children > *:nth-child(10) { animation-delay: 0.5s; }
 
 /* ══════════════════════════════════════════════════════════════
-   NESTJS DESIGN SYSTEM & THEME TOKENS
+   NESTJS DESIGN SYSTEM & THEME TOKENS (LIGHT DEFAULT + DARK SUPPORT)
    ══════════════════════════════════════════════════════════════ */
 .nestjs-hero-bg {
+  background: radial-gradient(circle at 50% 15%, rgba(224, 35, 78, 0.06) 0%, rgba(248, 250, 252, 0.9) 60%, #ffffff 100%);
+}
+
+.dark .nestjs-hero-bg {
   background: radial-gradient(circle at 50% 30%, #540c1b 0%, #1c050a 45%, #050303 90%);
 }
 
 .nestjs-hero-frame {
+  background: #ffffff;
+  border: 1px solid rgba(224, 35, 78, 0.2);
+  box-shadow: 0 20px 60px -15px rgba(224, 35, 78, 0.08), 0 0 30px -10px rgba(224, 35, 78, 0.05);
+}
+
+.dark .nestjs-hero-frame {
   background: linear-gradient(135deg, #0d0407 0%, #200810 50%, #080305 100%);
   border: 1px solid rgba(224, 35, 78, 0.22);
   box-shadow: 0 30px 100px -20px rgba(224, 35, 78, 0.15), 0 0 60px -15px rgba(224, 35, 78, 0.1);
 }
 
 .btn-nestjs-primary {
-  background-color: #ffffff;
-  color: #050303;
+  background-color: #0b1e36;
+  color: #ffffff;
   font-weight: 700;
   border-radius: 20px;
-  padding: 1rem 2rem;
+  padding: 0.875rem 1.75rem;
+  border: 1px solid rgba(197, 155, 72, 0.4);
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   display: inline-flex;
   align-items: center;
@@ -1770,73 +2121,132 @@
   gap: 0.5rem;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.2), 0 0 30px rgba(224, 35, 78, 0.25);
+  box-shadow: 0 4px 16px rgba(11, 30, 54, 0.25);
 }
 
 .btn-nestjs-primary:hover {
-  transform: scale(0.98);
-  box-shadow: 0 8px 30px rgba(255, 255, 255, 0.35), 0 0 40px rgba(224, 35, 78, 0.45);
+  transform: translateY(-1px);
+  background-color: #122c4d;
+  border-color: #c59b48;
+  box-shadow: 0 8px 24px rgba(197, 155, 72, 0.3);
+  color: #ffffff;
 }
 
 .btn-nestjs-primary:active {
-  transform: scale(0.95);
+  transform: scale(0.97);
+}
+
+.btn-gold {
+  background: linear-gradient(135deg, #c59b48 0%, #d4af37 50%, #b8860b 100%);
+  color: #0b1e36;
+  font-weight: 700;
+  border-radius: 20px;
+  padding: 0.875rem 1.75rem;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 16px rgba(197, 155, 72, 0.35);
+}
+
+.btn-gold:hover {
+  transform: translateY(-1px);
+  background: linear-gradient(135deg, #d4af37 0%, #e5c365 50%, #c59b48 100%);
+  box-shadow: 0 8px 24px rgba(197, 155, 72, 0.5);
+  color: #08172a;
 }
 
 .btn-nestjs-secondary {
-  background-color: rgba(25, 12, 18, 0.7);
-  color: #ffffff;
+  background-color: #ffffff;
+  color: #0b1e36;
   font-weight: 700;
   border-radius: 20px;
-  padding: 1rem 2rem;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 0.875rem 1.75rem;
+  border: 1px solid #e2e8f0;
   backdrop-filter: blur(12px);
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .btn-nestjs-secondary:hover {
-  background-color: rgba(224, 35, 78, 0.15);
-  border-color: rgba(224, 35, 78, 0.4);
-  transform: scale(0.98);
-  color: #ff758c;
+  background-color: #faf8f5;
+  border-color: #c59b48;
+  transform: translateY(-1px);
+  color: #c59b48;
 }
 
 .btn-nestjs-secondary:active {
-  transform: scale(0.95);
+  transform: scale(0.97);
+}
+
+.dark .btn-nestjs-secondary {
+  background-color: rgba(11, 30, 54, 0.7);
+  color: #ffffff;
+  border: 1px solid rgba(197, 155, 72, 0.3);
+}
+
+.dark .btn-nestjs-secondary:hover {
+  background-color: rgba(197, 155, 72, 0.15);
+  border-color: rgba(197, 155, 72, 0.6);
+  color: #dfb76c;
 }
 
 .text-nestjs-glow {
-  text-shadow: 0 0 35px rgba(224, 35, 78, 0.6);
+  text-shadow: 0 0 25px rgba(197, 155, 72, 0.4);
+}
+
+.dark .text-nestjs-glow {
+  text-shadow: 0 0 35px rgba(197, 155, 72, 0.6);
 }
 
 .text-nestjs-gradient {
-  background: linear-gradient(135deg, #ffffff 30%, #ff758c 70%, #e0234e 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  background: linear-gradient(135deg, #0b1e36 0%, #162a45 45%, #c59b48 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+.text-gold-gradient {
+  background: linear-gradient(135deg, #c59b48 0%, #d4af37 50%, #9a7224 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+.dark .text-nestjs-gradient {
+  background: linear-gradient(135deg, #ffffff 0%, #dfb76c 60%, #c59b48 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
 }
 
 .nestjs-bento-card {
-  background: radial-gradient(circle at 50% 0%, rgba(224, 35, 78, 0.08) 0%, rgba(12, 5, 8, 0.85) 75%);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
   border-radius: 24px;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  backdrop-filter: blur(16px);
+  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04);
 }
 
 .nestjs-bento-card:hover {
-  border-color: rgba(224, 35, 78, 0.45);
-  box-shadow: 0 20px 50px -10px rgba(224, 35, 78, 0.2), 0 0 25px rgba(224, 35, 78, 0.15);
+  border-color: rgba(224, 35, 78, 0.35);
+  box-shadow: 0 16px 36px -8px rgba(224, 35, 78, 0.12), 0 0 20px rgba(224, 35, 78, 0.06);
   transform: translateY(-3px);
 }
 
+.dark .nestjs-bento-card {
+  background: radial-gradient(circle at 50% 0%, rgba(224, 35, 78, 0.08) 0%, rgba(12, 5, 8, 0.85) 75%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
 .nestjs-code-container {
-  background: #080305;
+  background: #0f172a;
   border: 1px solid rgba(224, 35, 78, 0.3);
   border-radius: 20px;
-  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8), 0 0 30px rgba(224, 35, 78, 0.15);
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.35), 0 0 30px rgba(224, 35, 78, 0.1);
+  color: #f8fafc;
 }
 
 .cursor-blink {

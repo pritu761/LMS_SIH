@@ -73,7 +73,7 @@ export function StatsCard({
         transition: { duration: 0.25, ease: ease.smooth },
       }}
       whileTap={{ scale: 0.98 }}
-      className={`group relative rounded-3xl border border-white/10 bg-[#131726]/90 p-5 sm:p-6 backdrop-blur-xl transition-colors duration-300 hover:border-white/25 overflow-hidden ${scheme.glow}`}
+      className={`group relative rounded-3xl border border-slate-200 bg-white dark:border-white/10 dark:bg-[#131726]/90 p-5 sm:p-6 backdrop-blur-xl transition-colors duration-300 hover:border-[#e0234e]/40 shadow-sm hover:shadow-md overflow-hidden ${scheme.glow}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -82,7 +82,7 @@ export function StatsCard({
 
       <div className="relative z-10">
         <div className="flex items-center justify-between">
-          <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+          <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
             {title}
           </span>
           <motion.div
@@ -99,7 +99,7 @@ export function StatsCard({
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.4 }}
-            className="text-2xl sm:text-3xl font-black text-white tracking-tight"
+            className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight"
           >
             {value}
           </motion.div>
@@ -107,7 +107,7 @@ export function StatsCard({
             <motion.span
               animate={isHovered ? { y: -2 } : { y: 0 }}
               className={`text-xs font-bold flex items-center gap-1 ${
-                isPositive ? 'text-emerald-400' : 'text-rose-400'
+                isPositive ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'
               }`}
             >
               <span>{isPositive ? '↑' : '↓'}</span>

@@ -133,8 +133,8 @@ export function NestEcosystemShowcase() {
               onClick={() => setActiveTab(tool)}
               className={`flex items-center gap-3 px-5 py-3 rounded-2xl font-mono text-xs transition-all duration-300 ${
                 isActive
-                  ? 'bg-gradient-to-r from-[#2a0914] to-[#16060c] text-white border border-[#e0234e] shadow-lg shadow-[#e0234e]/20 scale-105'
-                  : 'bg-[#0a0508] text-slate-400 border border-white/10 hover:text-slate-200 hover:border-white/20'
+                  ? 'bg-[#0b1e36] text-white border border-[#c59b48] shadow-lg shadow-[#0b1e36]/40 scale-105'
+                  : 'bg-[#060a12] text-slate-300 border border-white/10 hover:text-white hover:border-white/20'
               }`}
             >
               <div
@@ -147,7 +147,7 @@ export function NestEcosystemShowcase() {
                 <Icon className="h-4 w-4" />
               </div>
               <div className="text-left">
-                <div className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">
+                <div className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">
                   {tool.badge.split('•')[1]?.trim() || tool.badge}
                 </div>
                 <div className="text-sm font-bold text-white font-sans">{tool.name}</div>
@@ -165,7 +165,7 @@ export function NestEcosystemShowcase() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.4 }}
-          className="rounded-[32px] bg-gradient-to-br from-[#0c0407] via-[#14060c] to-[#080204] border border-[#e0234e]/30 p-6 sm:p-10 shadow-2xl shadow-[#e0234e]/10 relative overflow-hidden"
+          className="rounded-[32px] bg-gradient-to-br from-[#060a12] via-[#0b1424] to-[#04070d] border border-[#c59b48]/30 p-6 sm:p-10 shadow-2xl shadow-[#0b1e36]/30 relative overflow-hidden"
         >
           {/* Subtle ambient light behind tool */}
           <div
@@ -191,17 +191,17 @@ export function NestEcosystemShowcase() {
                 <h3 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
                   {activeTab.name}
                 </h3>
-                <p className="text-sm font-semibold text-[#ff758c]">{activeTab.subtitle}</p>
+                <p className="text-sm font-semibold text-[#c59b48]">{activeTab.subtitle}</p>
               </div>
 
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
+              <p className="text-xs sm:text-sm text-slate-200 leading-relaxed font-normal">
                 {activeTab.description}
               </p>
 
               {/* Feature Points */}
               <div className="space-y-2.5 pt-2">
                 {activeTab.features.map((feat, idx) => (
-                  <div key={idx} className="flex items-start gap-2.5 text-xs text-slate-200">
+                  <div key={idx} className="flex items-start gap-2.5 text-xs text-slate-100">
                     <CheckCircle2
                       className="h-4 w-4 shrink-0 mt-0.5"
                       style={{ color: activeTab.color }}
@@ -216,7 +216,7 @@ export function NestEcosystemShowcase() {
                 {activeTab.tags.map((tag, i) => (
                   <span
                     key={i}
-                    className="px-2.5 py-1 rounded-lg text-[11px] font-mono font-bold bg-white/5 border border-white/10 text-slate-300"
+                    className="px-2.5 py-1 rounded-lg text-[11px] font-mono font-bold bg-white/10 border border-white/15 text-slate-200"
                   >
                     {tag}
                   </span>
@@ -248,7 +248,7 @@ export function NestEcosystemShowcase() {
                     <span className="h-2.5 w-2.5 rounded-full bg-amber-500/80" />
                     <span className="h-2.5 w-2.5 rounded-full bg-emerald-500/80" />
                   </div>
-                  <span className="text-[11px] text-slate-400 font-bold">{activeTab.id}.nest.imd.gov.in</span>
+                  <span className="text-[11px] text-slate-500 dark:text-slate-400 font-bold">{activeTab.id}.nest.imd.gov.in</span>
                   <span className="text-[10px] text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
                     LIVE
                   </span>
@@ -258,26 +258,26 @@ export function NestEcosystemShowcase() {
                 {activeTab.previewType === 'telemetry' && (
                   <div className="space-y-3">
                     <div className="grid grid-cols-2 gap-3">
-                      <div className="p-3 rounded-xl bg-white/5 border border-white/5 space-y-1">
-                        <div className="text-[10px] text-slate-400">Doppler Network Active</div>
+                      <div className="p-3 rounded-xl bg-white/10 border border-white/10 space-y-1">
+                        <div className="text-[10px] text-slate-300">Doppler Network Active</div>
                         <div className="text-xl font-bold text-white">38 / 38 Nodes</div>
                         <div className="text-[10px] text-emerald-400">100% Operational</div>
                       </div>
-                      <div className="p-3 rounded-xl bg-white/5 border border-white/5 space-y-1">
-                        <div className="text-[10px] text-slate-400">Trainee Stream P99</div>
-                        <div className="text-xl font-bold text-[#ff4d6d]">14.2 ms</div>
+                      <div className="p-3 rounded-xl bg-white/10 border border-white/10 space-y-1">
+                        <div className="text-[10px] text-slate-300">Trainee Stream P99</div>
+                        <div className="text-xl font-bold text-[#dfb76c]">14.2 ms</div>
                         <div className="text-[10px] text-slate-400">Ultra-Low Latency</div>
                       </div>
                     </div>
-                    <div className="p-3 rounded-xl bg-[#080306] border border-[#ff4d6d]/20 space-y-2">
+                    <div className="p-3 rounded-xl bg-[#060a12] border border-[#c59b48]/20 space-y-2">
                       <div className="text-[10px] text-slate-400 flex items-center justify-between">
                         <span>LIVE NOWCASTING EVENT STREAM</span>
-                        <span className="text-[#ff4d6d] animate-pulse">● REC</span>
+                        <span className="text-[#dfb76c] animate-pulse">● REC</span>
                       </div>
-                      <div className="text-[11px] text-slate-300 leading-snug">
+                      <div className="text-[11px] text-slate-200 leading-snug">
                         [RMC Chennai] Dual-Pol ZDR signature mapped • Forecaster score: 96%
                       </div>
-                      <div className="text-[11px] text-slate-300 leading-snug">
+                      <div className="text-[11px] text-slate-200 leading-snug">
                         [MTI Pune] DRSTC Cohort 2026 HPC governing equations stream verified
                       </div>
                     </div>
@@ -302,7 +302,7 @@ export function NestEcosystemShowcase() {
                           <span>DopplerRadarNowcastingProvider</span>
                           <span className="ml-auto text-[9px] text-emerald-400">INJECTED</span>
                         </div>
-                        <div className="flex items-center gap-2 p-2 rounded-lg bg-[#e0234e]/10 border border-[#e0234e]/30 text-[#ff758c] text-[11px]">
+                        <div className="flex items-center gap-2 p-2 rounded-lg bg-[#c59b48]/10 border border-[#c59b48]/30 text-[#dfb76c] text-[11px]">
                           <Zap className="h-3.5 w-3.5" />
                           <span>PedagogicalWeightedMatcher (55/30/15)</span>
                           <span className="ml-auto text-[9px] text-amber-300">RESOLVED</span>
@@ -321,7 +321,7 @@ export function NestEcosystemShowcase() {
                       </div>
                       <div className="text-sm font-bold text-white">DRSTC 2026 Phase-1 Rollout</div>
                     </div>
-                    <div className="space-y-1.5 text-[11px] text-slate-300 bg-black/40 p-3 rounded-xl">
+                    <div className="space-y-1.5 text-[11px] text-slate-200 bg-black/40 p-3 rounded-xl">
                       <div className="flex justify-between">
                         <span>Enrolled Officers:</span>
                         <span className="text-white font-bold">48 Scientists-B</span>
@@ -340,13 +340,13 @@ export function NestEcosystemShowcase() {
 
                 {activeTab.previewType === 'courses' && (
                   <div className="space-y-3">
-                    <div className="relative rounded-xl overflow-hidden bg-slate-900 border border-white/10 aspect-video flex items-center justify-center group cursor-pointer">
-                      <div className="h-12 w-12 rounded-full bg-[#e0234e] flex items-center justify-center text-white shadow-lg shadow-[#e0234e]/50 group-hover:scale-110 transition-transform">
+                    <div className="relative rounded-xl overflow-hidden bg-[#0b1a2e] border border-white/10 aspect-video flex items-center justify-center group cursor-pointer">
+                      <div className="h-12 w-12 rounded-full bg-[#0b1e36] border border-[#c59b48]/60 flex items-center justify-center text-[#c59b48] shadow-lg group-hover:scale-110 transition-transform">
                         <Play className="h-5 w-5 fill-current ml-0.5" />
                       </div>
                       <div className="absolute bottom-2 left-2 right-2 flex justify-between items-center text-[10px] bg-black/70 backdrop-blur-md px-2 py-1 rounded">
                         <span className="text-white font-bold">Module 04: Dual-Pol Doppler Velocity De-aliasing</span>
-                        <span className="text-slate-400">42:15</span>
+                        <span className="text-slate-300">42:15</span>
                       </div>
                     </div>
                   </div>
