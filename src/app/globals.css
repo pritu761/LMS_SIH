@@ -289,6 +289,45 @@
   color: #090a0f !important;
 }
 
+/* ══════════════════════════════════════════════════════════════
+   ARCHITECTURE CALLOUT BLOCK IN DARK MODE
+   ══════════════════════════════════════════════════════════════ */
+.dark #architecture-callout > div,
+[data-mode='dark'] #architecture-callout > div {
+  background: linear-gradient(135deg, #0b1e36 0%, #102744 50%, #081526 100%) !important;
+  border-color: rgba(197, 155, 72, 0.5) !important;
+  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.6) !important;
+}
+
+.dark #architecture-callout h3,
+[data-mode='dark'] #architecture-callout h3 {
+  color: #ffffff !important;
+}
+
+.dark #architecture-callout p,
+[data-mode='dark'] #architecture-callout p {
+  color: #cbd5e1 !important;
+}
+
+.dark #architecture-callout .inline-flex,
+[data-mode='dark'] #architecture-callout .inline-flex {
+  background-color: rgba(197, 155, 72, 0.15) !important;
+  color: #c59b48 !important;
+  border-color: rgba(197, 155, 72, 0.4) !important;
+}
+
+.dark #architecture-callout .btn-nestjs-primary,
+[data-mode='dark'] #architecture-callout .btn-nestjs-primary {
+  background: linear-gradient(135deg, #c59b48 0%, #d4af37 50%, #b8860b 100%) !important;
+  color: #0b1e36 !important;
+  border-color: #c59b48 !important;
+}
+
+.dark #architecture-callout .btn-nestjs-primary svg,
+[data-mode='dark'] #architecture-callout .btn-nestjs-primary svg {
+  color: #0b1e36 !important;
+}
+
 /* Headings & Text Color Overrides for Light Mode - surgical, preserves buttons */
 [data-mode='light'] h1,
 [data-mode='light'] h2,
@@ -319,21 +358,36 @@
   color: #ffffff !important;
 }
 
-[data-mode='light'] .text-slate-300,
-.light .text-slate-300 {
-  color: #334155 !important;
+[data-mode='light'] :not([class*="from-[#0b1e36]"]):not([class*="bg-[#0b1e36]"]):not(footer):not([class*="from-[#1a0e16]"]) > .text-slate-300,
+.light :not([class*="from-[#0b1e36]"]):not([class*="bg-[#0b1e36]"]):not(footer):not([class*="from-[#1a0e16]"]) > .text-slate-300,
+[data-mode='light'] .text-slate-300:not([class*="text-slate-200"]):not([class*="text-white"]),
+.light .text-slate-300:not([class*="text-slate-200"]):not([class*="text-white"]) {
+  color: #334155;
   font-weight: 500;
+}
+
+/* Explicit high-contrast preservation inside dark navy hero & CTA blocks */
+[data-mode='light'] [class*="from-[#0b1e36]"] .text-slate-300,
+.light [class*="from-[#0b1e36]"] .text-slate-300,
+[data-mode='light'] [class*="bg-[#0b1e36]"] .text-slate-300,
+.light [class*="bg-[#0b1e36]"] .text-slate-300,
+.light footer .text-slate-300,
+[data-mode='light'] [class*="from-[#0b1e36]"] p,
+.light [class*="from-[#0b1e36]"] p,
+[data-mode='light'] [class*="from-[#0b1e36]"] .text-white,
+.light [class*="from-[#0b1e36]"] .text-white {
+  color: #e2e8f0 !important;
 }
 
 [data-mode='light'] .text-slate-400,
 .light .text-slate-400 {
-  color: #475569 !important;
+  color: #475569;
   line-height: 1.6;
 }
 
 [data-mode='light'] .text-slate-500,
 .light .text-slate-500 {
-  color: #64748b !important;
+  color: #64748b;
 }
 
 [data-mode='light'] .bg-black,

@@ -76,9 +76,9 @@ export default function TraineeDashboard() {
                 Active Cadre Track
               </span>
             </div>
-            <div className="flex items-center gap-3 mt-2">
+            <div className="flex items-center gap-3 mt-2" suppressHydrationWarning>
               {greeting.icon}
-              <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+              <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight" suppressHydrationWarning>
                 {greeting.text}, {userName}
               </h1>
             </div>

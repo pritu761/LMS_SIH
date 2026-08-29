@@ -953,16 +953,16 @@ export default function HomePage() {
 
       {/* ════════════════ TECHNICAL ARCHITECTURE CALLOUT FOR JUDGES ════════════════ */}
       <section id="architecture-callout" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-16">
-        <div className="rounded-[32px] border-2 border-[#c59b48]/50 bg-gradient-to-r from-white via-slate-50 to-[#faf8f5] p-8 sm:p-12 shadow-xl shadow-[#0b1e36]/5 flex flex-col lg:flex-row items-center justify-between gap-8">
+        <div className="rounded-[32px] border-2 border-[#c59b48]/50 bg-white dark:bg-[#0b1e36] bg-gradient-to-r from-white via-slate-50 to-[#faf8f5] dark:from-[#0b1e36] dark:via-[#102744] dark:to-[#081526] p-8 sm:p-12 shadow-xl shadow-[#0b1e36]/5 dark:shadow-black/40 flex flex-col lg:flex-row items-center justify-between gap-8">
           <div className="space-y-3 max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0b1e36]/10 text-[#0b1e36] text-xs font-mono font-bold border border-[#c59b48]/40">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0b1e36]/10 text-[#0b1e36] dark:bg-[#c59b48]/15 dark:text-[#c59b48] text-xs font-mono font-bold border border-[#c59b48]/40">
               <Code2 className="h-3.5 w-3.5 text-[#c59b48]" />
               FOR TECHNICAL EVALUATORS & ARCHITECTS
             </div>
-            <h3 className="text-2xl sm:text-3xl font-black text-[#0b1e36] tracking-tight">
+            <h3 className="text-2xl sm:text-3xl font-black text-[#0b1e36] dark:text-white tracking-tight">
               Looking for our NestJS System Design & Code Playground?
             </h3>
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
               We separated deep technical specs into a dedicated architecture section. Inspect our Inversion of Control containers, TypeScript DTOs, WebSockets telemetry, and live executable code sandbox.
             </p>
           </div>
@@ -970,10 +970,10 @@ export default function HomePage() {
           <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0">
             <Link
               href="/architecture"
-              className="btn-nestjs-primary group"
+              className="btn-nestjs-primary group dark:bg-[#c59b48] dark:text-[#0b1e36] dark:hover:bg-[#d6af5d] dark:border-[#c59b48]"
             >
               <span>Explore Technical Architecture</span>
-              <ArrowRight className="h-4 w-4 text-[#c59b48] transition-transform group-hover:translate-x-1" />
+              <ArrowRight className="h-4 w-4 text-[#c59b48] dark:text-[#0b1e36] transition-transform group-hover:translate-x-1" />
             </Link>
           </div>
         </div>
@@ -983,18 +983,18 @@ export default function HomePage() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-12 space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <span className="inline-flex items-center gap-2 rounded-full bg-purple-50 border border-purple-200 px-4 py-1.5 text-xs font-bold text-purple-700 mb-2 font-mono">
-              <BookOpen className="h-3.5 w-3.5 text-purple-600" />
+            <span className="inline-flex items-center gap-2 rounded-full bg-purple-50 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-800 px-4 py-1.5 text-xs font-bold text-purple-700 dark:text-purple-300 mb-2 font-mono">
+              <BookOpen className="h-3.5 w-3.5 text-purple-600 dark:text-purple-400" />
               OFFICIAL CURRICULUM
             </span>
-            <h2 className="text-2xl sm:text-3xl font-black text-[#0b1e36] tracking-tight">
+            <h2 className="text-2xl sm:text-3xl font-black text-[#0b1e36] dark:text-white tracking-tight">
               Featured Mission Mausam Modules
             </h2>
           </div>
 
           <Link
             href="/trainee/courses"
-            className="hidden sm:flex items-center gap-1.5 text-xs font-semibold text-[#0b1e36] hover:text-[#c59b48] transition-colors group"
+            className="hidden sm:flex items-center gap-1.5 text-xs font-semibold text-[#0b1e36] dark:text-[#c59b48] hover:text-[#c59b48] transition-colors group"
           >
             <span>Browse Full Catalog</span>
             <ChevronRight className="h-3.5 w-3.5 group-hover:translate-x-0.5 transition-transform" />
@@ -1007,25 +1007,25 @@ export default function HomePage() {
               <SpotlightCard spotlightColor="rgba(197, 155, 72, 0.2)" className="space-y-4 group h-full flex flex-col justify-between">
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
-                    <span className="rounded-md bg-[#0b1e36]/10 px-2.5 py-1 text-xs font-bold text-[#0b1e36] border border-[#c59b48]/30 font-mono">
+                    <span className="rounded-md bg-[#0b1e36]/10 dark:bg-[#c59b48]/15 px-2.5 py-1 text-xs font-bold text-[#0b1e36] dark:text-[#c59b48] border border-[#c59b48]/30 font-mono">
                       {course.code} • {course.cadreTrack} TRACK
                     </span>
-                    <span className="text-xs text-slate-500">{course.category}</span>
+                    <span className="text-xs text-slate-500 dark:text-slate-400">{course.category}</span>
                   </div>
 
-                  <h3 className="text-lg font-bold text-[#0b1e36] group-hover:text-[#c59b48] transition-colors leading-snug">
+                  <h3 className="text-lg font-bold text-[#0b1e36] dark:text-white group-hover:text-[#c59b48] transition-colors leading-snug">
                     {course.title}
                   </h3>
-                  <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed">
+                  <p className="text-xs text-slate-600 dark:text-slate-300 line-clamp-2 leading-relaxed">
                     {course.description}
                   </p>
                 </div>
 
-                <div className="flex items-center justify-between pt-3 border-t border-slate-100 text-xs text-slate-500">
-                  <div>Faculty: <span className="text-[#0b1e36] font-bold">{course.trainerName}</span></div>
+                <div className="flex items-center justify-between pt-3 border-t border-slate-100 dark:border-white/10 text-xs text-slate-500 dark:text-slate-400">
+                  <div>Faculty: <span className="text-[#0b1e36] dark:text-slate-200 font-bold">{course.trainerName}</span></div>
                   <Link
                     href={`/trainee/courses/${course.id}`}
-                    className="rounded-full bg-[#0b1e36] hover:bg-[#122c4d] text-white border border-[#c59b48]/40 px-4 py-2 font-bold shadow-sm transition-all hover:scale-105"
+                    className="rounded-full bg-[#0b1e36] hover:bg-[#122c4d] dark:bg-[#c59b48] dark:hover:bg-[#d6af5d] text-white dark:text-[#0b1e36] border border-[#c59b48]/40 px-4 py-2 font-bold shadow-sm transition-all hover:scale-105"
                   >
                     Stream Module
                   </Link>
@@ -1040,23 +1040,23 @@ export default function HomePage() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-16">
         <div className="rounded-[36px] bg-gradient-to-r from-[#0b1e36] via-[#122c4d] to-[#0b1e36] text-white p-10 sm:p-16 text-center relative overflow-hidden shadow-2xl border-2 border-[#c59b48]/40">
           <div className="relative z-10 space-y-6 max-w-3xl mx-auto">
-            <span className="inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-4 py-1.5 text-xs font-mono font-bold text-[#c59b48]">
+            <span className="inline-flex items-center gap-2 rounded-full bg-[#c59b48]/15 border border-[#c59b48]/40 px-4 py-1.5 text-xs font-mono font-bold text-[#c59b48]">
               <Radio className="h-3.5 w-3.5 animate-pulse text-[#c59b48]" />
               MISSION MAUSAM CAPACITY READY
             </span>
-            <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
+            <h2 className="text-3xl sm:text-5xl font-black !text-white tracking-tight">
               Accelerate Meteorological Competency Nationwide
             </h2>
-            <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
+            <p className="text-sm sm:text-base !text-slate-200 leading-relaxed max-w-2xl mx-auto opacity-95">
               Connect scientists, operational forecasters, and senior faculty across India on a single competency-driven digital learning ecosystem.
             </p>
             <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
-              <Link href="/admin/competency" className="btn-gold">
+              <Link href="/admin/competency" className="btn-gold shadow-lg shadow-[#c59b48]/20">
                 <Brain className="h-4 w-4" />
                 <span>Run Competency Gap Analysis</span>
                 <ArrowRight className="h-4 w-4" />
               </Link>
-              <Link href="/auth/login" className="px-6 py-3 rounded-2xl bg-white/10 border border-white/20 text-white text-xs font-bold hover:bg-white/20 transition-all flex items-center gap-2">
+              <Link href="/auth/login" className="px-6 py-3 rounded-2xl bg-white/10 hover:bg-white/20 border border-white/25 !text-white text-xs font-bold transition-all flex items-center gap-2 backdrop-blur-sm shadow-sm">
                 <Lock className="h-4 w-4 text-[#c59b48]" />
                 <span>Sign In with Gov ID</span>
               </Link>

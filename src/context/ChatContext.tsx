@@ -42,7 +42,7 @@ Try asking:
 - *"Show HPC and Earth-System Modelling modules"*
 - *"What courses does Prof. Vikramaditya Sen teach?"*
 - *"Show short masterclasses under 15 hours"*`,
-  timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+  timestamp: 'Just now',
   suggestedQueries: [
     'Find Doppler Radar courses',
     'Earth-System HPC Modelling on Pratyush',

@@ -26,16 +26,16 @@ export function AnnouncementFeed() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: ease.smooth }}
-      className="rounded-3xl border border-white/10 bg-[#09090e] p-6 backdrop-blur-xl space-y-4"
+      className="rounded-3xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#09090e] p-6 backdrop-blur-xl space-y-4 shadow-sm dark:shadow-none"
     >
-      <div className="flex items-center justify-between border-b border-white/10 pb-3">
+      <div className="flex items-center justify-between border-b border-slate-200 dark:border-white/10 pb-3">
         <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
           <div className="h-8 w-8 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
-            <Megaphone className="h-4 w-4 text-blue-400" />
+            <Megaphone className="h-4 w-4 text-blue-500 dark:text-blue-400" />
           </div>
           <span>Sitewide Bulletins & Ministry Directives</span>
         </h3>
-        <span className="text-xs text-slate-500 dark:text-slate-400 rounded-lg bg-white/5 px-2.5 py-1 border border-white/10">Official CMS</span>
+        <span className="text-xs text-slate-600 dark:text-slate-400 rounded-lg bg-slate-100 dark:bg-white/5 px-2.5 py-1 border border-slate-200 dark:border-white/10">Official CMS</span>
       </div>
 
       <motion.div
@@ -45,15 +45,15 @@ export function AnnouncementFeed() {
         animate="visible"
       >
         {initialAnnouncements.map((ann) => {
-          let badgeClass = 'bg-blue-500/10 text-blue-300 border-blue-500/20';
+          let badgeClass = 'bg-blue-500/10 text-blue-700 dark:text-blue-300 border-blue-500/20';
           let Icon = Sparkles;
           let hoverBorder = 'hover:border-blue-500/40';
           if (ann.type === 'ALERT') {
-            badgeClass = 'bg-rose-500/10 text-rose-300 border-rose-500/20';
+            badgeClass = 'bg-rose-500/10 text-rose-700 dark:text-rose-300 border-rose-500/20';
             Icon = AlertTriangle;
             hoverBorder = 'hover:border-rose-500/40';
           } else if (ann.type === 'ACHIEVEMENT') {
-            badgeClass = 'bg-amber-500/10 text-amber-300 border-amber-500/20';
+            badgeClass = 'bg-amber-500/10 text-amber-700 dark:text-amber-300 border-amber-500/20';
             Icon = Trophy;
             hoverBorder = 'hover:border-amber-500/40';
           }
@@ -65,8 +65,8 @@ export function AnnouncementFeed() {
               whileHover={{ y: -3, transition: { duration: 0.2 } }}
               className={`rounded-2xl border p-4 transition-all duration-300 ${hoverBorder} cursor-default ${
                 ann.isPinned
-                  ? 'border-blue-500/40 bg-blue-950/20 shadow-glow-sm'
-                  : 'border-white/10 bg-black/40'
+                  ? 'border-blue-500/40 bg-blue-50/50 dark:bg-blue-950/20 shadow-glow-sm'
+                  : 'border-slate-200 dark:border-white/10 bg-slate-50/50 dark:bg-black/40'
               }`}
             >
               <div className="flex items-center justify-between gap-2">
@@ -76,12 +76,12 @@ export function AnnouncementFeed() {
                     {ann.type}
                   </span>
                   {ann.isPinned && (
-                    <span className="flex items-center gap-1 text-[10px] font-bold text-blue-400">
+                    <span className="flex items-center gap-1 text-[10px] font-bold text-blue-600 dark:text-blue-400">
                       <Pin className="h-3 w-3 animate-pulse" /> Pinned
                     </span>
                   )}
                 </div>
-                <span className="text-[10px] text-slate-500 dark:text-slate-400 font-mono bg-white/5 px-2 py-0.5 rounded border border-white/5">
+                <span className="text-[10px] text-slate-500 dark:text-slate-400 font-mono bg-slate-100 dark:bg-white/5 px-2 py-0.5 rounded border border-slate-200 dark:border-white/5">
                   {timeAgo(ann.createdAt)}
                 </span>
               </div>

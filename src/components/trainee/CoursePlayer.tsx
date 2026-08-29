@@ -24,6 +24,7 @@ import {
 } from 'lucide-react';
 import { MockCourse } from '@/lib/mockData';
 import { FeedbackModal } from './FeedbackModal';
+import { CertificateModal } from '@/components/shared/CertificateModal';
 import Link from 'next/link';
 
 interface CoursePlayerProps {
@@ -60,6 +61,7 @@ export function CoursePlayer({ course, initialEnrollment }: CoursePlayerProps) {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
+  const [isCertOpen, setIsCertOpen] = useState(false);
   const [progressPercent, setProgressPercent] = useState(
     initialEnrollment?.progressPercentage || 50
   );
@@ -183,6 +185,16 @@ export function CoursePlayer({ course, initialEnrollment }: CoursePlayerProps) {
           </div>
 
           <div className="flex items-center gap-3">
+            {progressPercent >= 100 && (
+              <button
+                onClick={() => setIsCertOpen(true)}
+                className="flex items-center gap-2 rounded-xl bg-emerald-600/15 hover:bg-emerald-600/25 border border-emerald-500/40 px-4 py-2.5 text-xs font-bold text-emerald-700 dark:text-emerald-300 transition-all duration-300 shadow-sm hover:scale-105"
+              >
+                <Award className="h-4 w-4 text-emerald-500 animate-pulse" />
+                <span>View Certificate</span>
+              </button>
+            )}
+
             <button
               onClick={() => setIsFeedbackOpen(true)}
               className="flex items-center gap-2 rounded-xl bg-slate-100 dark:bg-slate-800/80 hover:bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 px-4 py-2.5 text-xs font-semibold text-slate-900 dark:text-slate-200 transition-all duration-300 shadow-sm hover:shadow-glow-amber hover:border-amber-500/30"
@@ -596,6 +608,18 @@ export function CoursePlayer({ course, initialEnrollment }: CoursePlayerProps) {
           onClose={() => setIsFeedbackOpen(false)}
         />
       )}
+
+      {/* Verified Certificate Modal */}
+      <CertificateModal
+        isOpen={isCertOpen}
+        onClose={() => setIsCertOpen(false)}
+        recipientName="Aarav Patel"
+        courseTitle={course.title}
+        courseCode={course.code}
+        cadreTrack={`${course.cadreTrack} Track`}
+        scorePercentage={progressPercent}
+        credentialId={`IMD-MM-2026-${course.id.slice(-6).toUpperCase()}`}
+      />
     </div>
   );
 }

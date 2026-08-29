@@ -53,9 +53,9 @@ export default function TrainerHubPage() {
               </span>
               <span className="text-xs text-slate-500 dark:text-slate-400">Accredited Lead Faculty • IMD Training Institute, Pune</span>
             </div>
-            <div className="flex items-center gap-3 mt-1">
+            <div className="flex items-center gap-3 mt-1" suppressHydrationWarning>
               {greeting.icon}
-              <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
+              <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight" suppressHydrationWarning>
                 {greeting.text}, Prof. Vikramaditya Sen
               </h1>
             </div>

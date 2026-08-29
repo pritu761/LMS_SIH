@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { AssessmentGradingResult } from '@/services/assessmentService';
 import { ConfettiEffect } from '@/components/shared/ConfettiEffect';
+import { CertificateModal } from '@/components/shared/CertificateModal';
 
 interface ScoreReportModalProps {
   result: AssessmentGradingResult;
@@ -34,6 +35,7 @@ export function ScoreReportModal({
 }: ScoreReportModalProps) {
   const isPassed = result.passed;
   const [filterType, setFilterType] = useState<'ALL' | 'CORRECT' | 'INCORRECT'>('ALL');
+  const [isCertModalOpen, setIsCertModalOpen] = useState(false);
 
   const filteredQuestions = result.questionBreakdown.filter((q) => {
     if (filterType === 'CORRECT') return q.isCorrect;
@@ -156,11 +158,11 @@ export function ScoreReportModal({
               </div>
             </div>
             <button
-              onClick={() => alert(`Certificate verified and stamped for user: ${result.submissionId}`)}
+              onClick={() => setIsCertModalOpen(true)}
               className="flex items-center gap-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 px-3.5 py-1.5 text-xs font-bold text-white shadow-md shadow-emerald-600/30 transition-all whitespace-nowrap"
             >
               <Download className="h-3.5 w-3.5" />
-              <span>Download Certificate</span>
+              <span>View & Download Certificate</span>
             </button>
           </div>
         )}
@@ -287,6 +289,18 @@ export function ScoreReportModal({
           </div>
         </div>
       </div>
+
+      {/* Verified Certificate Modal */}
+      <CertificateModal
+        isOpen={isCertModalOpen}
+        onClose={() => setIsCertModalOpen(false)}
+        recipientName="Aarav Patel"
+        courseTitle={assessmentTitle}
+        courseCode="DRSTC-101"
+        cadreTrack="DRSTC (Scientists Inductees)"
+        scorePercentage={result.percentage}
+        credentialId={`IMD-MM-2026-${result.submissionId.slice(-6).toUpperCase()}`}
+      />
     </div>
   );
 }

@@ -42,6 +42,7 @@ export function Sidebar({ role }: SidebarProps) {
       case 'TRAINER':
         return [
           { href: '/trainer', label: 'Faculty Hub', icon: LayoutDashboard },
+          { href: '/trainer/courses/create', label: 'Course Studio', icon: BookOpen, badge: 'NEW' },
           { href: '/trainer/library', label: 'Media Library', icon: Video },
           { href: '/trainer/assessments/create', label: 'Cadre Assessment Creator', icon: FileCheck },
           { href: '/trainer/analytics', label: 'Cohort Telemetry', icon: BarChart3 },
