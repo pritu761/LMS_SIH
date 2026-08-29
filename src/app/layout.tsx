@@ -83,7 +83,11 @@ export default function RootLayout({
             <main className="flex-1 flex flex-col relative z-10" suppressHydrationWarning>{children}</main>
 
             {/* Sovereign Navy & Gold Global Footer with Wave & Gold Trim */}
-            <footer className="w-full mt-auto relative overflow-hidden bg-[#0b1e36] text-white border-t-2 border-[#c59b48]" suppressHydrationWarning>
+            <footer
+              className="w-full mt-auto relative overflow-hidden bg-[#0b1e36] text-white border-t-2 border-[#c59b48]"
+              style={{ backgroundColor: '#0b1e36', color: '#ffffff' }}
+              suppressHydrationWarning
+            >
               {/* Subtle top gold accent glow */}
               <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#c59b48] to-transparent opacity-80" />
               
@@ -99,60 +103,66 @@ export default function RootLayout({
                       </svg>
                     </div>
                     <span className="font-black text-xl tracking-tight text-white">
-                      CAPACITY<span className="text-[#c59b48] ml-1">CONNECT</span>
+                      CAPACITY<span className="text-[#dfb76c] ml-1">CONNECT</span>
                     </span>
                   </div>
-                  <div className="text-xs text-[#c59b48] font-semibold tracking-wide">
+                  <div className="text-xs text-[#dfb76c] font-bold tracking-wide">
                     Empowering People. Strengthening Competencies. Building a Future-Ready Workforce.
                   </div>
-                  <p className="text-xs text-slate-300 leading-relaxed max-w-sm">
+                  <p className="text-xs text-slate-200 leading-relaxed max-w-sm font-normal">
                     Sovereign meteorological competency assessment, cadre mapping, and faculty allocation platform built for the India Meteorological Department (IMD) and Ministry of Earth Sciences (MoES).
                   </p>
-                  <div className="flex items-center gap-2 pt-2 text-[11px] font-mono text-emerald-400">
-                    <span className="h-2 w-2 rounded-full bg-emerald-400 animate-ping" />
-                    <span>All 38 Doppler Radar Nodes Online • WMO Compliance Ready</span>
+                  <div className="pt-2">
+                    <Link
+                      href="/admin/radar"
+                      className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#122c4d] border border-emerald-500/40 text-[11px] font-mono text-emerald-300 hover:border-emerald-400 hover:text-emerald-200 transition-all group"
+                    >
+                      <span className="h-2 w-2 rounded-full bg-emerald-400 animate-ping" />
+                      <span className="font-bold">All 38 Doppler Radar Nodes Online</span>
+                      <span className="text-slate-400">• WMO Compliance Ready</span>
+                    </Link>
                   </div>
                 </div>
 
                 {/* Col 2: Problem & Algorithms */}
                 <div className="space-y-3 text-xs">
-                  <div className="font-mono font-bold uppercase tracking-wider text-[#c59b48]">Core Engine</div>
-                  <ul className="space-y-2 text-slate-300">
-                    <li><Link href="/admin/competency" className="hover:text-[#c59b48] transition-colors">55/30/15 Allocation Algorithm</Link></li>
-                    <li><Link href="/trainee/courses" className="hover:text-[#c59b48] transition-colors">Cadre Curricula & Tracks</Link></li>
-                    <li><Link href="/admin/competency" className="hover:text-[#c59b48] transition-colors">WMO RTC Rubrics</Link></li>
-                    <li><Link href="/trainee/profile" className="hover:text-[#c59b48] transition-colors">Competency Gap Dossier</Link></li>
+                  <div className="font-mono font-bold uppercase tracking-wider text-[#dfb76c]">Core Engine</div>
+                  <ul className="space-y-2 text-slate-200">
+                    <li><Link href="/admin/competency" className="hover:text-[#dfb76c] transition-colors">55/30/15 Allocation Algorithm</Link></li>
+                    <li><Link href="/trainee/courses" className="hover:text-[#dfb76c] transition-colors">Cadre Curricula & Tracks</Link></li>
+                    <li><Link href="/admin/competency" className="hover:text-[#dfb76c] transition-colors">WMO RTC Rubrics</Link></li>
+                    <li><Link href="/trainee/profile" className="hover:text-[#dfb76c] transition-colors">Competency Gap Dossier</Link></li>
                   </ul>
                 </div>
 
                 {/* Col 3: Architecture Deep Dive */}
                 <div className="space-y-3 text-xs">
-                  <div className="font-mono font-bold uppercase tracking-wider text-[#c59b48]">Technical Specs</div>
-                  <ul className="space-y-2 text-slate-300">
-                    <li><Link href="/architecture" className="hover:text-[#c59b48] font-semibold text-[#c59b48] transition-colors">Technical Architecture</Link></li>
-                    <li><Link href="/architecture#ioc" className="hover:text-[#c59b48] transition-colors">Inversion of Control (IoC)</Link></li>
-                    <li><Link href="/architecture#dtos" className="hover:text-[#c59b48] transition-colors">TypeScript DTOs & Schemas</Link></li>
-                    <li><Link href="/architecture#hpc" className="hover:text-[#c59b48] transition-colors">HPC Parallelism Sandbox</Link></li>
+                  <div className="font-mono font-bold uppercase tracking-wider text-[#dfb76c]">Technical Specs</div>
+                  <ul className="space-y-2 text-slate-200">
+                    <li><Link href="/architecture" className="hover:text-[#dfb76c] font-semibold text-[#dfb76c] transition-colors">Technical Architecture</Link></li>
+                    <li><Link href="/architecture#ioc" className="hover:text-[#dfb76c] transition-colors">Inversion of Control (IoC)</Link></li>
+                    <li><Link href="/architecture#dtos" className="hover:text-[#dfb76c] transition-colors">TypeScript DTOs & Schemas</Link></li>
+                    <li><Link href="/architecture#hpc" className="hover:text-[#dfb76c] transition-colors">HPC Parallelism Sandbox</Link></li>
                   </ul>
                 </div>
 
                 {/* Col 4: Institutional Links */}
                 <div className="space-y-3 text-xs">
-                  <div className="font-mono font-bold uppercase tracking-wider text-[#c59b48]">Governance</div>
-                  <ul className="space-y-2 text-slate-300">
-                    <li><a href="https://mausam.imd.gov.in" target="_blank" rel="noreferrer" className="hover:text-[#c59b48] transition-colors">IMD Official (mausam.imd.gov.in)</a></li>
-                    <li><a href="https://moes.gov.in" target="_blank" rel="noreferrer" className="hover:text-[#c59b48] transition-colors">Ministry of Earth Sciences (MoES)</a></li>
-                    <li><a href="https://www.tropmet.res.in" target="_blank" rel="noreferrer" className="hover:text-[#c59b48] transition-colors">IITM Pune</a></li>
-                    <li><a href="https://ncmrwf.gov.in" target="_blank" rel="noreferrer" className="hover:text-[#c59b48] transition-colors">NCMRWF HPC Center</a></li>
+                  <div className="font-mono font-bold uppercase tracking-wider text-[#dfb76c]">Governance</div>
+                  <ul className="space-y-2 text-slate-200">
+                    <li><a href="https://mausam.imd.gov.in" target="_blank" rel="noreferrer" className="hover:text-[#dfb76c] transition-colors">IMD Official (mausam.imd.gov.in)</a></li>
+                    <li><a href="https://moes.gov.in" target="_blank" rel="noreferrer" className="hover:text-[#dfb76c] transition-colors">Ministry of Earth Sciences (MoES)</a></li>
+                    <li><a href="https://www.tropmet.res.in" target="_blank" rel="noreferrer" className="hover:text-[#dfb76c] transition-colors">IITM Pune</a></li>
+                    <li><a href="https://ncmrwf.gov.in" target="_blank" rel="noreferrer" className="hover:text-[#dfb76c] transition-colors">NCMRWF HPC Center</a></li>
                   </ul>
                 </div>
               </div>
 
               {/* Bottom Copyright & Gov Note */}
-              <div className="border-t border-white/10 bg-[#08172a] py-4 px-4 sm:px-6 lg:px-8">
-                <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-400 font-mono gap-2">
+              <div className="border-t border-white/10 bg-[#060f1c] py-4 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: '#060f1c' }}>
+                <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-300 font-mono gap-2">
                   <div>© 2026 CapacityConnect • Smart India Hackathon (SIH) • Ministry of Earth Sciences & IMD</div>
-                  <div className="text-[#c59b48]">Built with Inversion of Control, Type-Safe DTOs & WMO Rubrics</div>
+                  <div className="text-[#dfb76c]">Built with Inversion of Control, Type-Safe DTOs & WMO Rubrics</div>
                 </div>
               </div>
             </footer>

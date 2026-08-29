@@ -116,6 +116,13 @@ export default function TechnicalArchitecturePage() {
             </div>
 
             <div className="flex items-center gap-3 shrink-0">
+              <Link
+                href="/admin/radar"
+                className="btn-gold flex items-center gap-1.5"
+              >
+                <Radio className="h-3.5 w-3.5 text-[#0b1e36] animate-pulse" />
+                <span>Live 38 Doppler Radars</span>
+              </Link>
               <a
                 href="#playground"
                 className="btn-nestjs-primary"
@@ -124,9 +131,9 @@ export default function TechnicalArchitecturePage() {
               </a>
               <Link
                 href="/admin/competency"
-                className="btn-gold"
+                className="btn-nestjs-secondary"
               >
-                Launch Algorithm
+                Algorithm
               </Link>
             </div>
           </div>

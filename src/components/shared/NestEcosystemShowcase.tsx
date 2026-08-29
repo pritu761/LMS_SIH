@@ -55,7 +55,7 @@ const TOOLS: ToolItem[] = [
       'Real-time WebSocket event dispatch to Regional Centres',
     ],
     ctaText: 'Open Live Radar Telemetry',
-    ctaLink: '/admin/reports',
+    ctaLink: '/admin/radar',
     previewType: 'telemetry',
   },
   {

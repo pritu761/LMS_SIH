@@ -20,6 +20,7 @@ import {
   CheckCircle,
   Activity,
   Zap,
+  Radio,
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -119,7 +120,30 @@ export default function AdminDashboardPage() {
 
         {/* Quick Navigation Action Cards */}
         <MotionSection variant="fade-up" delay={200}>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <Link
+              href="/admin/radar"
+              className="rounded-3xl border border-emerald-500/25 bg-gradient-to-br from-emerald-950/20 via-white dark:via-slate-900/80 to-white dark:to-slate-950 p-6 backdrop-blur-xl hover:border-emerald-500/50 transition-all duration-500 group space-y-3 card-tilt hover:shadow-elevation-1 relative overflow-hidden"
+            >
+              <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-emerald-500/30 to-transparent" />
+              <div className="flex items-center justify-between">
+                <div className="h-12 w-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 group-hover:scale-110 transition-all duration-300">
+                  <Radio className="h-5 w-5 animate-pulse" />
+                </div>
+                <span className="rounded-full bg-emerald-500/20 px-2.5 py-0.5 text-xs font-bold text-emerald-300 animate-pulse">
+                  38 Nodes Online
+                </span>
+              </div>
+              <div>
+                <h3 className="font-bold text-slate-900 dark:text-white text-base group-hover:text-emerald-300 transition-colors">
+                  Doppler Radar Network
+                </h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
+                  Real-time polarimetric PPI scopes, hydrometeor classification, and live stream telemetry.
+                </p>
+              </div>
+            </Link>
+
             <Link
               href="/admin/users"
               className="rounded-3xl border border-amber-500/25 bg-gradient-to-br from-amber-950/20 via-white dark:via-slate-900/80 to-white dark:to-slate-950 p-6 backdrop-blur-xl hover:border-amber-500/50 transition-all duration-500 group space-y-3 card-tilt hover:shadow-elevation-1 relative overflow-hidden"
@@ -135,10 +159,10 @@ export default function AdminDashboardPage() {
               </div>
               <div>
                 <h3 className="font-bold text-slate-900 dark:text-white text-base group-hover:text-amber-300 transition-colors">
-                  User Approvals & RBAC Matrix
+                  User Approvals & RBAC
                 </h3>
                 <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
-                  Inspect candidate credentials, assign Trainee / Trainer / Admin roles, or suspend non-compliant accounts.
+                  Inspect candidate credentials, assign Trainee / Trainer / Admin roles, or suspend accounts.
                 </p>
               </div>
             </Link>
@@ -153,12 +177,12 @@ export default function AdminDashboardPage() {
                   <Brain className="h-5 w-5" />
                 </div>
                 <span className="rounded-full bg-indigo-500/20 px-2.5 py-0.5 text-xs font-bold text-indigo-300">
-                  55/30/15 Algorithm
+                  55/30/15 Engine
                 </span>
               </div>
               <div>
                 <h3 className="font-bold text-slate-900 dark:text-white text-base group-hover:text-indigo-300 transition-colors">
-                  Competency Mapping Engine
+                  Competency Engine
                 </h3>
                 <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
                   Run automated matching algorithm to compute compatibility and rank faculty for any course.

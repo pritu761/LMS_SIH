@@ -366,33 +366,75 @@
   font-weight: 500;
 }
 
-/* Explicit high-contrast preservation inside dark navy hero & CTA blocks */
-[data-mode='light'] [class*="from-[#0b1e36]"] .text-slate-300,
-.light [class*="from-[#0b1e36]"] .text-slate-300,
-[data-mode='light'] [class*="bg-[#0b1e36]"] .text-slate-300,
-.light [class*="bg-[#0b1e36]"] .text-slate-300,
-.light footer .text-slate-300,
-[data-mode='light'] [class*="from-[#0b1e36]"] p,
-.light [class*="from-[#0b1e36]"] p,
-[data-mode='light'] [class*="from-[#0b1e36]"] .text-white,
-.light [class*="from-[#0b1e36]"] .text-white {
-  color: #e2e8f0 !important;
+/* Explicit high-contrast preservation inside dark navy hero, dark terminal cards, scopes & CTA blocks */
+[data-mode='light'] [class*="from-[#0"],
+.light [class*="from-[#0"],
+[data-mode='light'] [class*="bg-[#0"],
+.light [class*="bg-[#0"],
+[data-mode='light'] [class*="bg-[#1"],
+.light [class*="bg-[#1"],
+[data-mode='light'] [class*="from-[#1"],
+.light [class*="from-[#1"],
+[data-mode='light'] footer,
+.light footer {
+  color: #f8fafc;
 }
 
-[data-mode='light'] .text-slate-400,
-.light .text-slate-400 {
+[data-mode='light'] [class*="bg-[#0"] .text-slate-400,
+.light [class*="bg-[#0"] .text-slate-400,
+[data-mode='light'] [class*="bg-[#1"] .text-slate-400,
+.light [class*="bg-[#1"] .text-slate-400,
+[data-mode='light'] [class*="bg-[#0"] .text-slate-500,
+.light [class*="bg-[#0"] .text-slate-500,
+[data-mode='light'] [class*="bg-[#1"] .text-slate-500,
+.light [class*="bg-[#1"] .text-slate-500,
+[data-mode='light'] [class*="bg-[#0"] .text-slate-300,
+.light [class*="bg-[#0"] .text-slate-300,
+[data-mode='light'] [class*="bg-[#1"] .text-slate-300,
+.light [class*="bg-[#1"] .text-slate-300,
+[data-mode='light'] [class*="bg-[#0"] .text-slate-200,
+.light [class*="bg-[#0"] .text-slate-200,
+[data-mode='light'] footer .text-slate-400,
+.light footer .text-slate-400,
+[data-mode='light'] footer .text-slate-300,
+.light footer .text-slate-300 {
+  color: #cbd5e1 !important;
+}
+
+[data-mode='light'] [class*="bg-[#0"] .text-white,
+.light [class*="bg-[#0"] .text-white,
+[data-mode='light'] [class*="bg-[#1"] .text-white,
+.light [class*="bg-[#1"] .text-white,
+[data-mode='light'] footer .text-white,
+.light footer .text-white {
+  color: #ffffff !important;
+}
+
+[data-mode='light'] [class*="bg-[#0"] .text-cyan-400,
+.light [class*="bg-[#0"] .text-cyan-400 {
+  color: #22d3ee !important;
+}
+
+[data-mode='light'] [class*="bg-[#0"] .text-emerald-400,
+.light [class*="bg-[#0"] .text-emerald-400 {
+  color: #34d399 !important;
+}
+
+[data-mode='light'] [class*="bg-[#0"] [class*="text-[#dfb76c]"],
+.light [class*="bg-[#0"] [class*="text-[#dfb76c]"] {
+  color: #dfb76c !important;
+}
+
+/* Light mode text colors for standard light cards */
+[data-mode='light'] :not([class*="bg-[#0]"]):not([class*="bg-[#1]"]):not(footer):not(pre):not(code) > .text-slate-400,
+.light :not([class*="bg-[#0]"]):not([class*="bg-[#1]"]):not(footer):not(pre):not(code) > .text-slate-400 {
   color: #475569;
   line-height: 1.6;
 }
 
-[data-mode='light'] .text-slate-500,
-.light .text-slate-500 {
+[data-mode='light'] :not([class*="bg-[#0]"]):not([class*="bg-[#1]"]):not(footer):not(pre):not(code) > .text-slate-500,
+.light :not([class*="bg-[#0]"]):not([class*="bg-[#1]"]):not(footer):not(pre):not(code) > .text-slate-500 {
   color: #64748b;
-}
-
-[data-mode='light'] .bg-black,
-.light .bg-black {
-  background-color: #ffffff !important;
 }
 
 /* ══════════════════════════════════════════════════════════════
@@ -732,10 +774,48 @@
   box-shadow: 0 8px 30px -10px rgba(15, 23, 42, 0.05) !important;
 }
 
+/* Sovereign Navy & Gold Global Footer - Crisp Contrast in All Modes */
+footer,
 [data-mode='light'] footer,
-.light footer {
-  background-color: #f8fafc !important;
-  border-color: rgba(0, 0, 0, 0.07) !important;
+.light footer,
+[data-mode='dark'] footer,
+.dark footer {
+  background-color: #0b1e36 !important;
+  color: #ffffff !important;
+  border-top-color: #c59b48 !important;
+}
+
+footer a,
+[data-mode='light'] footer a,
+.light footer a {
+  color: #cbd5e1 !important;
+}
+
+footer a:hover,
+[data-mode='light'] footer a:hover,
+.light footer a:hover {
+  color: #dfb76c !important;
+}
+
+footer p,
+[data-mode='light'] footer p,
+.light footer p {
+  color: #cbd5e1 !important;
+}
+
+footer .text-slate-300,
+footer .text-slate-400,
+[data-mode='light'] footer .text-slate-300,
+.light footer .text-slate-300,
+[data-mode='light'] footer .text-slate-400,
+.light footer .text-slate-400 {
+  color: #cbd5e1 !important;
+}
+
+footer .text-white,
+[data-mode='light'] footer .text-white,
+.light footer .text-white {
+  color: #ffffff !important;
 }
 
 /* Form Controls & Inputs in Light Mode */
