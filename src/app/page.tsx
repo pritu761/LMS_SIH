@@ -271,25 +271,29 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-14 space-y-10">
 
           {/* Top Government Emblems Header */}
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pb-6 border-b border-slate-200/80">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pb-6 border-b border-slate-200/80 dark:border-white/10">
             <div className="flex items-center gap-3 text-center sm:text-left">
               <div className="h-12 w-12 rounded-2xl bg-[#0b1e36] border-2 border-[#c59b48] flex items-center justify-center text-[#c59b48] shadow-lg shadow-[#0b1e36]/20">
                 <Satellite className="h-6 w-6" />
               </div>
               <div>
-                <div className="text-xs font-mono font-extrabold text-[#0b1e36] tracking-wider uppercase">
+                <div className="text-xs font-mono font-extrabold text-[#0b1e36] dark:text-slate-100 tracking-wider uppercase">
                   INDIA METEOROLOGICAL DEPARTMENT (IMD)
                 </div>
-                <div className="text-[11px] font-mono text-[#c59b48] font-bold tracking-wide">
+                <div className="text-[11px] font-mono text-[#c59b48] dark:text-[#dfb76c] font-bold tracking-wide">
                   MINISTRY OF EARTH SCIENCES (MoES) • GOVT OF INDIA
                 </div>
               </div>
             </div>
 
             <div className="flex items-center gap-2">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#0b1e36]/10 text-[#0b1e36] border border-[#c59b48]/40 text-xs font-mono font-bold">
-                <span className="h-2 w-2 rounded-full bg-emerald-500 animate-ping" />
-                <span>MISSION MAUSAM NATIONAL CAPACITY PORTAL</span>
+              <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0b1e36] text-white border border-[#c59b48]/60 text-xs font-mono font-bold shadow-md">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+                </span>
+                <span className="text-[#dfb76c] font-black tracking-wide">MISSION MAUSAM</span>
+                <span className="text-slate-200 font-semibold tracking-wide">NATIONAL CAPACITY PORTAL</span>
               </span>
             </div>
           </div>
