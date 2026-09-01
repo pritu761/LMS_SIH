@@ -17,6 +17,7 @@ import {
   Satellite,
   Bot,
   ArrowRight,
+  Radio,
 } from 'lucide-react';
 import { useCourseChat } from '@/context/ChatContext';
 import { ModeToggle } from '@/components/layout/ModeToggle';
@@ -193,6 +194,10 @@ export function Navbar() {
 
             {/* Public / Landing Navigation Links (Desktop: xl+) */}
             <nav className="hidden xl:flex items-center gap-1 text-xs">
+              <Link href="/radar" className={`inline-flex items-center gap-1.5 ${navLinkClass('/radar')}`}>
+                <Radio className="h-3 w-3 text-[#c59b48] animate-pulse" />
+                <span>Live Radar</span>
+              </Link>
               <Link href="/#problem" className={`hidden 2xl:inline-block ${navLinkClass('/#problem', true)}`}>
                 Problem
               </Link>
@@ -334,6 +339,15 @@ export function Navbar() {
               exit={{ height: 0, opacity: 0 }}
               className="pointer-events-auto xl:hidden mt-2 mx-auto max-w-7xl rounded-2xl border border-slate-200 bg-white p-4 space-y-2 font-mono text-xs shadow-xl dark:border-white/10 dark:bg-[#0b1e36]/95"
             >
+              <Link href="/radar" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center justify-between px-3 py-2 text-[#0b1e36] font-bold dark:text-[#c59b48] bg-[#c59b48]/10 rounded-lg">
+                <span className="flex items-center gap-2">
+                  <Radio className="h-3.5 w-3.5 text-[#c59b48] animate-pulse" />
+                  Live Doppler Radar & Nowcasting
+                </span>
+                <span className="px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-[10px] font-bold">
+                  LIVE
+                </span>
+              </Link>
               <Link href="/#problem" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-slate-700 hover:text-[#0b1e36] dark:text-slate-200 dark:hover:text-white">Problem → Outcome</Link>
               <Link href="/admin/competency" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-slate-700 hover:text-[#0b1e36] dark:text-slate-200 dark:hover:text-white">Competency Matcher</Link>
               <Link href="/#cadres" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-slate-700 hover:text-[#0b1e36] dark:text-slate-200 dark:hover:text-white">Cadre Pathways</Link>

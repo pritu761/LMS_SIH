@@ -36,7 +36,8 @@ export function Sidebar({ role }: SidebarProps) {
       case 'ADMIN':
         return [
           { href: '/admin', label: 'National Overview', icon: LayoutDashboard },
-          { href: '/admin/radar', label: 'Doppler Radar Network', icon: Radio, badge: '38 ONLINE', highlight: true },
+          { href: '/radar', label: 'Live Weather Radar', icon: Radio, badge: 'NOWCAST', highlight: true },
+          { href: '/admin/radar', label: 'Doppler Radar Network', icon: Satellite, badge: '38 ONLINE' },
           { href: '/admin/users', label: 'User Governance', icon: UserCheck, badge: 'RBAC' },
           { href: '/admin/competency', label: 'Competency & Gap Engine', icon: Brain, badge: '55/30/15' },
           { href: '/admin/cms', label: 'Directives & CMS', icon: FileText },
@@ -44,7 +45,8 @@ export function Sidebar({ role }: SidebarProps) {
       case 'TRAINER':
         return [
           { href: '/trainer', label: 'Faculty Hub', icon: LayoutDashboard },
-          { href: '/admin/radar', label: 'Doppler Radar Feeds', icon: Radio, badge: 'LIVE' },
+          { href: '/radar', label: 'Live Weather Radar', icon: Radio, badge: 'NOWCAST', highlight: true },
+          { href: '/admin/radar', label: 'Doppler Radar Feeds', icon: Satellite, badge: 'LIVE' },
           { href: '/trainer/courses/create', label: 'Course Studio', icon: BookOpen, badge: 'NEW' },
           { href: '/trainer/library', label: 'Media Library', icon: Video },
           { href: '/trainer/assessments/create', label: 'Cadre Assessment Creator', icon: FileCheck },
@@ -54,7 +56,8 @@ export function Sidebar({ role }: SidebarProps) {
       default:
         return [
           { href: '/trainee', label: 'Learning Dashboard', icon: LayoutDashboard },
-          { href: '/admin/radar', label: 'Live Doppler Radar Scope', icon: Radio, badge: '38 LIVE', highlight: true },
+          { href: '/radar', label: 'Live Weather Radar', icon: Radio, badge: 'NOWCAST', highlight: true },
+          { href: '/admin/radar', label: 'Doppler Radar Network', icon: Satellite, badge: '38 LIVE' },
           { href: '/trainee/courses', label: 'Mission Mausam Tracks', icon: BookOpen },
           { href: '/trainee/profile', label: 'Competency Dossier', icon: Award },
         ];
