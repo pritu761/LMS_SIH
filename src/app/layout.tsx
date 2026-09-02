@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import Link from 'next/link';
+import Script from 'next/script';
 import { Plus_Jakarta_Sans, Outfit, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { Navbar } from '@/components/layout/Navbar';
@@ -75,6 +76,31 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`light ${jakarta.variable} ${outfit.variable} ${jetbrains.variable}`} suppressHydrationWarning>
+      <head>
+        {/* Suppress browser extension attribute injection warnings (e.g. Bitwarden bis_skin_checked) */}
+        <Script
+          id="browser-extension-hydration-guard"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                if (typeof window !== 'undefined') {
+                  var origErr = console.error;
+                  console.error = function() {
+                    var str = Array.prototype.map.call(arguments, function(a) {
+                      return typeof a === 'string' ? a : (a && a.message) || '';
+                    }).join(' ');
+                    if (str.indexOf('bis_skin_checked') !== -1) {
+                      return;
+                    }
+                    origErr.apply(console, arguments);
+                  };
+                }
+              })();
+            `,
+          }}
+        />
+      </head>
       <body className="min-h-screen bg-white text-slate-900 dark:bg-[#070f1a] dark:text-slate-100 flex flex-col font-sans antialiased selection:bg-[#0b1e36] selection:text-[#c59b48] transition-colors duration-300" suppressHydrationWarning>
         <div className="watermark-bg" suppressHydrationWarning />
         <ThemeProvider>
@@ -114,12 +140,12 @@ export default function RootLayout({
                   </p>
                   <div className="pt-2">
                     <Link
-                      href="/admin/radar"
+                      href="/radar"
                       className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#122c4d] border border-emerald-500/40 text-[11px] font-mono text-emerald-300 hover:border-emerald-400 hover:text-emerald-200 transition-all group"
                     >
                       <span className="h-2 w-2 rounded-full bg-emerald-400 animate-ping" />
-                      <span className="font-bold">All 38 Doppler Radar Nodes Online</span>
-                      <span className="text-slate-400">• WMO Compliance Ready</span>
+                      <span className="font-bold">Live Doppler Weather Radar</span>
+                      <span className="text-slate-400">• Real-Time Nowcasting</span>
                     </Link>
                   </div>
                 </div>
@@ -128,6 +154,7 @@ export default function RootLayout({
                 <div className="space-y-3 text-xs">
                   <div className="font-mono font-bold uppercase tracking-wider text-[#dfb76c]">Core Engine</div>
                   <ul className="space-y-2 text-slate-200">
+                    <li><Link href="/radar" className="hover:text-[#dfb76c] font-semibold text-[#dfb76c] transition-colors">Live Radar & Nowcasting</Link></li>
                     <li><Link href="/admin/competency" className="hover:text-[#dfb76c] transition-colors">55/30/15 Allocation Algorithm</Link></li>
                     <li><Link href="/trainee/courses" className="hover:text-[#dfb76c] transition-colors">Cadre Curricula & Tracks</Link></li>
                     <li><Link href="/admin/competency" className="hover:text-[#dfb76c] transition-colors">WMO RTC Rubrics</Link></li>
