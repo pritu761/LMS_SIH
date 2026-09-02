@@ -119,7 +119,11 @@ export const ALGORITHM_WEIGHTS = {
 };
 
 /**
- * Calculate the Competency Skill Overlap score (55% weight)
+ * Calculates the competency skill overlap score (55% weight component of trainer matching).
+ * Compares trainer proficiency levels against course requirements with weighted scoring.
+ * @param courseCompetencies - Array of required competencies for the course
+ * @param trainerCompetencies - Array of trainer's competency proficiencies
+ * @returns Object containing normalized score (0-1) and detailed breakdown per competency
  */
 export function calculateSkillOverlap(
   courseCompetencies: MockCourse['competencies'],
@@ -175,7 +179,10 @@ export function calculateSkillOverlap(
 }
 
 /**
- * Calculate Normalized Historical Rating score (30% weight)
+ * Calculates normalized historical rating score (30% weight component of trainer matching).
+ * Normalizes 0-5 star rating to 0-1 scale with 0.75 default for missing ratings.
+ * @param historicalRating - Average trainer rating (0-5 scale)
+ * @returns Normalized score between 0 and 1
  */
 export function calculateRatingScore(historicalRating?: number): number {
   if (historicalRating === undefined || historicalRating === null || historicalRating <= 0) {
@@ -186,7 +193,10 @@ export function calculateRatingScore(historicalRating?: number): number {
 }
 
 /**
- * Calculate Normalized Course Delivery Volume score (15% weight)
+ * Calculates normalized course delivery volume score (15% weight component of trainer matching).
+ * Normalizes number of courses delivered against a target threshold of 10 courses.
+ * @param coursesDeliveredCount - Total number of courses delivered by trainer
+ * @returns Normalized score between 0 and 1 (capped at 1.0 for >=10 courses)
  */
 export function calculateDeliveryVolumeScore(coursesDeliveredCount: number): number {
   const targetThreshold = 10.0;
@@ -194,7 +204,9 @@ export function calculateDeliveryVolumeScore(coursesDeliveredCount: number): num
 }
 
 /**
- * Categorize into recommendation tiers
+ * Categorizes overall trainer match score into recommendation tiers.
+ * @param overallScore - Overall trainer match score (0-100)
+ * @returns Recommendation tier classification
  */
 function getRecommendationTier(overallScore: number): TrainerMatchResult['recommendationTier'] {
   if (overallScore >= 85.0) return 'HIGHLY_RECOMMENDED';
@@ -204,7 +216,11 @@ function getRecommendationTier(overallScore: number): TrainerMatchResult['recomm
 }
 
 /**
- * Core Service: Query and return ranked trainers for any given course ID
+ * Core service: queries and returns ranked trainers for a given course ID.
+ * Implements weighted scoring algorithm: 55% skill overlap, 30% rating, 15% delivery volume.
+ * @param courseId - Unique identifier of the course
+ * @param candidateTrainerIds - Optional array of trainer IDs to filter evaluation
+ * @returns Promise resolving to CourseMatchResponse with ranked trainer matches
  */
 export async function matchTrainersForCourse(
   courseId: string,
@@ -286,9 +302,12 @@ export async function matchTrainersForCourse(
 }
 
 /**
- * KEY DIFFERENTIATOR: Trainee Competency Gap Analysis Engine
- * Evaluates what skills the user has, what skills are missing for their target IMD Cadre,
- * and automatically finds the best course + trainer to close each gap!
+ * Trainee competency gap analysis engine.
+ * Evaluates user's current skills against IMD cadre benchmark requirements,
+ * identifying gaps and recommending optimal courses and trainers for upskilling.
+ * @param userId - Unique identifier of the trainee user
+ * @param targetCadreCode - Optional target cadre code (defaults to user's current track)
+ * @returns Promise resolving to TraineeGapAnalysisResponse with readiness score and gap remediation plan
  */
 export async function analyzeTraineeCompetencyGap(
   userId: string,
@@ -400,7 +419,10 @@ export async function analyzeTraineeCompetencyGap(
 }
 
 /**
- * Discover Faculty by Meteorological Domain
+ * Discovers approved trainers filtered by meteorological domain and search criteria.
+ * @param categoryFilter - Optional competency category filter (e.g., 'Radar', 'NWP')
+ * @param search - Optional search query to match against trainer name, headline, or competencies
+ * @returns Promise resolving to array of filtered MockUser trainer objects
  */
 export async function discoverTrainersByDomain(
   categoryFilter?: string,

@@ -228,7 +228,10 @@ export const PRESET_LOCATIONS: SearchSuggestion[] = [
 export const MAJOR_LOCATION_PRESETS = PRESET_LOCATIONS;
 
 /**
- * Filter preset locations based on search query matching name, admin1, or country.
+ * Filters preset locations based on search query matching name, admin1, or country.
+ * Returns up to 8 default locations if query is empty.
+ * @param query - Search string to filter locations
+ * @returns Array of matching SearchSuggestion objects
  */
 export function getMatchingPresetLocations(query: string): SearchSuggestion[] {
   const q = query.trim().toLowerCase();
@@ -245,7 +248,11 @@ export function getMatchingPresetLocations(query: string): SearchSuggestion[] {
 export const getMatchingFallbackPresets = getMatchingPresetLocations;
 
 /**
- * Find the nearest preset location to a given coordinate (within tolerance degrees).
+ * Finds the nearest preset location to given coordinates within a tolerance threshold.
+ * @param lat - Latitude in decimal degrees
+ * @param lon - Longitude in decimal degrees
+ * @param tolerance - Maximum distance in degrees to match (default: 0.5)
+ * @returns Matching SearchSuggestion or undefined if none found within tolerance
  */
 export function getPresetByCoordinates(
   lat: number,
@@ -272,7 +279,12 @@ export function calculateMarshallPalmerDbz(rainRateMmH: number): number {
 }
 
 /**
- * Deterministic pseudo-random seed generator from coordinates and seed offset.
+ * Generates a deterministic pseudo-random number from coordinates and seed offset.
+ * Uses sine-based hash function for reproducible randomness across same inputs.
+ * @param lat - Latitude coordinate
+ * @param lon - Longitude coordinate
+ * @param seed - Seed offset for variation
+ * @returns Pseudo-random value between 0 and 1
  */
 function pseudoRandom(lat: number, lon: number, seed: number): number {
   const x = Math.sin(lat * 12.9898 + lon * 78.233 + seed * 37.719) * 43758.5453;
@@ -280,8 +292,15 @@ function pseudoRandom(lat: number, lon: number, seed: number): number {
 }
 
 /**
- * Procedural Deterministic Weather Data Generator
- * Generates realistic meteorologically sound weather metrics for any point on Earth.
+ * Procedural deterministic weather data generator.
+ * Generates realistic meteorologically sound weather metrics for any point on Earth
+ * using coordinate-based algorithmic modeling with diurnal cycles and climate zones.
+ * @param lat - Latitude in decimal degrees
+ * @param lon - Longitude in decimal degrees
+ * @param name - Optional location name
+ * @param admin1 - Optional administrative region name
+ * @param country - Optional country name
+ * @returns Complete WeatherData object with current, hourly (72h), and daily (7d) forecasts
  */
 export function generateMockWeatherData(
   lat: number,

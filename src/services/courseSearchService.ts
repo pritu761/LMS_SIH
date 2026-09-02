@@ -19,7 +19,10 @@ export interface CourseSearchFilters {
 }
 
 /**
- * Normalizes text for robust multi-keyword matching
+ * Normalizes text for robust multi-keyword matching by converting to lowercase,
+ * removing special characters, and splitting into tokens.
+ * @param text - Input text to tokenize
+ * @returns Array of normalized tokens (minimum 2 characters each)
  */
 function tokenize(text: string): string[] {
   return text
@@ -30,7 +33,9 @@ function tokenize(text: string): string[] {
 }
 
 /**
- * Fetch all available courses from Prisma DB with fallback to mock data
+ * Fetches all available courses from Prisma database with graceful fallback to mock data.
+ * Combines database courses with mock courses, deduplicating by course code.
+ * @returns Promise resolving to array of MockCourse objects
  */
 export async function getAllCourses(): Promise<MockCourse[]> {
   try {
@@ -121,7 +126,11 @@ export async function getAllCourses(): Promise<MockCourse[]> {
 }
 
 /**
- * Intelligent course search algorithm with relevance scoring and highlight extraction
+ * Intelligent course search algorithm with relevance scoring and highlight extraction.
+ * Implements multi-field fuzzy matching with domain-specific synonym expansion,
+ * scoring based on title, competency, trainer, and content matches.
+ * @param filters - Search filters including query, category, cadre track, level, etc.
+ * @returns Promise resolving to array of CourseSearchResult objects sorted by relevance score
  */
 export async function searchCourses(filters: CourseSearchFilters): Promise<CourseSearchResult[]> {
   const courses = await getAllCourses();
@@ -273,7 +282,10 @@ export async function searchCourses(filters: CourseSearchFilters): Promise<Cours
 }
 
 /**
- * Get detailed course information with curriculum and assessment data
+ * Retrieves detailed course information including curriculum and assessment data.
+ * Searches by course ID, code, or slug (case-insensitive).
+ * @param courseIdOrCode - Course identifier (ID, code, or slug)
+ * @returns Promise resolving to MockCourse object or null if not found
  */
 export async function getCourseDetails(courseIdOrCode: string): Promise<MockCourse | null> {
   const courses = await getAllCourses();

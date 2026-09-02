@@ -13,6 +13,11 @@ if (!connectionString) {
 
 const adapter = new PrismaPg({ connectionString });
 
+/**
+ * Global Prisma Client instance with PostgreSQL adapter.
+ * Reuses existing client in development to prevent connection exhaustion.
+ * Logs queries in development mode, errors only in production.
+ */
 export const prisma =
   globalForPrisma.prisma ??
   new PrismaClient({

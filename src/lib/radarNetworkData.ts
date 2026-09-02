@@ -1382,6 +1382,11 @@ export const ALL_38_DOPPLER_NODES: RadarNode[] = [
   },
 ];
 
+/**
+ * Computes real-time summary statistics for the entire 38-node Doppler radar network.
+ * Aggregates status, latency, coverage, and active trainee observer metrics.
+ * @returns RadarNetworkSummary object with network-wide operational statistics
+ */
 export function getNetworkSummary(): RadarNetworkSummary {
   const total = ALL_38_DOPPLER_NODES.length;
   const online = ALL_38_DOPPLER_NODES.filter((n) => n.status === 'ONLINE' || n.status === 'STREAMING' || n.status === 'NOWCASTING').length;
@@ -1404,6 +1409,13 @@ export function getNetworkSummary(): RadarNetworkSummary {
   };
 }
 
+/**
+ * Executes comprehensive diagnostic tests on a specific radar node.
+ * Validates transmitter power, calibration, SNR, Doppler de-aliasing, and dual-pol metrics.
+ * @param nodeId - Unique identifier of the radar node to diagnose
+ * @param testName - Descriptive name of the diagnostic test being performed
+ * @returns DiagnosticResult with test status, metrics, and detailed log entries
+ */
 export function runNodeDiagnostics(nodeId: string, testName: string): DiagnosticResult {
   const node = ALL_38_DOPPLER_NODES.find((n) => n.id === nodeId) || ALL_38_DOPPLER_NODES[0];
   

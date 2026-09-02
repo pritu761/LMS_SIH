@@ -179,7 +179,12 @@ export function getSimulatedRadarEcho(
 }
 
 /**
- * Generate synthetic radar frame series for past 2 hours + 30m nowcast.
+ * Generates synthetic radar frame series for past 2 hours and 30-minute nowcast.
+ * Creates timestamped frames with unique paths for slippy map tile rendering.
+ * @param frameIntervalMinutes - Time interval between frames in minutes (default: 10)
+ * @param pastCount - Number of historical frames to generate (default: 13)
+ * @param nowcastCount - Number of forecast frames to generate (default: 4)
+ * @returns Object containing past and nowcast RadarFrame arrays
  */
 export function generateProceduralRadarFrames(
   frameIntervalMinutes = 10,
@@ -216,7 +221,9 @@ export function generateProceduralRadarFrames(
 }
 
 /**
- * Deterministic fallback radar metadata matching RainViewer API v2 structure.
+ * Generates deterministic fallback radar metadata matching RainViewer API v2 structure.
+ * Used when live RainViewer API is unavailable for offline/demo mode.
+ * @returns RadarMetadata object with past and nowcast frames marked as fallback
  */
 export function generateMockRadarMetadata(): RadarMetadata {
   const now = Math.floor(Date.now() / 1000);

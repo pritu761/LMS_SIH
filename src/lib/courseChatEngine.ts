@@ -19,7 +19,13 @@ export interface ChatEngineResponse {
 }
 
 /**
- * Intelligent domain intent analyzer & response generator for LMS courses
+ * Intelligent domain-aware intent analyzer and response generator for LMS course discovery.
+ * Processes natural language queries and returns contextual responses with matched courses,
+ * implementing pattern-based intent recognition and multi-keyword semantic search.
+ * @param userQuery - User's natural language search query
+ * @param history - Optional conversation history for context (currently unused)
+ * @param userRole - Optional user role for personalized responses (currently unused)
+ * @returns Promise resolving to ChatEngineResponse with reply text, matched courses, and suggested queries
  */
 export async function generateCourseChatResponse(
   userQuery: string,
