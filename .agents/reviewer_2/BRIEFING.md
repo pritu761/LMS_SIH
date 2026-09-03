@@ -1,7 +1,7 @@
-# BRIEFING — 2026-09-02T02:47:20+05:30
+# BRIEFING — 2026-09-03T22:54:30+05:30
 
 ## Mission
-Objective, adversarial, and integrity review of UI/UX design polish, theme compatibility (Sovereign Navy `#0b1e36` and light), mobile/desktop responsiveness, Leaflet tile loading error handling, offline fallback UX, accessibility, and performance for radar and weather implementations.
+Independently review the session lifecycle and verification suite for CapacityConnect Database-Backed Authentication: examine scripts/test-auth-db.ts, package.json test:auth, prisma/seed.ts, auth session lifecycle, run build and test suite, stress-test assumptions, and issue explicit verdict.
 
 ## 🔒 My Identity
 - Archetype: reviewer_critic
@@ -10,54 +10,43 @@ Objective, adversarial, and integrity review of UI/UX design polish, theme compa
 - Original parent: 952380c1-1f70-4c3b-b00f-78b3e03ae701
 - Milestone: radar_weather_preview_review
 - Instance: 2 of 2
+- Milestone: auth_session_lifecycle_and_test_suite_review
+- Instance: 2 of 2
 
 ## 🔒 Key Constraints
 - Review-only — do NOT modify implementation code
 - Check for integrity violations (hardcoding test data, mock facade bypasses, fake attestation)
 - Verify UI/UX, theme compatibility, accessibility, offline fallback UX, responsiveness, Leaflet tile error handling
 - Execute and record verification: `npx tsc --noEmit`, `npm test`, `npm run build`
+- Review session lifecycle, scripts/test-auth-db.ts, package.json test:auth, prisma/seed.ts
+- Run test suite and build
 
 ## Current Parent
-- Conversation ID: 952380c1-1f70-4c3b-b00f-78b3e03ae701
-- Updated: 2026-09-02T02:47:20+05:30
+- Conversation ID: f8808099-647a-453d-82bb-17517aef9ff0
+- Updated: 2026-09-03T22:54:30+05:30
 
 ## Review Scope
-- **Files to review**: `ORIGINAL_REQUEST.md`, `PROJECT.md`, `TEST_READY.md`, `src/app/radar/*`, `src/components/radar/*`, `src/lib/weatherService.ts`, `src/lib/wmoCodes.ts`, `src/lib/mockWeatherData.ts`, `src/lib/mockRadarData.ts`, `src/components/layout/Navbar.tsx`, `src/components/layout/Sidebar.tsx`
-- **Interface contracts**: `PROJECT.md`, `ORIGINAL_REQUEST.md`
-- **Review criteria**: UI/UX, accessibility (WCAG), theme support (light/dark `#0b1e36`), mobile responsiveness, Leaflet error handling, offline fallback, performance, integrity
+- **Files to review**: `scripts/test-auth-db.ts`, `package.json`, `prisma/seed.ts`, `src/lib/auth.ts`, `src/app/api/auth/login/route.ts`, `src/app/api/auth/logout/route.ts`, `src/proxy.ts`
+- **Interface contracts**: `PROJECT.md`, `ORIGINAL_REQUEST.md`, `TEST_READY.md`
+- **Review criteria**: 5 core test scenarios, 403 status check for suspended/rejected accounts, npm test:auth script, seed idempotency, bcrypt hashes, JWT session cookie lifecycle, build/test execution, integrity
 
 ## Review Checklist
 - **Items reviewed**:
-  - `src/app/radar/page.tsx` & `layout.tsx`
-  - `src/components/radar/RadarPageContent.tsx`
-  - `src/components/radar/WeatherRadarMap.tsx`
-  - `src/components/radar/LeafletRadarContainer.tsx`
-  - `src/components/radar/RadarTimelineControls.tsx`
-  - `src/components/radar/RadarDbzLegend.tsx`
-  - `src/components/radar/WeatherSearchBar.tsx`
-  - `src/components/radar/WeatherMetricsHud.tsx`
-  - `src/components/radar/HourlyNowcastStrip.tsx`
-  - `src/components/radar/MultiDayForecast.tsx`
-  - `src/components/radar/StormSeverityIndicator.tsx`
-  - `src/components/radar/RadarDiagnosticsModal.tsx`
-  - `src/components/layout/Navbar.tsx` & `Sidebar.tsx`
-  - `src/lib/weatherService.ts`, `wmoCodes.ts`, `mockWeatherData.ts`, `mockRadarData.ts`
-- **Verdict**: REQUEST_CHANGES (due to TS2532 in `scripts/stress-test-radar.ts:221` breaking `npm run build` and `npx tsc --noEmit`)
-- **Unverified claims**: None. Verified via automated executions.
+  - `scripts/test-auth-db.ts` [Pending]
+  - `package.json` [Pending]
+  - `prisma/seed.ts` [Pending]
+  - Session lifecycle files [Pending]
+- **Verdict**: Pending
+- **Unverified claims**: Test coverage, build success, seed idempotency
 
 ## Attack Surface
 - **Hypotheses tested**:
-  1. Build status under `strict: true` -> Caught `scripts/stress-test-radar.ts:221` error TS2532.
-  2. Test suite pass rate -> 151/151 tests passed.
-  3. UI/UX, theme contrast, keyboard accessibility -> Highly polished dark HUD with Sovereign Navy & Gold highlights.
-  4. Leaflet tile layer memory & flicker -> Handled via opacity caching in `Map<number, L.TileLayer>`.
-  5. Offline degradation -> Seamless transition to procedural weather/radar simulation engine.
-- **Vulnerabilities found**:
-  - `scripts/stress-test-radar.ts:221`: `coords[0].name.includes('Delhi')` causes TS2532.
-- **Untested angles**: Live GPS geolocation on real physical devices (tested via mocks/browser API abstraction).
+  - TBD
+- **Vulnerabilities found**: None yet
+- **Untested angles**: TBD
 
 ## Key Decisions Made
-- Issued verdict: `REQUEST_CHANGES` pending single TypeScript fix in test script so that `npm run build` passes with 0 errors.
+- Initialized review for session lifecycle and verification suite.
 
 ## Artifact Index
 - `.agents/reviewer_2/DISPATCH.md` — Inbound messages

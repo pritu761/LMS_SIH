@@ -90,27 +90,27 @@ export default function TechnicalArchitecturePage() {
   return (
     <div className="flex-1 flex flex-col bg-white/85 text-slate-900 dark:bg-[#070f1a] dark:text-slate-100 selection:bg-[#0b1e36] selection:text-[#c59b48]">
       {/* Top Banner / Breadcrumb */}
-      <section className="border-b border-slate-200 bg-slate-50/80 py-8 px-4 sm:px-6 lg:px-8">
+      <section className="border-b border-slate-200 dark:border-white/10 bg-slate-50/80 dark:bg-[#0b1e36]/80 py-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto space-y-4">
-          <div className="flex items-center gap-2 text-xs font-mono text-slate-500">
-            <Link href="/" className="hover:text-[#0b1e36] flex items-center gap-1 transition-colors">
+          <div className="flex items-center gap-2 text-xs font-sans font-medium text-slate-500 dark:text-slate-400">
+            <Link href="/" className="hover:text-[#0b1e36] dark:hover:text-[#dfb76c] flex items-center gap-1 transition-colors">
               <ArrowLeft className="h-3.5 w-3.5" />
               <span>Home</span>
             </Link>
             <ChevronRight className="h-3 w-3" />
-            <span className="text-slate-900 font-semibold">Technical Architecture</span>
+            <span className="text-slate-900 dark:text-white font-semibold">Technical Architecture</span>
           </div>
 
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0b1e36]/10 text-[#0b1e36] text-xs font-mono font-bold mb-2 border border-[#c59b48]/40">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0b1e36]/10 dark:bg-[#c59b48]/15 text-[#0b1e36] dark:text-[#dfb76c] text-xs font-sans font-bold mb-2 border border-[#c59b48]/40">
                 <Server className="h-3.5 w-3.5 text-[#c59b48]" />
                 SYSTEM ARCHITECTURE & DESIGN SPECIFICATION
               </div>
-              <h1 className="text-3xl sm:text-5xl font-black text-[#0b1e36] tracking-tight">
+              <h1 className="text-3xl sm:text-5xl font-black text-[#0b1e36] dark:text-white tracking-tight">
                 Enterprise System Architecture
               </h1>
-              <p className="text-sm text-slate-600 max-w-3xl mt-2 leading-relaxed">
+              <p className="text-sm text-slate-600 dark:text-slate-300 max-w-3xl mt-2 leading-relaxed">
                 A decoupled, modular, and type-safe architecture engineered for sovereign meteorological capacity building, real-time radar telemetry, and automated pedagogical optimization.
               </p>
             </div>
@@ -143,14 +143,14 @@ export default function TechnicalArchitecturePage() {
       {/* ════════════════ 6 ARCHITECTURAL PILLARS ════════════════ */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-16 space-y-12">
         <div className="text-center max-w-3xl mx-auto space-y-3">
-          <span className="inline-flex items-center gap-2 rounded-full bg-[#0b1e36]/10 border border-[#c59b48]/40 px-4 py-1.5 text-xs font-bold text-[#0b1e36] font-mono">
+          <span className="inline-flex items-center gap-2 rounded-full bg-[#0b1e36]/10 dark:bg-[#c59b48]/15 border border-[#c59b48]/40 px-4 py-1.5 text-xs font-bold text-[#0b1e36] dark:text-[#dfb76c] font-sans">
             <Layers className="h-3.5 w-3.5 text-[#c59b48]" />
             CORE ARCHITECTURAL PILLARS
           </span>
-          <h2 className="text-2xl sm:text-4xl font-black text-[#0b1e36] tracking-tight">
+          <h2 className="text-2xl sm:text-4xl font-black text-[#0b1e36] dark:text-white tracking-tight">
             Engineered for Scale, Safety & Performance
           </h2>
-          <p className="text-xs sm:text-sm text-slate-600">
+          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300">
             Every layer enforces strict encapsulation, runtime schema validation, and high-performance computing bridges.
           </p>
         </div>
@@ -160,11 +160,11 @@ export default function TechnicalArchitecturePage() {
             const Icon = pillar.icon;
             return (
               <MotionSection key={pillar.badge} variant="slide-up" delay={idx * 60}>
-                <div className="rounded-3xl border border-slate-200 bg-white p-6 h-full flex flex-col justify-between space-y-5 shadow-sm hover:shadow-md hover:border-[#c59b48]/60 transition-all group">
+                <div className="rounded-3xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0b1e36]/90 p-6 h-full flex flex-col justify-between space-y-5 shadow-sm hover:shadow-md hover:border-[#c59b48]/60 transition-all group dark:text-slate-100">
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
                       <span
-                        className="px-2.5 py-1 rounded-md text-[10px] font-mono font-bold uppercase border bg-[#0b1e36]/5 border-[#0b1e36]/20 text-[#0b1e36]"
+                        className="px-2.5 py-1 rounded-md text-[10px] font-sans font-bold uppercase border bg-[#0b1e36]/5 dark:bg-[#c59b48]/15 border-[#0b1e36]/20 dark:border-[#c59b48]/30 text-[#0b1e36] dark:text-[#dfb76c]"
                       >
                         {pillar.badge}
                       </span>
@@ -176,17 +176,17 @@ export default function TechnicalArchitecturePage() {
                     </div>
 
                     <div>
-                      <h3 className="text-lg font-bold text-[#0b1e36] group-hover:text-[#c59b48] transition-colors">
+                      <h3 className="text-lg font-bold text-[#0b1e36] dark:text-white group-hover:text-[#c59b48] transition-colors">
                         {pillar.title}
                       </h3>
-                      <p className="text-xs text-slate-600 leading-relaxed mt-1 font-normal">
+                      <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed mt-1 font-normal">
                         {pillar.desc}
                       </p>
                     </div>
 
-                    <div className="space-y-1.5 pt-2 border-t border-slate-100">
+                    <div className="space-y-1.5 pt-2 border-t border-slate-100 dark:border-white/10">
                       {pillar.highlights.map((h, i) => (
-                        <div key={i} className="flex items-center gap-2 text-[11px] text-slate-700 font-mono">
+                        <div key={i} className="flex items-center gap-2 text-[11px] text-slate-700 dark:text-slate-300 font-sans">
                           <CheckCircle2 className="h-3 w-3 text-emerald-600 shrink-0" />
                           <span>{h}</span>
                         </div>
@@ -194,9 +194,9 @@ export default function TechnicalArchitecturePage() {
                     </div>
                   </div>
 
-                  <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] font-mono text-slate-500">
+                  <div className="pt-3 border-t border-slate-100 dark:border-white/10 flex items-center justify-between text-[11px] font-sans text-slate-500 dark:text-slate-400">
                     <span>Verified Component</span>
-                    <span className="text-[#0b1e36] font-bold flex items-center gap-1">
+                    <span className="text-[#0b1e36] dark:text-[#dfb76c] font-bold flex items-center gap-1">
                       Active Node
                     </span>
                   </div>
@@ -208,34 +208,34 @@ export default function TechnicalArchitecturePage() {
       </section>
 
       {/* ════════════════ SYSTEM DATAFLOW PIPELINE ════════════════ */}
-      <section className="bg-slate-50 border-y border-slate-200 py-16 px-4 sm:px-6 lg:px-8">
+      <section className="bg-slate-50 dark:bg-[#070f1a]/80 border-y border-slate-200 dark:border-white/10 py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto space-y-10">
           <div className="text-center max-w-3xl mx-auto space-y-2">
-            <span className="inline-flex items-center gap-2 rounded-full bg-[#0b1e36]/10 border border-[#c59b48]/40 px-4 py-1.5 text-xs font-bold text-[#0b1e36] font-mono">
+            <span className="inline-flex items-center gap-2 rounded-full bg-[#0b1e36]/10 dark:bg-[#c59b48]/15 border border-[#c59b48]/40 px-4 py-1.5 text-xs font-bold text-[#0b1e36] dark:text-[#dfb76c] font-sans">
               <GitBranch className="h-3.5 w-3.5 text-[#c59b48]" />
               EXECUTION PIPELINE
             </span>
-            <h2 className="text-2xl sm:text-3xl font-black text-[#0b1e36] tracking-tight">
+            <h2 className="text-2xl sm:text-3xl font-black text-[#0b1e36] dark:text-white tracking-tight">
               End-to-End Request Lifecycle
             </h2>
-            <p className="text-xs sm:text-sm text-slate-600">
+            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300">
               How a single competency evaluation or radar telemetry payload flows through our architectural layers.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
             {systemFlow.map((s, idx) => (
-              <div key={s.step} className="rounded-2xl border border-slate-200 bg-white p-5 space-y-2 relative shadow-sm hover:border-[#c59b48] transition-colors">
+              <div key={s.step} className="rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0b1e36]/80 p-5 space-y-2 relative shadow-sm hover:border-[#c59b48] transition-colors">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-mono font-black text-[#0b1e36] bg-[#0b1e36]/10 px-2 py-0.5 rounded border border-[#0b1e36]/20">
+                  <span className="text-xs font-sans font-black text-[#0b1e36] dark:text-[#dfb76c] bg-[#0b1e36]/10 dark:bg-[#c59b48]/15 px-2 py-0.5 rounded border border-[#0b1e36]/20 dark:border-[#c59b48]/30">
                     STAGE {s.step}
                   </span>
                   {idx < 4 && (
                     <ChevronRight className="hidden md:block h-4 w-4 text-slate-400 absolute -right-2 top-1/2 -translate-y-1/2 z-10" />
                   )}
                 </div>
-                <h3 className="text-sm font-bold text-[#0b1e36]">{s.title}</h3>
-                <p className="text-xs text-slate-600 leading-relaxed">{s.desc}</p>
+                <h3 className="text-sm font-bold text-[#0b1e36] dark:text-white">{s.title}</h3>
+                <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">{s.desc}</p>
               </div>
             ))}
           </div>
@@ -245,14 +245,14 @@ export default function TechnicalArchitecturePage() {
       {/* ════════════════ LIVE CODE PLAYGROUND ════════════════ */}
       <section id="playground" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-16 space-y-8">
         <div className="text-center max-w-3xl mx-auto space-y-2">
-          <span className="inline-flex items-center gap-2 rounded-full bg-[#0b1e36]/10 border border-[#c59b48]/40 px-4 py-1.5 text-xs font-bold text-[#0b1e36] font-mono">
+          <span className="inline-flex items-center gap-2 rounded-full bg-[#0b1e36]/10 dark:bg-[#c59b48]/15 border border-[#c59b48]/40 px-4 py-1.5 text-xs font-bold text-[#0b1e36] dark:text-[#dfb76c] font-sans">
             <Code2 className="h-3.5 w-3.5 text-[#c59b48]" />
             LIVE CODE PLAYGROUND
           </span>
-          <h2 className="text-2xl sm:text-4xl font-black text-[#0b1e36] tracking-tight">
+          <h2 className="text-2xl sm:text-4xl font-black text-[#0b1e36] dark:text-white tracking-tight">
             Inspect the Platform Decorators & Providers
           </h2>
-          <p className="text-xs sm:text-sm text-slate-600">
+          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300">
             Click through our TypeScript modules, controllers, DTOs, and guards, and execute live IoC dependency tests.
           </p>
         </div>
@@ -261,17 +261,17 @@ export default function TechnicalArchitecturePage() {
       </section>
 
       {/* ════════════════ ECOSYSTEM & TOOLS SHOWCASE ════════════════ */}
-      <section id="ecosystem" className="bg-slate-50 border-t border-slate-200 py-16 px-4 sm:px-6 lg:px-8">
+      <section id="ecosystem" className="bg-slate-50 dark:bg-[#070f1a]/80 border-t border-slate-200 dark:border-white/10 py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto space-y-8">
           <div className="text-center max-w-3xl mx-auto space-y-2">
-            <span className="inline-flex items-center gap-2 rounded-full bg-[#0b1e36]/10 border border-[#c59b48]/40 px-4 py-1.5 text-xs font-bold text-[#0b1e36] font-mono">
+            <span className="inline-flex items-center gap-2 rounded-full bg-[#0b1e36]/10 dark:bg-[#c59b48]/15 border border-[#c59b48]/40 px-4 py-1.5 text-xs font-bold text-[#0b1e36] dark:text-[#dfb76c] font-sans">
               <Rocket className="h-3.5 w-3.5 text-[#c59b48]" />
               INTEGRATED CAPACITY SUITE
             </span>
-            <h2 className="text-2xl sm:text-4xl font-black text-[#0b1e36] tracking-tight">
+            <h2 className="text-2xl sm:text-4xl font-black text-[#0b1e36] dark:text-white tracking-tight">
               Observe, DevTools & Masterclasses
             </h2>
-            <p className="text-xs sm:text-sm text-slate-600">
+            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300">
               Interactive tools built directly on our sovereign meteorological infrastructure.
             </p>
           </div>
@@ -282,9 +282,9 @@ export default function TechnicalArchitecturePage() {
 
       {/* Return to Home CTA */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-12 text-center">
-        <div className="rounded-3xl border border-[#c59b48]/40 bg-white p-8 space-y-4 shadow-lg shadow-[#0b1e36]/5">
-          <h3 className="text-xl font-bold text-[#0b1e36]">Ready to test the Competency & Gap Matching Engine?</h3>
-          <p className="text-xs sm:text-sm text-slate-600 max-w-xl mx-auto">
+        <div className="rounded-3xl border border-[#c59b48]/40 bg-white dark:bg-[#0b1e36] p-8 space-y-4 shadow-lg shadow-[#0b1e36]/5">
+          <h3 className="text-xl font-bold text-[#0b1e36] dark:text-white">Ready to test the Competency & Gap Matching Engine?</h3>
+          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-xl mx-auto">
             Experience our 55/30/15 mathematical faculty allocation model live on official IMD training scenarios.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-3 pt-2">

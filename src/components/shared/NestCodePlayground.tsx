@@ -183,16 +183,16 @@ export function NestCodePlayground() {
   };
 
   return (
-    <div className="w-full rounded-[28px] bg-[#070305] border border-[#e0234e]/30 shadow-2xl shadow-[#e0234e]/15 overflow-hidden">
+    <div className="w-full rounded-[28px] bg-[#070305] border border-[#c59b48]/30 shadow-2xl shadow-[#0b1e36]/15 overflow-hidden">
       {/* Header bar */}
       <div className="flex flex-wrap items-center justify-between px-5 py-4 border-b border-white/10 bg-[#0d0508] gap-3">
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-1.5">
-            <span className="h-3 w-3 rounded-full bg-[#e0234e]/90 inline-block shadow-sm shadow-[#e0234e]" />
+            <span className="h-3 w-3 rounded-full bg-rose-500/90 inline-block shadow-sm shadow-rose-500" />
             <span className="h-3 w-3 rounded-full bg-amber-500/80 inline-block" />
             <span className="h-3 w-3 rounded-full bg-emerald-500/80 inline-block" />
           </div>
-          <span className="text-xs font-mono font-bold text-slate-200 flex items-center gap-2 pl-2 border-l border-white/10">
+          <span className="text-xs font-sans font-bold text-slate-200 flex items-center gap-2 pl-2 border-l border-white/10">
             <Code2 className="h-4 w-4 text-[#c59b48]" />
             <span>Architecture Code Sandbox</span>
           </span>
@@ -222,7 +222,7 @@ export function NestCodePlayground() {
         <div className="flex items-center gap-2">
           <button
             onClick={handleCopy}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 border border-white/10 text-xs text-slate-200 font-mono transition-all hover:text-white"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 border border-white/10 text-xs text-slate-200 font-sans font-semibold transition-all hover:text-white"
             title="Copy code"
           >
             {copied ? (
@@ -241,7 +241,7 @@ export function NestCodePlayground() {
           <button
             onClick={handleRun}
             disabled={isRunning}
-            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-[#0b1e36] hover:bg-[#122c4d] border border-[#c59b48]/60 text-white text-xs font-bold font-mono shadow-md shadow-[#0b1e36]/30 transition-all hover:scale-105 active:scale-95 disabled:opacity-50"
+            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-[#0b1e36] hover:bg-[#122c4d] border border-[#c59b48]/60 text-white text-xs font-bold font-sans shadow-md shadow-[#0b1e36]/30 transition-all hover:scale-105 active:scale-95 disabled:opacity-50"
           >
             <Play className={`h-3.5 w-3.5 fill-current ${isRunning ? 'animate-spin' : ''}`} />
             <span>{isRunning ? 'Running...' : 'Run Test'}</span>
@@ -250,7 +250,7 @@ export function NestCodePlayground() {
       </div>
 
       {/* Description line */}
-      <div className="px-5 py-2.5 bg-[#0a1220] border-b border-white/5 flex items-center justify-between text-xs text-slate-300 font-mono">
+      <div className="px-5 py-2.5 bg-[#0a1220] border-b border-white/5 flex items-center justify-between text-xs text-slate-300 font-sans">
         <span className="flex items-center gap-2">
           <Sparkles className="h-3.5 w-3.5 text-[#c59b48]" />
           <span>{activeSnippet.description}</span>
@@ -320,14 +320,14 @@ export function NestCodePlayground() {
                       : log.startsWith('[Nest]')
                       ? 'text-slate-500 dark:text-slate-400'
                       : log.startsWith('⚡') || log.startsWith('▶')
-                      ? 'text-[#ff758c]'
+                      ? 'text-[#dfb76c]'
                       : 'text-slate-900 dark:text-slate-200'
                   }`}
                 >
                   {log}
                 </div>
               ))}
-              <div className="flex items-center gap-1 text-[#ff4d6d] font-bold pt-1">
+              <div className="flex items-center gap-1 text-[#dfb76c] font-bold pt-1">
                 <span>imd-cluster@capacity-connect:~$</span>
                 <span className="cursor-blink">_</span>
               </div>
@@ -336,7 +336,7 @@ export function NestCodePlayground() {
 
           <div className="pt-4 border-t border-white/10 flex items-center justify-between text-[10px] text-slate-500">
             <span>Fastify & TypeScript Core</span>
-            <span className="text-[#ff4d6d] font-mono">100% NestJS Compliant</span>
+            <span className="text-[#dfb76c] font-sans font-bold">100% NestJS Compliant</span>
           </div>
         </div>
       </div>

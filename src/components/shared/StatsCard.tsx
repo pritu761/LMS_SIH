@@ -26,10 +26,10 @@ export function StatsCard({
 
   const colorMap = {
     red: {
-      icon: 'bg-[#e0234e]/10 text-[#ff4d6d] border-[#e0234e]/30',
-      glow: 'group-hover:border-[#e0234e]/50',
-      gradient: 'from-[#e0234e]/20 via-transparent to-transparent',
-      shadow: 'rgba(224, 35, 78, 0.3)',
+      icon: 'bg-[#c59b48]/15 text-[#dfb76c] border-[#c59b48]/30',
+      glow: 'group-hover:border-[#c59b48]/50',
+      gradient: 'from-[#c59b48]/20 via-transparent to-transparent',
+      shadow: 'rgba(197, 155, 72, 0.3)',
     },
     indigo: {
       icon: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
@@ -73,7 +73,7 @@ export function StatsCard({
         transition: { duration: 0.25, ease: ease.smooth },
       }}
       whileTap={{ scale: 0.98 }}
-      className={`group relative rounded-3xl border border-slate-200 bg-white dark:border-white/10 dark:bg-[#131726]/90 p-5 sm:p-6 backdrop-blur-xl transition-colors duration-300 hover:border-[#e0234e]/40 shadow-sm hover:shadow-md overflow-hidden ${scheme.glow}`}
+      className={`group relative rounded-3xl border border-slate-200 bg-white dark:border-white/10 dark:bg-[#131726]/90 p-5 sm:p-6 backdrop-blur-xl transition-colors duration-300 hover:border-[#c59b48]/40 shadow-sm hover:shadow-md overflow-hidden ${scheme.glow}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >

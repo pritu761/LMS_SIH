@@ -33,6 +33,7 @@
 
     --ring: 40 54% 53%;
     --radius: 1rem;
+    --navbar-height: 4.25rem;
   }
 
   .dark {
@@ -61,10 +62,11 @@
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
     scroll-behavior: smooth;
+    scroll-padding-top: var(--navbar-height);
   }
 
   body {
-    @apply text-foreground antialiased selection:bg-[#E0234E] selection:text-white;
+    @apply text-foreground antialiased selection:bg-[#0b1e36] selection:text-[#c59b48] dark:selection:bg-[#c59b48] dark:selection:text-[#0b1e36];
     font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
     font-feature-settings: "rlig" 1, "calt" 1, "ss01" 1;
     font-optical-sizing: auto;
@@ -209,14 +211,14 @@
 
 [data-mode='light'] .text-aurora,
 .light .text-aurora {
-  background: linear-gradient(135deg, #e0234e 0%, #ea2845 40%, #ff4d6d 100%) !important;
+  background: linear-gradient(135deg, #0b1e36 0%, #c59b48 50%, #dfb76c 100%) !important;
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
 }
 
 [data-mode='light'][data-theme='nestjs'] .text-aurora,
 .light[data-theme='nestjs'] .text-aurora {
-  background: linear-gradient(135deg, #e0234e 0%, #ea2845 40%, #ff4d6d 100%) !important;
+  background: linear-gradient(135deg, #0b1e36 0%, #c59b48 50%, #dfb76c 100%) !important;
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
 }
@@ -1118,22 +1120,22 @@ footer .text-white,
   width: 200%;
   height: 200%;
   background: conic-gradient(from 0deg at 50% 50%,
-      #e0234e 0deg,
-      #ff4d6d 90deg,
-      #ff758c 180deg,
-      #ea2845 270deg,
-      #e0234e 360deg);
+      #c59b48 0deg,
+      #dfb76c 90deg,
+      #0b1e36 180deg,
+      #c59b48 270deg,
+      #dfb76c 360deg);
   animation: spinSlow 6s linear infinite;
   z-index: 0;
 }
 
 [data-theme='nestjs'] .btn-conic-glow::before {
   background: conic-gradient(from 0deg at 50% 50%,
-      #e0234e 0deg,
-      #ff4d6d 90deg,
-      #ff758c 180deg,
-      #ea2845 270deg,
-      #e0234e 360deg);
+      #c59b48 0deg,
+      #dfb76c 90deg,
+      #0b1e36 180deg,
+      #c59b48 270deg,
+      #dfb76c 360deg);
 }
 
 [data-theme='emerald'] .btn-conic-glow::before {

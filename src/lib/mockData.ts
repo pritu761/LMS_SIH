@@ -282,6 +282,186 @@ export const initialCadres: MockCadreBenchmark[] = [
 
 export const initialUsers: MockUser[] = [
   {
+    id: 'user-admin-gov',
+    email: 'admin@capacityconnect.gov',
+    passwordHash: '$2a$10$X8mR08fMsqa5WJsm2gN9..3uK6Osk4Rj4l37zT6a8K2V5ZJ9b6Yhe', // Password123!
+    role: 'ADMIN',
+    status: 'APPROVED',
+    isVerified: true,
+    designation: 'Director & Chief Administrative Lead',
+    centre: 'Mausam Bhavan, Lodhi Road, New Delhi',
+    profile: {
+      fullName: 'Dr. Rajeshwari Sharma',
+      headline: 'Chief Administrative Officer & Portal Director',
+      bio: 'Overseeing institutional capacity building, faculty credentialing, and multi-cadre progression programs.',
+      organization: 'India Meteorological Department (IMD)',
+      department: 'Central Administration & Capacity Building Wing',
+      avatarUrl: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&h=300&fit=crop&crop=face',
+      phone: '+91 11 2461 1000',
+      location: 'Mausam Bhavan, Lodhi Road, New Delhi',
+      qualifications: [
+        { degree: 'Ph.D. in Public Administration', institution: 'JNU New Delhi', year: '2005', field: 'Administrative Governance' }
+      ],
+      experience: [
+        { title: 'Chief Administrative Officer', company: 'IMD', startYear: '2020', endYear: 'Present', description: 'Institutional administration.' }
+      ],
+      certificates: []
+    },
+    competencies: [
+      { competencyId: 'comp-synop', competencyName: 'Synoptic Meteorology & Tropical Cyclone Dynamics', code: 'MET-SYNOP', proficiencyLevel: 5, verified: true },
+      { competencyId: 'comp-dss', competencyName: 'Early Warning & Multi-Hazard Decision Support Systems', code: 'MET-DSS', proficiencyLevel: 5, verified: true }
+    ]
+  },
+  {
+    id: 'user-trainer-lead',
+    email: 'trainer@capacityconnect.gov',
+    passwordHash: '$2a$10$X8mR08fMsqa5WJsm2gN9..3uK6Osk4Rj4l37zT6a8K2V5ZJ9b6Yhe',
+    role: 'TRAINER',
+    status: 'APPROVED',
+    isVerified: true,
+    designation: 'Principal Faculty Lead • NWP & Modeling Division',
+    centre: 'IMD Central Training Division, Pune',
+    profile: {
+      fullName: 'Senior Faculty Lead',
+      headline: 'Principal Meteorological Instructor • Training Division',
+      bio: 'Lead instructor conducting DRSTC and FTC specialized curricula in atmospheric modeling and operational forecasting.',
+      organization: 'IMD Central Training Institute',
+      department: 'Faculty of Meteorological Sciences',
+      avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop&crop=face',
+      phone: '+91 20 2553 5000',
+      location: 'Pune, Maharashtra',
+      qualifications: [
+        { degree: 'Ph.D. in Atmospheric Physics', institution: 'IISc Bangalore', year: '2010', field: 'Atmospheric Physics' }
+      ],
+      experience: [
+        { title: 'Chief Instructor', company: 'IMD Training Institute', startYear: '2017', endYear: 'Present', description: 'Faculty lead.' }
+      ],
+      certificates: []
+    },
+    competencies: [
+      { competencyId: 'comp-nwp', competencyName: 'Numerical Weather Prediction & Earth-System Modelling', code: 'MET-NWP', proficiencyLevel: 5, verified: true },
+      { competencyId: 'comp-hpc', competencyName: 'High-Performance Computing & Atmospheric Grid Parallelism', code: 'MET-HPC', proficiencyLevel: 5, verified: true }
+    ]
+  },
+  {
+    id: 'user-trainer-vikram',
+    email: 'vikram.trainer@capacityconnect.gov',
+    passwordHash: '$2a$10$X8mR08fMsqa5WJsm2gN9..3uK6Osk4Rj4l37zT6a8K2V5ZJ9b6Yhe',
+    role: 'TRAINER',
+    status: 'APPROVED',
+    isVerified: true,
+    designation: 'Principal Scientist & Chief Faculty (NWP & HPC Dynamics)',
+    centre: 'Meteorological Training Institute (MTI) / IITM Pune',
+    profile: {
+      fullName: 'Prof. Vikramaditya Sen',
+      headline: 'Senior Faculty & Chief Atmospheric Modeller • IMD Training Institute, Pune',
+      bio: 'Over 18 years mentoring DRSTC & FTC batches in high-resolution global numerical weather prediction, parallel atmospheric dynamics on Pratyush HPC, and boundary-layer physics.',
+      organization: 'India Meteorological Department / IITM',
+      department: 'Central Training Division & NWP Core',
+      avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop&crop=face',
+      phone: '+91 20 2553 5200',
+      location: 'Pune, Maharashtra',
+      qualifications: [
+        { degree: 'Ph.D. in Climate Dynamics & Parallel Computing', institution: 'IISc Bangalore', year: '2008', field: 'Numerical Modeling' }
+      ],
+      experience: [
+        { title: 'Chief Faculty (NWP & HPC)', company: 'IMD Central Training Institute, Pune', startYear: '2016', endYear: 'Present', description: 'Directing DRSTC induction modules.' }
+      ],
+      certificates: []
+    },
+    competencies: [
+      { competencyId: 'comp-nwp', competencyName: 'Numerical Weather Prediction & Earth-System Modelling', code: 'MET-NWP', proficiencyLevel: 5, verified: true },
+      { competencyId: 'comp-hpc', competencyName: 'High-Performance Computing & Atmospheric Grid Parallelism', code: 'MET-HPC', proficiencyLevel: 5, verified: true }
+    ]
+  },
+  {
+    id: 'user-trainee-default',
+    email: 'trainee@capacityconnect.gov',
+    passwordHash: '$2a$10$X8mR08fMsqa5WJsm2gN9..3uK6Osk4Rj4l37zT6a8K2V5ZJ9b6Yhe',
+    role: 'TRAINEE',
+    status: 'APPROVED',
+    isVerified: true,
+    cadreTrack: 'DRSTC',
+    designation: 'Meteorological Officer Trainee (DRSTC Batch)',
+    centre: 'Induction Training Division, IMD New Delhi',
+    profile: {
+      fullName: 'Meteorological Officer Trainee',
+      headline: 'Scientist-B Inductee • DRSTC Foundation Batch',
+      bio: 'Cadre inductee developing foundational competencies in synoptic weather forecasting, radar analytics, and numerical modeling.',
+      organization: 'India Meteorological Department (IMD)',
+      department: 'Induction Training Division',
+      avatarUrl: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=300&h=300&fit=crop&crop=face',
+      phone: '+91 11 2461 2000',
+      location: 'New Delhi, India',
+      qualifications: [
+        { degree: 'M.Tech in Atmospheric Science', institution: 'IIT Delhi', year: '2024', field: 'Meteorology' }
+      ],
+      experience: [],
+      certificates: []
+    },
+    competencies: [
+      { competencyId: 'comp-nwp', competencyName: 'Numerical Weather Prediction & Earth-System Modelling', code: 'MET-NWP', proficiencyLevel: 3, verified: true },
+      { competencyId: 'comp-hpc', competencyName: 'High-Performance Computing & Atmospheric Grid Parallelism', code: 'MET-HPC', proficiencyLevel: 3, verified: true }
+    ]
+  },
+  {
+    id: 'user-trainee-aarav',
+    email: 'aarav.trainee@capacityconnect.gov',
+    passwordHash: '$2a$10$X8mR08fMsqa5WJsm2gN9..3uK6Osk4Rj4l37zT6a8K2V5ZJ9b6Yhe',
+    role: 'TRAINEE',
+    status: 'APPROVED',
+    isVerified: true,
+    cadreTrack: 'DRSTC',
+    designation: 'Scientist-B (DRSTC 2026 Batch Inductee)',
+    centre: 'Numerical Weather Prediction Division, IMD HQ, New Delhi',
+    profile: {
+      fullName: 'Aarav Patel',
+      headline: 'Scientist-B • Numerical Weather Prediction & Earth-System Modelling Inductee',
+      bio: 'Directly recruited scientist enrolled in the DRSTC 2026 induction track. Focusing on high-resolution atmospheric modelling, high-performance computing, and AI data assimilation for Mission Mausam.',
+      organization: 'India Meteorological Department (IMD)',
+      department: 'Numerical Weather Prediction Division',
+      avatarUrl: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=300&h=300&fit=crop&crop=face',
+      phone: '+91 98765 43210',
+      location: 'New Delhi, India',
+      qualifications: [
+        { degree: 'M.Tech in Atmospheric Science & Computing', institution: 'IIT Delhi', year: '2024', field: 'Atmospheric Physics' }
+      ],
+      experience: [],
+      certificates: []
+    },
+    competencies: [
+      { competencyId: 'comp-nwp', competencyName: 'Numerical Weather Prediction & Earth-System Modelling', code: 'MET-NWP', proficiencyLevel: 3, verified: true },
+      { competencyId: 'comp-hpc', competencyName: 'High-Performance Computing & Atmospheric Grid Parallelism', code: 'MET-HPC', proficiencyLevel: 3, verified: true }
+    ]
+  },
+  {
+    id: 'user-trainee-priya',
+    email: 'priya.sharma@capacityconnect.gov',
+    passwordHash: '$2a$10$X8mR08fMsqa5WJsm2gN9..3uK6Osk4Rj4l37zT6a8K2V5ZJ9b6Yhe',
+    role: 'TRAINEE',
+    status: 'APPROVED',
+    isVerified: true,
+    cadreTrack: 'DRSTC',
+    designation: 'Scientist-B • Satellite Met Division',
+    centre: 'IMD Mausam Bhavan, New Delhi',
+    profile: {
+      fullName: 'Priya Sharma',
+      headline: 'Scientist-B • Satellite Meteorology & Remote Sensing Inductee',
+      bio: 'Enrolled in DRSTC satellite meteorology track, specializing in INSAT-3DS sounder data processing and radiative transfer.',
+      organization: 'India Meteorological Department (IMD)',
+      department: 'Satellite Meteorology Division',
+      avatarUrl: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=300&h=300&fit=crop&crop=face',
+      phone: '+91 98765 11223',
+      location: 'New Delhi, India',
+      qualifications: [],
+      experience: [],
+      certificates: []
+    },
+    competencies: [
+      { competencyId: 'comp-sat', competencyName: 'Satellite Remote Sensing & INSAT-3DS Sounder Analytics', code: 'MET-SAT', proficiencyLevel: 3, verified: true }
+    ]
+  },
+  {
     id: 'user-admin-1',
     email: 'dg.imd@moes.gov.in',
     passwordHash: '$2a$10$X8mR08fMsqa5WJsm2gN9..3uK6Osk4Rj4l37zT6a8K2V5ZJ9b6Yhe', // Password123!

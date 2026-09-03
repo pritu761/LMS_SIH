@@ -51,13 +51,13 @@ export default function CourseCatalogPage() {
       <main className="flex-1 min-w-0 space-y-6">
 
         {/* Header - dark hero retained for brand impact */}
-        <div className="rounded-3xl border border-[#e0234e]/25 bg-gradient-to-br from-[#1a0e16]/60 via-slate-900/80 to-[#0f121d] p-6 sm:p-8 backdrop-blur-xl space-y-2 relative overflow-hidden shadow-xl">
-          <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#e0234e]/60 to-transparent" />
+        <div className="rounded-3xl border border-[#c59b48]/30 bg-gradient-to-br from-[#0b1e36]/90 via-[#102744] to-[#081526] p-6 sm:p-8 backdrop-blur-xl space-y-2 relative overflow-hidden shadow-xl">
+          <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#c59b48]/60 to-transparent" />
           <div className="flex items-center gap-2">
-            <span className="rounded-md bg-[#e0234e]/15 px-2.5 py-0.5 text-xs font-bold text-[#ff4d6d] border border-[#e0234e]/30">
+            <span className="rounded-md bg-[#c59b48]/15 px-2.5 py-0.5 text-xs font-bold text-[#dfb76c] border border-[#c59b48]/30">
               MISSION MAUSAM CURRICULUM
             </span>
-            <span className="text-xs text-slate-400">IMD / MoES Official Training Tracks</span>
+            <span className="text-xs text-slate-300">IMD / MoES Official Training Tracks</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
             Meteorological Capacity Curriculum
@@ -77,16 +77,16 @@ export default function CourseCatalogPage() {
                 placeholder="Search by topic (e.g. Radar, NWP, Satellite, AI Nowcasting, HPC, Cyclone)..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full rounded-2xl border border-slate-200 dark:border-slate-700/80 bg-white dark:bg-slate-900/80 pl-10 pr-4 py-2.5 text-xs text-slate-900 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 focus:border-[#e0234e] focus:outline-none focus:ring-1 focus:ring-[#e0234e]"
+                className="w-full rounded-2xl border border-slate-200 dark:border-slate-700/80 bg-white dark:bg-slate-900/80 pl-10 pr-4 py-2.5 text-xs text-slate-900 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 focus:border-[#c59b48] focus:outline-none focus:ring-1 focus:ring-[#c59b48]"
               />
             </div>
 
             <button
               type="button"
               onClick={() => openChat(search || undefined)}
-              className="flex items-center gap-1.5 rounded-2xl border border-[#e0234e]/40 bg-[#e0234e]/10 px-4 py-2.5 text-xs font-bold text-[#ff4d6d] shadow-md shadow-[#e0234e]/20 hover:border-[#e0234e] hover:bg-[#e0234e]/20 hover:text-white transition-all hover:scale-105 active:scale-95 whitespace-nowrap"
+              className="flex items-center gap-1.5 rounded-2xl border border-[#c59b48]/40 bg-[#c59b48]/10 px-4 py-2.5 text-xs font-bold text-[#0b1e36] dark:text-[#dfb76c] shadow-md shadow-[#0b1e36]/10 hover:border-[#0b1e36] hover:bg-[#0b1e36] hover:text-white transition-all hover:scale-105 active:scale-95 whitespace-nowrap"
             >
-              <Bot className="h-4 w-4 text-[#ff4d6d]" />
+              <Bot className="h-4 w-4 text-[#c59b48]" />
               <span className="hidden sm:inline">Ask AI</span>
               <Sparkles className="h-3 w-3 text-amber-400 animate-pulse" />
             </button>
@@ -99,7 +99,7 @@ export default function CourseCatalogPage() {
                 onClick={() => setSelectedTrack(tr.id)}
                 className={`rounded-xl px-3.5 py-2 text-xs font-semibold whitespace-nowrap transition-all ${
                   selectedTrack === tr.id
-                    ? 'bg-gradient-to-r from-[#e0234e] to-[#ff4d6d] text-white shadow-md shadow-[#e0234e]/30'
+                    ? 'bg-[#0b1e36] text-[#dfb76c] border border-[#c59b48]/50 shadow-md shadow-[#0b1e36]/20 dark:bg-[#122c4d]'
                     : 'bg-white dark:bg-slate-900/60 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:text-white border border-slate-200 dark:border-slate-800'
                 }`}
               >
@@ -114,7 +114,7 @@ export default function CourseCatalogPage() {
           {filteredCourses.map((course) => (
             <div
               key={course.id}
-              className="rounded-3xl border border-slate-200 bg-white dark:border-white/10 dark:bg-[#131726]/90 backdrop-blur-xl overflow-hidden shadow-sm hover:shadow-md dark:shadow-xl hover:border-[#e0234e]/40 dark:hover:border-[#e0234e]/50 hover:shadow-[#e0234e]/10 dark:hover:shadow-[#e0234e]/15 transition-all flex flex-col group"
+              className="rounded-3xl border border-slate-200 bg-white dark:border-white/10 dark:bg-[#131726]/90 backdrop-blur-xl overflow-hidden shadow-sm hover:shadow-md dark:shadow-xl hover:border-[#c59b48]/50 hover:shadow-[#c59b48]/10 dark:hover:shadow-[#c59b48]/15 transition-all flex flex-col group"
             >
               {/* Thumbnail / Header */}
               <div className="relative h-48 w-full bg-white dark:bg-slate-950 overflow-hidden">
@@ -125,10 +125,10 @@ export default function CourseCatalogPage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#131726] via-[#131726]/40 to-transparent" />
                 <div className="absolute top-4 left-4 flex items-center gap-2">
-                  <span className="rounded-md bg-white dark:bg-slate-950/80 px-2 py-0.5 text-xs font-bold text-[#ff4d6d] border border-[#e0234e]/30 backdrop-blur-md">
+                  <span className="rounded-md bg-white dark:bg-slate-950/80 px-2 py-0.5 text-xs font-bold text-[#c59b48] border border-[#c59b48]/30 backdrop-blur-md">
                     {course.code}
                   </span>
-                  <span className="rounded-md bg-[#e0234e]/20 px-2 py-0.5 text-xs font-bold text-[#ff758c] border border-[#e0234e]/30 backdrop-blur-md">
+                  <span className="rounded-md bg-[#c59b48]/20 px-2 py-0.5 text-xs font-bold text-[#dfb76c] border border-[#c59b48]/30 backdrop-blur-md">
                     {course.cadreTrack} TRACK
                   </span>
                   <span className="rounded-md bg-emerald-500/20 px-2 py-0.5 text-xs font-bold text-emerald-300 border border-emerald-500/30 backdrop-blur-md">
@@ -140,7 +140,7 @@ export default function CourseCatalogPage() {
               {/* Body */}
               <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
                 <div className="space-y-2">
-                  <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-[#ff758c] transition-colors leading-snug">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-[#c59b48] transition-colors leading-snug">
                     {course.title}
                   </h3>
                   <p className="text-xs text-slate-600 dark:text-slate-300 line-clamp-3 leading-relaxed">
@@ -157,7 +157,7 @@ export default function CourseCatalogPage() {
                     {course.competencies.map((comp) => (
                       <span
                         key={comp.competencyId}
-                        className="rounded bg-[#e0234e]/10 px-2 py-0.5 text-[10px] font-medium text-[#ff758c] border border-[#e0234e]/20"
+                        className="rounded bg-[#0b1e36]/10 dark:bg-[#c59b48]/15 px-2 py-0.5 text-[10px] font-medium text-[#0b1e36] dark:text-[#dfb76c] border border-[#c59b48]/20"
                       >
                         {comp.competencyName} (Lvl {comp.requiredProficiency})
                       </span>
@@ -177,10 +177,10 @@ export default function CourseCatalogPage() {
 
                   <Link
                     href={`/trainee/courses/${course.id}`}
-                    className="flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-[#e0234e] to-[#ff4d6d] hover:from-[#d01b44] hover:to-[#ea2845] px-4 py-2 text-xs font-bold text-white shadow-md shadow-[#e0234e]/30 transition-all hover:scale-105"
+                    className="flex items-center gap-1.5 rounded-xl bg-[#0b1e36] hover:bg-[#122c4d] border border-[#c59b48]/50 px-4 py-2 text-xs font-bold text-white shadow-md shadow-[#0b1e36]/20 transition-all hover:scale-105"
                   >
                     <span>Enroll / Play</span>
-                    <ChevronRight className="h-3.5 w-3.5" />
+                    <ChevronRight className="h-3.5 w-3.5 text-[#c59b48]" />
                   </Link>
                 </div>
               </div>

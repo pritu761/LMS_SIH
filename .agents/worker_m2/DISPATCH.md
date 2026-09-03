@@ -1,42 +1,56 @@
-## 2026-09-02T02:40:21Z
+# DISPATCH — Worker M2: Responsive Navbar Architecture & Dynamic Clearance
 
-You are teamwork_preview_worker_m2 (Milestone 2 Worker: Interactive Radar Map Engine).
-Your working directory is c:\Users\pknat\LMS_SIH\.agents\worker_m2.
-Read:
-- c:\Users\pknat\LMS_SIH\ORIGINAL_REQUEST.md
-- c:\Users\pknat\LMS_SIH\PROJECT.md
-- c:\Users\pknat\LMS_SIH\.agents\explorer_radar_1\handoff.md
-- c:\Users\pknat\LMS_SIH\src\types\weather.ts
-- c:\Users\pknat\LMS_SIH\src\lib\weatherService.ts
-- c:\Users\pknat\LMS_SIH\src\lib\mockRadarData.ts
+## Mission
+Implement Milestone 2 (Requirement R2: Responsive Navbar Architecture & Dynamic Clearance).
 
-MANDATORY INTEGRITY WARNING:
+## Context & Authoritative References
+- MANDATORY: Read `c:\Users\pknat\LMS_SIH\.agents\ORIGINAL_REQUEST.md` (specifically 'Follow-up — 2026-09-03T17:04:20Z').
+- Read `c:\Users\pknat\LMS_SIH\PROJECT.md`.
+- Read the survey report: `c:\Users\pknat\LMS_SIH\.agents\explorer_survey_navbar\survey_report.md`.
+- Test Suite: `scripts/verify-ui-ux.ts` (run `npx tsx scripts/verify-ui-ux.ts --tier=2` to test your implementation).
+
+## Exclusive Write Boundaries
+You have exclusive write access to:
+- `src/components/layout/Navbar.tsx`
+- `src/app/globals.css` (for clearance variables and `scroll-padding-top`)
+- `src/app/page.tsx` (for anchor section `scroll-mt-24` attributes)
+
+DO NOT touch any other files.
+
+## Specific Implementation Requirements
+1. **Desktop Navigation Expanded from 1024px+ (`lg`)**:
+   - In `src/components/layout/Navbar.tsx`:
+     - Change `<nav className="hidden xl:flex ...">` to `<nav className="hidden lg:flex items-center gap-0.5 xl:gap-1 text-xs">`.
+     - Change mobile hamburger button from `xl:hidden` to `lg:hidden`.
+     - Change mobile navigation drawer from `xl:hidden` to `lg:hidden`.
+   - Update `navLinkClass` to responsive density:
+     `px-2 xl:px-2.5 py-1 rounded-full text-[11px] xl:text-xs font-semibold font-sans tracking-tight whitespace-nowrap transition-all duration-200`
+   - Tune right tool actions for compact density at `lg`:
+     - AI Guide button: label `hidden xl:inline` (or compact text), padding `px-2 xl:px-2.5`.
+     - Persona Switcher dropdown trigger: compact `px-2 text-[11px] xl:text-xs`.
+     - Portal CTA button: compact `px-2.5 xl:px-3.5 text-[11px] xl:text-xs`.
+     - Inter-tool gap: `gap-1.5 sm:gap-2`.
+   - Ensure the total navbar footprint at 1024px fits within 945px with no horizontal overflow.
+
+2. **Persona / Role Switcher Contrast Rectification**:
+   - Fix `roleEntries` in `Navbar.tsx`:
+     - Update `iconBg`: replace `text-[#0b1e36]` with `text-[#0b1e36] dark:text-[#dfb76c]`.
+     - Update `hoverText`: replace `group-hover:text-[#0b1e36]` with `group-hover:text-[#0b1e36] dark:group-hover:text-[#dfb76c]`.
+     - Ensure dropdown background and item hover states maintain high WCAG AA contrast in both light and dark themes.
+     - Ensure active role checkmarks display clearly (`text-[#c59b48]`).
+
+3. **Dynamic Clearance System**:
+   - In `src/app/globals.css`:
+     - Define `--navbar-height: 4.25rem;` in `:root`.
+     - Add `html { scroll-padding-top: var(--navbar-height); }`.
+   - In `src/app/page.tsx`:
+     - Add `scroll-mt-24` to anchor sections (`#problem`, `#cadres`, `#algorithm`, `#curriculum`, `#radar`).
+   - Verify top clearance across routes: page titles and hero headers on `/`, `/radar`, `/architecture`, `/admin`, `/trainee` must never tuck behind or clash with the floating navbar pill.
+
+4. **Verification**:
+   - Run `npx tsx scripts/verify-ui-ux.ts --tier=2` — ensure 4/4 checks pass (100%).
+   - Run `npx tsc --noEmit` and `npm run build` to verify zero compile or type errors.
+   - Document all changes and verification results in `c:\Users\pknat\LMS_SIH\.agents\worker_m2\handoff.md`.
+
+## Mandatory Integrity Warning
 DO NOT CHEAT. All implementations must be genuine. DO NOT hardcode test results, create dummy/facade implementations, or circumvent the intended task. A teamwork_preview_auditor will independently verify your work. Integrity violations WILL be detected and your work WILL be rejected.
-
-Your write ownership (exclusive):
-- `src/components/radar/WeatherRadarMap.tsx`
-- `src/components/radar/RadarTimelineControls.tsx`
-- `src/components/radar/RadarDbzLegend.tsx`
-- `src/components/radar/LeafletRadarContainer.tsx` (if helper component is needed)
-
-Tasks:
-1. Install `leaflet` and `@types/leaflet` via `npm install leaflet @types/leaflet` if needed for client-side map rendering.
-2. Implement `src/components/radar/LeafletRadarContainer.tsx` (or dynamic Leaflet wrapper) that mounts a Leaflet map in client `useEffect` with `next/dynamic(..., { ssr: false })` to guarantee zero SSR errors. Support:
-   - Basemaps: CartoDB Dark Matter (`https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png`), CartoDB Positron (`https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png`), and OpenStreetMap (`https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png`).
-   - Center, zoom, pin marker for active location.
-   - Click map event to dispatch `onSelectLocation(lat, lon)`.
-   - Dual radar tile layers with opacity transitions to eliminate flickering during time step changes.
-   - Real-time RainViewer Doppler reflectivity tiles (`getRadarTileUrl`).
-   - Layer switcher (Precipitation reflectivity vs Cloud coverage, Universal Blue vs NEXRAD color schemes).
-3. Implement `src/components/radar/RadarTimelineControls.tsx`:
-   - Interactive time slider scrubber spanning past 2h frames to nowcast frames.
-   - Play/Pause toggle with smooth frame animation timer (configurable 1x/2x speed).
-   - Step forward / Step backward buttons.
-   - Live badge ("LIVE", "-40m", "+20m (Nowcast)"), timestamp label formatted to user's local time.
-4. Implement `src/components/radar/RadarDbzLegend.tsx`:
-   - Visual horizontal/vertical dBZ color scale (0 to 60+ dBZ, mm/h rain rates, color steps from Drizzle `#00a3e0` to Moderate `#1c47e8`/`#c80f86` to Heavy `#d2883b`/`#fe9a58` to Severe Hail `#fd341c`/`#ffffff`).
-   - Interactive hover tooltip or badge explaining meteorological intensity.
-5. Implement `src/components/radar/WeatherRadarMap.tsx`: Top-level radar map module combining the Leaflet container, timeline controls, layer toggles, and dBZ legend with smooth HUD overlays.
-6. Verify compilation with `npx tsc --noEmit`.
-
-Write your handoff report to `c:\Users\pknat\LMS_SIH\.agents\worker_m2\handoff.md`. Include verification commands and outputs. Send a message to parent when done.

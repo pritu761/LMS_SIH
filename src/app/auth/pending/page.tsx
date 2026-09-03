@@ -29,6 +29,18 @@ export default function PendingApprovalPage() {
     }
   };
 
+  const handleSwitchAccount = async () => {
+    try {
+      await fetch('/api/auth/logout', { method: 'POST' });
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new Event('auth-change'));
+      }
+    } catch (e) {
+      console.error(e);
+    }
+    router.push('/auth/login');
+  };
+
   return (
     <div className="flex-1 flex items-center justify-center p-4 sm:p-6 lg:p-8 relative overflow-hidden">
       {/* Ambient background glow */}
@@ -111,13 +123,14 @@ export default function PendingApprovalPage() {
               <Home className="h-3.5 w-3.5" />
               <span>Home</span>
             </Link>
-            <Link
-              href="/auth/login"
+            <button
+              type="button"
+              onClick={handleSwitchAccount}
               className="flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 px-5 py-2.5 text-xs font-bold text-white shadow-lg shadow-indigo-600/30 transition-all hover:scale-105 btn-shimmer"
             >
               <LogIn className="h-3.5 w-3.5" />
               <span>Sign In with Another ID</span>
-            </Link>
+            </button>
           </div>
         </div>
       </div>

@@ -179,7 +179,7 @@ export function RadarPageContent() {
     <div className="min-h-screen bg-[#070f1a] text-slate-100 flex flex-col selection:bg-[#c59b48] selection:text-[#0b1e36]">
       {/* Top Banner / Breadcrumb & Status Bar */}
       <header className="relative bg-[#0b1e36] border-b border-[#c59b48]/30 px-3 sm:px-6 py-3 sm:py-4 shadow-xl z-20">
-        <div className="max-w-[1600px] mx-auto flex flex-col md:flex-row md:items-center justify-between gap-3">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row md:items-center justify-between gap-3">
           {/* Brand & Heading */}
           <div className="flex items-center gap-3">
             <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-2xl bg-[#122c4d] border border-[#c59b48]/50 flex items-center justify-center text-[#c59b48] shadow-lg shadow-[#08172a]/60 shrink-0">
@@ -187,11 +187,11 @@ export function RadarPageContent() {
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/40 text-[10px] sm:text-xs font-mono font-bold text-emerald-300">
+                <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/40 text-[10px] sm:text-xs font-sans font-bold text-emerald-300">
                   <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-ping" />
                   LIVE DOPPLER NETWORK
                 </span>
-                <span className="text-[10px] text-slate-400 font-mono hidden sm:inline">
+                <span className="text-[10px] text-slate-400 font-sans hidden sm:inline">
                   • WMO RTC Compliant
                 </span>
               </div>
@@ -261,7 +261,7 @@ export function RadarPageContent() {
         </div>
 
         {/* Mobile Tab Selector Navigation (<lg) */}
-        <div className="lg:hidden mt-3 pt-2 border-t border-slate-800 flex items-center justify-around text-xs font-semibold font-mono">
+        <div className="lg:hidden mt-3 pt-2 border-t border-slate-800 flex items-center justify-around text-xs font-semibold font-sans">
           <button
             type="button"
             onClick={() => setActiveMobileTab('map')}
@@ -299,7 +299,7 @@ export function RadarPageContent() {
       </header>
 
       {/* Main Content Arena */}
-      <main className="flex-1 max-w-[1600px] w-full mx-auto p-3 sm:p-5 lg:p-6 space-y-6">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
         {/* Top Search Bar & Geolocation Bar */}
         <div className="w-full">
           <WeatherSearchBar
@@ -407,7 +407,7 @@ export function RadarPageContent() {
                 Click any operational radar station to immediately center the live Doppler scope and synchronize nowcasting telemetry.
               </p>
             </div>
-            <div className="flex items-center gap-2 text-xs font-mono">
+            <div className="flex items-center gap-2 text-xs font-sans font-bold">
               <span className="px-2.5 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 font-bold">
                 38/38 ONLINE
               </span>

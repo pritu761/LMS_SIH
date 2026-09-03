@@ -37,6 +37,9 @@ const RBAC_RULES: Array<{ prefix: string; roles: Array<'TRAINEE' | 'TRAINER' | '
  */
 const PUBLIC_ROUTES = [
   '/',
+  '/radar',
+  '/api/radar',
+  '/architecture',
   '/auth/login',
   '/auth/register',
   '/auth/pending',

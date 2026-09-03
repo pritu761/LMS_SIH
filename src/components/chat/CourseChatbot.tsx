@@ -332,19 +332,19 @@ export function CourseChatbot() {
               type="button"
               onClick={toggleChat}
               aria-label="Open Course AI Assistant"
-              className="group relative flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-tr from-[#e0234e] via-[#ea2845] to-[#ff4d6d] p-[1.5px] shadow-2xl shadow-[#e0234e]/40 transition-all duration-300 hover:scale-110 hover:shadow-[#e0234e]/60 active:scale-95"
+              className="group relative flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-tr from-[#0b1e36] via-[#122c4d] to-[#c59b48] p-[1.5px] shadow-2xl shadow-[#0b1e36]/40 transition-all duration-300 hover:scale-110 hover:shadow-[#c59b48]/40 active:scale-95"
             >
               {/* Outer subtle glow ring */}
-              <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-[#e0234e] to-[#ff758c] opacity-40 blur-md group-hover:opacity-75 transition duration-500 animate-pulse" />
+              <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-[#0b1e36] to-[#c59b48] opacity-40 blur-md group-hover:opacity-75 transition duration-500 animate-pulse" />
 
               <div className="relative flex h-full w-full items-center justify-center rounded-[14px] bg-white dark:bg-slate-950/90 backdrop-blur-sm">
-                <Bot className="h-6 w-6 text-[#ff4d6d] transition-transform duration-300 group-hover:scale-110 group-hover:text-slate-900 dark:text-white" />
+                <Bot className="h-6 w-6 text-[#c59b48] transition-transform duration-300 group-hover:scale-110" />
                 <Sparkles className="absolute top-2 right-2 h-2.5 w-2.5 text-amber-400 animate-pulse" />
               </div>
 
               {/* Unread Message Badge */}
               {unreadCount > 0 && (
-                <span className="absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-[#e0234e] text-[10px] font-black text-white ring-2 ring-black animate-bounce">
+                <span className="absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-[#c59b48] text-[10px] font-black text-[#0b1e36] ring-2 ring-black animate-bounce">
                   {unreadCount}
                 </span>
               )}
@@ -381,26 +381,26 @@ export function CourseChatbot() {
             {/* Header */}
             <div className="relative flex items-center justify-between border-b border-white/10 bg-white dark:bg-slate-900/80 px-4 py-3.5 backdrop-blur-xl select-none">
               {/* Electric subtle gradient highlight */}
-              <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#e0234e] via-[#ea2845] to-[#ff758c]" />
+              <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#0b1e36] via-[#c59b48] to-[#dfb76c]" />
 
               <div className="flex items-center gap-2.5">
-                <div className="relative flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-tr from-[#e0234e] to-[#ff4d6d] p-[1px]">
+                <div className="relative flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-tr from-[#0b1e36] to-[#c59b48] p-[1px]">
                   <div className="flex h-full w-full items-center justify-center rounded-[11px] bg-black">
-                    <Bot className="h-4 w-4 text-[#ff4d6d]" />
+                    <Bot className="h-4 w-4 text-[#c59b48]" />
                   </div>
                   <span className="absolute bottom-0 right-0 h-2 w-2 rounded-full bg-emerald-400 ring-2 ring-black" />
                 </div>
                 <div>
                   <div className="flex items-center gap-1.5">
                     <h3 className="text-xs font-bold text-slate-900 dark:text-white tracking-tight">
-                      MausamBot <span className="text-[#ff4d6d]">AI Navigator</span>
+                      MausamBot <span className="text-[#c59b48]">AI Navigator</span>
                     </h3>
-                    <span className="rounded-full bg-[#e0234e]/10 px-1.5 py-0.2 text-[8px] font-black text-[#ff4d6d] border border-[#e0234e]/20">
+                    <span className="rounded-full bg-[#c59b48]/15 px-1.5 py-0.2 text-[8px] font-black text-[#dfb76c] border border-[#c59b48]/30">
                       NESTJS CORE
                     </span>
                   </div>
                   <p className="text-[10px] text-slate-500 dark:text-slate-400 flex items-center gap-1">
-                    <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#e0234e] animate-pulse" />
+                    <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#c59b48] animate-pulse" />
                     Live Course Intelligence • WMO BIP-M
                   </p>
                 </div>
@@ -414,7 +414,7 @@ export function CourseChatbot() {
                   onClick={() => setTtsEnabled(!ttsEnabled)}
                   title={ttsEnabled ? 'Mute AI Voice' : 'Enable Voice Readout'}
                   className={`rounded-lg p-1.5 transition-colors ${
-                    ttsEnabled ? 'bg-[#e0234e]/20 text-[#ff4d6d]' : 'hover:bg-white/5 hover:text-white'
+                    ttsEnabled ? 'bg-[#c59b48]/20 text-[#dfb76c]' : 'hover:bg-white/5 hover:text-white'
                   }`}
                 >
                   {ttsEnabled ? <Volume2 className="h-4 w-4" /> : <VolumeX className="h-4 w-4" />}
@@ -475,9 +475,9 @@ export function CourseChatbot() {
                         className={`flex gap-2.5 ${isUser ? 'justify-end' : 'justify-start'} animate-fade-in`}
                       >
                         {!isUser && (
-                          <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-tr from-[#e0234e] to-[#ff4d6d] p-[1px] mt-0.5">
+                          <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-tr from-[#0b1e36] to-[#c59b48] p-[1px] mt-0.5">
                             <div className="flex h-full w-full items-center justify-center rounded-[10px] bg-black">
-                              <Bot className="h-3.5 w-3.5 text-[#ff4d6d]" />
+                              <Bot className="h-3.5 w-3.5 text-[#c59b48]" />
                             </div>
                           </div>
                         )}
@@ -485,7 +485,7 @@ export function CourseChatbot() {
                         <div
                           className={`group relative max-w-[85%] rounded-2xl px-3.5 py-2.5 transition-all ${
                             isUser
-                              ? 'bg-gradient-to-r from-[#e0234e] to-[#ea2845] text-white shadow-md shadow-[#e0234e]/20 rounded-tr-none'
+                              ? 'bg-gradient-to-r from-[#0b1e36] to-[#122c4d] border border-[#c59b48]/40 text-white shadow-md shadow-[#0b1e36]/20 rounded-tr-none'
                               : 'border border-white/10 bg-white dark:bg-slate-900/90 text-slate-900 dark:text-slate-200 rounded-tl-none backdrop-blur-md'
                           }`}
                         >
@@ -521,7 +521,7 @@ export function CourseChatbot() {
                           {/* Timestamp & Copy Action */}
                           <div
                             className={`mt-1.5 flex items-center justify-between gap-2 text-[9px] ${
-                              isUser ? 'text-red-200/80' : 'text-slate-500'
+                              isUser ? 'text-slate-300' : 'text-slate-500'
                             }`}
                           >
                             <span>{msg.timestamp}</span>
@@ -560,14 +560,14 @@ export function CourseChatbot() {
                   {/* Typing / Loading Indicator */}
                   {isTyping && (
                     <div className="flex items-center gap-2.5 animate-fade-in">
-                      <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-xl bg-[#e0234e]/30 p-[1px]">
-                        <Bot className="h-3.5 w-3.5 text-[#ff4d6d]" />
+                      <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-xl bg-[#c59b48]/20 border border-[#c59b48]/30 p-[1px]">
+                        <Bot className="h-3.5 w-3.5 text-[#c59b48]" />
                       </div>
                       <div className="rounded-2xl border border-white/10 bg-white dark:bg-slate-900/90 px-4 py-3 text-xs text-slate-500 dark:text-slate-400 rounded-tl-none flex items-center gap-1.5">
-                        <span className="h-1.5 w-1.5 rounded-full bg-[#e0234e] animate-bounce [animation-delay:-0.3s]" />
-                        <span className="h-1.5 w-1.5 rounded-full bg-[#e0234e] animate-bounce [animation-delay:-0.15s]" />
-                        <span className="h-1.5 w-1.5 rounded-full bg-[#e0234e] animate-bounce" />
-                        <span className="ml-1 text-[11px] text-[#ff4d6d] font-medium">
+                        <span className="h-1.5 w-1.5 rounded-full bg-[#c59b48] animate-bounce [animation-delay:-0.3s]" />
+                        <span className="h-1.5 w-1.5 rounded-full bg-[#c59b48] animate-bounce [animation-delay:-0.15s]" />
+                        <span className="h-1.5 w-1.5 rounded-full bg-[#c59b48] animate-bounce" />
+                        <span className="ml-1 text-[11px] text-[#dfb76c] font-medium">
                           Searching course catalog & syllabus...
                         </span>
                       </div>
@@ -604,7 +604,7 @@ export function CourseChatbot() {
                       onChange={(e) => setInput(e.target.value)}
                       placeholder="Ask about Radar, NWP, HPC, AI/ML courses..."
                       disabled={isTyping}
-                      className="w-full rounded-2xl border border-white/10 bg-white dark:bg-slate-900/90 pl-4 pr-20 py-2.5 text-xs text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:border-[#e0234e] focus:outline-none focus:ring-1 focus:ring-[#e0234e] disabled:opacity-50 transition-all shadow-inner"
+                      className="w-full rounded-2xl border border-white/10 bg-white dark:bg-slate-900/90 pl-4 pr-20 py-2.5 text-xs text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:border-[#c59b48] focus:outline-none focus:ring-1 focus:ring-[#c59b48] disabled:opacity-50 transition-all shadow-inner"
                     />
 
                     {/* Speech to text mic button */}
@@ -625,7 +625,7 @@ export function CourseChatbot() {
                     <button
                       type="submit"
                       disabled={!input.trim() || isTyping}
-                      className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-tr from-[#e0234e] to-[#ff4d6d] text-white shadow-md shadow-[#e0234e]/30 transition-all hover:scale-105 active:scale-95 disabled:opacity-40 disabled:hover:scale-100"
+                      className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-[#0b1e36] hover:bg-[#122c4d] border border-[#c59b48]/50 text-[#c59b48] shadow-md shadow-[#0b1e36]/30 transition-all hover:scale-105 active:scale-95 disabled:opacity-40 disabled:hover:scale-100"
                     >
                       <Send className="h-4 w-4" />
                     </button>
@@ -634,7 +634,7 @@ export function CourseChatbot() {
                   <div className="mt-2 flex items-center justify-between text-[10px] text-slate-500 px-1">
                     <span>Press Enter to send</span>
                     <span className="flex items-center gap-1">
-                      <Sparkles className="h-2.5 w-2.5 text-[#ff4d6d]" />
+                      <Sparkles className="h-2.5 w-2.5 text-[#c59b48]" />
                       Powered by Mission Mausam NLP Engine
                     </span>
                   </div>

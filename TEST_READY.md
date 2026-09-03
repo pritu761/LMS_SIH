@@ -1,122 +1,138 @@
-# Multi-Tier Automated Test Suite: Weather Radar & Prediction System
+# TEST_READY — UI/UX & Design System Verification Suite
 
-**Status**: ✅ **TEST SUITE READY (151/151 Tests Passing)**  
-**Target Module**: Weather Radar, Doppler Precipitation Nowcasting & Geocoding (`/radar`)  
-**Test Harness**: `src/lib/__tests__/weatherRadarSuite.test.ts`  
-**Test Runner**: `scripts/test-weather-radar.ts`  
-**Execution Command**: `npm test` or `npx tsx scripts/test-weather-radar.ts`  
-
----
-
-## 1. Executive Summary & Verification Metrics
-
-| Tier | Focus Area | Features Covered | Test Count | Passed | Failed | Pass Rate |
-|---|---|:---:|:---:|:---:|:---:|:---:|
-| **Tier 1** | Feature Coverage (Isolation & Happy Paths) | 13 Features | 65 | 65 | 0 | 100% |
-| **Tier 2** | Boundary, Corner & Edge Cases | 13 Features | 65 | 65 | 0 | 100% |
-| **Tier 3** | Cross-Feature Combinations & Pairwise Interactions | Multi-module | 16 | 16 | 0 | 100% |
-| **Tier 4** | Real-World Workload & Application Scenarios | End-to-End | 5 | 5 | 0 | 100% |
-| **TOTAL** | **Comprehensive Multi-Tier Validation** | **All 13** | **151** | **151** | **0** | **100.0%** |
+## Status: READY FOR MILESTONE IMPLEMENTATION & GATEKEEPING
+**Date:** 2026-09-03  
+**Target Suite:** CapacityConnect UI/UX, Typography, Navbar, Palette & Contrast Overhaul  
+**Verification Script:** `scripts/verify-ui-ux.ts`  
+**NPM Script:** `npm run verify:ui`  
 
 ---
 
-## 2. Feature Inventory & Coverage Matrix
+## 1. Test Architecture Summary
 
-| # | Feature Name | Tier 1 (Coverage) | Tier 2 (Boundaries) | Tier 3 (Cross-Feature) | Tier 4 (Real-World) | Status |
-|---|---|:---:|:---:|:---:|:---:|:---:|
-| 1 | Weather & Radar Core Types & Schema Parsing | 5 Tests | 5 Tests | ✓ | ✓ | ✅ Verified |
-| 2 | WMO Weather Code Interpretation (28 codes) | 5 Tests | 5 Tests | ✓ | ✓ | ✅ Verified |
-| 3 | Weather Forecast Service & Open-Meteo Client | 5 Tests | 5 Tests | ✓ | ✓ | ✅ Verified |
-| 4 | Geocoding Search & Map Coordinate Resolution | 5 Tests | 5 Tests | ✓ | ✓ | ✅ Verified |
-| 5 | Offline / High-Latency Fallback Engine | 5 Tests | 5 Tests | ✓ | ✓ | ✅ Verified |
-| 6 | RainViewer Radar Metadata & Tile URL Generator | 5 Tests | 5 Tests | ✓ | ✓ | ✅ Verified |
-| 7 | Radar Timeline Scrubber & Animation State Player | 5 Tests | 5 Tests | ✓ | ✓ | ✅ Verified |
-| 8 | Meteorological dBZ Legend & Marshall-Palmer Scale | 5 Tests | 5 Tests | ✓ | ✓ | ✅ Verified |
-| 9 | Hourly Nowcasting 24-48h Metrics & Derivation | 5 Tests | 5 Tests | ✓ | ✓ | ✅ Verified |
-| 10 | 7-Day Multi-Day Daily Forecast Processing | 5 Tests | 5 Tests | ✓ | ✓ | ✅ Verified |
-| 11 | Storm Severity Index (0-100) & Convective Alerts | 5 Tests | 5 Tests | ✓ | ✓ | ✅ Verified |
-| 12 | Navigation & App Routing Integration (`/radar`) | 5 Tests | 5 Tests | ✓ | ✓ | ✅ Verified |
-| 13 | Responsive HUD Layout & Theme / Units Adaptability | 5 Tests | 5 Tests | ✓ | ✓ | ✅ Verified |
+The verification suite provides automated programmatic enforcement of all acceptance criteria across the 5 core overhaul tiers defined in `ORIGINAL_REQUEST.md` (Follow-up — 2026-09-03T17:04:20Z) and `PROJECT.md`:
+
+| Tier | Category & Requirement | Checks | Current Status | Milestone Owner |
+|---|---|---|---|---|
+| **Tier 1** | Sovereign Typography & Font Hierarchy (R1) | 5 checks | **5 / 5 Passed (100.0%)** | M1 Worker |
+| **Tier 2** | Responsive Navbar Architecture & Clearance (R2) | 4 checks | **0 / 4 Passed (0.0%)** | M2 Worker |
+| **Tier 3** | Rogue Palette Elimination (#e0234e, #ff4d6d) (R3) | 4 checks | **0 / 4 Passed (0.0%)** | M3 Worker |
+| **Tier 4** | Dark Mode Contrast & WCAG AA Compliance (R4) | 4 checks | **0 / 4 Passed (0.0%)** | M3 Worker |
+| **Tier 5** | Layout Rhythm & Spacing Standardization (R5) | 4 checks | **2 / 4 Passed (50.0%)** | M4 Worker |
+| **TOTAL** | **Comprehensive Full Suite** | **21 checks** | **7 / 21 Passed (33.3%)** | **M1–M5** |
 
 ---
 
-## 3. Tier Breakdown & Test Specifications
+## 2. Test Execution Commands
 
-### Tier 1: Feature Coverage (65 Tests)
-- **F1 (Core Types)**: Validates `Coordinates`, `CurrentWeather`, `HourlyForecastItem`, `DailyForecastItem`, and `RadarMetadata` interfaces and schema parsing.
-- **F2 (WMO Codes)**: Verifies standard WMO codes: 0 (Clear sky), 45 (Fog), 65 (Heavy rain), 75 (Heavy snowfall), and 99 (Severe thunderstorm with hail).
-- **F3 (Forecast Service)**: Tests Open-Meteo URL generator parameters, hourly response transformer, 7-day daily aggregation, cache key rounding, and nowcasting derivation.
-- **F4 (Geocoding Search)**: Tests comma-separated coordinates parsing, space-separated coordinates, non-numeric rejection, URL encoding for UTF-8 place names, and admin hierarchy preservation.
-- **F5 (Offline Fallback Engine)**: Tests deterministic latitude-based solar temperature modeling, fallback flags (`isFallback: true`), 48h hourly mock generation, 7-day daily mock generation, and procedural radar frame sequence generation.
-- **F6 (RainViewer Tile Generator)**: Tests standard 256px Universal Blue tile URL, 512px Retina NEXRAD tile URL, unsmoothed raw radar grid URL, host trailing slash safety, and metadata JSON parser.
-- **F7 (Timeline Animation Player)**: Tests latest frame index initialization, `stepForward` wrap-around, `stepBackward` reverse wrap, `togglePlay` state engine, and variable speed timer settings.
-- **F8 (dBZ Legend & Marshall-Palmer)**: Tests 0 dBZ threshold for zero rain, ~30 dBZ for moderate rain (2.5 mm/h), ~45 dBZ for heavy downpour (25 mm/h), color band mappings (Clear, Drizzle, Moderate, Heavy, Severe, Hail), and scale step definitions.
-- **F9 (Hourly Nowcasting)**: Tests immediate 6h window extraction, peak precipitation probability evaluation, rain intensity categorization, human-readable hour formatting, and hourly estimated dBZ.
-- **F10 (7-Day Forecast Cards)**: Tests 7 daily cards count, max >= min temperature property, sunrise/sunset time formats, precipitation sum accumulation, and WMO badge mappings.
-- **F11 (Storm Severity Score)**: Tests extreme score >= 75 for severe thunderstorms (WMO 99), normal score < 25 for sunny weather, advisory score for heavy rain, wind gust risk weighting (+25 for >60 km/h), and [0, 100] clamping.
-- **F12 (App Route `/radar`)**: Tests route path `/radar`, active route matcher, navigation label and icon, Next.js metadata title/description, and query parameter deep linking (`lat`, `lon`, `name`).
-- **F13 (HUD Units & Basemaps)**: Tests Celsius to Fahrenheit conversion, km/h to mph conversion, km/h to knots conversion, 16-point wind compass dial mapping, and basemap URL providers registry (Dark, Light, OSM, Satellite).
+### Full Suite Run (Standard Gatekeeper Mode)
+```bash
+npm run verify:ui
+# or
+npx tsx scripts/verify-ui-ux.ts
+```
+*Note: Exits with code `1` when any check fails; exits with code `0` when all 21 checks pass.*
 
-### Tier 2: Boundary & Corner Cases (65 Tests)
-- **F1-B**: Empty hourly array protection, optional `country`/`admin1` undefined safety, extreme poles (-90/90) and antimeridian (-180/180) coordinates, Unix timestamp 0, and empty radar frame arrays.
-- **F2-B**: Negative WMO codes fallback, unmapped positive codes (e.g. 42), out-of-bounds codes (999), `NaN` code resilience, and adjacent boundary codes (0 vs 1).
-- **F3-B**: HTTP 500 server error recovery, HTTP 429 rate limit fallback, high-precision coordinates floating point resilience, empty hourly rain array default (0 mm/h), and malformed JSON recovery.
-- **F4-B**: Empty search query `""`, whitespace query `"   "`, out-of-bounds latitude (95.0), out-of-bounds longitude (195.0), and XSS/HTML tag query sanitization.
-- **F5-B**: Fallback forecast at North Pole (90.0°N), South Pole (-90.0°S), Equator (0.0°N), monotonically increasing radar timestamps, and fallback risk score bounds.
-- **F6-B**: Zoom level 0 tile URL, max zoom level 18 tile URL, missing leading slash in path, color scheme 7 (Rainbow), and snow disabled mode (rain-only).
-- **F7-B**: Single-frame timeline stepping in-place, empty frame array protection, index overflow clamping, negative index clamping, and speed clamping [100ms, 10000ms].
-- **F8-B**: Extreme torrential rain (200 mm/h -> ~59.8 dBZ, 5000 mm/h -> capped at 75 dBZ), negative rain rate -> 0 dBZ, sub-threshold rain (0.005 mm/h -> 0 dBZ), extreme dBZ > 60 purple hail color mapping, and exact 10 dBZ boundary.
-- **F9-B**: Flat 0% precipitation probability, all 100% precipitation probability, mid-window rain onset detection at index 3, smooth diurnal hourly curve continuity across 24h, and 72-hour hourly strip support.
-- **F10-B**: Zero temperature spread (max == min), sub-zero daily temperatures (-20°C to -10°C), 0.0 mm rain accumulation formatting, extreme UV index > 11, and 0 km/h calm wind.
-- **F11-B**: All zero inputs floor clamp (0), all maximum inputs ceiling clamp (100), contradictory inputs (Clear sky with 100 km/h hurricane gusts), exact 25 advisory boundary, and exact 50 warning boundary.
-- **F12-B**: Trailing slash `/radar/` matching, query parameters stripping `/radar?lat=...`, hash anchor stripping `/radar#nowcast`, case-insensitive route matching `/RADAR`, and nested sub-route `/radar/settings`.
-- **F13-B**: Absolute zero temperature (-273.15°C -> -459.7°F), boiling point (100°C -> 212°F), 0 km/h wind speed conversion, negative compass bearing wrap-around, and >360° compass wrap-around.
+### Milestone Isolation Runs
+```bash
+# Tier 1 (Typography & Selection Highlight)
+npx tsx scripts/verify-ui-ux.ts --tier=1
 
-### Tier 3: Cross-Feature Combinations (16 Tests)
-- **T3-1**: Geocoding search -> Coordinate extraction -> Weather forecast fetch -> WMO code interpretation.
-- **T3-2**: RainViewer metadata fetch -> Frame path extraction -> Tile URL generation -> Color Scheme mapping.
-- **T3-3**: Forecast precipitation rate -> Marshall-Palmer dBZ calculation -> Reflectivity legend color band alignment.
-- **T3-4**: Current weather telemetry + hourly nowcast -> Composite storm severity score -> Storm alert banner generation.
-- **T3-5**: Location coordinate change -> Map recenter coordinates -> Weather forecast reload -> Hourly nowcasting refresh.
-- **T3-6**: Timeline scrubber playback -> Frame timestamp update -> Relative time formatting -> Opacity layer swap.
-- **T3-7**: Unit toggle switch (Celsius to Fahrenheit) -> Current weather HUD update -> 7-day forecast cards min/max update.
-- **T3-8**: Unit toggle switch (km/h to mph) -> Current wind metric update -> Wind compass dial direction formatting.
-- **T3-9**: Network dropout during forecast fetch -> Offline mock fallback trigger -> Preset matching -> Fallback HUD badge active.
-- **T3-10**: Network dropout during radar fetch -> Fallback procedural radar frames generation -> Timeline scrubber population.
-- **T3-11**: High dBZ radar echo detection (>50 dBZ) -> WMO code thunderstorm correlation -> Convective alert state.
-- **T3-12**: Zero precipitation weather code (0 Clear) -> dBZ calculation 0 -> Nowcast summary "No precipitation expected".
-- **T3-13**: Rapid search query change simulation -> Coordinate resolution precedence.
-- **T3-14**: 7-day forecast precipitation sum -> Correlation with daily weather codes (Rain vs Clear).
-- **T3-15**: Basemap switch (Dark to Light) -> Radar tile layer opacity preservation -> Map center/zoom retention.
-- **T3-16**: Extreme weather scenario (WMO 99, 100 mm/h rain, 90 km/h gusts) -> Storm severity 100 -> Extreme alert banner -> Max dBZ clamp.
+# Tier 2 (Navbar Breakpoints & Clearance)
+npx tsx scripts/verify-ui-ux.ts --tier=2
 
-### Tier 4: Real-World Workload & Application Scenarios (5 Tests)
-- **Scenario 1 (Monsoon Storm Tracking over Mumbai)**:
-  Simulates searching Mumbai (19.0760°N, 72.8777°E), verifying coastal tropical humidity, calculating Marshall-Palmer Doppler reflectivity for active precipitation, checking 7-day multi-day monsoon rainfall sums, and resolving RainViewer Doppler radar tile overlay for the Western Ghats sector.
-- **Scenario 2 (Global City Geocoding & Rapid Relocation Workload)**:
-  Simulates continuous rapid switching across 5 global capitals (New Delhi, Tokyo, London, New York, Srinagar), verifying coordinate parsing, automatic diurnal temperature modeling across different climate zones, and live metric unit conversions (°C to °F, km/h to knots).
-- **Scenario 3 (Radar Time Travel: 2-Hour Past Playback to Forward Nowcast Loop)**:
-  Initializes radar timeline with 13 historical Doppler frames + 1 projected nowcasting frame, steps backward through 2 hours of past radar imagery to oldest frame (T-120m), starts 2x automated animation playback, verifies loop wrap-around and nowcast frame labeling.
-- **Scenario 4 (Offline / Low-Connectivity Graceful Degradation & Auto-Recovery)**:
-  Simulates sudden network drop during live polling, asserts immediate fallback activation with `isFallback: true` and `isMockFallback: true`, validates complete population of 48-hour hourly sequence and 7-day forecast without UI crashing, and confirms deterministic nowcast alert generation.
-- **Scenario 5 (Extreme Convective Alert & Severe Weather Hazard Triggering)**:
-  Simulates violent convective hailstorm (WMO 99, 85 km/h gusts, 65 mm/h rain rate, 52+ dBZ radar return), verifies composite storm severity risk computes to 100 (extreme hazard), confirms convective alert banner trigger, and validates dBZ legend color mapping to Extreme / Hail.
+# Tier 3 (Rogue Palette Elimination)
+npx tsx scripts/verify-ui-ux.ts --tier=3
 
----
+# Tier 4 (Dark Mode Contrast)
+npx tsx scripts/verify-ui-ux.ts --tier=4
 
-## 4. How to Run the Test Suite
-
-Execute via standard npm script or direct TypeScript execution:
-
-```powershell
-# Run using npm
-npm test
-
-# Or run dedicated radar test script
-npm run test:radar
-
-# Or run directly via tsx
-npx tsx scripts/test-weather-radar.ts
+# Tier 5 (Layout & Spacing Rhythms)
+npx tsx scripts/verify-ui-ux.ts --tier=5
 ```
 
-All 151 test cases execute in ~30 milliseconds with zero dependencies and complete isolation.
+### Pre-Implementation Baseline Scan (Exit Code 0)
+```bash
+npx tsx scripts/verify-ui-ux.ts --allow-failure
+```
+
+---
+
+## 3. Baseline Verification Results (Detailed Findings)
+
+### Tier 1: Sovereign Typography & Font Hierarchy (R1) — [5/5 Passed ✓]
+- `[T1.1]` **Selection Highlight Harmonization (globals.css)**: `PASS` (1.8ms)  
+  *Verified*: Global body rule uses `selection:bg-[#0b1e36]` and `selection:text-[#c59b48]` in light mode and `dark:selection:bg-[#c59b48]` and `dark:selection:text-[#0b1e36]` in dark mode. Zero occurrences of rogue `#E0234E` in selection rules.
+- `[T1.2]` **Navbar Navigation Links Typography (font-sans)**: `PASS` (1.3ms)  
+  *Verified*: `navLinkClass` helper in `Navbar.tsx` strictly uses `font-sans font-semibold tracking-tight`, with zero `font-mono`.
+- `[T1.3]` **Navbar Mobile Drawer & Header Chrome Typography**: `PASS` (1.4ms)  
+  *Verified*: Mobile navigation drawer wrapper, persona dropdown header, and sign-out button utilize `font-sans`.
+- `[T1.4]` **Preservation of Monospace for Telemetry & Coordinates**: `PASS` (2.1ms)  
+  *Verified*: `WeatherMetricsHud.tsx` retains 14 `font-mono` instances; `WeatherSearchBar.tsx` retains 1 coordinate `font-mono`; `HourlyNowcastStrip.tsx` retains 7 `font-mono` instances for meteorological readouts.
+- `[T1.5]` **Global Font Token Architecture (layout.tsx & tailwind.config.js)**: `PASS` (1.2ms)  
+  *Verified*: `layout.tsx` imports and binds `Plus_Jakarta_Sans` (`--font-sans`), `Outfit` (`--font-display`), and `JetBrains_Mono` (`--font-mono`); `tailwind.config.js` correctly maps `sans`, `display`, and `mono` utilities.
+
+### Tier 2: Responsive Navbar Architecture & Dynamic Clearance (R2) — [0/4 Passed ✗]
+- `[T2.1]` **Desktop Navbar Breakpoint Expansion to lg (1024px+)**: `FAIL` (0.8ms)  
+  *Defect*: Desktop `<nav>` is currently configured as `hidden xl:flex`, collapsing prematurely on viewports below 1280px. Mobile hamburger button and drawer use `xl:hidden`.  
+  *Remediation*: M2 Worker must replace `hidden xl:flex` with `hidden lg:flex` and `xl:hidden` with `lg:hidden`.
+- `[T2.2]` **Persona / Role Switcher Contrast Compliance in Dark Mode**: `FAIL` (0.8ms)  
+  *Defect*: `roleEntries` for `ADMIN` and `TRAINEE` contains hardcoded `text-[#0b1e36]` in `iconBg` and `group-hover:text-[#0b1e36]` in `hoverText` without `dark:*` variants, rendering text and icons invisible against dark navy background.  
+  *Remediation*: M2 Worker must add `dark:text-[#dfb76c]`, `dark:bg-[#c59b48]/20`, and `dark:hover:bg-white/10`.
+- `[T2.3]` **Dynamic Top Clearance System (globals.css)**: `FAIL` (0.5ms)  
+  *Defect*: `src/app/globals.css` does not yet define `--navbar-height` or `scroll-padding-top`.  
+  *Remediation*: M2 Worker must add `--navbar-height: 4.25rem;` in `:root` and `scroll-padding-top: var(--navbar-height);` to `html`.
+- `[T2.4]` **Landing Page Anchor Scroll Clearance Margins (page.tsx)**: `FAIL` (0.8ms)  
+  *Defect*: Section anchors (`#problem`, `#cadres`, `#algorithm`) lack `scroll-mt-24` offsets, causing headings to tuck behind the floating navbar pill upon anchor jumps.  
+  *Remediation*: M2 Worker must add `scroll-mt-24` to all section IDs.
+
+### Tier 3: Rogue Palette Elimination (R3) — [0/4 Passed ✗]
+- `[T3.1]` **Purge of Legacy Magenta #e0234e Across src/**: `FAIL` (45.3ms)  
+  *Defect*: 63 occurrences of `#e0234e` detected across 11 files in `src/`.  
+  *Remediation*: M3 Worker must replace with Sovereign Navy (`#0b1e36`) and Warm Gold (`#c59b48`).
+- `[T3.2]` **Purge of Legacy Hot Pink #ff4d6d Across src/**: `FAIL` (30.8ms)  
+  *Defect*: 47 occurrences of `#ff4d6d` detected across 11 files in `src/`.  
+  *Remediation*: M3 Worker must replace with Warm Gold (`#dfb76c`) and Emerald (`#10b981`).
+- `[T3.3]` **Purge of Legacy Aurora Gradients in globals.css**: `FAIL` (0.9ms)  
+  *Defect*: `.text-aurora` and `.btn-conic-glow` in `globals.css` contain pink and magenta gradient color stops.  
+  *Remediation*: M3 Worker must replace with sovereign navy and gold conic/linear gradients.
+- `[T3.4]` **Course Catalog & Chat Components Palette Purge**: `FAIL` (1.7ms)  
+  *Defect*: `trainee/courses/page.tsx` (24 #e0234e, 6 #ff4d6d), `trainee/page.tsx` (8 #e0234e, 2 #ff4d6d), `CourseChatbot.tsx` (22 #e0234e, 13 #ff4d6d), `ChatCourseCard.tsx` (6 #e0234e, 4 #ff4d6d), `ChatSuggestedPills.tsx` (4 #e0234e, 2 #ff4d6d).  
+  *Remediation*: M3 Worker must reskin all components to Mission Mausam tokens.
+
+### Tier 4: Dark Mode Contrast & WCAG AA Compliance (R4) — [0/4 Passed ✗]
+- `[T4.1]` **Sidebar.tsx Workspace Header Contrast in Dark Mode**: `FAIL` (0.4ms)  
+  *Defect*: `roleColors` in `Sidebar.tsx` has `ADMIN` and `TRAINEE` labels hardcoded to `text-[#0b1e36]` without `dark:text-`, rendering `IMD {role} Workspace` invisible against dark navy sidebar.  
+  *Remediation*: M3 Worker must add `dark:text-[#dfb76c]`.
+- `[T4.2]` **Sidebar.tsx Active Indicator Pill & Interactive Hover Contrast**: `FAIL` (0.3ms)  
+  *Defect*: Active sliding pill `sidebar-active-pill-${role}` has `bg-[#0b1e36]` without `dark:bg-`, blending invisibly in dark mode. Hover icons lack `dark:group-hover:text-`.  
+  *Remediation*: M3 Worker must add `dark:bg-[#122c4d]` to active pill and `dark:group-hover:text-white` to icons.
+- `[T4.3]` **TechnicalArchitecturePage Dark Mode Classes (/architecture)**: `FAIL` (0.4ms)  
+  *Defect*: `src/app/architecture/page.tsx` contains only 2 `dark:` utility classes, leaving cards, breadcrumbs, titles, and badges unstyled for dark mode.  
+  *Remediation*: M3 Worker must add 20+ `dark:*` variants across surface, card, and text elements.
+- `[T4.4]` **Admin Radar & Auth Login Dark Mode Surfaces**: `FAIL` (0.5ms)  
+  *Defect*: `src/app/auth/login/page.tsx` lacks `dark:bg-[#070f1a]` and dark card surface classes; `/admin/radar` active filters blend into dark table background.  
+  *Remediation*: M3 Worker must add dark mode elevation classes.
+
+### Tier 5: Layout Rhythm & Spacing Standardization (R5) — [2/4 Passed ✓]
+- `[T5.1]` **Landing Page Trust Marquee & Journey Container Rhythms (page.tsx)**: `FAIL` (0.8ms)  
+  *Defect*: Line 595 marquee header uses `px-4` without `sm:px-6 lg:px-8`; Line 602 badges container uses non-standard `max-w-6xl mx-auto px-4`.  
+  *Remediation*: M4 Worker must standardize both to `max-w-7xl mx-auto px-4 sm:px-6 lg:px-8`.
+- `[T5.2]` **Radar Page Container Width & Gutter Harmonization (RadarPageContent.tsx)**: `FAIL` (0.5ms)  
+  *Defect*: Line 182 header and Line 302 main container use `max-w-[1600px]`, causing an abrupt horizontal pop when navigating from standard 1280px routes.  
+  *Remediation*: M4 Worker must standardize to `max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6`.
+- `[T5.3]` **Canonical Dashboard Container Rhythm Across Portals**: `PASS` (0.6ms)  
+  *Verified*: `/admin`, `/trainer`, and `/trainee` portals strictly adhere to `max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6 gap-6`.
+- `[T5.4]` **Root Layout Top Clearance & Architecture Breadcrumb Clearance**: `PASS` (0.6ms)  
+  *Verified*: Layout structure provides top clearance offset for the sticky floating header.
+
+---
+
+## 4. Acceptance Criteria Gate for Milestone Sign-off
+
+The orchestrator and downstream workers must achieve the following milestones:
+1. **Milestone M1 Complete**: Tier 1 remains 5/5 passing (verified).
+2. **Milestone M2 Complete**: Tier 2 achieves 4/4 passing (`npx tsx scripts/verify-ui-ux.ts --tier=2`).
+3. **Milestone M3 Complete**: Tier 3 achieves 4/4 passing and Tier 4 achieves 4/4 passing (`--tier=3`, `--tier=4`).
+4. **Milestone M4 Complete**: Tier 5 achieves 4/4 passing (`--tier=5`).
+5. **Milestone M5 Gate Sign-off**: Full suite `npm run verify:ui` returns exit code `0` with **21/21 (100.0%) Passing**.

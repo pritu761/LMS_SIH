@@ -95,7 +95,7 @@ export function IndiaRadarMap({ nodes, selectedNode, onSelectNode }: IndiaRadarM
         <div>
           <div className="flex items-center gap-2">
             <span className="h-2.5 w-2.5 rounded-full bg-emerald-400 animate-ping" />
-            <span className="text-[11px] font-mono font-black text-emerald-400 uppercase tracking-widest">
+            <span className="text-[11px] font-sans font-black text-emerald-400 uppercase tracking-widest">
               Live National Radar Mosaic (38 Nodes)
             </span>
           </div>
@@ -107,7 +107,7 @@ export function IndiaRadarMap({ nodes, selectedNode, onSelectNode }: IndiaRadarM
         {/* Filter Pills */}
         <div className="flex flex-wrap items-center gap-2">
           {/* Band Selector */}
-          <div className="flex items-center gap-1 bg-white/10 border border-white/15 rounded-xl p-1 text-xs font-mono">
+          <div className="flex items-center gap-1 bg-white/10 border border-white/15 rounded-xl p-1 text-xs font-sans font-medium">
             {['ALL', 'S-Band', 'C-Band', 'X-Band'].map((b) => (
               <button
                 key={b}
@@ -126,7 +126,7 @@ export function IndiaRadarMap({ nodes, selectedNode, onSelectNode }: IndiaRadarM
           {/* Toggle Switches */}
           <button
             onClick={() => setShowRangeRings(!showRangeRings)}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-mono transition-all ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-sans font-medium transition-all ${
               showRangeRings
                 ? 'bg-cyan-500/20 border-cyan-500/50 text-cyan-200 font-bold'
                 : 'bg-white/10 border-white/15 text-slate-200 hover:text-white'
@@ -138,7 +138,7 @@ export function IndiaRadarMap({ nodes, selectedNode, onSelectNode }: IndiaRadarM
 
           <button
             onClick={() => setShowEchoes(!showEchoes)}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-mono transition-all ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-sans font-medium transition-all ${
               showEchoes
                 ? 'bg-amber-500/20 border-amber-500/50 text-amber-200 font-bold'
                 : 'bg-white/10 border-white/15 text-slate-200 hover:text-white'
@@ -159,7 +159,7 @@ export function IndiaRadarMap({ nodes, selectedNode, onSelectNode }: IndiaRadarM
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search by city (e.g., Chennai, Delhi, Mumbai, Cherrapunji)..."
-            className="w-full pl-9 pr-4 py-2 rounded-xl bg-white/10 border border-white/20 text-xs text-white placeholder:text-slate-400 focus:outline-none focus:border-[#c59b48] transition-all font-mono"
+            className="w-full pl-9 pr-4 py-2 rounded-xl bg-white/10 border border-white/20 text-xs text-white placeholder:text-slate-400 focus:outline-none focus:border-[#c59b48] transition-all font-sans"
           />
         </div>
 
@@ -169,7 +169,7 @@ export function IndiaRadarMap({ nodes, selectedNode, onSelectNode }: IndiaRadarM
               <button
                 key={reg}
                 onClick={() => setSelectedRegion(reg)}
-                className={`shrink-0 px-3 py-1.5 rounded-xl text-[11px] font-mono border transition-all ${
+                className={`shrink-0 px-3 py-1.5 rounded-xl text-[11px] font-sans font-medium border transition-all ${
                   selectedRegion === reg
                     ? 'bg-white/20 border-white/40 text-white font-bold'
                     : 'bg-white/10 border-white/15 text-slate-200 hover:text-white'

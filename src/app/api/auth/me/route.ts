@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getCurrentUser } from '@/lib/auth';
 import { initialUsers } from '@/lib/mockData';
+import { prisma } from '@/lib/prisma';
 
 export async function GET(request: NextRequest) {
   try {
@@ -9,7 +10,50 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ user: null }, { status: 401 });
     }
 
-    const fullUser = initialUsers.find((u) => u.id === session.userId);
+    let dbUser: any = null;
+    try {
+      dbUser = await prisma.user.findFirst({
+        where: {
+          OR: [
+            { id: session.userId },
+            { email: session.email },
+          ],
+        },
+        include: { profile: true, competencies: { include: { competency: true } } },
+      });
+    } catch (e) {
+      // Fallback
+    }
+
+    const fullUser = initialUsers.find(
+      (u) => u.id === session.userId || u.email.toLowerCase() === session.email.toLowerCase()
+    );
+
+    if (dbUser) {
+      const userProfile = dbUser.profile || fullUser?.profile || {
+        fullName: session.fullName,
+        headline: '',
+        bio: '',
+        organization: '',
+        department: '',
+        phone: '',
+        location: '',
+        avatarUrl: '',
+      };
+      return NextResponse.json({
+        user: {
+          id: dbUser.id,
+          email: dbUser.email,
+          role: dbUser.role,
+          status: dbUser.status,
+          isVerified: dbUser.isVerified,
+          fullName: userProfile.fullName || session.fullName || '',
+          avatarUrl: userProfile.avatarUrl || '',
+          profile: userProfile,
+          competencies: dbUser.competencies || fullUser?.competencies || [],
+        },
+      });
+    }
 
     return NextResponse.json({
       user: fullUser
@@ -19,6 +63,8 @@ export async function GET(request: NextRequest) {
             role: fullUser.role,
             status: fullUser.status,
             isVerified: fullUser.isVerified,
+            fullName: fullUser.profile?.fullName || session.fullName || '',
+            avatarUrl: fullUser.profile?.avatarUrl || '',
             profile: fullUser.profile,
             competencies: fullUser.competencies,
           }
@@ -28,6 +74,7 @@ export async function GET(request: NextRequest) {
             role: session.role,
             status: session.status,
             fullName: session.fullName,
+            avatarUrl: '',
           },
     });
   } catch (error: any) {

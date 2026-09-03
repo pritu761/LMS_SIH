@@ -58,20 +58,20 @@ export default function TraineeDashboard() {
       <main className="flex-1 min-w-0 space-y-6">
 
         {/* Trainee Welcome Header - retains dark hero for contrast in both modes */}
-        <div className="rounded-3xl border border-[#e0234e]/25 bg-gradient-to-br from-[#1a0e16]/60 via-slate-900/80 to-[#0f121d] p-6 sm:p-8 backdrop-blur-xl space-y-3 relative overflow-hidden animate-fade-in-up shadow-xl">
-          <div className="absolute top-0 right-0 w-72 h-72 bg-[#e0234e]/5 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute bottom-0 left-0 w-48 h-48 bg-[#e0234e]/5 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#e0234e]/60 to-transparent animate-gradient-shift bg-[length:200%_100%]" />
+        <div className="rounded-3xl border border-[#c59b48]/30 bg-gradient-to-br from-[#0b1e36]/90 via-[#102744] to-[#081526] p-6 sm:p-8 backdrop-blur-xl space-y-3 relative overflow-hidden animate-fade-in-up shadow-xl">
+          <div className="absolute top-0 right-0 w-72 h-72 bg-[#c59b48]/5 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute bottom-0 left-0 w-48 h-48 bg-[#c59b48]/5 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#c59b48]/60 to-transparent animate-gradient-shift bg-[length:200%_100%]" />
 
           <div className="relative z-10">
             <div className="flex items-center gap-2">
-              <span className="rounded-md bg-[#e0234e]/15 px-2.5 py-0.5 text-xs font-bold text-[#ff4d6d] border border-[#e0234e]/30">
+              <span className="rounded-md bg-[#c59b48]/15 px-2.5 py-0.5 text-xs font-bold text-[#dfb76c] border border-[#c59b48]/30">
                 MISSION MAUSAM • DRSTC INDUCTION
               </span>
-              <span className="flex items-center gap-1.5 text-xs text-[#ff4d6d]">
+              <span className="flex items-center gap-1.5 text-xs text-emerald-400 font-bold">
                 <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#e0234e] opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-[#e0234e]"></span>
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
                 </span>
                 Active Cadre Track
               </span>
