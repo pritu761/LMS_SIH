@@ -48,7 +48,6 @@ import {
   CheckCircle,
   HelpCircle,
   Network,
-  Flag,
   Quote,
   Landmark,
 } from 'lucide-react';
@@ -379,17 +378,6 @@ export default function HomePage() {
                 <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-orange-500 via-white to-emerald-600 opacity-90" />
                 <div className="absolute -top-16 -right-16 w-44 h-44 rounded-full bg-[#c59b48]/10 blur-2xl pointer-events-none" />
 
-                {/* Header Badge */}
-                <div className="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-white/10">
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#0b1e36] text-[#dfb76c] border border-[#c59b48]/40 text-[10px] font-sans font-bold uppercase tracking-wider">
-                    <Flag className="h-3 w-3 text-orange-400" />
-                    NATIONAL MISSION & VISION
-                  </span>
-                  <span className="text-[10px] font-sans text-slate-500 dark:text-slate-400 font-bold">
-                    VIKSIT BHARAT 2047
-                  </span>
-                </div>
-
                 {/* Mission Emblem & Identity Container */}
                 <div className="pt-4 flex flex-col items-center text-center space-y-3">
                   {/* Emblem with Royal Gold Border & Gentle Elevation */}
@@ -428,7 +416,7 @@ export default function HomePage() {
                   <div className="relative rounded-2xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 p-4 text-left">
                     <Quote className="h-4 w-4 text-[#c59b48] mb-1.5 opacity-80" />
                     <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-200 font-medium italic leading-relaxed">
-                      &ldquo;Continuous competency building and an always-on Doppler radar network are the cornerstones of a disaster-resilient Viksit Bharat &mdash; keeping every citizen safe and prepared.&rdquo;
+                      &ldquo;Continuous competency building and an always-on Doppler radar network are the cornerstones of a disaster-resilient nation &mdash; keeping every citizen safe and prepared.&rdquo;
                     </p>
                   </div>
 
@@ -443,7 +431,7 @@ export default function HomePage() {
                       <div className="text-[9px] text-slate-500 dark:text-slate-400">Unified Portal</div>
                     </div>
                     <div className="p-2 rounded-xl bg-[#0b1e36]/5 dark:bg-white/5 border border-[#0b1e36]/10 dark:border-white/10">
-                      <div className="text-[10px] font-black text-[#0b1e36] dark:text-[#dfb76c]">Viksit Bharat</div>
+                      <div className="text-[10px] font-black text-[#0b1e36] dark:text-[#dfb76c]">Weather Ready</div>
                       <div className="text-[9px] text-slate-500 dark:text-slate-400">Resilient Nation</div>
                     </div>
                   </div>
