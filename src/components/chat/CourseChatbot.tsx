@@ -372,7 +372,7 @@ export function CourseChatbot() {
             }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.25, ease: 'easeOut' }}
-            className={`dark-surface fixed z-50 flex flex-col overflow-hidden rounded-3xl border border-white/15 bg-slate-950/95 shadow-2xl backdrop-blur-2xl transition-all duration-300 ${
+            className={`fixed z-50 flex flex-col overflow-hidden rounded-3xl border border-white/15 bg-slate-950/95 shadow-2xl backdrop-blur-2xl transition-all duration-300 ${
               isMaximized
                 ? 'inset-x-0 bottom-6 mx-auto max-w-6xl'
                 : 'bottom-6 right-6 max-h-[85vh] max-w-[95vw]'
