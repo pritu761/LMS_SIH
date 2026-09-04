@@ -16,6 +16,16 @@ const nextConfig = {
     ],
     formats: ['image/avif', 'image/webp'],
   },
+  rewrites: async () => [
+    {
+      source: '/courses',
+      destination: '/trainee/courses',
+    },
+    {
+      source: '/courses/:id',
+      destination: '/trainee/courses/:id',
+    },
+  ],
   headers: async () => [
     {
       source: '/(.*)',
@@ -29,4 +39,4 @@ const nextConfig = {
   ],
 };
 
-module.exports = nextConfig;
+export default nextConfig;

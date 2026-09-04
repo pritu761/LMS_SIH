@@ -1,19 +1,33 @@
 import type { Metadata, Viewport } from 'next';
-import { Inter, Outfit } from 'next/font/google';
+import Link from 'next/link';
+import Script from 'next/script';
+import { Plus_Jakarta_Sans, Outfit, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { Navbar } from '@/components/layout/Navbar';
 import { BackToTop } from '@/components/shared/BackToTop';
+import { ThemeProvider } from '@/context/ThemeContext';
+import { ChatProvider } from '@/context/ChatContext';
+import { CourseChatbot } from '@/components/chat/CourseChatbot';
 
-const inter = Inter({
+const jakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
   variable: '--font-sans',
   display: 'swap',
+  weight: ['400', '500', '600', '700', '800'],
 });
 
 const outfit = Outfit({
   subsets: ['latin'],
   variable: '--font-display',
   display: 'swap',
+  weight: ['500', '600', '700', '800', '900'],
+});
+
+const jetbrains = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-mono',
+  display: 'swap',
+  weight: ['400', '500', '700'],
 });
 
 export const metadata: Metadata = {
@@ -51,7 +65,8 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: '#060911',
+  themeColor: '#0b1e36',
+  maximumScale: 5,
 };
 
 export default function RootLayout({
@@ -60,92 +75,129 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`dark ${inter.variable} ${outfit.variable}`} suppressHydrationWarning>
-      <body className="min-h-screen bg-black text-slate-100 flex flex-col font-sans antialiased selection:bg-blue-600 selection:text-white" suppressHydrationWarning>
-        <Navbar />
-        <main className="flex-1 flex flex-col">{children}</main>
+    <html lang="en" className={`light ${jakarta.variable} ${outfit.variable} ${jetbrains.variable}`} suppressHydrationWarning>
+      <head>
+        {/* Suppress browser extension attribute injection warnings (e.g. Bitwarden bis_skin_checked) */}
+        <Script
+          id="browser-extension-hydration-guard"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                if (typeof window !== 'undefined') {
+                  var origErr = console.error;
+                  console.error = function() {
+                    var str = Array.prototype.map.call(arguments, function(a) {
+                      return typeof a === 'string' ? a : (a && a.message) || '';
+                    }).join(' ');
+                    if (str.indexOf('bis_skin_checked') !== -1) {
+                      return;
+                    }
+                    origErr.apply(console, arguments);
+                  };
+                }
+              })();
+            `,
+          }}
+        />
+      </head>
+      <body className="min-h-screen bg-white text-slate-900 dark:bg-[#070f1a] dark:text-slate-100 flex flex-col font-sans antialiased selection:bg-[#0b1e36] selection:text-[#c59b48] transition-colors duration-300" suppressHydrationWarning>
+        <div className="watermark-bg" suppressHydrationWarning />
+        <ThemeProvider>
+          <ChatProvider>
+            <Navbar />
+            <main className="flex-1 flex flex-col relative z-10" suppressHydrationWarning>{children}</main>
 
-        {/* BridgeMind-inspired Minimalist Footer */}
-        <footer className="relative border-t border-white/10 bg-black/90 backdrop-blur-2xl">
-          {/* Subtle electric blue separator */}
-          <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-blue-500/40 to-transparent" />
-
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <div className="grid grid-cols-1 sm:grid-cols-4 gap-8">
-              <div className="sm:col-span-1">
-                <div className="flex items-center gap-2 mb-3">
-                  <div className="h-8 w-8 rounded-lg bg-gradient-to-tr from-indigo-600 to-cyan-500 p-[1.5px]">
-                    <div className="h-full w-full rounded-[6px] bg-slate-950 flex items-center justify-center">
-                      <svg className="h-4 w-4 text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            {/* Sovereign Navy & Gold Global Footer with Wave & Gold Trim */}
+            <footer
+              className="w-full mt-auto relative overflow-hidden bg-[#0b1e36] text-white border-t-2 border-[#c59b48]"
+              style={{ backgroundColor: '#0b1e36', color: '#ffffff' }}
+              suppressHydrationWarning
+            >
+              {/* Subtle top gold accent glow */}
+              <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#c59b48] to-transparent opacity-80" />
+              
+              <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 relative z-10">
+                
+                {/* Col 1: Brand & Gov Info (2 cols) */}
+                <div className="lg:col-span-2 space-y-4">
+                  <div className="flex items-center gap-3">
+                    <div className="h-10 w-10 rounded-xl bg-[#122c4d] border border-[#c59b48]/40 flex items-center justify-center text-[#c59b48] shadow-lg shadow-[#08172a]/50">
+                      <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                         <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
                         <path d="M6 12v5c3 3 9 3 12 0v-5" />
                       </svg>
                     </div>
+                    <span className="font-black text-xl tracking-tight text-white">
+                      CAPACITY<span className="text-[#dfb76c] ml-1">CONNECT</span>
+                    </span>
                   </div>
-                  <span className="font-black text-sm text-white">CAPACITY<span className="text-indigo-400">CONNECT</span></span>
+                  <div className="text-xs text-[#dfb76c] font-bold tracking-wide">
+                    Empowering People. Strengthening Competencies. Building a Future-Ready Workforce.
+                  </div>
+                  <p className="text-xs text-slate-200 leading-relaxed max-w-sm font-normal">
+                    Sovereign meteorological competency assessment, cadre mapping, and faculty allocation platform built for the India Meteorological Department (IMD) and Ministry of Earth Sciences (MoES).
+                  </p>
+                  <div className="pt-2">
+                    <Link
+                      href="/radar"
+                      className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#122c4d] border border-emerald-500/40 text-[11px] font-mono text-emerald-300 hover:border-emerald-400 hover:text-emerald-200 transition-all group"
+                    >
+                      <span className="h-2 w-2 rounded-full bg-emerald-400 animate-ping" />
+                      <span className="font-bold">Live Doppler Weather Radar</span>
+                      <span className="text-slate-400">• Real-Time Nowcasting</span>
+                    </Link>
+                  </div>
                 </div>
-                <p className="text-xs text-slate-400 leading-relaxed">
-                  India&apos;s sovereign digital capacity building and learning management platform for public sector institutions.
-                </p>
+
+                {/* Col 2: Problem & Algorithms */}
+                <div className="space-y-3 text-xs">
+                  <div className="font-mono font-bold uppercase tracking-wider text-[#dfb76c]">Core Engine</div>
+                  <ul className="space-y-2 text-slate-200">
+                    <li><Link href="/radar" className="hover:text-[#dfb76c] font-semibold text-[#dfb76c] transition-colors">Live Radar & Nowcasting</Link></li>
+                    <li><Link href="/admin/competency" className="hover:text-[#dfb76c] transition-colors">55/30/15 Allocation Algorithm</Link></li>
+                    <li><Link href="/trainee/courses" className="hover:text-[#dfb76c] transition-colors">Cadre Curricula & Tracks</Link></li>
+                    <li><Link href="/admin/competency" className="hover:text-[#dfb76c] transition-colors">WMO RTC Rubrics</Link></li>
+                    <li><Link href="/trainee/profile" className="hover:text-[#dfb76c] transition-colors">Competency Gap Dossier</Link></li>
+                  </ul>
+                </div>
+
+                {/* Col 3: Architecture Deep Dive */}
+                <div className="space-y-3 text-xs">
+                  <div className="font-mono font-bold uppercase tracking-wider text-[#dfb76c]">Technical Specs</div>
+                  <ul className="space-y-2 text-slate-200">
+                    <li><Link href="/architecture" className="hover:text-[#dfb76c] font-semibold text-[#dfb76c] transition-colors">Technical Architecture</Link></li>
+                    <li><Link href="/architecture#ioc" className="hover:text-[#dfb76c] transition-colors">Inversion of Control (IoC)</Link></li>
+                    <li><Link href="/architecture#dtos" className="hover:text-[#dfb76c] transition-colors">TypeScript DTOs & Schemas</Link></li>
+                    <li><Link href="/architecture#hpc" className="hover:text-[#dfb76c] transition-colors">HPC Parallelism Sandbox</Link></li>
+                  </ul>
+                </div>
+
+                {/* Col 4: Institutional Links */}
+                <div className="space-y-3 text-xs">
+                  <div className="font-mono font-bold uppercase tracking-wider text-[#dfb76c]">Governance</div>
+                  <ul className="space-y-2 text-slate-200">
+                    <li><a href="https://mausam.imd.gov.in" target="_blank" rel="noreferrer" className="hover:text-[#dfb76c] transition-colors">IMD Official (mausam.imd.gov.in)</a></li>
+                    <li><a href="https://moes.gov.in" target="_blank" rel="noreferrer" className="hover:text-[#dfb76c] transition-colors">Ministry of Earth Sciences (MoES)</a></li>
+                    <li><a href="https://www.tropmet.res.in" target="_blank" rel="noreferrer" className="hover:text-[#dfb76c] transition-colors">IITM Pune</a></li>
+                    <li><a href="https://ncmrwf.gov.in" target="_blank" rel="noreferrer" className="hover:text-[#dfb76c] transition-colors">NCMRWF HPC Center</a></li>
+                  </ul>
+                </div>
               </div>
 
-              <div>
-                <h4 className="text-xs font-bold text-slate-300 uppercase tracking-wider mb-3">Platform</h4>
-                <ul className="text-xs text-slate-400 space-y-2">
-                  <li className="hover:text-slate-200 transition-colors cursor-default">Role-Based Access Control (RBAC)</li>
-                  <li className="hover:text-slate-200 transition-colors cursor-default">Timed Proctored MCQ Exams</li>
-                  <li className="hover:text-slate-200 transition-colors cursor-default">55/30/15 Competency Mapping</li>
-                  <li className="hover:text-slate-200 transition-colors cursor-default">Lecture Video Streaming & PDF</li>
-                </ul>
+              {/* Bottom Copyright & Gov Note */}
+              <div className="border-t border-white/10 bg-[#060f1c] py-4 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: '#060f1c' }}>
+                <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-300 font-mono gap-2">
+                  <div>© 2026 CapacityConnect • Smart India Hackathon (SIH) • Ministry of Earth Sciences & IMD</div>
+                  <div className="text-[#dfb76c]">Built with Inversion of Control, Type-Safe DTOs & WMO Rubrics</div>
+                </div>
               </div>
+            </footer>
 
-              <div>
-                <h4 className="text-xs font-bold text-slate-300 uppercase tracking-wider mb-3">Technology</h4>
-                <ul className="text-xs text-slate-400 space-y-2">
-                  <li className="hover:text-slate-200 transition-colors cursor-default">Next.js 14 App Router + TypeScript</li>
-                  <li className="hover:text-slate-200 transition-colors cursor-default">PostgreSQL (Neon Serverless)</li>
-                  <li className="hover:text-slate-200 transition-colors cursor-default">Prisma ORM + Edge JWT (jose)</li>
-                  <li className="hover:text-slate-200 transition-colors cursor-default">Tailwind CSS + Lucide React</li>
-                </ul>
-              </div>
-
-              <div>
-                <h4 className="text-xs font-bold text-slate-300 uppercase tracking-wider mb-3">Compliance</h4>
-                <ul className="text-xs text-slate-400 space-y-2">
-                  <li className="flex items-center gap-1.5 hover:text-slate-200 transition-colors cursor-default">
-                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400/60" />
-                    NISG Accredited
-                  </li>
-                  <li className="flex items-center gap-1.5 hover:text-slate-200 transition-colors cursor-default">
-                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400/60" />
-                    MeitY Framework Aligned
-                  </li>
-                  <li className="flex items-center gap-1.5 hover:text-slate-200 transition-colors cursor-default">
-                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400/60" />
-                    Digital India Standards
-                  </li>
-                  <li className="flex items-center gap-1.5 hover:text-slate-200 transition-colors cursor-default">
-                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400/60" />
-                    AES-256 Data Encryption
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            <div className="mt-10 pt-6 border-t border-slate-800/40 flex flex-col sm:flex-row items-center justify-between gap-3">
-              <span className="text-[11px] text-slate-500">
-                © {new Date().getFullYear()} Capacity Connect • National Digital Capacity Building Framework
-              </span>
-              <span className="text-[11px] text-slate-500 flex items-center gap-1.5">
-                Smart India Hackathon 2024 • Built with
-                <span className="text-base">🇮🇳</span>
-              </span>
-            </div>
-          </div>
-        </footer>
-
-        {/* Back to Top */}
-        <BackToTop />
+            <BackToTop />
+            <CourseChatbot />
+          </ChatProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

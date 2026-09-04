@@ -26,6 +26,7 @@ yarn-error.log*
 
 # Prisma Generated
 prisma/migrations/dev/
+src/generated/prisma/
 
 # Uploaded Media (Local Storage)
 public/uploads/*

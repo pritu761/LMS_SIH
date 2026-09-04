@@ -52,10 +52,10 @@ export function FeedbackModal({ courseId, courseTitle, onClose }: FeedbackModalP
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in">
-      <div className="relative w-full max-w-lg rounded-2xl border border-slate-700 bg-slate-900/95 p-6 shadow-2xl backdrop-blur-xl">
+      <div className="relative w-full max-w-lg rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900/95 p-6 shadow-2xl backdrop-blur-xl">
         <button
           onClick={onClose}
-          className="absolute right-4 top-4 rounded-lg p-1.5 text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+          className="absolute right-4 top-4 rounded-lg p-1.5 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
         >
           <X className="h-5 w-5" />
         </button>
@@ -63,10 +63,10 @@ export function FeedbackModal({ courseId, courseTitle, onClose }: FeedbackModalP
         {submitted ? (
           <div className="text-center py-8 space-y-4">
             <div className="h-16 w-16 mx-auto rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center">
-              <CheckCircle className="h-8 w-8 text-emerald-400" />
+              <CheckCircle className="h-8 w-8 text-emerald-600 dark:text-emerald-400" />
             </div>
-            <h3 className="text-xl font-bold text-white">Review Published!</h3>
-            <p className="text-sm text-slate-300">
+            <h3 className="text-xl font-bold text-slate-900 dark:text-white">Review Published!</h3>
+            <p className="text-sm text-slate-600 dark:text-slate-300">
               Thank you for contributing to institutional capacity evaluation and trainer benchmarking.
             </p>
           </div>
@@ -74,26 +74,26 @@ export function FeedbackModal({ courseId, courseTitle, onClose }: FeedbackModalP
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
               <div className="flex items-center gap-2 mb-1">
-                <Sparkles className="h-4 w-4 text-amber-400" />
-                <span className="text-xs font-bold uppercase tracking-wider text-amber-400">
+                <Sparkles className="h-4 w-4 text-amber-500 dark:text-amber-400" />
+                <span className="text-xs font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400">
                   Course Feedback & Evaluation
                 </span>
               </div>
-              <h3 className="text-xl font-bold text-white leading-snug">{courseTitle}</h3>
-              <p className="text-xs text-slate-400 mt-1">
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white leading-snug">{courseTitle}</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
                 Your qualitative review directly impacts the faculty&apos;s competency matching index.
               </p>
             </div>
 
             {error && (
-              <div className="rounded-lg bg-rose-500/10 border border-rose-500/20 p-3 text-xs text-rose-300">
+              <div className="rounded-lg bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/20 p-3 text-xs text-rose-700 dark:text-rose-300">
                 {error}
               </div>
             )}
 
             {/* 5-Star Rating Selector */}
             <div className="space-y-2">
-              <label className="text-xs font-semibold text-slate-300">Overall Rating</label>
+              <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">Overall Rating</label>
               <div className="flex items-center gap-2">
                 {[1, 2, 3, 4, 5].map((star) => {
                   const isFilled = star <= (hoverRating || rating);
@@ -104,17 +104,17 @@ export function FeedbackModal({ courseId, courseTitle, onClose }: FeedbackModalP
                       onMouseEnter={() => setHoverRating(star)}
                       onMouseLeave={() => setHoverRating(0)}
                       onClick={() => setRating(star)}
-                      className="p-1 text-slate-600 hover:scale-110 transition-transform focus:outline-none"
+                      className="p-1 text-slate-400 dark:text-slate-600 hover:scale-110 transition-transform focus:outline-none"
                     >
                       <Star
                         className={`h-7 w-7 transition-colors ${
-                          isFilled ? 'text-amber-400 fill-amber-400' : 'text-slate-600'
+                          isFilled ? 'text-amber-400 fill-amber-400' : 'text-slate-300 dark:text-slate-600'
                         }`}
                       />
                     </button>
                   );
                 })}
-                <span className="text-xs font-semibold text-slate-400 ml-2">
+                <span className="text-xs font-semibold text-slate-600 dark:text-slate-400 ml-2">
                   {rating === 5 && 'Outstanding / Masterclass'}
                   {rating === 4 && 'Very Good / Thorough'}
                   {rating === 3 && 'Average / Meets Standard'}
@@ -125,7 +125,7 @@ export function FeedbackModal({ courseId, courseTitle, onClose }: FeedbackModalP
 
             {/* Qualitative Feedback Textarea */}
             <div className="space-y-2">
-              <label className="text-xs font-semibold text-slate-300">
+              <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">
                 Qualitative Review & Suggestions
               </label>
               <textarea
@@ -133,7 +133,7 @@ export function FeedbackModal({ courseId, courseTitle, onClose }: FeedbackModalP
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
                 placeholder="Detail key takeaways, practical applicability, lecture clarity, and suggestions for module expansion..."
-                className="w-full rounded-xl border border-slate-700 bg-slate-950 p-3 text-xs text-slate-200 placeholder-slate-500 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-950 p-3 text-xs text-slate-900 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-950 focus:outline-none focus:ring-1 focus:ring-indigo-500 shadow-sm dark:shadow-none"
               />
             </div>
 
@@ -141,7 +141,7 @@ export function FeedbackModal({ courseId, courseTitle, onClose }: FeedbackModalP
               <button
                 type="button"
                 onClick={onClose}
-                className="rounded-xl border border-slate-700 bg-slate-800 px-4 py-2.5 text-xs font-semibold text-slate-300 hover:bg-slate-700 transition-colors"
+                className="rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 px-4 py-2.5 text-xs font-semibold text-slate-700 dark:text-slate-300 transition-colors shadow-sm dark:shadow-none"
               >
                 Cancel
               </button>

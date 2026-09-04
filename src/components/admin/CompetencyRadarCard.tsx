@@ -15,14 +15,32 @@ import {
   AlertTriangle,
   Trophy,
   Sliders,
+  Compass,
+  Users,
 } from 'lucide-react';
 import { CourseMatchResponse, TrainerMatchResult } from '@/services/competencyService';
 import { initialCourses } from '@/lib/mockData';
+import { CompetencyGapAnalyzer } from './CompetencyGapAnalyzer';
+import { TrainerDiscoveryDirectory } from './TrainerDiscoveryDirectory';
 
 export function CompetencyRadarCard() {
+  const [activeTab, setActiveTab] = useState<'ALLOCATION' | 'GAP_ANALYSIS' | 'DISCOVERY'>('ALLOCATION');
   const [selectedCourseId, setSelectedCourseId] = useState(initialCourses[0].id);
   const [matchData, setMatchData] = useState<CourseMatchResponse | null>(null);
   const [loading, setLoading] = useState(false);
+
+  // Custom Algorithm Weights for Live Sensitivity Simulation
+  const [skillWeight, setSkillWeight] = useState(55);
+  const [ratingWeight, setRatingWeight] = useState(30);
+  const [volumeWeight, setVolumeWeight] = useState(15);
+  const [isCustomWeights, setIsCustomWeights] = useState(false);
+
+  const resetWeights = () => {
+    setSkillWeight(55);
+    setRatingWeight(30);
+    setVolumeWeight(15);
+    setIsCustomWeights(false);
+  };
 
   const fetchMatches = async (courseId: string) => {
     setLoading(true);
@@ -44,254 +62,349 @@ export function CompetencyRadarCard() {
   };
 
   useEffect(() => {
-    fetchMatches(selectedCourseId);
-  }, [selectedCourseId]);
+    if (activeTab === 'ALLOCATION') {
+      fetchMatches(selectedCourseId);
+    }
+  }, [selectedCourseId, activeTab]);
+
+  // Recalculate match results when custom weights are applied
+  const displayedMatches = React.useMemo(() => {
+    if (!matchData?.matches) return [];
+    
+    const totalWeight = skillWeight + ratingWeight + volumeWeight || 100;
+    const wSkill = skillWeight / totalWeight;
+    const wRating = ratingWeight / totalWeight;
+    const wVolume = volumeWeight / totalWeight;
+
+    const recalculated = matchData.matches.map((res) => {
+      const skillScore = res.components.skillOverlapScore;
+      const ratingScore = res.components.historicalRatingScore;
+      const volumeScore = res.components.coursesDeliveredScore;
+
+      const skillWeighted = skillScore * wSkill;
+      const ratingWeighted = ratingScore * wRating;
+      const volumeWeighted = volumeScore * wVolume;
+
+      const overallScore = Math.round((skillWeighted + ratingWeighted + volumeWeighted) * 10) / 10;
+
+      let recommendationTier: TrainerMatchResult['recommendationTier'] = 'UNSUITABLE';
+      if (overallScore >= 85.0) recommendationTier = 'HIGHLY_RECOMMENDED';
+      else if (overallScore >= 70.0) recommendationTier = 'QUALIFIED';
+      else if (overallScore >= 50.0) recommendationTier = 'NEEDS_UPSKILLING';
+
+      return {
+        ...res,
+        overallScore,
+        components: {
+          ...res.components,
+          skillOverlapWeighted: Math.round(skillWeighted * 10) / 10,
+          historicalRatingWeighted: Math.round(ratingWeighted * 10) / 10,
+          coursesDeliveredWeighted: Math.round(volumeWeighted * 10) / 10,
+        },
+        recommendationTier,
+      };
+    });
+
+    recalculated.sort((a, b) => b.overallScore - a.overallScore);
+    recalculated.forEach((r, i) => {
+      r.rank = i + 1;
+    });
+
+    return recalculated;
+  }, [matchData, skillWeight, ratingWeight, volumeWeight]);
 
   return (
-    <div className="space-y-8">
-      {/* Algorithm Header & Formula Explainer Card */}
-      <div className="rounded-3xl border border-indigo-500/30 bg-gradient-to-br from-indigo-950/50 via-slate-900/80 to-slate-950 p-6 sm:p-8 backdrop-blur-2xl shadow-2xl space-y-6 relative overflow-hidden">
-        
-        {/* Glow ambient background aura */}
-        <div className="absolute top-0 right-0 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
+    <div className="space-y-6">
+      {/* Top Hub Level Navigation Tabs */}
+      <div className="flex items-center gap-2 p-1.5 rounded-2xl bg-slate-100 dark:bg-[#0e121e]/90 border border-slate-200 dark:border-white/10 backdrop-blur-xl overflow-x-auto shadow-sm dark:shadow-xl">
+        <button
+          onClick={() => setActiveTab('ALLOCATION')}
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
+            activeTab === 'ALLOCATION'
+              ? 'bg-[#0b1e36] dark:bg-[#122c4d] text-[#dfb76c] border border-[#c59b48]/50 shadow-lg shadow-[#0b1e36]/20'
+              : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-800/60'
+          }`}
+        >
+          <Sliders className="h-4 w-4 text-[#c59b48]" />
+          <span>55/30/15 Course-to-Trainer Allocation</span>
+        </button>
 
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10">
-          <div>
-            <div className="flex items-center gap-2 mb-1.5">
-              <span className="rounded-md bg-indigo-500/20 px-2.5 py-0.5 text-[10px] font-black text-indigo-300 border border-indigo-500/30 uppercase tracking-wider">
-                Automated Allocation Intelligence
-              </span>
-              <span className="text-xs text-slate-400 font-medium font-mono">Weighted Matrix v2.4</span>
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight flex items-center gap-2.5">
-              <Brain className="h-7 w-7 text-indigo-400" />
-              <span>Competency Mapping & Faculty Allocation</span>
-            </h2>
-            <p className="text-xs sm:text-sm text-slate-300 mt-1 max-w-2xl leading-relaxed">
-              Algorithmic matching system that pairs optimal trainers with course curricula using a strictly weighted 55/30/15 pedagogical formula.
-            </p>
-          </div>
+        <button
+          onClick={() => setActiveTab('GAP_ANALYSIS')}
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap relative ${
+            activeTab === 'GAP_ANALYSIS'
+              ? 'bg-[#0b1e36] dark:bg-[#122c4d] text-[#dfb76c] border border-[#c59b48]/50 shadow-lg shadow-[#0b1e36]/20'
+              : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-800/60'
+          }`}
+        >
+          <Brain className="h-4 w-4 text-[#c59b48]" />
+          <span>Trainee Competency Gap Analyzer</span>
+          <span className="rounded-full bg-[#c59b48]/20 text-[#dfb76c] text-[9px] px-1.5 py-0.2 border border-[#c59b48]/30 font-black">
+            CORE
+          </span>
+        </button>
 
-          {/* Target Course Selector Dropdown */}
-          <div className="space-y-1.5 shrink-0">
-            <label className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
-              Select Target Course
-            </label>
-            <select
-              value={selectedCourseId}
-              onChange={(e) => setSelectedCourseId(e.target.value)}
-              className="rounded-2xl border border-slate-700 bg-slate-950 px-4 py-2.5 text-xs font-bold text-white focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 shadow-xl"
-            >
-              {initialCourses.map((c) => (
-                <option key={c.id} value={c.id}>
-                  {c.code}: {c.title}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-
-        {/* 55 / 30 / 15 Formula Explainer Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-3 border-t border-slate-800/80">
-          <div className="rounded-2xl bg-slate-950/70 border border-indigo-500/20 p-4 space-y-1.5 transition-all hover:border-indigo-500/40">
-            <div className="flex items-center justify-between">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-indigo-400 flex items-center gap-1">
-                <Sliders className="h-3.5 w-3.5" /> 1. Skill Overlap
-              </span>
-              <span className="text-xs font-black text-indigo-300">55% Weight</span>
-            </div>
-            <p className="text-[11px] text-slate-400 leading-relaxed">
-              Weighted match ratio between required course competencies and trainer verified levels.
-            </p>
-          </div>
-
-          <div className="rounded-2xl bg-slate-950/70 border border-amber-500/20 p-4 space-y-1.5 transition-all hover:border-amber-500/40">
-            <div className="flex items-center justify-between">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1">
-                <Star className="h-3.5 w-3.5" /> 2. Historical Rating
-              </span>
-              <span className="text-xs font-black text-amber-300">30% Weight</span>
-            </div>
-            <p className="text-[11px] text-slate-400 leading-relaxed">
-              Average 5-star trainee review scores normalized across historical cohorts.
-            </p>
-          </div>
-
-          <div className="rounded-2xl bg-slate-950/70 border border-cyan-500/20 p-4 space-y-1.5 transition-all hover:border-cyan-500/40">
-            <div className="flex items-center justify-between">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-1">
-                <BookOpen className="h-3.5 w-3.5" /> 3. Courses Delivered
-              </span>
-              <span className="text-xs font-black text-cyan-300">15% Weight</span>
-            </div>
-            <p className="text-[11px] text-slate-400 leading-relaxed">
-              Delivery volume benchmarked against a 10-course master threshold.
-            </p>
-          </div>
-        </div>
+        <button
+          onClick={() => setActiveTab('DISCOVERY')}
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
+            activeTab === 'DISCOVERY'
+              ? 'bg-[#0b1e36] dark:bg-[#122c4d] text-[#dfb76c] border border-[#c59b48]/50 shadow-lg shadow-[#0b1e36]/20'
+              : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-800/60'
+          }`}
+        >
+          <Users className="h-4 w-4 text-emerald-500 dark:text-emerald-400" />
+          <span>Faculty Discovery Directory</span>
+        </button>
       </div>
 
-      {/* Ranked Results Grid */}
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h3 className="text-base font-bold text-white flex items-center gap-2">
-            <TrendingUp className="h-4 w-4 text-emerald-400" />
-            <span>Ranked Faculty Compatibility Results</span>
-          </h3>
-          <span className="text-xs text-slate-400 font-mono">
-            {matchData?.evaluatedTrainersCount || 0} Faculty Evaluated
-          </span>
-        </div>
+      {/* Tab 2: Trainee Competency Gap Analyzer */}
+      {activeTab === 'GAP_ANALYSIS' && <CompetencyGapAnalyzer />}
 
-        {loading ? (
-          <div className="rounded-3xl border border-slate-800 bg-slate-900/40 p-12 text-center text-xs text-slate-400 animate-pulse">
-            Computing weighted competency compatibility vectors...
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {matchData?.matches.map((trainer: TrainerMatchResult) => {
-              const isRankOne = trainer.rank === 1;
+      {/* Tab 3: Faculty Discovery Directory */}
+      {activeTab === 'DISCOVERY' && <TrainerDiscoveryDirectory />}
 
-              return (
-                <div
-                  key={trainer.trainerId}
-                  className={`rounded-3xl border p-6 backdrop-blur-2xl transition-all space-y-5 relative overflow-hidden group hover:-translate-y-1 shadow-xl ${
-                    isRankOne
-                      ? 'border-indigo-500/60 bg-gradient-to-br from-indigo-950/40 via-slate-900/90 to-slate-950 shadow-indigo-500/15 ring-1 ring-indigo-500/30'
-                      : 'border-slate-800 bg-slate-900/60 hover:border-slate-700'
-                  }`}
+      {/* Tab 1: Course Allocation Engine (55/30/15) */}
+      {activeTab === 'ALLOCATION' && (
+        <div className="space-y-8 animate-fade-in-up">
+          {/* Algorithm Header & Formula Explainer Card */}
+          <div className="rounded-3xl border border-indigo-500/30 bg-gradient-to-br from-indigo-50/70 dark:from-indigo-950/50 via-white dark:via-slate-900/80 to-white dark:to-slate-950 p-6 sm:p-8 backdrop-blur-2xl shadow-xl space-y-6 relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
+
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10">
+              <div>
+                <div className="flex items-center gap-2 mb-1.5">
+                  <span className="rounded-md bg-indigo-500/20 px-2.5 py-0.5 text-[10px] font-black text-indigo-700 dark:text-indigo-300 border border-indigo-500/30 uppercase tracking-wider">
+                    Automated Allocation Intelligence
+                  </span>
+                  <span className="text-xs text-slate-500 dark:text-slate-400 font-medium font-mono">Mission Mausam Weighted Matrix v2.4</span>
+                </div>
+                <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight flex items-center gap-2.5">
+                  <Brain className="h-7 w-7 text-indigo-600 dark:text-indigo-400" />
+                  <span>Competency Mapping & Faculty Allocation</span>
+                </h2>
+                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-1 max-w-2xl leading-relaxed">
+                  Algorithmic matching system pairing accredited IMD/MoES trainers with curriculum modules using a strictly weighted 55/30/15 formula.
+                </p>
+              </div>
+
+              {/* Target Course Selector Dropdown */}
+              <div className="space-y-1.5 shrink-0">
+                <label className="text-[11px] font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">
+                  Select Target IMD Course
+                </label>
+                <select
+                  value={selectedCourseId}
+                  onChange={(e) => setSelectedCourseId(e.target.value)}
+                  className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-4 py-2.5 text-xs font-bold text-slate-900 dark:text-white focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 shadow-md"
                 >
-                  {/* Podium Rank Medal Top Banner */}
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="flex items-center gap-3.5">
-                      <div className="relative">
-                        <img
-                          src={trainer.avatarUrl}
-                          alt={trainer.trainerName}
-                          className="h-14 w-14 rounded-2xl object-cover border-2 border-indigo-500/40 shadow-lg group-hover:scale-105 transition-transform"
-                        />
-                        <div
-                          className={`absolute -top-2 -left-2 flex h-6 w-6 items-center justify-center rounded-full font-mono text-[11px] font-black text-white shadow-md border border-slate-900 ${
-                            trainer.rank === 1
-                              ? 'bg-amber-500 ring-2 ring-amber-400/40'
-                              : trainer.rank === 2
-                              ? 'bg-slate-400 ring-2 ring-slate-300/40'
-                              : 'bg-amber-700 ring-2 ring-amber-600/40'
-                          }`}
-                        >
-                          #{trainer.rank}
+                  {initialCourses.map((c) => (
+                    <option key={c.id} value={c.id}>
+                      {c.code}: {c.title}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            {/* Interactive Weight Sliders Section */}
+            <div className="pt-4 border-t border-slate-200 dark:border-slate-800/80 space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+                  <Sliders className="h-3.5 w-3.5 text-indigo-500 dark:text-indigo-400" />
+                  <span>Interactive Algorithm Weight Tuning & Sensitivity Simulator</span>
+                </span>
+                {isCustomWeights && (
+                  <button
+                    onClick={resetWeights}
+                    className="text-[11px] font-bold text-indigo-600 dark:text-indigo-400 hover:underline"
+                  >
+                    Reset to Official 55/30/15 Standard
+                  </button>
+                )}
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="rounded-2xl bg-white dark:bg-slate-950/70 border border-indigo-500/20 p-4 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 flex items-center gap-1">
+                      <Sliders className="h-3.5 w-3.5" /> 1. Skill Overlap
+                    </span>
+                    <span className="text-xs font-black text-indigo-700 dark:text-indigo-300 font-mono">{skillWeight}%</span>
+                  </div>
+                  <input
+                    type="range"
+                    min={10}
+                    max={80}
+                    value={skillWeight}
+                    onChange={(e) => {
+                      setSkillWeight(parseInt(e.target.value));
+                      setIsCustomWeights(true);
+                    }}
+                    className="w-full h-1.5 bg-slate-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-indigo-500"
+                  />
+                  <p className="text-[10px] text-slate-500 dark:text-slate-400">Direct syllabus & verified competency match ratio.</p>
+                </div>
+
+                <div className="rounded-2xl bg-white dark:bg-slate-950/70 border border-amber-500/20 p-4 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400 flex items-center gap-1">
+                      <Star className="h-3.5 w-3.5" /> 2. Historical Rating
+                    </span>
+                    <span className="text-xs font-black text-amber-700 dark:text-amber-300 font-mono">{ratingWeight}%</span>
+                  </div>
+                  <input
+                    type="range"
+                    min={10}
+                    max={60}
+                    value={ratingWeight}
+                    onChange={(e) => {
+                      setRatingWeight(parseInt(e.target.value));
+                      setIsCustomWeights(true);
+                    }}
+                    className="w-full h-1.5 bg-slate-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-500"
+                  />
+                  <p className="text-[10px] text-slate-500 dark:text-slate-400">Normalized 5-star trainee qualitative evaluations.</p>
+                </div>
+
+                <div className="rounded-2xl bg-white dark:bg-slate-950/70 border border-cyan-500/20 p-4 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-cyan-600 dark:text-cyan-400 flex items-center gap-1">
+                      <BookOpen className="h-3.5 w-3.5" /> 3. Courses Delivered
+                    </span>
+                    <span className="text-xs font-black text-cyan-700 dark:text-cyan-300 font-mono">{volumeWeight}%</span>
+                  </div>
+                  <input
+                    type="range"
+                    min={5}
+                    max={40}
+                    value={volumeWeight}
+                    onChange={(e) => {
+                      setVolumeWeight(parseInt(e.target.value));
+                      setIsCustomWeights(true);
+                    }}
+                    className="w-full h-1.5 bg-slate-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-500"
+                  />
+                  <p className="text-[10px] text-slate-500 dark:text-slate-400">Track record against 10-course master threshold.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Ranked Results Grid */}
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                <TrendingUp className="h-4 w-4 text-emerald-500 dark:text-emerald-400" />
+                <span>Ranked Faculty Compatibility Results</span>
+              </h3>
+              <span className="text-xs text-slate-500 dark:text-slate-400 font-mono">
+                {displayedMatches.length} Faculty Evaluated {isCustomWeights && '• Custom Weights Active'}
+              </span>
+            </div>
+
+            {loading ? (
+              <div className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/40 p-12 text-center text-xs text-slate-500 dark:text-slate-400 animate-pulse">
+                Computing weighted competency compatibility vectors...
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 gap-4">
+                {displayedMatches.map((res) => {
+                  let tierColor = 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border-emerald-500/30';
+                  if (res.recommendationTier === 'QUALIFIED') {
+                    tierColor = 'bg-cyan-500/10 text-cyan-700 dark:text-cyan-300 border-cyan-500/30';
+                  } else if (res.recommendationTier === 'NEEDS_UPSKILLING') {
+                    tierColor = 'bg-amber-500/10 text-amber-700 dark:text-amber-300 border-amber-500/30';
+                  }
+
+                  return (
+                    <div
+                      key={res.trainerId}
+                      className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 p-6 backdrop-blur-xl hover:border-indigo-500/40 transition-all duration-300 space-y-4 shadow-sm dark:shadow-none"
+                    >
+                      {/* Top Info Bar */}
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                        <div className="flex items-center gap-3.5">
+                          <div className="relative">
+                            <img
+                              src={res.avatarUrl}
+                              alt={res.trainerName}
+                              className="h-12 w-12 rounded-2xl object-cover border border-indigo-500/30"
+                            />
+                            <span className="absolute -top-1.5 -left-1.5 h-6 w-6 rounded-full bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-700 text-[10px] font-black text-slate-900 dark:text-white flex items-center justify-center font-mono shadow-sm">
+                              #{res.rank}
+                            </span>
+                          </div>
+
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <h4 className="text-sm font-bold text-slate-900 dark:text-white">{res.trainerName}</h4>
+                              <span className={`rounded-md px-2 py-0.5 text-[9px] font-black uppercase border ${tierColor}`}>
+                                {res.recommendationTier.replace('_', ' ')}
+                              </span>
+                            </div>
+                            <p className="text-[11px] text-slate-600 dark:text-slate-400">{res.headline}</p>
+                            <p className="text-[10px] text-indigo-600 dark:text-indigo-400 font-mono mt-0.5">{res.organization}</p>
+                          </div>
+                        </div>
+
+                        {/* Overall Score Box */}
+                        <div className="flex items-center gap-4 self-end sm:self-auto bg-slate-50 dark:bg-slate-950/80 px-4 py-2.5 rounded-2xl border border-slate-200 dark:border-slate-800">
+                          <div className="text-right">
+                            <span className="text-[9px] uppercase tracking-wider text-slate-500 dark:text-slate-400 font-bold block">
+                              Compatibility Index
+                            </span>
+                            <span className="text-xl font-black text-slate-900 dark:text-white">{res.overallScore}%</span>
+                          </div>
+                          <div className="h-8 w-[1px] bg-slate-200 dark:bg-slate-800" />
+                          <div className="text-left text-[10px] space-y-0.5 text-slate-600 dark:text-slate-400 font-mono">
+                            <div>Skill: <span className="text-indigo-600 dark:text-indigo-300 font-bold">{res.components.skillOverlapWeighted.toFixed(1)}/{skillWeight}</span></div>
+                            <div>Rating: <span className="text-amber-600 dark:text-amber-300 font-bold">{res.components.historicalRatingWeighted.toFixed(1)}/{ratingWeight}</span></div>
+                            <div>Volume: <span className="text-cyan-600 dark:text-cyan-300 font-bold">{res.components.coursesDeliveredWeighted.toFixed(1)}/{volumeWeight}</span></div>
+                          </div>
                         </div>
                       </div>
 
-                      <div>
-                        <h4 className="font-bold text-white text-base group-hover:text-indigo-300 transition-colors">
-                          {trainer.trainerName}
-                        </h4>
-                        <p className="text-xs text-indigo-300 font-medium">{trainer.headline}</p>
-                        <p className="text-[11px] text-slate-400 mt-0.5">{trainer.organization}</p>
-                      </div>
-                    </div>
-
-                    {/* Overall Compatibility Score Display */}
-                    <div className="text-right">
-                      <div className="text-3xl font-black text-white tracking-tight">
-                        {trainer.overallScore}%
-                      </div>
-                      <span
-                        className={`inline-block rounded-md px-2 py-0.5 text-[9px] font-extrabold uppercase tracking-wider border mt-0.5 ${
-                          trainer.recommendationTier === 'HIGHLY_RECOMMENDED'
-                            ? 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30'
-                            : trainer.recommendationTier === 'QUALIFIED'
-                            ? 'bg-indigo-500/15 text-indigo-300 border-indigo-500/30'
-                            : 'bg-amber-500/15 text-amber-300 border-amber-500/30'
-                        }`}
-                      >
-                        {trainer.recommendationTier.replace('_', ' ')}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Component Breakdown Bars */}
-                  <div className="space-y-2.5 rounded-2xl bg-slate-950/70 border border-slate-800 p-4">
-                    {/* Skill Overlap */}
-                    <div className="space-y-1">
-                      <div className="flex justify-between text-xs">
-                        <span className="text-slate-400">Skill Overlap (55% Max)</span>
-                        <span className="font-bold text-indigo-300">
-                          {trainer.components.skillOverlapWeighted} / 55 pts ({trainer.metrics.rawSkillOverlapPercentage}%)
+                      {/* Detailed Skill Breakdown */}
+                      <div className="rounded-2xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800/80 p-4 space-y-2">
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 block">
+                          Curriculum Competency Match Breakdown
                         </span>
-                      </div>
-                      <div className="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
-                        <div
-                          className="h-full bg-gradient-to-r from-indigo-500 to-cyan-400 rounded-full transition-all duration-700"
-                          style={{ width: `${(trainer.components.skillOverlapWeighted / 55) * 100}%` }}
-                        />
-                      </div>
-                    </div>
-
-                    {/* Historical Rating */}
-                    <div className="space-y-1">
-                      <div className="flex justify-between text-xs">
-                        <span className="text-slate-400">Rating Index (30% Max)</span>
-                        <span className="font-bold text-amber-300">
-                          {trainer.components.historicalRatingWeighted} / 30 pts ({trainer.metrics.rawHistoricalRating} ★)
-                        </span>
-                      </div>
-                      <div className="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
-                        <div
-                          className="h-full bg-gradient-to-r from-amber-500 to-amber-400 rounded-full transition-all duration-700"
-                          style={{ width: `${(trainer.components.historicalRatingWeighted / 30) * 100}%` }}
-                        />
-                      </div>
-                    </div>
-
-                    {/* Courses Delivered */}
-                    <div className="space-y-1">
-                      <div className="flex justify-between text-xs">
-                        <span className="text-slate-400">Delivery Volume (15% Max)</span>
-                        <span className="font-bold text-cyan-300">
-                          {trainer.components.coursesDeliveredWeighted} / 15 pts ({trainer.metrics.rawCoursesDelivered} Delivered)
-                        </span>
-                      </div>
-                      <div className="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
-                        <div
-                          className="h-full bg-gradient-to-r from-cyan-500 to-emerald-400 rounded-full transition-all duration-700"
-                          style={{ width: `${(trainer.components.coursesDeliveredWeighted / 15) * 100}%` }}
-                        />
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+                          {res.competencyBreakdown.map((b) => (
+                            <div
+                              key={b.competencyId}
+                              className="rounded-xl border border-slate-200 dark:border-slate-800/80 bg-white dark:bg-slate-900/60 p-2.5 text-xs space-y-1"
+                            >
+                              <div className="flex items-center justify-between">
+                                <span className="font-bold text-slate-900 dark:text-slate-200 truncate">{b.competencyName}</span>
+                                <span
+                                  className={`text-[9px] font-black uppercase px-1.5 py-0.2 rounded ${
+                                    b.status === 'EXCEEDS'
+                                      ? 'bg-emerald-500/20 text-emerald-700 dark:text-emerald-300'
+                                      : b.status === 'MATCHES'
+                                      ? 'bg-cyan-500/20 text-cyan-700 dark:text-cyan-300'
+                                      : 'bg-rose-500/20 text-rose-700 dark:text-rose-300'
+                                  }`}
+                                >
+                                  {b.status}
+                                </span>
+                              </div>
+                              <div className="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 font-mono">
+                                <span>Req: Lvl {b.courseRequiredProficiency}</span>
+                                <span className="text-indigo-600 dark:text-indigo-300 font-bold">Trainer: Lvl {b.trainerProficiency}</span>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
                       </div>
                     </div>
-                  </div>
-
-                  {/* Competency Skill Badges */}
-                  <div className="space-y-2">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                      Competency Match Matrix
-                    </span>
-                    <div className="flex flex-wrap gap-1.5">
-                      {trainer.competencyBreakdown.map((cb) => {
-                        let badgeClass = 'bg-slate-800 text-slate-300 border-slate-700';
-                        if (cb.status === 'EXCEEDS') badgeClass = 'bg-emerald-950/60 text-emerald-300 border-emerald-500/30';
-                        if (cb.status === 'MATCHES') badgeClass = 'bg-indigo-950/60 text-indigo-300 border-indigo-500/30';
-                        if (cb.status === 'DEFICIENT') badgeClass = 'bg-amber-950/60 text-amber-300 border-amber-500/30';
-                        if (cb.status === 'MISSING') badgeClass = 'bg-rose-950/60 text-rose-300 border-rose-500/30';
-
-                        return (
-                          <span
-                            key={cb.competencyId}
-                            className={`rounded-lg px-2.5 py-1 text-[10px] font-bold border ${badgeClass}`}
-                          >
-                            {cb.competencyName}: Lvl {cb.trainerProficiency}/{cb.courseRequiredProficiency} ({cb.status})
-                          </span>
-                        );
-                      })}
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
+                  );
+                })}
+              </div>
+            )}
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }

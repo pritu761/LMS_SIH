@@ -48,6 +48,8 @@ export async function signToken(payload: TokenPayload): Promise<string> {
     .sign(JWT_SECRET);
 }
 
+export const generateToken = signToken;
+
 /**
  * Verify and decode an edge-compatible JWT token
  */
@@ -98,7 +100,12 @@ export async function getCurrentUser(): Promise<TokenPayload | null> {
     const cookieStore = await cookies();
     const token = cookieStore.get(TOKEN_COOKIE_NAME)?.value;
     if (!token) return null;
-    return await verifyToken(token);
+    const payload = await verifyToken(token);
+    if (!payload) return null;
+    if (payload.status === 'SUSPENDED' || payload.status === 'REJECTED') {
+      return null;
+    }
+    return payload;
   } catch (error) {
     return null;
   }

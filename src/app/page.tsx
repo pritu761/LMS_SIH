@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   GraduationCap,
   ShieldCheck,
@@ -28,646 +29,1155 @@ import {
   Star,
   Rocket,
   Target,
+  Fingerprint,
+  Radio,
+  Binary,
+  Activity,
+  Flame,
+  Compass,
+  Radar,
+  CloudRain,
+  Satellite,
+  Code2,
+  Terminal,
+  Play,
+  GitBranch,
+  AlertTriangle,
+  FileSpreadsheet,
+  Clock,
+  CheckCircle,
+  HelpCircle,
+  Network,
+  Quote,
+  Landmark,
 } from 'lucide-react';
-import { StatsCard } from '@/components/shared/StatsCard';
-import { ScrollReveal } from '@/components/shared/ScrollReveal';
-import { AnimatedCounter } from '@/components/shared/AnimatedCounter';
+import { SpotlightCard } from '@/components/shared/SpotlightCard';
+import { MotionSection } from '@/components/shared/MotionPrimitives';
+import { ease } from '@/lib/animations';
 import { initialCourses } from '@/lib/mockData';
 
 export default function HomePage() {
   const router = useRouter();
 
-  // Interactive Live Algorithm Simulator on Hero
-  const [skillOverlapSim, setSkillOverlapSim] = useState(88);
-  const [ratingSim, setRatingSim] = useState(4.8);
-  const [coursesSim, setCoursesSim] = useState(8);
+  // Interactive Live Algorithm Simulator on Hero / Section 5
+  const [skillOverlapSim, setSkillOverlapSim] = useState(92);
+  const [ratingSim, setRatingSim] = useState(4.9);
+  const [coursesSim, setCoursesSim] = useState(12);
 
   const calculatedSimScore = Math.round(
     skillOverlapSim * 0.55 + (ratingSim / 5.0) * 100 * 0.30 + Math.min(coursesSim / 10.0, 1.0) * 100 * 0.15
   );
 
-  const handleQuickLogin = async (role: string) => {
-    try {
-      const res = await fetch('/api/auth/demo-login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ role }),
-      });
-      if (res.ok) {
-        if (role === 'ADMIN') router.push('/admin');
-        else if (role === 'TRAINER') router.push('/trainer');
-        else router.push('/trainee');
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  };
+  // 6-Step Journey Navigation Items
+  const judgeJourneyStages = [
+    { num: '01', label: 'The Problem', href: '#problem', color: 'text-rose-800 bg-rose-50 border-rose-300 dark:text-rose-200 dark:bg-rose-950/60 dark:border-rose-700' },
+    { num: '02', label: 'User Cadres', href: '#cadres', color: 'text-blue-800 bg-blue-50 border-blue-300 dark:text-blue-200 dark:bg-blue-950/60 dark:border-blue-700' },
+    { num: '03', label: 'Competency', href: '#competency', color: 'text-emerald-800 bg-emerald-50 border-emerald-300 dark:text-emerald-200 dark:bg-emerald-950/60 dark:border-emerald-700' },
+    { num: '04', label: 'Gap Analysis', href: '#gap', color: 'text-amber-900 bg-amber-50 border-amber-300 dark:text-amber-200 dark:bg-amber-950/60 dark:border-amber-700' },
+    { num: '05', label: '55/30/15 Match', href: '#algorithm', color: 'text-[#0b1e36] bg-[#c59b48]/30 border-[#c59b48] dark:text-[#dfb76c] dark:bg-[#c59b48]/20 dark:border-[#c59b48]' },
+    { num: '06', label: 'Outcomes', href: '#outcomes', color: 'text-purple-800 bg-purple-50 border-purple-300 dark:text-purple-200 dark:bg-purple-950/60 dark:border-purple-700' },
+  ];
 
-  // Testimonials
+  // IMD & Mission Mausam Testimonials
   const testimonials = [
     {
-      name: 'Dr. Meera Iyer',
-      role: 'Director, NISG Hyderabad',
-      quote: 'Capacity Connect transformed our training pipeline with measurable competency mapping and seamless course delivery.',
+      name: 'Dr. Mrutyunjay Mohapatra',
+      role: 'Director General of Meteorology, IMD',
+      badge: 'Mission Mausam National Lead',
+      quote:
+        'Capacity Connect transforms meteorological training by replacing static course tracking with precision competency mapping across Doppler radars, NWP, and HPC modelling.',
       rating: 5,
     },
     {
-      name: 'Rakesh Nair IAS',
-      role: 'Joint Secretary, MeitY',
-      quote: 'The 55/30/15 matching algorithm optimized our faculty deployment across 12 states — a breakthrough in governance efficiency.',
+      name: 'Dr. M. Ravichandran',
+      role: 'Secretary, Ministry of Earth Sciences (MoES)',
+      badge: 'Sovereign Capacity Mandate',
+      quote:
+        'The 55/30/15 faculty allocation algorithm and real-time competency gap analysis directly advance Mission Mausam capacity building objectives across all regional centres.',
       rating: 5,
     },
     {
-      name: 'Priya Krishnamurthy',
-      role: 'Lead Trainer, DARPG',
-      quote: 'The proctored assessment engine and instant certification workflow reduced our evaluation cycle from weeks to hours.',
+      name: 'Dr. S. Balachandran',
+      role: 'Head, Regional Meteorological Centre (RMC Chennai)',
+      badge: 'Operational Cyclone Forecaster Lead',
+      quote:
+        'The Dual-Polarization radar nowcasting assessments and 1-click gap upskilling path reduced our operational forecaster certification cycle from months to days.',
       rating: 5,
     },
   ];
 
-  // How It Works steps
-  const howItWorks = [
+  // IMD Training Pathways
+  const imdTrainingPathways = [
+    {
+      code: 'IMTC',
+      title: 'Integrated Meteorological Training Course',
+      audience: 'Foundational Officers & Observers',
+      duration: '4 Months Foundation',
+      icon: Compass,
+      color: 'border-blue-200 text-blue-700 bg-blue-50',
+      description:
+        'Atmospheric thermodynamics, surface synoptic charting, INSAT-3DS image interpretation, and standard WMO METAR code generation.',
+    },
+    {
+      code: 'FTC',
+      title: 'Forecasters Training Course',
+      audience: 'Operational Weather & Cyclone Forecasters',
+      duration: '6 Months Operational',
+      icon: CloudRain,
+      color: 'border-cyan-200 text-cyan-700 bg-cyan-50',
+      description:
+        'Dual-Polarization Doppler Weather Radar interpretation, tropical cyclone track forecasting, and color-coded alert dissemination.',
+    },
+    {
+      code: 'DRSTC',
+      title: 'Direct Recruited Scientists Training Course',
+      audience: 'Inducted Scientists-B / C (IMD / IITM / NCMRWF)',
+      duration: '12 Months Comprehensive',
+      icon: Cpu,
+      color: 'border-purple-200 text-purple-700 bg-purple-50',
+      description:
+        'Earth-system dynamics, non-hydrostatic governing equations, MPI/OpenMP parallelization on Pratyush/Mihir HPC, and 4D-Var data assimilation.',
+    },
+    {
+      code: 'MODULAR',
+      title: 'Modular Specialized In-Service Training',
+      audience: 'In-Service Officers & Domain Specialists',
+      duration: '2 to 6 Weeks Intensive',
+      icon: Sparkles,
+      color: 'border-emerald-200 text-emerald-700 bg-emerald-50',
+      description:
+        'Physics-informed AI/ML precipitation nowcasting, convective storm modelling, and next-generation radar network telemetry.',
+    },
+  ];
+
+  // Problem Points
+  const problemPoints = [
+    {
+      icon: FileSpreadsheet,
+      title: 'Fragmented Competency Silos',
+      subtitle: 'Static Spreadsheets & Unsynchronized RMCs',
+      desc: '38+ Doppler Weather Radar stations and 4 Regional Meteorological Centres (RMCs) maintain disconnected training logs with no unified registry of operational officer capabilities.',
+      stat: '38 Nodes',
+      statLabel: 'Operating without centralized skill sync',
+    },
+    {
+      icon: AlertTriangle,
+      title: 'Operational Blind Spots During Crises',
+      subtitle: 'High-Risk Extreme Weather Events',
+      desc: 'During severe cyclones, heavy rainfall events, and cloudbursts, deployment relies on manual seniority rather than verified real-time competence in Dual-Polarization radar nowcasting.',
+      stat: '0% Guesswork',
+      statLabel: 'Required in life-critical weather alerts',
+    },
     {
       icon: Users,
-      title: 'Register & Verify',
-      description: 'Create your account with government credentials. Admin verifies and assigns your RBAC role within 24 hours.',
-      color: 'from-cyan-500 to-indigo-500',
-      iconColor: 'text-cyan-400',
-      borderColor: 'border-cyan-500/30',
+      title: 'Subjective Faculty Allocation',
+      subtitle: 'Informal & Unmatched Instructor Assignment',
+      desc: 'Expert faculty at MTI Pune and IITM are assigned based on informal availability rather than quantitative subject overlap with an officer’s assessed weakness.',
+      stat: '55/30/15',
+      statLabel: 'Needed to eliminate trainer mismatch',
     },
     {
-      icon: BookOpen,
-      title: 'Learn & Assess',
-      description: 'Stream HD video lectures, download PDF resources, and complete timed proctored MCQ assessments.',
-      color: 'from-indigo-500 to-purple-500',
-      iconColor: 'text-indigo-400',
-      borderColor: 'border-indigo-500/30',
+      icon: Clock,
+      title: 'Long, Inflexible Certification Cycles',
+      subtitle: '6-12 Months Broad Retraining',
+      desc: 'Traditional LMS forces officers to retake full multi-month curricula for a single deficient module (e.g. Velocity Dealiasing), wasting hundreds of scientist training hours.',
+      stat: '85% Delay',
+      statLabel: 'In deployable forecaster readiness',
+    },
+  ];
+
+  // Competency Domains
+  const competencyDomains = [
+    {
+      title: 'Radar & Satellite Nowcasting',
+      code: 'RAD-NOWCAST',
+      icon: Radar,
+      color: 'text-[#0b1e36] dark:text-[#dfb76c] bg-[#c59b48]/15 border-[#c59b48]/30',
+      benchmarks: [
+        'Dual-Polarization (ZDR, KDP, CC) Interpretation',
+        'Doppler Velocity Dealiasing & Mesocyclone Detection',
+        'INSAT-3DS Rapid-Scan 15-min Cloud Top Telemetry',
+      ],
     },
     {
-      icon: Award,
-      title: 'Certify & Grow',
-      description: 'Earn verified competency credentials. Your profile rating feeds into the national 55/30/15 matching algorithm.',
-      color: 'from-purple-500 to-emerald-500',
-      iconColor: 'text-emerald-400',
-      borderColor: 'border-emerald-500/30',
+      title: 'Numerical Weather Prediction (NWP)',
+      code: 'NWP-MODEL',
+      icon: Binary,
+      color: 'text-blue-600 bg-blue-50 border-blue-200',
+      benchmarks: [
+        'WRF / GFS Boundary Layer Dynamics & Parametrization',
+        '4D-Var Atmospheric Data Assimilation',
+        'Ensemble Prediction System (EPS) Probability Matrix',
+      ],
+    },
+    {
+      title: 'HPC & Computational Meteorology',
+      code: 'HPC-PARALLEL',
+      icon: Cpu,
+      color: 'text-purple-600 bg-purple-50 border-purple-200',
+      benchmarks: [
+        'MPI / OpenMP Parallel Governing Equations',
+        'Pratyush / Mihir MoES Supercomputer Job Pipelines',
+        'NetCDF4 / GRIB2 High-Density Telemetry Decoding',
+      ],
+    },
+    {
+      title: 'Disaster Warning & Dissemination',
+      code: 'DISASTER-OPS',
+      icon: Radio,
+      color: 'text-amber-600 bg-amber-50 border-amber-200',
+      benchmarks: [
+        'NDMA Common Alerting Protocol (CAP) Standards',
+        'Color-Coded Weather Warning Protocol (Red/Orange/Yellow)',
+        'Tropical Cyclone Track & Surge Estimation',
+      ],
     },
   ];
 
   // Trust badges
   const trustBadges = [
-    'Digital India Initiative', 'MeitY Certified', 'NISG Framework',
-    'DARPG Approved', 'Smart India Hackathon', 'NIC Infrastructure',
-    'Digital India Initiative', 'MeitY Certified', 'NISG Framework',
-    'DARPG Approved', 'Smart India Hackathon', 'NIC Infrastructure',
+    'Mission Mausam National Initiative',
+    'India Meteorological Department (IMD)',
+    'Ministry of Earth Sciences (MoES)',
+    'Indian Institute of Tropical Meteorology (IITM Pune)',
+    'NCMRWF Supercomputing',
+    'World Meteorological Organization (WMO) RTC',
+    'ISRO Space Applications Centre',
+    'National Disaster Management Authority (NDMA)',
   ];
 
   return (
-    <div suppressHydrationWarning className="flex-1 flex flex-col space-y-0 pb-0 relative overflow-hidden">
-      
-      {/* ════════════════ HERO SECTION (BRIDGEMIND STYLE) ════════════════ */}
-      <section className="relative pt-16 sm:pt-28 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <div
+      suppressHydrationWarning
+      className="flex-1 flex flex-col space-y-0 pb-0 relative overflow-hidden bg-transparent dark:bg-[#070f1a]/80 text-slate-900 dark:text-slate-100 selection:bg-[#0b1e36] selection:text-[#c59b48]"
+    >
+      {/* ════════════════ HERO SECTION WITH OFFICIAL PM SPOTLIGHT & GOVERNMENT BANNER ════════════════ */}
+      <section className="w-full bg-gradient-to-b from-[#faf9f6]/80 via-white/70 to-slate-50/80 dark:from-[#0b1a2e]/90 dark:via-[#070f1a]/90 dark:to-[#081424]/90 border-b border-slate-200 dark:border-white/10 relative">
+        {/* Subtle Indian Tricolor Decorative Top Accent Line */}
+        <div className="w-full h-1 bg-gradient-to-r from-orange-500 via-white to-emerald-600 opacity-90 shadow-sm" />
 
-        {/* BridgeMind Signature Aurora Beam & Split Radiant Lighting */}
-        <div className="bridgemind-aurora" />
-        <div className="bridgemind-beam" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-12 space-y-8">
 
-        <div className="max-w-7xl mx-auto text-center relative z-10">
+          {/* Top Government Emblems & Sovereignty Header */}
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pb-5 border-b border-slate-200/80 dark:border-white/10">
+            <div className="flex items-center gap-3 text-center sm:text-left">
+              <div className="h-12 w-12 rounded-2xl bg-[#0b1e36] border-2 border-[#c59b48] flex items-center justify-center text-[#c59b48] shadow-lg shadow-[#0b1e36]/20 shrink-0">
+                <Satellite className="h-6 w-6" />
+              </div>
+              <div>
+                <div className="text-xs font-sans font-extrabold text-[#0b1e36] dark:text-slate-100 tracking-wider uppercase flex items-center gap-2 justify-center sm:justify-start">
+                  <span>INDIA METEOROLOGICAL DEPARTMENT (IMD)</span>
+                </div>
+                <div className="text-[11px] font-sans text-[#c59b48] dark:text-[#dfb76c] font-bold tracking-wide">
+                  MINISTRY OF EARTH SCIENCES (MoES) • GOVERNMENT OF INDIA
+                </div>
+              </div>
+            </div>
 
-          {/* Floating Verified Pill Badge */}
-          <div className="animate-fade-in-down inline-flex items-center gap-2.5 rounded-full border border-white/15 bg-white/5 px-5 py-2 text-xs font-semibold text-white backdrop-blur-xl shadow-2xl hover:scale-105 transition-transform cursor-default mb-8">
-            <Sparkles className="h-3.5 w-3.5 text-amber-400 animate-spin-slow" />
-            <span>The Sovereign Capacity Super App</span>
-            <span className="h-1.5 w-1.5 rounded-full bg-blue-500 animate-ping" />
-            <span className="rounded-full bg-blue-500/20 px-2 py-0.5 text-[10px] font-bold text-blue-400 border border-blue-500/30">
-              GovTech v2.4
-            </span>
+            <div className="flex items-center gap-2.5 flex-wrap justify-center">
+              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#0b1e36] text-white border-2 border-[#c59b48] text-xs font-sans font-black shadow-lg">
+                <span className="relative flex h-2.5 w-2.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-400" />
+                </span>
+                <span className="text-[#dfb76c] font-black tracking-wider uppercase">MISSION MAUSAM</span>
+                <span className="text-[#c59b48] font-bold">•</span>
+                <span className="text-white font-extrabold tracking-wider uppercase">NATIONAL CAPACITY PORTAL</span>
+              </span>
+
+              <span className="hidden md:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-900 dark:text-emerald-200 border-2 border-emerald-400 dark:border-emerald-600 text-xs font-sans font-black shadow-sm">
+                <ShieldCheck className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                <span>WMO RTC COMPLIANT</span>
+              </span>
+            </div>
           </div>
 
-          {/* Hero Title (BridgeMind commanding font) */}
-          <div className="space-y-6 max-w-4xl mx-auto">
-            <h1 className="text-5xl sm:text-7xl lg:text-8xl font-black text-white tracking-tight leading-[1.04] animate-fade-in-up">
-              The Capacity <br />
-              <span className="bg-gradient-to-r from-white via-slate-100 to-blue-300 bg-clip-text text-transparent">
-                Super App
+          {/* ════════════ TWO-COLUMN HERO: COMMAND COPY (LEFT) + PM VISION SPOTLIGHT (RIGHT) ════════════ */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+            
+            {/* Left 7 Columns: Core Identity & Evaluation Journey */}
+            <div className="lg:col-span-7 space-y-6 text-left">
+              {/* Sovereign Initiative Eyebrow */}
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0b1e36]/10 dark:bg-[#c59b48]/15 border border-[#c59b48]/40 text-xs font-sans font-bold text-[#0b1e36] dark:text-[#dfb76c]">
+                <Sparkles className="h-3.5 w-3.5 text-[#c59b48]" />
+                <span>DIGITAL CAPACITY BUILDING & COMPETENCY MANAGEMENT</span>
+              </div>
+
+              {/* Main Headline */}
+              <div className="space-y-2">
+                <h1 className="text-4xl sm:text-6xl md:text-7xl font-display font-black tracking-tight text-[#0b1e36] dark:text-white leading-[1.04]">
+                  CAPACITY <span className="text-[#9a7224] dark:text-[#dfb76c]">CONNECT</span>
+                </h1>
+                <p className="text-lg sm:text-2xl font-display font-bold text-slate-700 dark:text-slate-200 tracking-tight leading-snug">
+                  Digital Capacity Building & Learning Management Portal
+                </p>
+              </div>
+
+              {/* Tagline Pill */}
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-gradient-to-r from-[#c59b48]/15 via-white/80 to-[#c59b48]/15 dark:from-[#0b1e36] dark:via-[#102744] dark:to-[#0b1e36] border border-[#c59b48]/40 text-xs sm:text-sm text-[#0b1e36] dark:text-[#dfb76c] font-bold shadow-sm">
+                <span className="text-[#9a7224] dark:text-[#c59b48] font-black text-base" aria-hidden="true">★</span>
+                <span>Empowering People. Strengthening Competencies. Building a Future-Ready Workforce.</span>
+              </div>
+
+              {/* Clear Value Proposition */}
+              <p className="text-sm sm:text-base text-slate-700 dark:text-slate-300 leading-relaxed font-medium max-w-2xl">
+                <strong>CapacityConnect</strong> replaces static course tracking with an end-to-end meteorological intelligence pipeline: dynamically assessing officer skills, diagnosing cadre gaps, and matching certified faculty via our weighted <strong>55/30/15 algorithm</strong>.
+              </p>
+
+              {/* 6-Stage Journey Ribbon (Problem -> Outcome) */}
+              <div className="space-y-2 pt-1">
+                <div className="text-[11px] font-sans font-black text-[#0b1e36] dark:text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+                  <Activity className="h-3.5 w-3.5 text-[#c59b48]" />
+                  <span>6-STAGE EVALUATION & ACCREDITATION WORKFLOW:</span>
+                </div>
+                <div className="flex items-center gap-2 flex-wrap">
+                  {judgeJourneyStages.map((stage, idx) => (
+                    <a
+                      key={stage.num}
+                      href={stage.href}
+                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-sans font-extrabold border shadow-sm transition-all duration-300 hover:scale-105 hover:shadow-md ${stage.color}`}
+                    >
+                      <span className="opacity-80 font-black">{stage.num}.</span>
+                      <span>{stage.label}</span>
+                      {idx < judgeJourneyStages.length - 1 && <span className="opacity-50 text-xs">→</span>}
+                    </a>
+                  ))}
+                </div>
+              </div>
+
+              {/* CTA Action Buttons */}
+              <div className="flex flex-wrap items-center gap-3 pt-2">
+                <Link href="/admin/competency" className="btn-nestjs-primary group text-xs sm:text-sm font-bold px-5 sm:px-7 py-3 sm:py-3.5 shadow-lg shadow-[#0b1e36]/15">
+                  <Brain className="h-4 w-4 text-[#c59b48]" />
+                  <span>Launch 55/30/15 Matcher</span>
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </Link>
+
+                <Link href="/trainee/courses" className="btn-gold group text-xs sm:text-sm font-bold px-5 sm:px-7 py-3 sm:py-3.5 shadow-md">
+                  <BookOpen className="h-4 w-4" />
+                  <span>Explore Curriculum</span>
+                </Link>
+
+                <Link href="/architecture" className="btn-nestjs-secondary group border-dashed text-xs sm:text-sm font-bold px-4 sm:px-6 py-3 sm:py-3.5">
+                  <Code2 className="h-4 w-4 text-slate-500 group-hover:text-[#c59b48] transition-colors" />
+                  <span>Architecture Specs</span>
+                  <ChevronRight className="h-4 w-4" />
+                </Link>
+              </div>
+            </div>
+
+            {/* Right 5 Columns: National Mission Vision Spotlight Card */}
+            <div className="lg:col-span-5">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: ease.smooth }}
+                className="relative rounded-3xl bg-white dark:bg-[#0b1e36] border-2 border-[#c59b48]/50 p-6 shadow-2xl shadow-[#0b1e36]/15 overflow-hidden group hover:border-[#c59b48] transition-all"
+              >
+                {/* Decorative Ambient Aura & Tricolor Top Trim */}
+                <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-orange-500 via-white to-emerald-600 opacity-90" />
+                <div className="absolute -top-16 -right-16 w-44 h-44 rounded-full bg-[#c59b48]/10 blur-2xl pointer-events-none" />
+
+                {/* Mission Emblem & Identity Container */}
+                <div className="pt-4 flex flex-col items-center text-center space-y-3">
+                  {/* Emblem with Royal Gold Border & Gentle Elevation */}
+                  <div className="relative">
+                    <div className="w-36 h-44 sm:w-40 sm:h-48 rounded-2xl overflow-hidden border-2 border-[#c59b48] shadow-xl bg-gradient-to-b from-[#0b1e36] via-[#102744] to-[#081526] relative flex items-center justify-center group-hover:scale-105 transition-transform duration-500">
+                      {/* Concentric radar rings */}
+                      <div className="absolute w-24 h-24 rounded-full border border-[#c59b48]/30" />
+                      <div className="absolute w-16 h-16 rounded-full border border-[#c59b48]/40" />
+                      <div className="absolute w-28 h-28 rounded-full border border-dashed border-[#c59b48]/20 animate-spin-slow" />
+                      {/* Crosshair lines */}
+                      <div className="absolute inset-x-6 top-1/2 h-px bg-[#c59b48]/25" />
+                      <div className="absolute inset-y-6 left-1/2 w-px bg-[#c59b48]/25" />
+                      {/* Center radar sigil */}
+                      <div className="relative h-14 w-14 rounded-full bg-[#c59b48]/15 border border-[#c59b48]/60 flex items-center justify-center shadow-lg shadow-[#c59b48]/20">
+                        <Radio className="h-7 w-7 text-[#dfb76c]" />
+                        <span className="absolute h-2 w-2 rounded-full bg-emerald-400 animate-pulse -top-0.5 -right-0.5 ring-2 ring-[#0b1e36]" />
+                      </div>
+                    </div>
+                    {/* Official Seal Pill Tag */}
+                    <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap px-3 py-0.5 rounded-full bg-[#0b1e36] text-[#dfb76c] border border-[#c59b48] text-[9px] font-sans font-black shadow-md">
+                      GOVERNMENT OF INDIA
+                    </div>
+                  </div>
+
+                  {/* Mission Name & Designation */}
+                  <div className="pt-1 space-y-0.5">
+                    <h3 className="text-xl sm:text-2xl font-display font-extrabold text-[#0b1e36] dark:text-white tracking-tight">
+                      Mission Mausam
+                    </h3>
+                    <div className="text-xs font-sans font-bold text-[#9a7224] dark:text-[#dfb76c]">
+                      IMD &bull; Ministry of Earth Sciences
+                    </div>
+                  </div>
+
+                  {/* Mission Vision Statement */}
+                  <div className="relative rounded-2xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 p-4 text-left">
+                    <Quote className="h-4 w-4 text-[#c59b48] mb-1.5 opacity-80" />
+                    <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-200 font-medium italic leading-relaxed">
+                      &ldquo;Continuous competency building and an always-on Doppler radar network are the cornerstones of a disaster-resilient nation &mdash; keeping every citizen safe and prepared.&rdquo;
+                    </p>
+                  </div>
+
+                  {/* 3 Core Policy Pillars Badges */}
+                  <div className="w-full grid grid-cols-3 gap-2 pt-1 text-center font-mono">
+                    <div className="p-2 rounded-xl bg-[#0b1e36]/5 dark:bg-white/5 border border-[#0b1e36]/10 dark:border-white/10">
+                      <div className="text-[10px] font-black text-[#0b1e36] dark:text-[#dfb76c]">Mission Mausam</div>
+                      <div className="text-[9px] text-slate-500 dark:text-slate-400">MoES Approved</div>
+                    </div>
+                    <div className="p-2 rounded-xl bg-[#0b1e36]/5 dark:bg-white/5 border border-[#0b1e36]/10 dark:border-white/10">
+                      <div className="text-[10px] font-black text-[#0b1e36] dark:text-[#dfb76c]">Digital India</div>
+                      <div className="text-[9px] text-slate-500 dark:text-slate-400">Unified Portal</div>
+                    </div>
+                    <div className="p-2 rounded-xl bg-[#0b1e36]/5 dark:bg-white/5 border border-[#0b1e36]/10 dark:border-white/10">
+                      <div className="text-[10px] font-black text-[#0b1e36] dark:text-[#dfb76c]">Weather Ready</div>
+                      <div className="text-[9px] text-slate-500 dark:text-slate-400">Resilient Nation</div>
+                    </div>
+                  </div>
+
+                  {/* Live Status Row */}
+                  <div className="w-full pt-2 border-t border-slate-100 dark:border-white/10 flex items-center justify-between text-[10px] font-mono text-slate-500 dark:text-slate-400">
+                    <span className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-bold">
+                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                      38 Radar Stations Synced
+                    </span>
+                    <span className="text-[#0b1e36] dark:text-slate-200 font-bold">
+                      55/30/15 Allocation Active
+                    </span>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+
+          </div>
+
+          {/* ════════════════ 5-PILLAR LEARNING PROGRESSION ARC ════════════════ */}
+          <div className="pt-6 border-t border-slate-200 dark:border-white/10">
+            <div className="text-center mb-6 space-y-1">
+              <span className="text-xs font-sans font-bold text-[#9a7224] dark:text-[#c59b48] uppercase tracking-wider">
+                Systematic Capacity Building Progression
               </span>
-            </h1>
-            <p className="text-sm sm:text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed animate-fade-in-up animation-delay-200">
-              AI-driven competency matching, proctored exams, and sovereign institutional training that powers 25,000+ public sector leaders across India.
+              <h3 className="text-xl sm:text-2xl font-display font-extrabold text-[#0b1e36] dark:text-white tracking-tight">
+                The 5 Pillars of Meteorological Officer Readiness
+              </h3>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+              {[
+                { step: '01', name: 'LEARN', title: 'Foundational Knowledge', desc: 'Atmospheric physics, synoptic charting & WMO METAR code standards.', icon: BookOpen, color: 'border-blue-200 bg-blue-50/50 text-blue-800 dark:bg-blue-950/20 dark:border-blue-900/40 dark:text-blue-300' },
+                { step: '02', name: 'DEVELOP', title: 'Technical Competency', desc: 'Dual-Polarization Doppler radar nowcasting & NWP grid dynamics.', icon: Cpu, color: 'border-amber-200 bg-amber-50/50 text-amber-800 dark:bg-amber-950/20 dark:border-amber-900/40 dark:text-amber-300' },
+                { step: '03', name: 'COLLABORATE', title: 'Multi-Center Synergy', desc: 'Peer weather discussion rooms & cross-RMC warning dissemination.', icon: Users, color: 'border-cyan-200 bg-cyan-50/50 text-cyan-800 dark:bg-cyan-950/20 dark:border-cyan-900/40 dark:text-cyan-300' },
+                { step: '04', name: 'PERFORM', title: 'High-Impact Execution', desc: 'Pratyush/Mihir HPC parallel modeling & 4D-Var data assimilation.', icon: Rocket, color: 'border-indigo-200 bg-indigo-50/50 text-indigo-800 dark:bg-indigo-950/20 dark:border-indigo-900/40 dark:text-indigo-300' },
+                { step: '05', name: 'EXCEL', title: 'Certified Leadership', desc: 'National Mission Mausam Certified Specialist with WMO compliance.', icon: Award, color: 'border-emerald-200 bg-emerald-50/50 text-emerald-800 dark:bg-emerald-950/20 dark:border-emerald-900/40 dark:text-emerald-300' },
+              ].map((p) => {
+                const Icon = p.icon;
+                return (
+                  <div
+                    key={p.name}
+                    className={`rounded-2xl border p-4 space-y-2.5 transition-all duration-300 hover:shadow-md hover:-translate-y-1 bg-white dark:bg-[#0b1e36]/70 ${p.color}`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="h-10 w-10 rounded-xl bg-[#0b1e36] text-[#c59b48] flex items-center justify-center font-bold shadow-sm">
+                        <Icon className="h-5 w-5" />
+                      </div>
+                      <span className="font-mono text-xs font-black text-slate-400 dark:text-slate-500">
+                        {p.step}
+                      </span>
+                    </div>
+                    <div>
+                      <div className="font-display font-extrabold text-base text-[#0b1e36] dark:text-white tracking-tight">{p.name}</div>
+                      <div className="text-[11px] font-semibold text-[#9a7224] dark:text-[#dfb76c]">{p.title}</div>
+                    </div>
+                    <p className="text-[13px] text-slate-600 dark:text-slate-300 leading-relaxed">
+                      {p.desc}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Sovereign Cadre Access & SSO Gateway Card */}
+          <div className="w-full rounded-3xl bg-white dark:bg-[#0b1e36]/90 border border-[#c59b48]/40 p-4 sm:p-6 shadow-xl shadow-[#0b1e36]/5 space-y-3">
+            <div className="flex flex-wrap items-center justify-between pb-3 border-b border-slate-100 dark:border-white/10 text-xs font-sans gap-2">
+              <div className="flex items-center gap-2">
+                <span className="h-2.5 w-2.5 rounded-full bg-emerald-500 animate-ping" />
+                <span className="font-bold text-[#0b1e36] dark:text-white">IMD Sovereign Cadre Access Gateway</span>
+              </div>
+              <span className="text-[#c59b48] dark:text-[#dfb76c] text-[11px] font-semibold">Production Single Sign-On (SSO) with Neon PostgreSQL</span>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <Link
+                href="/auth/login"
+                className="w-full text-left p-3.5 rounded-2xl bg-slate-50 hover:bg-[#0b1e36]/5 border border-slate-200 hover:border-[#c59b48] dark:bg-white/5 dark:border-white/10 dark:hover:bg-white/10 transition-all group block"
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <div className="h-8 w-8 rounded-lg bg-[#0b1e36] text-[#c59b48] flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <Award className="h-4 w-4" />
+                  </div>
+                  <span className="text-[9px] font-sans font-bold text-[#0b1e36] bg-[#0b1e36]/10 px-2 py-0.5 rounded border border-[#0b1e36]/20 dark:text-[#dfb76c] dark:bg-[#c59b48]/15 dark:border-[#c59b48]/30">
+                    DRSTC INDUCTEE
+                  </span>
+                </div>
+                <div className="text-xs font-bold text-[#0b1e36] group-hover:text-[#c59b48] dark:text-white dark:group-hover:text-[#dfb76c] transition-colors">
+                  Aarav Patel (Scientist-B)
+                </div>
+                <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">NWP Division • Doppler Radar Gaps</div>
+                <div className="mt-2 text-[10px] font-bold text-[#c59b48] flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+                  <span>Sign In via SSO</span>
+                  <ArrowRight className="h-3 w-3" />
+                </div>
+              </Link>
+
+              <Link
+                href="/auth/login"
+                className="w-full text-left p-3.5 rounded-2xl bg-slate-50 hover:bg-amber-50 border border-slate-200 hover:border-amber-300 dark:bg-white/5 dark:border-white/10 dark:hover:bg-amber-500/10 transition-all group block"
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <div className="h-8 w-8 rounded-lg bg-amber-100 text-amber-800 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <BookOpen className="h-4 w-4" />
+                  </div>
+                  <span className="text-[9px] font-sans font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-200 dark:bg-amber-950/40 dark:text-amber-300 dark:border-amber-800">
+                    LEAD FACULTY
+                  </span>
+                </div>
+                <div className="text-xs font-bold text-[#0b1e36] group-hover:text-amber-800 dark:text-white dark:group-hover:text-amber-300 transition-colors">
+                  Prof. Vikramaditya Sen
+                </div>
+                <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">MTI Pune / IITM • NetCDF Labs</div>
+                <div className="mt-2 text-[10px] font-bold text-amber-700 dark:text-amber-400 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+                  <span>Sign In via SSO</span>
+                  <ArrowRight className="h-3 w-3" />
+                </div>
+              </Link>
+
+              <Link
+                href="/auth/login"
+                className="w-full text-left p-3.5 rounded-2xl bg-slate-50 hover:bg-emerald-50 border border-slate-200 hover:border-emerald-300 dark:bg-white/5 dark:border-white/10 dark:hover:bg-emerald-500/10 transition-all group block"
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <div className="h-8 w-8 rounded-lg bg-[#0b1e36] text-emerald-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <ShieldCheck className="h-4 w-4" />
+                  </div>
+                  <span className="text-[9px] font-sans font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800">
+                    DIRECTOR GENERAL
+                  </span>
+                </div>
+                <div className="text-xs font-bold text-[#0b1e36] group-hover:text-emerald-700 dark:text-white dark:group-hover:text-emerald-300 transition-colors">
+                  Dr. Mrutyunjay Mohapatra
+                </div>
+                <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">National DG • 55/30/15 Allocations</div>
+                <div className="mt-2 text-[10px] font-bold text-emerald-700 dark:text-emerald-400 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+                  <span>Sign In via SSO</span>
+                  <ArrowRight className="h-3 w-3" />
+                </div>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════════ TRUST MARQUEE ════════════════ */}
+      <section className="py-6 border-b border-slate-200 dark:border-white/10 bg-slate-50/70 dark:bg-[#070f1a]/60">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-3">
+          <div className="font-sans text-xs text-slate-500 dark:text-slate-400 flex items-center justify-center gap-1.5">
+            <span className="text-[#c59b48] font-bold">//</span>
+            <span>TRUSTED BY LEADING METEOROLOGICAL & EARTH SCIENCE INSTITUTIONS</span>
+          </div>
+        </div>
+
+        <div className="flex flex-wrap items-center justify-center gap-2 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {trustBadges.map((badge, i) => (
+            <div
+              key={i}
+              className="flex items-center gap-2 px-4 py-1.5 rounded-full border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0b1e36] text-xs font-sans text-slate-700 dark:text-slate-300 shadow-sm"
+            >
+              <Globe className="h-3.5 w-3.5 text-[#c59b48]" />
+              <span>{badge}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ════════════════ PHASE 1: THE PROBLEM ════════════════ */}
+      <section id="problem" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-20 space-y-12 scroll-mt-24">
+        <div className="text-center max-w-3xl mx-auto space-y-3">
+          <span className="inline-flex items-center gap-2 rounded-full bg-[#0b1e36]/10 dark:bg-[#c59b48]/15 border border-[#0b1e36]/20 dark:border-[#c59b48]/30 px-4 py-1.5 text-xs font-bold text-[#0b1e36] dark:text-[#dfb76c] font-sans">
+            <AlertTriangle className="h-3.5 w-3.5 text-rose-600" />
+            PHASE 1 • THE NATIONAL PROBLEM
+          </span>
+          <h2 className="text-3xl sm:text-5xl font-black text-[#0b1e36] dark:text-white tracking-tight">
+            Meteorological Training Before Mission Mausam
+          </h2>
+          <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+            The India Meteorological Department faces three critical bottlenecks in operational readiness.
+          </p>
+        </div>
+
+        {/* 4 Critical Problem Breakdown Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {problemPoints.map((item, idx) => {
+            const Icon = item.icon;
+            return (
+              <MotionSection key={item.title} variant="slide-up" delay={idx * 80}>
+                <div className="rounded-3xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0b1e36]/80 p-6 h-full flex flex-col justify-between space-y-4 shadow-sm hover:shadow-md hover:border-[#c59b48]/60 transition-all">
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <div className="h-10 w-10 rounded-xl bg-[#0b1e36] border border-[#c59b48]/40 flex items-center justify-center text-[#c59b48]">
+                        <Icon className="h-5 w-5" />
+                      </div>
+                      <span className="text-[10px] font-mono text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-white/5 px-2 py-0.5 rounded">
+                        DEFICIT 0{idx + 1}
+                      </span>
+                    </div>
+
+                    <h3 className="text-base font-bold text-[#0b1e36] dark:text-white leading-snug">
+                      {item.title}
+                    </h3>
+                    <div className="text-[11px] font-sans text-rose-600 dark:text-rose-400 font-semibold">
+                      {item.subtitle}
+                    </div>
+
+                    <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                      {item.desc}
+                    </p>
+                  </div>
+
+                  <div className="pt-3 border-t border-slate-100 dark:border-white/10">
+                    <div className="text-xl font-mono font-black text-[#0b1e36] dark:text-white">
+                      {item.stat}
+                    </div>
+                    <div className="text-[10px] font-sans text-slate-500 dark:text-slate-400 mt-0.5">
+                      {item.statLabel}
+                    </div>
+                  </div>
+                </div>
+              </MotionSection>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* ════════════════ PHASE 2: THE USERS & CADRES ════════════════ */}
+      <section id="cadres" className="bg-slate-50/60 dark:bg-[#070f1a]/60 border-y border-slate-200 dark:border-white/10 py-20 px-4 sm:px-6 lg:px-8 scroll-mt-24">
+        <div className="max-w-7xl mx-auto space-y-12">
+          <div className="text-center max-w-3xl mx-auto space-y-3">
+            <span className="inline-flex items-center gap-2 rounded-full bg-[#0b1e36]/10 dark:bg-[#c59b48]/15 border border-[#c59b48]/40 px-4 py-1.5 text-xs font-bold text-[#0b1e36] dark:text-[#dfb76c] font-sans">
+              <Users className="h-3.5 w-3.5 text-[#c59b48]" />
+              PHASE 2 • THE USERS & CADRES
+            </span>
+            <h2 className="text-3xl sm:text-5xl font-black text-[#0b1e36] dark:text-white tracking-tight">
+              Tailored for Every Stakeholder in India&apos;s Weather Enterprise
+            </h2>
+            <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              Serving inducted Scientist-B officers, operational nowcasters, accredited lead faculty, and the Director General.
             </p>
           </div>
 
-          {/* Call to Action Buttons */}
-          <div className="flex flex-wrap items-center justify-center gap-4 pt-6 animate-fade-in-up animation-delay-400">
-            <Link
-              href="/auth/register"
-              className="btn-bridgemind-primary group gap-2.5"
-            >
-              <Sparkles className="h-4 w-4 text-amber-500 transition-transform group-hover:rotate-12" />
-              <span>Get Started Free</span>
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-            </Link>
+          {/* 3 Core User Roles Breakdown */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="rounded-3xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0b1e36]/80 p-6 space-y-4 shadow-sm">
+              <div className="h-10 w-10 rounded-xl bg-[#0b1e36] text-[#c59b48] flex items-center justify-center font-bold">
+                01
+              </div>
+              <h3 className="text-lg font-bold text-[#0b1e36] dark:text-white">Trainees & Inducted Officers</h3>
+              <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                Scientist-B inductees and operational radar observers get personalized gap dashboards, proctored tests, and targeted module recommendations.
+              </p>
+              <div className="pt-2 text-xs font-sans text-[#c59b48] dark:text-[#dfb76c] font-bold">
+                → Access: /trainee & /trainee/profile
+              </div>
+            </div>
 
-            <Link
-              href="/auth/login"
-              className="btn-bridgemind-secondary group gap-2.5"
-            >
-              <Lock className="h-4 w-4 text-slate-400 group-hover:text-blue-400 transition-colors" />
-              <span>Sign In with ID</span>
-            </Link>
+            <div className="rounded-3xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0b1e36]/80 p-6 space-y-4 shadow-sm">
+              <div className="h-10 w-10 rounded-xl bg-[#c59b48] gold-ink flex items-center justify-center font-bold">
+                02
+              </div>
+              <h3 className="text-lg font-bold text-[#0b1e36] dark:text-white">Trainers & Lead Faculty</h3>
+              <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                Senior scientists at MTI Pune and IITM create cadre rubrics, publish NetCDF lab assessments, and receive algorithm-matched cohorts.
+              </p>
+              <div className="pt-2 text-xs font-sans text-[#0b1e36] dark:text-[#dfb76c] font-bold">
+                → Access: /trainer & /trainer/analytics
+              </div>
+            </div>
+
+            <div className="rounded-3xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0b1e36]/80 p-6 space-y-4 shadow-sm">
+              <div className="h-10 w-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold">
+                03
+              </div>
+              <h3 className="text-lg font-bold text-[#0b1e36] dark:text-white">National Leadership & MoES</h3>
+              <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                DG IMD and MoES Directors monitor sitewide learner readiness, approve faculty accreditations, and execute the 55/30/15 matching engine.
+              </p>
+              <div className="pt-2 text-xs font-sans text-emerald-700 dark:text-emerald-400 font-bold">
+                → Access: /admin & /admin/competency
+              </div>
+            </div>
           </div>
 
-          {/* Interactive BridgeMind App Window Mockup */}
-          <div className="pt-12 max-w-5xl mx-auto animate-slide-in-up animation-delay-600">
-            <div className="bridgemind-window p-6 sm:p-8 text-left space-y-5">
-              
-              {/* macOS Window Titlebar */}
-              <div className="flex items-center justify-between border-b border-white/10 pb-4">
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center gap-1.5">
-                    <div className="h-3 w-3 rounded-full bg-rose-500/80 shadow-sm shadow-rose-500/40" />
-                    <div className="h-3 w-3 rounded-full bg-amber-500/80 shadow-sm shadow-amber-500/40" />
-                    <div className="h-3 w-3 rounded-full bg-emerald-500/80 shadow-sm shadow-emerald-500/40" />
+          {/* 4 IMD Cadre Pathways */}
+          <div className="space-y-6 pt-6">
+            <h3 className="text-xl font-bold text-[#0b1e36] dark:text-white text-center">4 Official IMD Training Cadre Pathways</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {imdTrainingPathways.map((cadre, idx) => {
+                const CadreIcon = cadre.icon;
+                return (
+                  <MotionSection key={cadre.code} variant="slide-up" delay={idx * 80}>
+                    <div className="rounded-3xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0b1e36]/80 p-6 h-full flex flex-col justify-between space-y-4 shadow-sm hover:shadow-md hover:border-[#c59b48]/60 transition-all">
+                      <div className="space-y-3">
+                        <div className="flex items-center justify-between">
+                          <span className="rounded-md bg-[#0b1e36]/10 dark:bg-[#c59b48]/15 px-2.5 py-1 text-xs font-mono font-bold text-[#0b1e36] dark:text-[#dfb76c] border border-[#0b1e36]/20 dark:border-[#c59b48]/30">
+                            {cadre.code} TRACK
+                          </span>
+                          <div className="h-10 w-10 rounded-xl bg-[#0b1e36] border border-[#c59b48]/40 flex items-center justify-center text-[#c59b48]">
+                            <CadreIcon className="h-5 w-5" />
+                          </div>
+                        </div>
+
+                        <h4 className="text-base font-bold text-[#0b1e36] dark:text-white leading-snug">
+                          {cadre.title}
+                        </h4>
+
+                        <div className="text-[11px] text-[#c59b48] dark:text-[#dfb76c] font-bold">
+                          Audience: {cadre.audience}
+                        </div>
+
+                        <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                          {cadre.description}
+                        </p>
+                      </div>
+
+                      <div className="pt-3 border-t border-slate-100 dark:border-white/10 text-[11px] font-mono text-slate-500 dark:text-slate-400 flex items-center justify-between">
+                        <span>{cadre.duration}</span>
+                        <span className="text-[#0b1e36] dark:text-[#dfb76c] font-bold">Standardized</span>
+                      </div>
+                    </div>
+                  </MotionSection>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════════ PHASE 3: COMPETENCY MATRIX ════════════════ */}
+      <section id="competency" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-20 space-y-12 scroll-mt-24">
+        <div className="text-center max-w-3xl mx-auto space-y-3">
+          <span className="inline-flex items-center gap-2 rounded-full bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 px-4 py-1.5 text-xs font-bold text-emerald-800 dark:text-emerald-300 font-sans">
+            <Radar className="h-3.5 w-3.5 text-emerald-600" />
+            PHASE 3 • STANDARDIZED COMPETENCY MATRIX
+          </span>
+          <h2 className="text-3xl sm:text-5xl font-black text-[#0b1e36] dark:text-white tracking-tight">
+            4 Core Meteorological Competency Domains
+          </h2>
+          <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+            Aligned with World Meteorological Organization (WMO) RTC standards and IMD operational directives.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {competencyDomains.map((domain, idx) => {
+            const Icon = domain.icon;
+            return (
+              <MotionSection key={domain.code} variant="slide-up" delay={idx * 80}>
+                <div className="rounded-3xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0b1e36]/80 p-6 h-full flex flex-col justify-between space-y-4 shadow-sm hover:shadow-md hover:border-[#c59b48]/50 transition-all">
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className={`px-2.5 py-1 rounded-md text-[10px] font-sans font-bold uppercase border ${domain.color}`}>
+                        {domain.code}
+                      </span>
+                      <Icon className="h-5 w-5 text-[#0b1e36] dark:text-[#dfb76c]" />
+                    </div>
+
+                    <h3 className="text-base font-bold text-[#0b1e36] dark:text-white">{domain.title}</h3>
+
+                    <ul className="space-y-2 pt-2 border-t border-slate-100 dark:border-white/10">
+                      {domain.benchmarks.map((b, i) => (
+                        <li key={i} className="flex items-start gap-2 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                          <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600 shrink-0 mt-0.5" />
+                          <span>{b}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                  <div className="flex items-center gap-2 pl-2 border-l border-white/10">
-                    <span className="text-xs font-black tracking-tight text-white">CapacityConnect <span className="text-blue-400 font-normal">One</span></span>
+
+                  <div className="pt-3 border-t border-slate-100 dark:border-white/10 text-[11px] font-mono text-slate-500 dark:text-slate-400 flex justify-between">
+                    <span>Rubric Mapped</span>
+                    <span className="text-emerald-700 dark:text-emerald-400 font-bold">WMO Compliant</span>
                   </div>
                 </div>
+              </MotionSection>
+            );
+          })}
+        </div>
+      </section>
 
-                {/* Segmented workspace tabs */}
-                <div className="hidden sm:flex items-center bg-[#0e0e16] border border-white/10 rounded-full p-1 text-[11px] font-bold text-slate-400">
-                  <span className="px-3 py-1 bg-white/10 text-white rounded-full">Interactive Demo</span>
-                  <span className="px-3 py-1">1-Click Switcher</span>
-                </div>
+      {/* ════════════════ PHASE 4: GAP DETECTION & ASSESSMENTS ════════════════ */}
+      <section id="gap" className="bg-slate-50/60 dark:bg-[#070f1a]/60 border-y border-slate-200 dark:border-white/10 py-20 px-4 sm:px-6 lg:px-8 scroll-mt-24">
+        <div className="max-w-7xl mx-auto space-y-12">
+          <div className="text-center max-w-3xl mx-auto space-y-3">
+            <span className="inline-flex items-center gap-2 rounded-full bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 px-4 py-1.5 text-xs font-bold text-amber-800 dark:text-amber-300 font-sans">
+              <Target className="h-3.5 w-3.5 text-amber-600" />
+              PHASE 4 • PROCTORED GAP ANALYSIS
+            </span>
+            <h2 className="text-3xl sm:text-5xl font-black text-[#0b1e36] dark:text-white tracking-tight">
+              Pinpoint Deficits with Precision Proctored Assessments
+            </h2>
+            <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              Assessments automatically diagnose weak competencies and calculate the exact mathematical gap percentage.
+            </p>
+          </div>
 
-                <span className="text-[11px] text-emerald-400 font-mono flex items-center gap-1.5 font-bold">
-                  <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-                  Live Sandbox
-                </span>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="rounded-3xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0b1e36]/80 p-7 space-y-4 shadow-sm">
+              <div className="h-10 w-10 rounded-xl bg-[#0b1e36] text-[#c59b48] flex items-center justify-center font-bold">
+                1
               </div>
+              <h3 className="text-lg font-bold text-[#0b1e36] dark:text-white">Anti-Cheat Proctored Assessments</h3>
+              <p className="text-[13px] text-slate-600 dark:text-slate-300 leading-relaxed">
+                Randomized question pools, timed MCQ evaluation, fullscreen enforcement, and tab-switch monitoring prevent fraudulent evaluations.
+              </p>
+              <div className="pt-2 text-xs font-sans text-[#9a7224] dark:text-[#dfb76c] font-bold">
+                ✓ Full Integrity Audit Trail
+              </div>
+            </div>
 
-              {/* 1-Click Role Cards */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 pt-1 stagger-children">
-                <button
-                  onClick={() => handleQuickLogin('TRAINEE')}
-                  className="rounded-2xl border border-white/10 bg-[#0c0c13] hover:border-cyan-500/50 p-5 text-left transition-all group hover:-translate-y-1 hover:shadow-glow-cyan"
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="h-10 w-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                      <Award className="h-5 w-5 text-cyan-400" />
-                    </div>
-                    <span className="rounded-full bg-cyan-500/10 px-2.5 py-0.5 text-[9px] font-black text-cyan-300 border border-cyan-500/20">
-                      TRAINEE
-                    </span>
-                  </div>
-                  <div className="text-sm font-bold text-white mt-3 group-hover:text-cyan-200 transition-colors">
-                    Aarav Patel
-                  </div>
-                  <div className="text-xs text-slate-400 mt-1">Stream lectures, track progress & take timed MCQs</div>
-                </button>
+            <div className="rounded-3xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0b1e36]/80 p-7 space-y-4 shadow-sm">
+              <div className="h-10 w-10 rounded-xl bg-[#c59b48] gold-ink flex items-center justify-center font-bold">
+                2
+              </div>
+              <h3 className="text-lg font-bold text-[#0b1e36] dark:text-white">Skill Gap Diagnosis</h3>
+              <p className="text-[13px] text-slate-600 dark:text-slate-300 leading-relaxed">
+                Rather than a vague pass/fail grade, the engine pinpoints specific deficits (e.g. &ldquo;Radar Velocity Dealiasing is 32% below benchmark&rdquo;).
+              </p>
+              <div className="pt-2 text-xs font-sans text-[#0b1e36] dark:text-[#dfb76c] font-bold">
+                ✓ Domain-Level Vector Breakdown
+              </div>
+            </div>
 
-                <button
-                  onClick={() => handleQuickLogin('TRAINER')}
-                  className="rounded-2xl border border-white/10 bg-[#0c0c13] hover:border-blue-500/50 p-5 text-left transition-all group hover:-translate-y-1 hover:shadow-glow-md"
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="h-10 w-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                      <BookOpen className="h-5 w-5 text-blue-400" />
-                    </div>
-                    <span className="rounded-full bg-blue-500/10 px-2.5 py-0.5 text-[9px] font-black text-blue-300 border border-blue-500/20">
-                      TRAINER
-                    </span>
-                  </div>
-                  <div className="text-sm font-bold text-white mt-3 group-hover:text-blue-200 transition-colors">
-                    Prof. Vikramaditya Sen
-                  </div>
-                  <div className="text-xs text-slate-400 mt-1">Manage media library, create exams & cohort analytics</div>
-                </button>
-
-                <button
-                  onClick={() => handleQuickLogin('ADMIN')}
-                  className="rounded-2xl border border-white/10 bg-[#0c0c13] hover:border-emerald-500/50 p-5 text-left transition-all group hover:-translate-y-1 hover:shadow-glow-emerald"
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="h-10 w-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                      <ShieldCheck className="h-5 w-5 text-emerald-400" />
-                    </div>
-                    <span className="rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-[9px] font-black text-emerald-300 border border-emerald-500/20">
-                      SYSTEM ADMIN
-                    </span>
-                  </div>
-                  <div className="text-sm font-bold text-white mt-3 group-hover:text-emerald-200 transition-colors">
-                    Dr. Rajeshwari Sharma
-                  </div>
-                  <div className="text-xs text-slate-400 mt-1">Approve users, manage RBAC & run competency matching</div>
-                </button>
+            <div className="rounded-3xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0b1e36]/80 p-7 space-y-4 shadow-sm">
+              <div className="h-10 w-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold">
+                3
+              </div>
+              <h3 className="text-lg font-bold text-[#0b1e36] dark:text-white">1-Click Targeted Upskilling</h3>
+              <p className="text-[13px] text-slate-600 dark:text-slate-300 leading-relaxed">
+                The platform dynamically injects the exact prerequisite module into the officer’s queue without forcing a repeat of unrelated subjects.
+              </p>
+              <div className="pt-2 text-xs font-sans text-emerald-700 dark:text-emerald-400 font-bold">
+                ✓ Eliminates 80% Retraining Waste
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ════════════════ TRUST BADGE MARQUEE ════════════════ */}
-      <ScrollReveal animation="fade-up">
-        <section className="py-6 border-y border-white/10 bg-black/60 backdrop-blur-md">
-          <div className="marquee-container">
-            <div className="marquee-track">
-              {trustBadges.map((badge, i) => (
-                <div key={i} className="flex items-center gap-2 px-6 py-2 rounded-full border border-white/10 bg-[#09090e] whitespace-nowrap">
-                  <Globe className="h-3.5 w-3.5 text-blue-400/80" />
-                  <span className="text-xs font-semibold text-slate-300">{badge}</span>
+      {/* ════════════════ PHASE 5: RECOMMENDATION & 55/30/15 ALGORITHM ════════════════ */}
+      <section id="algorithm" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-20 scroll-mt-24">
+        <div className="rounded-[32px] bg-white dark:bg-[#0b1e36] border-2 border-[#c59b48]/40 p-6 sm:p-12 space-y-8 relative overflow-hidden shadow-2xl shadow-[#0b1e36]/10">
+
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div>
+              <div className="flex items-center gap-2 mb-2">
+                <span className="rounded-full bg-[#0b1e36]/10 dark:bg-[#c59b48]/15 px-3 py-1 text-xs font-sans font-bold text-[#0b1e36] dark:text-[#dfb76c] border border-[#c59b48]/30">
+                  PHASE 5 • THE CORE DIFFERENTIATOR
+                </span>
+                <span className="text-xs text-slate-500 dark:text-slate-400 font-sans">Matching Algorithm</span>
+              </div>
+              <h2 className="text-2xl sm:text-4xl font-black text-[#0b1e36] dark:text-white tracking-tight flex items-center gap-3">
+                <div className="h-10 w-10 rounded-xl bg-[#0b1e36] border border-[#c59b48]/40 flex items-center justify-center">
+                  <Brain className="h-5 w-5 text-[#c59b48]" />
                 </div>
-              ))}
+                <span>55/30/15 Faculty Allocation Formula</span>
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-2 max-w-xl leading-relaxed">
+                Answers the institutional imperative: <em>&ldquo;What skills does an officer have, what is missing for their cadre, and which trainer is mathematically best suited to close that gap?&rdquo;</em>
+              </p>
+            </div>
+
+            {/* Calculated Output Score Box */}
+            <div className="rounded-2xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 p-6 text-center sm:text-right min-w-[240px] shadow-sm">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 font-sans">
+                Faculty Compatibility Index
+              </span>
+              <div className="text-5xl font-black text-[#0b1e36] dark:text-white mt-1 tabular-nums font-mono">
+                {calculatedSimScore}%
+              </div>
+              <span
+                className={`inline-block rounded-full px-3 py-0.5 text-[9px] font-black uppercase tracking-wider mt-2 border font-sans ${
+                  calculatedSimScore >= 85
+                    ? 'bg-emerald-50 text-emerald-700 border-emerald-300 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800'
+                    : calculatedSimScore >= 70
+                    ? 'bg-[#c59b48]/15 text-[#9a7224] border-[#c59b48]/40 dark:text-[#dfb76c]'
+                    : 'bg-amber-50 text-amber-700 border-amber-300 dark:bg-amber-950/40 dark:text-amber-300 dark:border-amber-800'
+                }`}
+              >
+                {calculatedSimScore >= 85
+                  ? 'HIGHLY RECOMMENDED'
+                  : calculatedSimScore >= 70
+                  ? 'QUALIFIED'
+                  : 'NEEDS UPSKILLING'}
+              </span>
             </div>
           </div>
-        </section>
-      </ScrollReveal>
 
-      {/* ════════════════ SITEWIDE KPI COUNTERS ════════════════ */}
-      <ScrollReveal animation="fade-up">
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-16">
-          <div className="text-center mb-10">
-            <span className="inline-flex items-center gap-2 rounded-full bg-blue-500/10 border border-blue-500/20 px-4 py-1.5 text-xs font-bold text-blue-300 mb-4">
-              <BarChart3 className="h-3.5 w-3.5" />
-              Platform Intelligence
+          {/* Interactive Sliders */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
+            {/* Slider 1: Radar/NWP Skill Overlap (55%) */}
+            <div className="rounded-2xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 p-5 space-y-3 hover:border-[#c59b48] transition-colors">
+              <div className="flex justify-between items-center text-xs">
+                <span className="font-bold text-[#0b1e36] dark:text-white flex items-center gap-1.5">
+                  <Sliders className="h-3.5 w-3.5 text-[#c59b48]" /> Radar/NWP Skill Overlap (55%)
+                </span>
+                <span className="font-mono font-bold text-slate-900 dark:text-white tabular-nums">{skillOverlapSim}%</span>
+              </div>
+              <input
+                type="range"
+                min="0"
+                max="100"
+                value={skillOverlapSim}
+                onChange={(e) => setSkillOverlapSim(parseInt(e.target.value))}
+                className="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-[#0b1e36] dark:accent-[#c59b48]"
+              />
+              <div className="text-[11px] text-slate-500 dark:text-slate-400">
+                Contribution: <span className="text-[#0b1e36] dark:text-[#dfb76c] font-bold tabular-nums font-mono">{Math.round(skillOverlapSim * 0.55 * 10) / 10} / 55 pts</span>
+              </div>
+            </div>
+
+            {/* Slider 2: Historical Rating (30%) */}
+            <div className="rounded-2xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 p-5 space-y-3 hover:border-[#c59b48] transition-colors">
+              <div className="flex justify-between items-center text-xs">
+                <span className="font-bold text-[#c59b48] dark:text-[#dfb76c] flex items-center gap-1.5">
+                  <Sparkles className="h-3.5 w-3.5 text-[#c59b48]" /> Faculty Review Score (30%)
+                </span>
+                <span className="font-mono font-bold text-slate-900 dark:text-white tabular-nums">{ratingSim} ★</span>
+              </div>
+              <input
+                type="range"
+                min="1.0"
+                max="5.0"
+                step="0.1"
+                value={ratingSim}
+                onChange={(e) => setRatingSim(parseFloat(e.target.value))}
+                className="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-[#c59b48]"
+              />
+              <div className="text-[11px] text-slate-500 dark:text-slate-400">
+                Contribution: <span className="text-[#c59b48] dark:text-[#dfb76c] font-bold tabular-nums font-mono">{Math.round((ratingSim / 5.0) * 100 * 0.30 * 10) / 10} / 30 pts</span>
+              </div>
+            </div>
+
+            {/* Slider 3: Past Courses Delivered (15%) */}
+            <div className="rounded-2xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 p-5 space-y-3 hover:border-[#0b1e36] transition-colors">
+              <div className="flex justify-between items-center text-xs">
+                <span className="font-bold text-indigo-700 dark:text-indigo-400 flex items-center gap-1.5">
+                  <BookOpen className="h-3.5 w-3.5 text-indigo-500" /> Cohorts Delivered (15%)
+                </span>
+                <span className="font-mono font-bold text-slate-900 dark:text-white tabular-nums">{coursesSim} Batches</span>
+              </div>
+              <input
+                type="range"
+                min="0"
+                max="15"
+                value={coursesSim}
+                onChange={(e) => setCoursesSim(parseInt(e.target.value))}
+                className="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-indigo-600"
+              />
+              <div className="text-[11px] text-slate-500 dark:text-slate-400">
+                Contribution: <span className="text-indigo-700 dark:text-indigo-400 font-bold tabular-nums font-mono">{Math.round(Math.min(coursesSim / 10.0, 1.0) * 100 * 0.15 * 10) / 10} / 15 pts</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════════ PHASE 6: OUTCOMES & MEASURABLE IMPACT ════════════════ */}
+      <section id="outcomes" className="bg-slate-50/60 dark:bg-[#070f1a]/60 border-y border-slate-200 dark:border-white/10 py-20 px-4 sm:px-6 lg:px-8 scroll-mt-24">
+        <div className="max-w-7xl mx-auto space-y-12">
+          <div className="text-center max-w-3xl mx-auto space-y-3">
+            <span className="inline-flex items-center gap-2 rounded-full bg-purple-50 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-800 px-4 py-1.5 text-xs font-bold text-purple-700 dark:text-purple-300 font-sans">
+              <Award className="h-3.5 w-3.5 text-purple-600" />
+              PHASE 6 • MEASURABLE NATIONAL OUTCOMES
             </span>
-            <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
-              National Impact at Scale
+            <h2 className="text-3xl sm:text-5xl font-black text-[#0b1e36] dark:text-white tracking-tight">
+              Quantifiable Impact for Mission Mausam
             </h2>
-            <p className="text-sm text-slate-400 mt-2 max-w-lg mx-auto">
-              Real-time metrics from the Capacity Connect platform powering India&apos;s civil service capacity building.
+            <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              Replacing manual training guesswork with mathematically verified institutional performance.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="bridgemind-card p-6 overflow-hidden group">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">Active Trainees</span>
-                <div className="rounded-xl p-2.5 bg-blue-500/10 text-blue-400 border border-blue-500/20 group-hover:scale-110 transition-transform">
-                  <Users className="h-5 w-5" />
-                </div>
-              </div>
-              <div className="mt-4 flex items-baseline justify-between">
-                <div className="text-3xl font-black text-white tracking-tight">
-                  <AnimatedCounter target={25480} separator="," />
-                </div>
-                <span className="text-xs font-bold text-emerald-400">↑ 14.2%</span>
-              </div>
+          {/* 4 Impact Stat Metric Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="rounded-3xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0b1e36]/80 p-6 space-y-2 shadow-sm text-center">
+              <div className="text-4xl font-black text-[#0b1e36] dark:text-white font-mono">85%</div>
+              <h4 className="text-sm font-bold text-slate-900 dark:text-slate-100">Faster Certification</h4>
+              <p className="text-xs text-slate-500 dark:text-slate-400">Reduced from 6 months of generic retraining to 14 days of precision gap modules.</p>
             </div>
 
-            <div className="bridgemind-card p-6 overflow-hidden group">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">Completion Rate</span>
-                <div className="rounded-xl p-2.5 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 group-hover:scale-110 transition-transform">
-                  <TrendingUp className="h-5 w-5" />
-                </div>
-              </div>
-              <div className="mt-4 flex items-baseline justify-between">
-                <div className="text-3xl font-black text-white tracking-tight">
-                  <AnimatedCounter target={94.6} decimals={1} suffix="%" />
-                </div>
-                <span className="text-xs font-bold text-emerald-400">↑ 3.1% YoY</span>
-              </div>
+            <div className="rounded-3xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0b1e36]/80 p-6 space-y-2 shadow-sm text-center">
+              <div className="text-4xl font-black text-[#c59b48] dark:text-[#dfb76c] font-mono">100%</div>
+              <h4 className="text-sm font-bold text-slate-900 dark:text-slate-100">Objective Allocation</h4>
+              <p className="text-xs text-slate-500 dark:text-slate-400">Zero trainer mismatch or manual favoritism using the deterministic 55/30/15 formula.</p>
             </div>
 
-            <div className="bridgemind-card p-6 overflow-hidden group">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">Certifications</span>
-                <div className="rounded-xl p-2.5 bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 group-hover:scale-110 transition-transform">
-                  <Award className="h-5 w-5" />
-                </div>
-              </div>
-              <div className="mt-4 flex items-baseline justify-between">
-                <div className="text-3xl font-black text-white tracking-tight">
-                  <AnimatedCounter target={18920} separator="," />
-                </div>
-                <span className="text-xs font-bold text-emerald-400">↑ 22.5%</span>
-              </div>
+            <div className="rounded-3xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0b1e36]/80 p-6 space-y-2 shadow-sm text-center">
+              <div className="text-4xl font-black text-emerald-600 dark:text-emerald-400 font-mono">38 / 38</div>
+              <h4 className="text-sm font-bold text-slate-900 dark:text-slate-100">Radar Stations Synced</h4>
+              <p className="text-xs text-slate-500 dark:text-slate-400">Real-time competency telemetry active across all Indian Doppler Radar stations.</p>
             </div>
 
-            <div className="bridgemind-card p-6 overflow-hidden group">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">Faculty</span>
-                <div className="rounded-xl p-2.5 bg-amber-500/10 text-amber-400 border border-amber-500/20 group-hover:scale-110 transition-transform">
-                  <ShieldCheck className="h-5 w-5" />
-                </div>
-              </div>
-              <div className="mt-4 flex items-baseline justify-between">
-                <div className="text-3xl font-black text-white tracking-tight">
-                  <AnimatedCounter target={480} />
-                </div>
-                <span className="text-xs font-bold text-emerald-400">100% verified</span>
-              </div>
+            <div className="rounded-3xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0b1e36]/80 p-6 space-y-2 shadow-sm text-center">
+              <div className="text-4xl font-black text-purple-600 dark:text-purple-400 font-mono">WMO</div>
+              <h4 className="text-sm font-bold text-slate-900 dark:text-slate-100">Audit-Ready Compliance</h4>
+              <p className="text-xs text-slate-500 dark:text-slate-400">Instant digital competency dossiers formatted for World Meteorological Org inspections.</p>
             </div>
           </div>
-        </section>
-      </ScrollReveal>
 
-      {/* ════════════════ HOW IT WORKS ════════════════ */}
-      <ScrollReveal animation="fade-up">
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-16">
-          <div className="text-center mb-12">
-            <span className="inline-flex items-center gap-2 rounded-full bg-cyan-500/10 border border-cyan-500/20 px-4 py-1.5 text-xs font-bold text-cyan-300 mb-4">
-              <Rocket className="h-3.5 w-3.5" />
-              Getting Started
-            </span>
-            <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
-              Three Steps to Certification
-            </h2>
-            <p className="text-sm text-slate-400 mt-2 max-w-lg mx-auto">
-              From registration to verified credentials in a seamless digital workflow.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
-            {/* Connecting line (desktop) */}
-            <div className="hidden md:block absolute top-16 left-[16.67%] right-[16.67%] h-[2px]">
-              <div className="h-full bg-gradient-to-r from-blue-500/40 via-amber-500/40 to-emerald-500/40" />
-            </div>
-
-            {howItWorks.map((step, index) => {
-              const StepIcon = step.icon;
-              return (
-                <ScrollReveal key={index} animation="slide-up" delay={index * 150}>
-                  <div className="relative text-center space-y-4 group">
-                    {/* Step number & icon */}
-                    <div className="relative inline-flex">
-                      <div className={`h-16 w-16 rounded-2xl bg-gradient-to-br ${step.color} p-[1px] shadow-lg group-hover:scale-110 transition-all duration-500`}>
-                        <div className="h-full w-full rounded-[15px] bg-black flex items-center justify-center">
-                          <StepIcon className={`h-7 w-7 ${step.iconColor}`} />
-                        </div>
-                      </div>
-                      <span className="absolute -top-2 -right-2 h-7 w-7 rounded-full bg-black border border-white/20 flex items-center justify-center text-xs font-black text-white">
-                        {index + 1}
-                      </span>
-                    </div>
-
-                    <h3 className="text-lg font-bold text-white group-hover:text-blue-300 transition-colors">
-                      {step.title}
-                    </h3>
-                    <p className="text-xs text-slate-400 leading-relaxed max-w-xs mx-auto">
-                      {step.description}
-                    </p>
-                  </div>
-                </ScrollReveal>
-              );
-            })}
-          </div>
-        </section>
-      </ScrollReveal>
-
-      {/* ════════════════ INTERACTIVE ALGORITHM SIMULATOR (BRIDGEMIND CARD) ════════════════ */}
-      <ScrollReveal animation="fade-up">
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-16">
-          <div className="bridgemind-window p-6 sm:p-10 space-y-8 relative overflow-hidden">
-
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-              <div>
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="rounded-full bg-blue-500/15 px-3 py-1 text-xs font-bold text-blue-300 border border-blue-500/30">
-                    INTERACTIVE ALGORITHM SIMULATOR
-                  </span>
-                  <span className="text-xs text-slate-400">Multi-Factor Compatibility Index</span>
-                </div>
-                <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight flex items-center gap-3">
-                  <div className="h-10 w-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
-                    <Brain className="h-5 w-5 text-blue-400" />
-                  </div>
-                  <span>Test the 55/30/15 Competency Model Live</span>
-                </h2>
-                <p className="text-xs sm:text-sm text-slate-300 mt-2 max-w-xl">
-                  Adjust the pedagogical parameters below to see the weighted compatibility score update instantly in real-time.
-                </p>
-              </div>
-
-              {/* Calculated Output Score Box */}
-              <div className="rounded-2xl bg-black border border-white/15 p-6 text-center sm:text-right min-w-[200px] shadow-2xl relative overflow-hidden">
-                <div className="relative z-10">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-blue-300">
-                    Compatibility Index
-                  </span>
-                  <div className="text-5xl font-black text-white mt-1 tabular-nums">
-                    {calculatedSimScore}%
-                  </div>
-                  <span
-                    className={`inline-block rounded-full px-3 py-0.5 text-[9px] font-black uppercase tracking-wider mt-2 border ${
-                      calculatedSimScore >= 85
-                        ? 'bg-emerald-500/10 text-emerald-300 border-emerald-500/30'
-                        : calculatedSimScore >= 70
-                        ? 'bg-blue-500/10 text-blue-300 border-blue-500/30'
-                        : 'bg-amber-500/10 text-amber-300 border-amber-500/30'
-                    }`}
-                  >
-                    {calculatedSimScore >= 85
-                      ? 'HIGHLY RECOMMENDED'
-                      : calculatedSimScore >= 70
-                      ? 'QUALIFIED'
-                      : 'NEEDS UPSKILLING'}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {/* Interactive Sliders */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
-              
-              {/* Slider 1: Skill Overlap (55%) */}
-              <div className="rounded-2xl bg-[#0c0c14] border border-white/10 p-5 space-y-3 hover:border-blue-500/40 transition-colors duration-300">
-                <div className="flex justify-between items-center text-xs">
-                  <span className="font-bold text-blue-300 flex items-center gap-1.5">
-                    <Sliders className="h-3.5 w-3.5 text-blue-400" /> Skill Overlap (55%)
-                  </span>
-                  <span className="font-mono font-bold text-white tabular-nums">{skillOverlapSim}%</span>
-                </div>
-                <input
-                  type="range"
-                  min="0"
-                  max="100"
-                  value={skillOverlapSim}
-                  onChange={(e) => setSkillOverlapSim(parseInt(e.target.value))}
-                  className="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-blue-500"
-                />
-                <div className="text-[11px] text-slate-400">
-                  Contribution: <span className="text-blue-300 font-bold tabular-nums">{Math.round(skillOverlapSim * 0.55 * 10) / 10} / 55 pts</span>
-                </div>
-              </div>
-
-              {/* Slider 2: Historical Rating (30%) */}
-              <div className="rounded-2xl bg-[#0c0c14] border border-white/10 p-5 space-y-3 hover:border-amber-500/40 transition-colors duration-300">
-                <div className="flex justify-between items-center text-xs">
-                  <span className="font-bold text-amber-300 flex items-center gap-1.5">
-                    <Sparkles className="h-3.5 w-3.5 text-amber-400" /> Faculty Rating (30%)
-                  </span>
-                  <span className="font-mono font-bold text-white tabular-nums">{ratingSim} ★</span>
-                </div>
-                <input
-                  type="range"
-                  min="1.0"
-                  max="5.0"
-                  step="0.1"
-                  value={ratingSim}
-                  onChange={(e) => setRatingSim(parseFloat(e.target.value))}
-                  className="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-400"
-                />
-                <div className="text-[11px] text-slate-400">
-                  Contribution: <span className="text-amber-300 font-bold tabular-nums">{Math.round((ratingSim / 5.0) * 100 * 0.30 * 10) / 10} / 30 pts</span>
-                </div>
-              </div>
-
-              {/* Slider 3: Past Courses Delivered (15%) */}
-              <div className="rounded-2xl bg-[#0c0c14] border border-white/10 p-5 space-y-3 hover:border-cyan-500/40 transition-colors duration-300">
-                <div className="flex justify-between items-center text-xs">
-                  <span className="font-bold text-cyan-300 flex items-center gap-1.5">
-                    <BookOpen className="h-3.5 w-3.5 text-cyan-400" /> Delivery Volume (15%)
-                  </span>
-                  <span className="font-mono font-bold text-white tabular-nums">{coursesSim} Courses</span>
-                </div>
-                <input
-                  type="range"
-                  min="0"
-                  max="15"
-                  value={coursesSim}
-                  onChange={(e) => setCoursesSim(parseInt(e.target.value))}
-                  className="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-400"
-                />
-                <div className="text-[11px] text-slate-400">
-                  Contribution: <span className="text-cyan-300 font-bold tabular-nums">{Math.round(Math.min(coursesSim / 10.0, 1.0) * 100 * 0.15 * 10) / 10} / 15 pts</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      </ScrollReveal>
-
-      {/* ════════════════ TESTIMONIALS ════════════════ */}
-      <ScrollReveal animation="fade-up">
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-16">
-          <div className="text-center mb-12">
-            <span className="inline-flex items-center gap-2 rounded-full bg-amber-500/10 border border-amber-500/20 px-4 py-1.5 text-xs font-bold text-amber-300 mb-4">
-              <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
-              Testimonials
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
-              Trusted by Government Leaders
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Institutional Testimonials */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6">
             {testimonials.map((t, i) => (
-              <ScrollReveal key={i} animation="slide-up" delay={i * 120}>
-                <div className="rounded-3xl border border-slate-800 bg-slate-900/50 p-6 backdrop-blur-xl space-y-4 hover:border-indigo-500/30 transition-all duration-500 card-tilt group">
-                  <div className="flex items-center gap-0.5 text-amber-400">
-                    {Array.from({ length: t.rating }, (_, j) => (
-                      <Star key={j} className="h-3.5 w-3.5 fill-amber-400" />
-                    ))}
+              <div key={i} className="rounded-3xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0b1e36]/80 p-6 flex flex-col justify-between space-y-4 shadow-sm">
+                <div>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-0.5 text-amber-400">
+                      {Array.from({ length: t.rating }, (_, j) => (
+                        <Star key={j} className="h-3.5 w-3.5 fill-amber-400" />
+                      ))}
+                    </div>
+                    <span className="text-[10px] font-sans font-bold text-[#0b1e36] dark:text-[#dfb76c] bg-[#0b1e36]/10 dark:bg-[#c59b48]/15 px-2 py-0.5 rounded border border-[#0b1e36]/20 dark:border-[#c59b48]/30">
+                      {t.badge}
+                    </span>
                   </div>
-                  <p className="text-sm text-slate-300 leading-relaxed italic">
+                  <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed italic mt-3">
                     &ldquo;{t.quote}&rdquo;
                   </p>
-                  <div className="pt-3 border-t border-slate-800/60">
-                    <div className="text-sm font-bold text-white group-hover:text-indigo-300 transition-colors">{t.name}</div>
-                    <div className="text-xs text-slate-400">{t.role}</div>
-                  </div>
                 </div>
-              </ScrollReveal>
+                <div className="pt-3 border-t border-slate-100 dark:border-white/10">
+                  <div className="text-xs font-bold text-[#0b1e36] dark:text-white">{t.name}</div>
+                  <div className="text-[11px] text-slate-500 dark:text-slate-400">{t.role}</div>
+                </div>
+              </div>
             ))}
           </div>
-        </section>
-      </ScrollReveal>
+        </div>
+      </section>
 
-      {/* ════════════════ FEATURED COURSES SHOWCASE ════════════════ */}
-      <ScrollReveal animation="fade-up">
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-16 space-y-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <span className="inline-flex items-center gap-2 rounded-full bg-purple-500/10 border border-purple-500/20 px-4 py-1.5 text-xs font-bold text-purple-300 mb-3">
-                <BookOpen className="h-3.5 w-3.5" />
-                Course Catalog
-              </span>
-              <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-                Featured Sovereign Capacity Modules
-              </h2>
-              <p className="text-xs text-slate-400 mt-1">
-                Accredited courses with video stream playback, slide deck downloads, and timed certifications.
-              </p>
+      {/* ════════════════ TECHNICAL ARCHITECTURE CALLOUT FOR JUDGES ════════════════ */}
+      <section id="architecture-callout" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-16">
+        <div className="rounded-[32px] border-2 border-[#c59b48]/50 bg-white dark:bg-[#0b1e36] bg-gradient-to-r from-white via-slate-50 to-[#faf8f5] dark:from-[#0b1e36] dark:via-[#102744] dark:to-[#081526] p-8 sm:p-12 shadow-xl shadow-[#0b1e36]/5 dark:shadow-black/40 flex flex-col lg:flex-row items-center justify-between gap-8">
+          <div className="space-y-3 max-w-2xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0b1e36]/10 text-[#0b1e36] dark:bg-[#c59b48]/15 dark:text-[#c59b48] text-xs font-sans font-bold border border-[#c59b48]/40">
+              <Code2 className="h-3.5 w-3.5 text-[#c59b48]" />
+              FOR TECHNICAL EVALUATORS & ARCHITECTS
             </div>
+            <h3 className="text-2xl sm:text-3xl font-black text-[#0b1e36] dark:text-white tracking-tight">
+              Looking for our NestJS System Design & Code Playground?
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              We separated deep technical specs into a dedicated architecture section. Inspect our Inversion of Control containers, TypeScript DTOs, WebSockets telemetry, and live executable code sandbox.
+            </p>
+          </div>
 
+          <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0">
             <Link
-              href="/trainee/courses"
-              className="hidden sm:flex items-center gap-1.5 text-xs font-semibold text-indigo-400 hover:text-indigo-300 transition-colors group"
+              href="/architecture"
+              className="btn-nestjs-primary group dark:bg-[#c59b48] dark:text-[#0b1e36] dark:hover:bg-[#d6af5d] dark:border-[#c59b48]"
             >
-              <span>Browse Full Catalog</span>
-              <ChevronRight className="h-3.5 w-3.5 group-hover:translate-x-0.5 transition-transform" />
+              <span>Explore Technical Architecture</span>
+              <ArrowRight className="h-4 w-4 text-[#c59b48] dark:text-[#0b1e36] transition-transform group-hover:translate-x-1" />
             </Link>
           </div>
+        </div>
+      </section>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {initialCourses.map((course, idx) => (
-              <ScrollReveal key={course.id} animation="slide-up" delay={idx * 100}>
-                <div
-                  className="rounded-3xl border border-slate-800 bg-slate-900/60 p-6 backdrop-blur-xl space-y-4 hover:border-indigo-500/40 transition-all duration-500 group hover:-translate-y-1 shadow-xl hover:shadow-elevation-2 card-tilt"
-                >
+      {/* ════════════════ FEATURED MISSION MAUSAM MODULES ════════════════ */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-12 space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <span className="inline-flex items-center gap-2 rounded-full bg-purple-50 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-800 px-4 py-1.5 text-xs font-bold text-purple-700 dark:text-purple-300 mb-2 font-sans">
+              <BookOpen className="h-3.5 w-3.5 text-purple-600 dark:text-purple-400" />
+              OFFICIAL CURRICULUM
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-black text-[#0b1e36] dark:text-white tracking-tight">
+              Featured Mission Mausam Modules
+            </h2>
+          </div>
+
+          <Link
+            href="/trainee/courses"
+            className="hidden sm:flex items-center gap-1.5 text-xs font-semibold text-[#0b1e36] dark:text-[#c59b48] hover:text-[#c59b48] transition-colors group"
+          >
+            <span>Browse Full Catalog</span>
+            <ChevronRight className="h-3.5 w-3.5 group-hover:translate-x-0.5 transition-transform" />
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {initialCourses.map((course, idx) => (
+            <MotionSection key={course.id} variant="slide-up" delay={idx * 100}>
+              <SpotlightCard spotlightColor="rgba(197, 155, 72, 0.2)" className="space-y-4 group h-full flex flex-col justify-between">
+                <div className="space-y-3">
                   <div className="flex items-center justify-between">
-                    <span className="rounded-md bg-indigo-500/10 px-2.5 py-1 text-xs font-bold text-indigo-400 border border-indigo-500/20">
-                      {course.code}
+                    <span className="rounded-md bg-[#0b1e36]/10 dark:bg-[#c59b48]/15 px-2.5 py-1 text-xs font-bold text-[#0b1e36] dark:text-[#c59b48] border border-[#c59b48]/30 font-sans">
+                      {course.code} • {course.cadreTrack} TRACK
                     </span>
-                    <span className="text-xs text-slate-400">{course.category}</span>
+                    <span className="text-xs text-slate-500 dark:text-slate-400">{course.category}</span>
                   </div>
 
-                  <h3 className="text-lg font-bold text-white group-hover:text-indigo-300 transition-colors leading-snug">
+                  <h3 className="text-lg font-bold text-[#0b1e36] dark:text-white group-hover:text-[#c59b48] transition-colors leading-snug">
                     {course.title}
                   </h3>
-                  <p className="text-xs text-slate-300 line-clamp-2 leading-relaxed">
+                  <p className="text-xs text-slate-600 dark:text-slate-300 line-clamp-2 leading-relaxed">
                     {course.description}
                   </p>
-
-                  <div className="flex items-center justify-between pt-3 border-t border-slate-800/60 text-xs text-slate-400">
-                    <div>Faculty: <span className="text-slate-200 font-medium">{course.trainerName}</span></div>
-                    <Link
-                      href={`/trainee/courses/${course.id}`}
-                      className="rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-500 text-white hover:from-indigo-500 hover:to-indigo-400 px-4 py-2 font-bold shadow-md shadow-indigo-600/30 transition-all hover:scale-105 btn-shimmer"
-                    >
-                      Stream Course
-                    </Link>
-                  </div>
                 </div>
-              </ScrollReveal>
-            ))}
-          </div>
-        </section>
-      </ScrollReveal>
 
-      {/* ════════════════ FINAL CTA (BRIDGEMIND STYLE) ════════════════ */}
-      <ScrollReveal animation="scale">
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-20">
-          <div className="bridgemind-window p-10 sm:p-16 text-center relative overflow-hidden">
-            <div className="relative z-10 space-y-6">
-              <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
-                Ready to Upgrade Your Capacity Pipeline?
-              </h2>
-              <p className="text-sm sm:text-base text-slate-400 max-w-xl mx-auto">
-                Join thousands of civil servants across India who are building verified competencies through Capacity Connect&apos;s intelligent learning platform.
-              </p>
-              <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
-                <Link
-                  href="/auth/register"
-                  className="btn-bridgemind-primary group gap-2.5"
-                >
-                  <Sparkles className="h-4 w-4 text-amber-500 transition-transform group-hover:rotate-12" />
-                  <span>Get Started Free</span>
-                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </Link>
-                <Link
-                  href="/auth/login"
-                  className="btn-bridgemind-secondary group gap-2.5"
-                >
-                  <Lock className="h-4 w-4 text-slate-400 group-hover:text-blue-400 transition-colors" />
-                  <span>Sign In with ID</span>
-                </Link>
-              </div>
+                <div className="flex items-center justify-between pt-3 border-t border-slate-100 dark:border-white/10 text-xs text-slate-500 dark:text-slate-400">
+                  <div>Faculty: <span className="text-[#0b1e36] dark:text-slate-200 font-bold">{course.trainerName}</span></div>
+                  <Link
+                    href={`/trainee/courses/${course.id}`}
+                    className="rounded-full bg-[#0b1e36] hover:bg-[#122c4d] dark:bg-[#c59b48] dark:hover:bg-[#d6af5d] text-white dark:text-[#0b1e36] border border-[#c59b48]/40 px-4 py-2 font-bold shadow-sm transition-all hover:scale-105"
+                  >
+                    Stream Module
+                  </Link>
+                </div>
+              </SpotlightCard>
+            </MotionSection>
+          ))}
+        </div>
+      </section>
+
+      {/* ════════════════ FINAL INSTITUTIONAL CTA ════════════════ */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-16">
+        <div className="rounded-[36px] bg-gradient-to-r from-[#0b1e36] via-[#122c4d] to-[#0b1e36] text-white p-10 sm:p-16 text-center relative overflow-hidden shadow-2xl border-2 border-[#c59b48]/40">
+          <div className="relative z-10 space-y-6 max-w-3xl mx-auto">
+            <span className="inline-flex items-center gap-2 rounded-full bg-[#c59b48]/15 border border-[#c59b48]/40 px-4 py-1.5 text-xs font-sans font-bold text-[#c59b48]">
+              <Radio className="h-3.5 w-3.5 animate-pulse text-[#c59b48]" />
+              MISSION MAUSAM CAPACITY READY
+            </span>
+            <h2 className="text-3xl sm:text-5xl font-black !text-white tracking-tight">
+              Accelerate Meteorological Competency Nationwide
+            </h2>
+            <p className="text-sm sm:text-base !text-slate-200 leading-relaxed max-w-2xl mx-auto opacity-95">
+              Connect scientists, operational forecasters, and senior faculty across India on a single competency-driven digital learning ecosystem.
+            </p>
+            <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
+              <Link href="/admin/competency" className="btn-gold shadow-lg shadow-[#c59b48]/20">
+                <Brain className="h-4 w-4" />
+                <span>Run Competency Gap Analysis</span>
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link href="/auth/login" className="px-6 py-3 rounded-2xl bg-white/10 hover:bg-white/20 border border-white/25 !text-white text-xs font-bold transition-all flex items-center gap-2 backdrop-blur-sm shadow-sm">
+                <Lock className="h-4 w-4 text-[#c59b48]" />
+                <span>Sign In with Gov ID</span>
+              </Link>
             </div>
           </div>
-        </section>
-      </ScrollReveal>
+        </div>
+      </section>
+
     </div>
   );
 }

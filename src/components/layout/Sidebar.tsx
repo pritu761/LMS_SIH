@@ -1,8 +1,9 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { motion } from 'framer-motion';
 import {
   LayoutDashboard,
   BookOpen,
@@ -12,124 +13,297 @@ import {
   FileCheck,
   BarChart3,
   Brain,
-  Shield,
-  Layers,
-  Settings,
-  HelpCircle,
   FileText,
+  Satellite,
+  Radio,
+  LogOut,
+  ShieldCheck,
 } from 'lucide-react';
+import { staggerContainer, staggerItem, ease } from '@/lib/animations';
 
 interface SidebarProps {
   role: 'TRAINEE' | 'TRAINER' | 'ADMIN';
+  user?: any;
 }
 
-export function Sidebar({ role }: SidebarProps) {
+export function Sidebar({ role, user }: SidebarProps) {
   const pathname = usePathname();
+  const router = useRouter();
+  const [currentUser, setCurrentUser] = useState<any>(user || null);
+  const [loadingSession, setLoadingSession] = useState(!user);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+
+  const fetchSession = async () => {
+    try {
+      const res = await fetch('/api/auth/me');
+      if (res.ok) {
+        const data = await res.json();
+        setCurrentUser(data.user);
+      } else {
+        setCurrentUser(null);
+      }
+    } catch (e) {
+      // Keep existing state
+    } finally {
+      setLoadingSession(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchSession();
+    const handleAuthChange = () => fetchSession();
+    window.addEventListener('auth-change', handleAuthChange);
+    return () => window.removeEventListener('auth-change', handleAuthChange);
+  }, [pathname, user]);
+
+  const handleLogout = async () => {
+    setIsLoggingOut(true);
+    try {
+      await fetch('/api/auth/logout', { method: 'POST' });
+      setCurrentUser(null);
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new Event('auth-change'));
+      }
+      router.push('/auth/login');
+      router.refresh();
+    } catch (e) {
+      console.error('Logout error:', e);
+      router.push('/auth/login');
+    } finally {
+      setIsLoggingOut(false);
+    }
+  };
 
   const getNavItems = () => {
     switch (role) {
       case 'ADMIN':
         return [
-          { href: '/admin', label: 'Executive Overview', icon: LayoutDashboard },
+          { href: '/admin', label: 'National Overview', icon: LayoutDashboard },
+          { href: '/radar', label: 'Live Weather Radar', icon: Radio, badge: 'NOWCAST', highlight: true },
+          { href: '/admin/radar', label: 'Doppler Radar Network', icon: Satellite, badge: '38 ONLINE' },
           { href: '/admin/users', label: 'User Governance', icon: UserCheck, badge: 'RBAC' },
-          { href: '/admin/competency', label: 'Competency Matcher', icon: Brain, badge: '55/30/15', highlight: true },
-          { href: '/admin/cms', label: 'Announcements & CMS', icon: FileText },
+          { href: '/admin/competency', label: 'Competency & Gap Engine', icon: Brain, badge: '55/30/15' },
+          { href: '/admin/cms', label: 'Directives & CMS', icon: FileText },
         ];
       case 'TRAINER':
         return [
           { href: '/trainer', label: 'Faculty Hub', icon: LayoutDashboard },
+          { href: '/radar', label: 'Live Weather Radar', icon: Radio, badge: 'NOWCAST', highlight: true },
+          { href: '/admin/radar', label: 'Doppler Radar Feeds', icon: Satellite, badge: 'LIVE' },
+          { href: '/trainer/courses/create', label: 'Course Studio', icon: BookOpen, badge: 'NEW' },
           { href: '/trainer/library', label: 'Media Library', icon: Video },
-          { href: '/trainer/assessments/create', label: 'Assessment Creator', icon: FileCheck },
-          { href: '/trainer/analytics', label: 'Cohort Analytics', icon: BarChart3 },
+          { href: '/trainer/assessments/create', label: 'Cadre Assessment Creator', icon: FileCheck },
+          { href: '/trainer/analytics', label: 'Cohort Telemetry', icon: BarChart3 },
         ];
       case 'TRAINEE':
       default:
         return [
           { href: '/trainee', label: 'Learning Dashboard', icon: LayoutDashboard },
-          { href: '/trainee/courses', label: 'Course Catalog', icon: BookOpen },
-          { href: '/trainee/profile', label: 'Competency Profile', icon: Award },
+          { href: '/radar', label: 'Live Weather Radar', icon: Radio, badge: 'NOWCAST', highlight: true },
+          { href: '/admin/radar', label: 'Doppler Radar Network', icon: Satellite, badge: '38 LIVE' },
+          { href: '/trainee/courses', label: 'Mission Tracks', icon: BookOpen },
+          { href: '/trainee/profile', label: 'Competency Dossier', icon: Award },
         ];
     }
   };
 
   const roleColors = {
-    ADMIN: { label: 'text-emerald-400', badge: 'bg-emerald-500/10 text-emerald-300 border-emerald-500/30' },
-    TRAINER: { label: 'text-indigo-400', badge: 'bg-indigo-500/10 text-indigo-300 border-indigo-500/30' },
-    TRAINEE: { label: 'text-cyan-400', badge: 'bg-cyan-500/10 text-cyan-300 border-cyan-500/30' },
+    ADMIN: { label: 'text-[#0b1e36] dark:text-[#dfb76c]', badge: 'bg-[#0b1e36]/10 dark:bg-[#c59b48]/15 text-[#0b1e36] dark:text-[#dfb76c] border-[#c59b48]/40' },
+    TRAINER: { label: 'text-[#9a7224] dark:text-[#dfb76c]', badge: 'bg-[#c59b48]/10 text-[#0b1e36] dark:text-[#dfb76c] border-[#c59b48]/40' },
+    TRAINEE: { label: 'text-[#0b1e36] dark:text-[#dfb76c]', badge: 'bg-[#0b1e36]/10 dark:bg-[#c59b48]/15 text-[#0b1e36] dark:text-[#dfb76c] border-[#c59b48]/40' },
   };
 
   const navItems = getNavItems();
 
+  const displayName =
+    currentUser?.profile?.fullName ||
+    currentUser?.fullName ||
+    (currentUser?.email ? currentUser.email.split('@')[0] : '');
+
+  const displayEmail = currentUser?.email || '';
+
+  const avatarUrl = currentUser?.profile?.avatarUrl || currentUser?.avatarUrl || '';
+
   return (
-    <aside className="w-64 lg:w-72 shrink-0 hidden lg:flex flex-col rounded-3xl border border-white/10 bg-[#08080d] backdrop-blur-2xl p-5 space-y-6 shadow-elevation-2 animate-fade-in-left self-start sticky top-20">
-      
+    <motion.aside
+      initial={{ opacity: 0, x: -30 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.5, ease: ease.smooth }}
+      className="w-64 lg:w-72 shrink-0 hidden lg:flex flex-col rounded-3xl border border-slate-200 bg-white p-5 space-y-5 shadow-lg shadow-[#0b1e36]/5 self-start sticky top-20 dark:border-white/10 dark:bg-[#0b1e36] dark:shadow-black/30"
+    >
       {/* Workspace Tag Header */}
       <div className="space-y-1">
         <div className="flex items-center justify-between px-2 py-1">
           <span className={`text-[10px] font-black uppercase tracking-wider ${roleColors[role].label}`}>
-            {role} Workspace
+            IMD {role} Workspace
           </span>
-          <span className="h-1.5 w-1.5 rounded-full bg-blue-500 animate-pulse" />
+          <motion.span
+            className="h-2 w-2 rounded-full bg-[#c59b48]"
+            animate={{ scale: [1, 1.4, 1], opacity: [1, 0.6, 1] }}
+            transition={{ duration: 2, repeat: Infinity }}
+          />
         </div>
 
-        {/* Navigation List */}
-        <div className="space-y-1.5 pt-1">
+        {/* Navigation List with Framer Motion Stagger */}
+        <motion.div
+          className="space-y-1.5 pt-1"
+          variants={staggerContainer}
+          initial="hidden"
+          animate="visible"
+        >
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = pathname === item.href || (item.href !== `/${role.toLowerCase()}` && pathname.startsWith(item.href));
 
             return (
-              <Link
+              <motion.div
                 key={item.href}
-                href={item.href}
-                className={`relative flex items-center justify-between gap-2.5 px-3.5 py-2.5 rounded-2xl text-xs font-semibold transition-all duration-200 group ${
-                  isActive
-                    ? 'bg-blue-600/20 text-white border border-blue-500/40 shadow-sm shadow-blue-500/20 font-bold'
-                    : 'text-slate-400 hover:text-white hover:bg-white/5 border border-transparent'
-                } ${item.highlight && !isActive ? 'border-dashed border-blue-500/30 bg-blue-950/20' : ''}`}
+                variants={staggerItem}
+                whileHover={{ x: 3, transition: { duration: 0.15 } }}
+                whileTap={{ scale: 0.98 }}
               >
-                {/* Active indicator bar */}
-                {isActive && (
-                  <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 rounded-r-full bg-blue-400 shadow-glow-sm" />
-                )}
+                <Link
+                  href={item.href}
+                  className={`relative flex items-center justify-between gap-2.5 px-3.5 py-2.5 rounded-2xl text-xs font-semibold transition-all duration-200 group ${
+                    isActive
+                      ? 'text-white font-bold bg-[#0b1e36] border border-[#c59b48]/60 shadow-md shadow-[#0b1e36]/20 dark:bg-[#122c4d]'
+                      : 'text-slate-700 hover:text-[#0b1e36] hover:bg-slate-100/80 border border-transparent dark:text-slate-300 dark:hover:text-white dark:hover:bg-white/10'
+                  } ${item.highlight && !isActive ? 'border-dashed border-[#c59b48]/60 bg-[#c59b48]/5' : ''}`}
+                >
+                  {/* Shared Active Sliding Indicator Background */}
+                  {isActive && (
+                    <motion.div
+                      layoutId={`sidebar-active-pill-${role}`}
+                      className="absolute inset-0 rounded-2xl bg-[#0b1e36] dark:bg-[#122c4d]"
+                      transition={{ type: 'spring', stiffness: 350, damping: 30 }}
+                    />
+                  )}
 
-                <div className="flex items-center gap-2.5 min-w-0 flex-1">
-                  <Icon className={`h-4 w-4 shrink-0 transition-all duration-200 ${
-                    isActive ? 'text-blue-400' : 'text-slate-400 group-hover:text-white group-hover:scale-105'
-                  }`} />
-                  <span className="truncate whitespace-nowrap overflow-hidden text-ellipsis">{item.label}</span>
-                </div>
+                  {/* Active indicator bar */}
+                  {isActive && (
+                    <motion.div
+                      layoutId="sidebar-active-bar"
+                      className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 rounded-r-full bg-[#c59b48] z-10"
+                      transition={{ type: 'spring', stiffness: 350, damping: 30 }}
+                    />
+                  )}
 
-                {item.badge && (
-                  <span className={`rounded-full px-2 py-0.5 text-[9px] font-black uppercase border shrink-0 ${
-                    isActive ? 'bg-blue-500/20 text-blue-300 border-blue-400/40' : 'bg-white/5 text-slate-400 border-white/10'
-                  }`}>
-                    {item.badge}
-                  </span>
-                )}
-              </Link>
+                  <div className="relative z-10 flex items-center gap-2.5 min-w-0 flex-1">
+                    <Icon className={`h-4 w-4 shrink-0 transition-all duration-200 ${
+                      isActive ? 'text-[#c59b48]' : 'text-slate-500 group-hover:text-[#0b1e36] dark:group-hover:text-[#dfb76c] group-hover:scale-105'
+                    }`} />
+                    <span className="truncate whitespace-nowrap overflow-hidden text-ellipsis">{item.label}</span>
+                  </div>
+
+                  {item.badge && (
+                    <span className={`relative z-10 rounded-full px-2 py-0.5 text-[9px] font-black uppercase border shrink-0 ${
+                      isActive ? 'bg-[#c59b48] text-[#0b1e36] border-[#c59b48]' : 'bg-slate-100 text-slate-600 border-slate-200 dark:bg-white/10 dark:text-slate-300 dark:border-white/15'
+                    }`}>
+                      {item.badge}
+                    </span>
+                  )}
+                </Link>
+              </motion.div>
             );
           })}
-        </div>
+        </motion.div>
       </div>
 
       {/* Role Context Card */}
-      <div className="rounded-2xl border border-white/10 bg-black/70 p-4 space-y-2 mt-auto shadow-inner">
-        <div className="flex items-center gap-2 text-xs font-bold text-white">
+      <motion.div
+        whileHover={{ y: -2, transition: { duration: 0.2 } }}
+        className="rounded-2xl border border-slate-200 bg-slate-50 p-3.5 space-y-1.5 mt-auto shadow-sm dark:border-white/10 dark:bg-white/5"
+      >
+        <div className="flex items-center gap-2 text-xs font-bold text-[#0b1e36] dark:text-white">
           <div className="relative">
-            <Shield className="h-3.5 w-3.5 text-blue-400" />
-            <div className="absolute -inset-1 rounded-full bg-blue-400/20 animate-breathe pointer-events-none" />
+            <Satellite className="h-3.5 w-3.5 text-[#c59b48]" />
           </div>
-          <span>Security Guard Active</span>
+          <span>Mission Mausam Node</span>
         </div>
-        <p className="text-[11px] text-slate-400 leading-relaxed">
-          Access is enforced at the edge via JWT and RBAC headers.
+        <p className="text-[11px] text-slate-600 leading-relaxed dark:text-slate-300">
+          National capacity telemetry synced with IMD HQ Mausam Bhavan.
         </p>
-        <div className="flex items-center gap-1.5 pt-1">
-          <span className="h-1.5 w-1.5 rounded-full bg-blue-400" />
-          <span className="text-[10px] text-blue-400 font-bold">All systems nominal</span>
+        <div className="flex items-center gap-1.5 pt-0.5">
+          <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+          <span className="text-[10px] text-emerald-700 font-bold font-mono">Telemetry Active</span>
         </div>
+      </motion.div>
+
+      {/* Authenticated User Dossier & Working Sign Out Card */}
+      <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-3 space-y-2.5 shadow-sm dark:border-white/10 dark:bg-white/5">
+        {loadingSession ? (
+          <div className="flex items-center gap-2.5 animate-pulse">
+            <div className="h-8 w-8 rounded-xl bg-slate-200 dark:bg-white/10 shrink-0" />
+            <div className="space-y-1.5 flex-1 min-w-0">
+              <div className="h-3 w-24 bg-slate-200 dark:bg-white/10 rounded" />
+              <div className="h-2.5 w-32 bg-slate-200 dark:bg-white/10 rounded" />
+            </div>
+          </div>
+        ) : currentUser ? (
+          <div className="flex items-center gap-2.5 min-w-0">
+            {avatarUrl ? (
+              <img
+                src={avatarUrl}
+                alt={displayName || 'User'}
+                className="h-8 w-8 rounded-xl object-cover border-2 border-[#c59b48] shrink-0"
+              />
+            ) : (
+              <div className="h-8 w-8 rounded-xl bg-[#0b1e36] text-[#c59b48] border-2 border-[#c59b48] flex items-center justify-center font-black text-xs shrink-0 shadow-sm">
+                {(displayName || 'U').charAt(0).toUpperCase()}
+              </div>
+            )}
+
+            <div className="min-w-0 flex-1">
+              <div className="text-xs font-bold text-slate-900 dark:text-slate-100 truncate">
+                {displayName}
+              </div>
+              <div className="text-[10px] text-slate-500 dark:text-slate-400 truncate">
+                {displayEmail}
+              </div>
+              <div className="flex items-center gap-1.5 pt-0.5">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="text-[9px] font-bold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider">
+                  {currentUser?.status || 'APPROVED'} SESSION
+                </span>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="text-center p-1 space-y-1">
+            <div className="text-xs font-bold text-slate-700 dark:text-slate-300">
+              Guest Session
+            </div>
+            <div className="text-[10px] text-slate-500 dark:text-slate-400">
+              Official login required
+            </div>
+          </div>
+        )}
+
+        {/* Working Accessible Sign Out / Sign In Button */}
+        {currentUser ? (
+          <button
+            type="button"
+            onClick={handleLogout}
+            disabled={isLoggingOut}
+            className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-xl text-xs font-bold font-sans text-rose-600 dark:text-rose-400 bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/40 dark:hover:bg-rose-900/60 border border-rose-200 dark:border-rose-800 transition-all hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50"
+            title="Sign out of CapacityConnect"
+          >
+            {isLoggingOut ? (
+              <div className="h-3.5 w-3.5 border-2 border-rose-600 border-t-transparent rounded-full animate-spin" />
+            ) : (
+              <LogOut className="h-3.5 w-3.5" />
+            )}
+            <span>{isLoggingOut ? 'Signing out...' : 'Sign Out'}</span>
+          </button>
+        ) : (
+          <Link
+            href="/auth/login"
+            className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-xl text-xs font-bold font-sans text-white bg-[#0b1e36] hover:bg-[#122c4d] dark:bg-[#c59b48] dark:hover:bg-[#d6af5d] dark:text-[#0b1e36] transition-all"
+          >
+            <span>Sign In to Portal</span>
+          </Link>
+        )}
       </div>
-    </aside>
+    </motion.aside>
   );
 }
