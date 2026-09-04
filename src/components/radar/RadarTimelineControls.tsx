@@ -231,7 +231,7 @@ export function RadarTimelineControls({
             className={`px-4 py-2 rounded-xl font-medium text-xs sm:text-sm flex items-center gap-2 border shadow-sm transition active:scale-95 ${
               isPlaying
                 ? 'bg-[#c59b48]/20 border-[#c59b48]/50 text-[#9a7224] dark:text-amber-300 hover:bg-[#c59b48]/30 shadow-[#c59b48]/10'
-                : 'bg-[#c59b48] hover:bg-[#b58b38] text-[#0b1e36] font-bold border-[#c59b48] shadow-md'
+                : 'bg-[#c59b48] hover:bg-[#b58b38] gold-ink font-bold border-[#c59b48] shadow-md'
             }`}
             title={isPlaying ? 'Pause Animation (Space)' : 'Play Radar Animation (Space)'}
             aria-label={isPlaying ? 'Pause Animation' : 'Play Animation'}
@@ -272,7 +272,7 @@ export function RadarTimelineControls({
                 onClick={() => onSpeedChange(opt.ms)}
                 className={`px-2 py-1 rounded-lg text-xs font-mono font-medium transition ${
                   isSelected
-                    ? 'bg-[#c59b48] text-[#0b1e36] font-bold shadow-sm'
+                    ? 'bg-[#c59b48] gold-ink font-bold shadow-sm'
                     : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-800'
                 }`}
                 aria-label={`Set speed to ${opt.label}`}

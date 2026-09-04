@@ -378,7 +378,7 @@ export function WeatherRadarMap({
               onClick={() => setIsLayerMenuOpen((p) => !p)}
               className={`p-2 rounded-xl border shadow-lg backdrop-blur-md transition active:scale-95 ${
                 isLayerMenuOpen
-                  ? 'bg-[#c59b48] text-[#0b1e36] border-[#c59b48] font-bold shadow-[#c59b48]/20'
+                  ? 'bg-[#c59b48] gold-ink border-[#c59b48] font-bold shadow-[#c59b48]/20'
                   : 'bg-white/95 hover:bg-slate-100 dark:bg-slate-900/90 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-700/80'
               }`}
               title="Radar Layer & Map Settings"

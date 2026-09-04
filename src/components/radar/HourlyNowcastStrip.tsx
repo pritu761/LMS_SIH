@@ -164,7 +164,7 @@ export const HourlyNowcastStrip: React.FC<HourlyNowcastStripProps> = ({
                 }}
                 className={`px-2.5 py-1 rounded-md font-medium transition-all ${
                   viewWindow === hours
-                    ? 'bg-[#c59b48] text-[#0b1e36] font-bold'
+                    ? 'bg-[#c59b48] gold-ink font-bold'
                     : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200'
                 }`}
               >
@@ -305,7 +305,7 @@ export const HourlyNowcastStrip: React.FC<HourlyNowcastStripProps> = ({
         <div className="mt-3 p-3.5 bg-white dark:bg-slate-950/90 border border-[#c59b48]/40 rounded-xl shadow-xl animate-fadeIn text-xs text-slate-800 dark:text-slate-300">
           <div className="flex items-center justify-between pb-2 mb-2.5 border-b border-slate-200 dark:border-slate-800">
             <div className="flex items-center space-x-2">
-              <span className="px-2 py-0.5 rounded bg-[#c59b48] text-[#0b1e36] font-bold text-xs">
+              <span className="px-2 py-0.5 rounded bg-[#c59b48] gold-ink font-bold text-xs">
                 {new Date(activeHour.time).toLocaleDateString([], { weekday: 'short', month: 'short', day: 'numeric' })} at{' '}
                 {new Date(activeHour.time).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true })}
               </span>

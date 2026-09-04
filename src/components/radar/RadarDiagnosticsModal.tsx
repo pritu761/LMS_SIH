@@ -61,7 +61,7 @@ export function RadarDiagnosticsModal({ node, isOpen, onClose }: RadarDiagnostic
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="w-full max-w-3xl rounded-3xl bg-[#040810] border border-[#c59b48]/40 shadow-2xl p-6 space-y-6 text-white font-sans relative overflow-hidden max-h-[90vh] flex flex-col"
+        className="dark-surface w-full max-w-3xl rounded-3xl bg-[#040810] border border-[#c59b48]/40 shadow-2xl p-6 space-y-6 text-white font-sans relative overflow-hidden max-h-[90vh] flex flex-col"
       >
         {/* Background ambient lighting */}
         <div className="absolute top-0 right-0 w-72 h-72 bg-[#c59b48]/10 rounded-full blur-3xl pointer-events-none" />

@@ -84,7 +84,7 @@ export function IndiaRadarMap({ nodes, selectedNode, onSelectNode }: IndiaRadarM
   const selectedPos = projectCoord(selectedNode.lat, selectedNode.lng);
 
   return (
-    <div className="rounded-3xl bg-gradient-to-b from-[#060c16] via-[#091424] to-[#040810] border border-white/10 p-5 lg:p-6 shadow-2xl space-y-4 text-white font-sans relative overflow-hidden">
+    <div className="dark-surface rounded-3xl bg-gradient-to-b from-[#060c16] via-[#091424] to-[#040810] border border-white/10 p-5 lg:p-6 shadow-2xl space-y-4 text-white font-sans relative overflow-hidden">
       {/* Background Ambience & Grid Pattern */}
       <div className="absolute inset-0 bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:24px_24px] opacity-20 pointer-events-none" />
       <div className="absolute -top-24 -right-24 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />

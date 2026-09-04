@@ -1,8 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { searchCourses, getAllCourses } from '@/services/courseSearchService';
+import { getCurrentUser } from '@/lib/auth';
 
 export async function GET(request: NextRequest) {
   try {
+    // Course catalog data is part of the protected LMS — require login.
+    const session = await getCurrentUser();
+    if (!session) {
+      return NextResponse.json({ error: 'Authentication required' }, { status: 401 });
+    }
+
     const { searchParams } = new URL(request.url);
     const query = searchParams.get('q') || '';
     const cadreTrack = searchParams.get('cadreTrack') || undefined;

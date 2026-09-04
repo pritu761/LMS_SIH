@@ -178,7 +178,7 @@ export function RadarPageContent() {
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-[#070f1a] text-slate-900 dark:text-slate-100 flex flex-col selection:bg-[#c59b48] selection:text-[#0b1e36]">
       {/* Top Banner / Breadcrumb & Status Bar with Top Clearance for Floating Navbar */}
-      <header className="relative bg-[#0b1e36] text-white border-b border-[#c59b48]/30 pt-16 sm:pt-20 pb-3 sm:pb-4 px-3 sm:px-6 shadow-xl z-20">
+      <header className="dark-surface relative bg-[#0b1e36] text-white border-b border-[#c59b48]/30 pt-16 sm:pt-20 pb-3 sm:pb-4 px-3 sm:px-6 shadow-xl z-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row md:items-center justify-between gap-3">
           {/* Brand & Heading */}
           <div className="flex items-center gap-3">
@@ -224,7 +224,7 @@ export function RadarPageContent() {
                 onClick={() => setUnits((u) => ({ ...u, temperature: 'celsius' }))}
                 className={`px-2.5 py-1 rounded-lg font-bold transition-all ${
                   units.temperature === 'celsius'
-                    ? 'bg-[#c59b48] text-[#0b1e36] shadow-sm'
+                    ? 'bg-[#c59b48] gold-ink shadow-sm'
                     : 'text-slate-400 hover:text-white'
                 }`}
               >
@@ -235,7 +235,7 @@ export function RadarPageContent() {
                 onClick={() => setUnits((u) => ({ ...u, temperature: 'fahrenheit' }))}
                 className={`px-2.5 py-1 rounded-lg font-bold transition-all ${
                   units.temperature === 'fahrenheit'
-                    ? 'bg-[#c59b48] text-[#0b1e36] shadow-sm'
+                    ? 'bg-[#c59b48] gold-ink shadow-sm'
                     : 'text-slate-400 hover:text-white'
                 }`}
               >

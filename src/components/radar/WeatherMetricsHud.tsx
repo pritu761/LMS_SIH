@@ -267,7 +267,7 @@ export const WeatherMetricsHud: React.FC<WeatherMetricsHudProps> = ({
                 onClick={() => handleUnitToggle('temperature', 'celsius')}
                 className={`px-2.5 py-1 rounded-md transition-all ${
                   units.temperature === 'celsius'
-                    ? 'bg-[#c59b48] text-[#0b1e36] font-bold'
+                    ? 'bg-[#c59b48] gold-ink font-bold'
                     : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
                 }`}
               >
@@ -278,7 +278,7 @@ export const WeatherMetricsHud: React.FC<WeatherMetricsHudProps> = ({
                 onClick={() => handleUnitToggle('temperature', 'fahrenheit')}
                 className={`px-2.5 py-1 rounded-md transition-all ${
                   units.temperature === 'fahrenheit'
-                    ? 'bg-[#c59b48] text-[#0b1e36] font-bold'
+                    ? 'bg-[#c59b48] gold-ink font-bold'
                     : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
                 }`}
               >
@@ -297,7 +297,7 @@ export const WeatherMetricsHud: React.FC<WeatherMetricsHudProps> = ({
                   onClick={() => handleUnitToggle('windSpeed', u)}
                   className={`px-2 py-0.5 rounded-md uppercase text-[10px] transition-all ${
                     units.windSpeed === u
-                      ? 'bg-[#c59b48] text-[#0b1e36] font-bold'
+                      ? 'bg-[#c59b48] gold-ink font-bold'
                       : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
                   }`}
                 >
@@ -317,7 +317,7 @@ export const WeatherMetricsHud: React.FC<WeatherMetricsHudProps> = ({
                   onClick={() => handleUnitToggle('pressure', p)}
                   className={`px-2 py-0.5 rounded-md text-[10px] transition-all ${
                     units.pressure === p
-                      ? 'bg-[#c59b48] text-[#0b1e36] font-bold'
+                      ? 'bg-[#c59b48] gold-ink font-bold'
                       : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
                   }`}
                 >

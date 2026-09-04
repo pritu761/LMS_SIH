@@ -108,8 +108,9 @@ export default function LoginPage() {
   const [successInfo, setSuccessInfo] = useState<{ name: string; role: string; redirectUrl: string } | null>(null);
   const [showForgotModal, setShowForgotModal] = useState(false);
   const [showCadreDirectory, setShowCadreDirectory] = useState(false);
+  const [nextPath, setNextPath] = useState<string | null>(null);
 
-  // Load remembered email on initial client mount
+  // Load remembered email + proxy redirect hints on initial client mount
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const savedEmail = localStorage.getItem('cc_remembered_email');
@@ -119,6 +120,28 @@ export default function LoginPage() {
       }
       if (savedPref !== null) {
         setRememberEmail(savedPref === 'true');
+      }
+
+      // Honor ?next= and ?error= set by the auth proxy layer.
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const requestedNext = params.get('next');
+        if (
+          requestedNext &&
+          requestedNext.startsWith('/') &&
+          !requestedNext.startsWith('//') &&
+          !requestedNext.startsWith('/auth/')
+        ) {
+          setNextPath(requestedNext);
+        }
+        const errorHint = params.get('error');
+        if (errorHint === 'LoginRequired' || errorHint === 'SessionExpired') {
+          setError('Please sign in to access the requested protected area.');
+        } else if (errorHint === 'AccountSuspended') {
+          setError('Your account is suspended. Please contact IMD administration.');
+        }
+      } catch {
+        // Ignore malformed query strings
       }
     }
   }, []);
@@ -171,7 +194,7 @@ export default function LoginPage() {
         }
 
         const user = data.user;
-        const targetUrl =
+        const defaultUrl =
           data.redirectUrl ||
           (user.status !== 'APPROVED' && user.role !== 'ADMIN'
             ? '/auth/pending'
@@ -180,6 +203,10 @@ export default function LoginPage() {
             : user.role === 'TRAINER'
             ? '/trainer'
             : '/trainee');
+        // Return users to the protected page they originally requested,
+        // but never override PENDING routing or escape to external URLs.
+        const targetUrl =
+          nextPath && user.status === 'APPROVED' ? nextPath : defaultUrl;
 
         setSuccessInfo({
           name: user.fullName || user.email,
@@ -324,7 +351,7 @@ export default function LoginPage() {
                         <button
                           type="button"
                           onClick={() => handleFillCredentials(cadre.email)}
-                          className="shrink-0 px-2.5 py-1 text-[11px] font-bold rounded-lg bg-[#0b1e36] text-white hover:bg-[#122c4d] border border-[#c59b48]/50 transition-all active:scale-95 dark:bg-[#c59b48] dark:hover:bg-[#d6af5d] dark:text-[#0b1e36]"
+                          className="shrink-0 px-2.5 py-1 text-[11px] font-bold rounded-lg bg-[#0b1e36] text-white hover:bg-[#122c4d] border border-[#c59b48]/50 transition-all active:scale-95 dark:bg-[#c59b48] dark:hover:bg-[#d6af5d] dark:text-[#0b1e36] gold-ink-dark"
                           title="Fill verified credentials for database authentication"
                         >
                           Use Account
@@ -463,12 +490,12 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading || !!successInfo}
-              className="w-full flex items-center justify-center gap-2 rounded-xl bg-[#0b1e36] hover:bg-[#122c4d] border border-[#c59b48]/60 py-3 text-sm font-bold text-white shadow-lg shadow-[#0b1e36]/20 transition-all disabled:opacity-50 hover:scale-[1.01] active:scale-[0.99] dark:bg-[#c59b48] dark:hover:bg-[#d6af5d] dark:text-[#0b1e36] dark:border-[#c59b48]"
+              className="w-full flex items-center justify-center gap-2 rounded-xl bg-[#0b1e36] hover:bg-[#122c4d] border border-[#c59b48]/60 py-3 text-sm font-bold text-white shadow-lg shadow-[#0b1e36]/20 transition-all disabled:opacity-50 hover:scale-[1.01] active:scale-[0.99] dark:bg-[#c59b48] dark:hover:bg-[#d6af5d] dark:text-[#0b1e36] dark:border-[#c59b48] gold-ink-dark"
             >
               {loading ? (
                 <div className="h-4 w-4 border-2 border-white/30 border-t-white dark:border-[#0b1e36]/30 dark:border-t-[#0b1e36] rounded-full animate-spin" />
               ) : (
-                <Fingerprint className="h-4 w-4 text-[#c59b48] dark:text-[#0b1e36]" />
+                <Fingerprint className="h-4 w-4 text-[#c59b48] dark:text-[#0b1e36] gold-ink-dark" />
               )}
               <span>
                 {loading
@@ -557,7 +584,7 @@ export default function LoginPage() {
               <button
                 type="button"
                 onClick={() => setShowForgotModal(false)}
-                className="w-full py-2.5 rounded-xl bg-[#0b1e36] hover:bg-[#122c4d] text-white text-xs font-bold transition-all dark:bg-[#c59b48] dark:hover:bg-[#d6af5d] dark:text-[#0b1e36]"
+                className="w-full py-2.5 rounded-xl bg-[#0b1e36] hover:bg-[#122c4d] text-white text-xs font-bold transition-all dark:bg-[#c59b48] dark:hover:bg-[#d6af5d] dark:text-[#0b1e36] gold-ink-dark"
               >
                 Close Window
               </button>

@@ -180,7 +180,7 @@ export default function DopplerRadarCommandCenterPage() {
         </div>
 
         {/* Live Incoming Radar Telemetry Packet Ticker */}
-        <div className="rounded-2xl bg-[#030712] border border-cyan-500/20 p-4 space-y-2 font-mono text-xs text-white shadow-xl">
+        <div className="dark-surface rounded-2xl bg-[#030712] border border-cyan-500/20 p-4 space-y-2 font-mono text-xs text-white shadow-xl">
           <div className="flex items-center justify-between text-[11px] border-b border-white/10 pb-2">
             <span className="flex items-center gap-2 text-cyan-300 font-bold">
               <Terminal className="h-3.5 w-3.5 text-cyan-400" />

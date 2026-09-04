@@ -347,7 +347,7 @@ export default function TrainerCourseCreatorPage() {
                             onClick={() => handleProficiencyChange(sc.competencyId, lvl)}
                             className={`flex-1 py-1 rounded-lg text-xs font-bold transition-all ${
                               lvl <= sc.requiredProficiency
-                                ? 'bg-[#0b1e36] text-white dark:bg-[#c59b48] dark:text-[#0b1e36]'
+                                ? 'bg-[#0b1e36] text-white dark:bg-[#c59b48] dark:text-[#0b1e36] gold-ink-dark'
                                 : 'bg-slate-100 dark:bg-slate-900 text-slate-400 hover:bg-slate-200'
                             }`}
                           >
@@ -444,7 +444,7 @@ export default function TrainerCourseCreatorPage() {
 
             <button
               type="submit"
-              className="flex items-center gap-2 rounded-2xl bg-[#0b1e36] hover:bg-[#122c4d] dark:bg-[#c59b48] dark:hover:bg-[#d6af5d] text-white dark:text-[#0b1e36] px-8 py-3 text-xs font-bold shadow-xl transition-all hover:scale-105"
+              className="flex items-center gap-2 rounded-2xl bg-[#0b1e36] hover:bg-[#122c4d] dark:bg-[#c59b48] dark:hover:bg-[#d6af5d] text-white dark:text-[#0b1e36] gold-ink-dark px-8 py-3 text-xs font-bold shadow-xl transition-all hover:scale-105"
             >
               <Save className="h-4 w-4" />
               <span>Publish Course to Mission Mausam Catalog</span>

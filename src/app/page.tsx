@@ -698,7 +698,7 @@ export default function HomePage() {
             </div>
 
             <div className="rounded-3xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0b1e36]/80 p-6 space-y-4 shadow-sm">
-              <div className="h-10 w-10 rounded-xl bg-[#c59b48] text-[#0b1e36] flex items-center justify-center font-bold">
+              <div className="h-10 w-10 rounded-xl bg-[#c59b48] gold-ink flex items-center justify-center font-bold">
                 02
               </div>
               <h3 className="text-lg font-bold text-[#0b1e36] dark:text-white">Trainers & Lead Faculty</h3>
@@ -852,7 +852,7 @@ export default function HomePage() {
             </div>
 
             <div className="rounded-3xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0b1e36]/80 p-7 space-y-4 shadow-sm">
-              <div className="h-10 w-10 rounded-xl bg-[#c59b48] text-[#0b1e36] flex items-center justify-center font-bold">
+              <div className="h-10 w-10 rounded-xl bg-[#c59b48] gold-ink flex items-center justify-center font-bold">
                 2
               </div>
               <h3 className="text-lg font-bold text-[#0b1e36] dark:text-white">Granular Skill Gap Diagnosis</h3>

@@ -82,7 +82,7 @@ export function LiveRadarScope({ node, onOpenDiagnostics }: LiveRadarScopeProps)
   const productInfo = getProductDetails(selectedProduct);
 
   return (
-    <div className="rounded-3xl bg-gradient-to-b from-[#060a14] via-[#091222] to-[#040810] border border-[#c59b48]/30 p-5 sm:p-6 shadow-2xl space-y-6 text-white font-sans relative overflow-hidden">
+    <div className="dark-surface rounded-3xl bg-gradient-to-b from-[#060a14] via-[#091222] to-[#040810] border border-[#c59b48]/30 p-5 sm:p-6 shadow-2xl space-y-6 text-white font-sans relative overflow-hidden">
       {/* Subtle Glows */}
       <div className="absolute top-0 right-0 w-80 h-80 bg-[#c59b48]/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
