@@ -367,7 +367,7 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Right 5 Columns: National Leadership Spotlight Card (PM Narendra Modi & Mission Mausam Vision) */}
+            {/* Right 5 Columns: National Mission Vision Spotlight Card */}
             <div className="lg:col-span-5">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -383,24 +383,30 @@ export default function HomePage() {
                 <div className="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-white/10">
                   <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#0b1e36] text-[#dfb76c] border border-[#c59b48]/40 text-[10px] font-sans font-bold uppercase tracking-wider">
                     <Flag className="h-3 w-3 text-orange-400" />
-                    NATIONAL LEADERSHIP & VISION
+                    NATIONAL MISSION & VISION
                   </span>
                   <span className="text-[10px] font-sans text-slate-500 dark:text-slate-400 font-bold">
                     VIKSIT BHARAT 2047
                   </span>
                 </div>
 
-                {/* PM Portrait & Identity Container */}
+                {/* Mission Emblem & Identity Container */}
                 <div className="pt-4 flex flex-col items-center text-center space-y-3">
-                  {/* Portrait with Royal Gold Border & Gentle Elevation */}
+                  {/* Emblem with Royal Gold Border & Gentle Elevation */}
                   <div className="relative">
-                    <div className="w-36 h-44 sm:w-40 sm:h-48 rounded-2xl overflow-hidden border-2 border-[#c59b48] shadow-xl bg-gradient-to-b from-slate-100 to-amber-50/40 dark:from-slate-800 dark:to-[#081526] relative flex items-end justify-center group-hover:scale-105 transition-transform duration-500">
-                      <img
-                        src="/pm-modi.png"
-                        alt="Shri Narendra Modi, Hon'ble Prime Minister of India"
-                        className="w-full h-full object-cover object-top drop-shadow-md"
-                        loading="eager"
-                      />
+                    <div className="w-36 h-44 sm:w-40 sm:h-48 rounded-2xl overflow-hidden border-2 border-[#c59b48] shadow-xl bg-gradient-to-b from-[#0b1e36] via-[#102744] to-[#081526] relative flex items-center justify-center group-hover:scale-105 transition-transform duration-500">
+                      {/* Concentric radar rings */}
+                      <div className="absolute w-24 h-24 rounded-full border border-[#c59b48]/30" />
+                      <div className="absolute w-16 h-16 rounded-full border border-[#c59b48]/40" />
+                      <div className="absolute w-28 h-28 rounded-full border border-dashed border-[#c59b48]/20 animate-spin-slow" />
+                      {/* Crosshair lines */}
+                      <div className="absolute inset-x-6 top-1/2 h-px bg-[#c59b48]/25" />
+                      <div className="absolute inset-y-6 left-1/2 w-px bg-[#c59b48]/25" />
+                      {/* Center radar sigil */}
+                      <div className="relative h-14 w-14 rounded-full bg-[#c59b48]/15 border border-[#c59b48]/60 flex items-center justify-center shadow-lg shadow-[#c59b48]/20">
+                        <Radio className="h-7 w-7 text-[#dfb76c]" />
+                        <span className="absolute h-2 w-2 rounded-full bg-emerald-400 animate-pulse -top-0.5 -right-0.5 ring-2 ring-[#0b1e36]" />
+                      </div>
                     </div>
                     {/* Official Seal Pill Tag */}
                     <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap px-3 py-0.5 rounded-full bg-[#0b1e36] text-[#dfb76c] border border-[#c59b48] text-[9px] font-sans font-black shadow-md">
@@ -408,21 +414,21 @@ export default function HomePage() {
                     </div>
                   </div>
 
-                  {/* Leader Name & Designation */}
+                  {/* Mission Name & Designation */}
                   <div className="pt-1 space-y-0.5">
-                    <h3 className="text-xl sm:text-2xl font-black text-[#0b1e36] dark:text-white tracking-tight">
-                      Shri Narendra Modi
+                    <h3 className="text-xl sm:text-2xl font-display font-extrabold text-[#0b1e36] dark:text-white tracking-tight">
+                      Mission Mausam
                     </h3>
-                    <div className="text-xs font-sans font-bold text-[#c59b48] dark:text-[#dfb76c]">
-                      Hon&apos;ble Prime Minister of India
+                    <div className="text-xs font-sans font-bold text-[#9a7224] dark:text-[#dfb76c]">
+                      IMD &bull; Ministry of Earth Sciences
                     </div>
                   </div>
 
-                  {/* Prime Minister's Mission Mausam Quote */}
+                  {/* Mission Vision Statement */}
                   <div className="relative rounded-2xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 p-4 text-left">
                     <Quote className="h-4 w-4 text-[#c59b48] mb-1.5 opacity-80" />
                     <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-200 font-medium italic leading-relaxed">
-                      &ldquo;Mission Mausam and continuous competency building are the cornerstones of a disaster-resilient Viksit Bharat. Empowering our meteorological scientists with cutting-edge training ensures safety and prosperity for every citizen.&rdquo;
+                      &ldquo;Continuous competency building and an always-on Doppler radar network are the cornerstones of a disaster-resilient Viksit Bharat &mdash; keeping every citizen safe and prepared.&rdquo;
                     </p>
                   </div>
 
