@@ -136,8 +136,8 @@ export default function TraineeDashboard() {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
               <div>
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="rounded-md bg-indigo-500/20 px-2.5 py-0.5 text-[10px] font-bold text-indigo-300 border border-indigo-500/30 flex items-center gap-1">
-                    <Flame className="h-3 w-3 text-amber-400" />
+                  <span className="rounded-md bg-indigo-500/20 px-2.5 py-0.5 text-[10px] font-bold text-indigo-700 dark:text-indigo-300 border border-indigo-500/30 flex items-center gap-1">
+                    <Flame className="h-3 w-3 text-amber-500 dark:text-amber-400" />
                     IN PROGRESS • {enrollment.progressPercentage}% COMPLETE
                   </span>
                   <span className="text-xs text-slate-500 dark:text-slate-400">{enrolledCourse.cadreTrack} Track • {enrolledCourse.category}</span>
@@ -172,11 +172,11 @@ export default function TraineeDashboard() {
               </div>
               <div className="flex justify-between text-[11px] text-slate-500 dark:text-slate-400 font-medium">
                 <span className="flex items-center gap-1">
-                  <CheckCircle2 className="h-3 w-3 text-emerald-400" />
+                  <CheckCircle2 className="h-3 w-3 text-emerald-500 dark:text-emerald-400" />
                   {enrollment.completedMaterialIds.length} of {enrolledCourse.materials.length} Modules Completed
                 </span>
                 <span className="flex items-center gap-1">
-                  <Target className="h-3 w-3 text-amber-400" />
+                  <Target className="h-3 w-3 text-amber-500 dark:text-amber-400" />
                   Exam Window Ready
                 </span>
               </div>
@@ -193,11 +193,11 @@ export default function TraineeDashboard() {
               <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
                 <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
                   <div className="h-8 w-8 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center">
-                    <Sparkles className="h-4 w-4 text-cyan-400" />
+                    <Sparkles className="h-4 w-4 text-cyan-600 dark:text-cyan-400" />
                   </div>
                   <span>Mission Mausam Curated Catalog</span>
                 </h3>
-                <Link href="/trainee/courses" className="text-xs text-indigo-400 hover:text-indigo-300 transition-colors flex items-center gap-0.5 group">
+                <Link href="/trainee/courses" className="text-xs text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 transition-colors flex items-center gap-0.5 group">
                   <span>View All</span>
                   <ChevronRight className="h-3 w-3 group-hover:translate-x-0.5 transition-transform" />
                 </Link>
@@ -211,16 +211,16 @@ export default function TraineeDashboard() {
                     className="block rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950/40 p-4 space-y-2 hover:border-indigo-500/40 transition-all duration-300 group hover:-translate-y-0.5 hover:shadow-elevation-1"
                   >
                     <div className="flex items-center justify-between text-[10px] text-slate-500 dark:text-slate-400">
-                      <span className="text-indigo-400 font-bold">{c.code} • {c.cadreTrack}</span>
+                      <span className="text-indigo-600 dark:text-indigo-400 font-bold">{c.code} • {c.cadreTrack}</span>
                       <span className="flex items-center gap-1">
                         <Clock className="h-3 w-3" />
                         {c.durationHours}h
                       </span>
                     </div>
-                    <h4 className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-indigo-300 transition-colors">{c.title}</h4>
+                    <h4 className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-300 transition-colors">{c.title}</h4>
                     <div className="flex items-center justify-between pt-1">
                       <span className="text-[11px] text-slate-500 dark:text-slate-400">{c.trainerName}</span>
-                      <span className="text-xs font-bold text-cyan-400 group-hover:text-cyan-300 flex items-center gap-0.5">
+                      <span className="text-xs font-bold text-cyan-600 dark:text-cyan-400 group-hover:text-cyan-700 dark:group-hover:text-cyan-300 flex items-center gap-0.5">
                         <span>Open</span>
                         <ChevronRight className="h-3 w-3 group-hover:translate-x-0.5 transition-transform" />
                       </span>

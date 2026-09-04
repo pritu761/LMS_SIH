@@ -71,13 +71,13 @@ export default function CourseCatalogPage() {
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
           <div className="relative flex-1 flex gap-2">
             <div className="relative flex-1">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 dark:text-slate-500" />
               <input
                 type="text"
                 placeholder="Search by topic (e.g. Radar, NWP, Satellite, AI Nowcasting, HPC, Cyclone)..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full rounded-2xl border border-slate-200 dark:border-slate-700/80 bg-white dark:bg-slate-900/80 pl-10 pr-4 py-2.5 text-xs text-slate-900 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 focus:border-[#c59b48] focus:outline-none focus:ring-1 focus:ring-[#c59b48]"
+                className="w-full rounded-2xl border border-slate-200 dark:border-slate-700/80 bg-white dark:bg-slate-900/80 pl-10 pr-4 py-2.5 text-xs text-slate-900 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 focus:border-[#c59b48] focus:outline-none focus:ring-1 focus:ring-[#c59b48] shadow-sm"
               />
             </div>
 
@@ -100,7 +100,7 @@ export default function CourseCatalogPage() {
                 className={`rounded-xl px-3.5 py-2 text-xs font-semibold whitespace-nowrap transition-all ${
                   selectedTrack === tr.id
                     ? 'bg-[#0b1e36] text-[#dfb76c] border border-[#c59b48]/50 shadow-md shadow-[#0b1e36]/20 dark:bg-[#122c4d]'
-                    : 'bg-white dark:bg-slate-900/60 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:text-white border border-slate-200 dark:border-slate-800'
+                    : 'bg-white dark:bg-slate-900/60 text-slate-700 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-none'
                 }`}
               >
                 {tr.label}
@@ -123,15 +123,15 @@ export default function CourseCatalogPage() {
                   alt={course.title}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#131726] via-[#131726]/40 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-slate-950/20 to-transparent dark:from-[#131726] dark:via-[#131726]/40 dark:to-transparent" />
                 <div className="absolute top-4 left-4 flex items-center gap-2">
-                  <span className="rounded-md bg-white dark:bg-slate-950/80 px-2 py-0.5 text-xs font-bold text-[#c59b48] border border-[#c59b48]/30 backdrop-blur-md">
+                  <span className="rounded-md bg-white/95 dark:bg-slate-950/80 px-2 py-0.5 text-xs font-bold text-[#0b1e36] dark:text-[#c59b48] border border-slate-200 dark:border-[#c59b48]/30 backdrop-blur-md shadow-sm">
                     {course.code}
                   </span>
-                  <span className="rounded-md bg-[#c59b48]/20 px-2 py-0.5 text-xs font-bold text-[#dfb76c] border border-[#c59b48]/30 backdrop-blur-md">
+                  <span className="rounded-md bg-[#0b1e36] dark:bg-[#c59b48]/20 px-2 py-0.5 text-xs font-bold text-white dark:text-[#dfb76c] border border-slate-900/10 dark:border-[#c59b48]/30 backdrop-blur-md shadow-sm">
                     {course.cadreTrack} TRACK
                   </span>
-                  <span className="rounded-md bg-emerald-500/20 px-2 py-0.5 text-xs font-bold text-emerald-300 border border-emerald-500/30 backdrop-blur-md">
+                  <span className="rounded-md bg-emerald-600 dark:bg-emerald-500/20 px-2 py-0.5 text-xs font-bold text-white dark:text-emerald-300 border border-emerald-700/20 dark:border-emerald-500/30 backdrop-blur-md shadow-sm">
                     {course.level}
                   </span>
                 </div>

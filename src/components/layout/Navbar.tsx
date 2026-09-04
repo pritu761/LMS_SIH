@@ -169,7 +169,7 @@ export function Navbar() {
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          className={`pointer-events-auto mx-auto max-w-7xl flex items-center justify-between gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border transition-all duration-300 ${
+          className={`pointer-events-auto mx-auto max-w-7xl 2xl:max-w-screen-2xl flex items-center justify-between gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border transition-all duration-300 ${
             isScrolled
               ? 'border-slate-200/90 bg-white/95 backdrop-blur-2xl shadow-xl shadow-slate-900/5 dark:border-white/10 dark:bg-[#0b1e36]/90 dark:shadow-black/30'
               : 'border-slate-200/80 bg-white/90 backdrop-blur-xl shadow-md shadow-slate-900/5 dark:border-white/10 dark:bg-[#0b1e36]/80 dark:shadow-black/20'
@@ -177,7 +177,7 @@ export function Navbar() {
           suppressHydrationWarning
         >
           {/* Left: Brand Identity & Logo */}
-          <div className="flex items-center gap-2 sm:gap-3 xl:gap-4 min-w-0">
+          <div className="flex items-center gap-2 sm:gap-3 xl:gap-4 min-w-0 shrink-0">
             <Link href="/" className="flex items-center gap-2 group shrink-0">
               <div className="h-8 w-8 rounded-lg bg-[#0b1e36] border border-[#c59b48]/40 flex items-center justify-center text-[#c59b48] shadow-md shadow-[#0b1e36]/25 group-hover:scale-105 transition-transform duration-300 shrink-0">
                 <Satellite className="h-4 w-4" />
@@ -193,29 +193,45 @@ export function Navbar() {
             </Link>
 
             {/* Public / Landing Navigation Links (Desktop: lg+) */}
-            <nav className="hidden lg:flex items-center gap-0.5 xl:gap-1 text-xs">
+            <nav className="hidden lg:flex items-center gap-0.5 xl:gap-1 text-xs shrink-0">
               <Link href="/radar" className={`inline-flex items-center gap-1.5 ${navLinkClass('/radar')}`}>
                 <Radio className="h-3 w-3 text-[#c59b48] animate-pulse" />
                 <span>Live Radar</span>
               </Link>
-              <Link href="/#problem" className={`hidden 2xl:inline-block ${navLinkClass('/#problem', true)}`}>
-                Problem
-              </Link>
-              <Link href="/admin/competency" className={navLinkClass('/admin/competency', true)}>
-                Competency
-              </Link>
-              <Link href="/#cadres" className={navLinkClass('/#cadres', true)}>
-                Cadres
-              </Link>
-              <Link href="/#algorithm" className={navLinkClass('/#algorithm', true)}>
-                55/30/15
-              </Link>
-              <Link href="/trainee/courses" className={navLinkClass('/trainee/courses')}>
-                Courses
-              </Link>
-              <Link href="/architecture" className={navLinkClass('/architecture')}>
-                Architecture
-              </Link>
+              {currentUser ? (
+                <>
+                  <Link href="/trainee/courses" className={navLinkClass('/trainee/courses')}>
+                    Courses
+                  </Link>
+                  <Link href="/admin/competency" className={navLinkClass('/admin/competency', true)}>
+                    Competency
+                  </Link>
+                  <Link href="/architecture" className={`hidden xl:inline-block ${navLinkClass('/architecture')}`}>
+                    Architecture
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <Link href="/#problem" className={`hidden 2xl:inline-block ${navLinkClass('/#problem', true)}`}>
+                    Problem
+                  </Link>
+                  <Link href="/admin/competency" className={navLinkClass('/admin/competency', true)}>
+                    Competency
+                  </Link>
+                  <Link href="/#cadres" className={`hidden xl:inline-block ${navLinkClass('/#cadres', true)}`}>
+                    Cadres
+                  </Link>
+                  <Link href="/#algorithm" className={`hidden xl:inline-block ${navLinkClass('/#algorithm', true)}`}>
+                    55/30/15
+                  </Link>
+                  <Link href="/trainee/courses" className={navLinkClass('/trainee/courses')}>
+                    Courses
+                  </Link>
+                  <Link href="/architecture" className={navLinkClass('/architecture')}>
+                    Architecture
+                  </Link>
+                </>
+              )}
             </nav>
           </div>
 
@@ -258,11 +274,11 @@ export function Navbar() {
                     </div>
                   )}
 
-                  <span className="text-[#0b1e36] font-bold text-[11px] tracking-tight dark:text-slate-100 max-w-[90px] xl:max-w-[120px] truncate">
+                  <span className="text-[#0b1e36] font-bold text-[11px] tracking-tight dark:text-slate-100 max-w-[80px] xl:max-w-[120px] truncate">
                     {userName || userRole}
                   </span>
 
-                  <span className="rounded-full px-1.5 py-0.5 text-[9px] font-black uppercase tracking-wider bg-[#0b1e36]/10 dark:bg-[#c59b48]/20 text-[#0b1e36] dark:text-[#dfb76c] border border-[#c59b48]/30 shrink-0">
+                  <span className="hidden sm:inline-block xl:inline-block rounded-full px-1.5 py-0.5 text-[9px] font-black uppercase tracking-wider bg-[#0b1e36]/10 dark:bg-[#c59b48]/20 text-[#0b1e36] dark:text-[#dfb76c] border border-[#c59b48]/30 shrink-0">
                     {userRole}
                   </span>
 
@@ -425,7 +441,13 @@ export function Navbar() {
               className="group relative inline-flex items-center justify-center gap-1 sm:gap-1.5 h-8 px-2.5 sm:px-3.5 rounded-full bg-[#0b1e36] text-[11px] font-bold text-white border border-[#c59b48]/50 shadow-sm shadow-[#0b1e36]/25 hover:bg-[#122c4d] hover:border-[#c59b48] transition-all duration-200 active:scale-95 whitespace-nowrap shrink-0 overflow-hidden dark:bg-[#122c4d]"
             >
               <span className="relative z-10 tracking-tight">
-                {userRole === 'GUEST' ? 'Explore' : `${userRole} Portal`}
+                {userRole === 'GUEST' ? (
+                  'Explore'
+                ) : (
+                  <>
+                    <span className="hidden xl:inline">{userRole} </span>Portal
+                  </>
+                )}
               </span>
               <ArrowRight className="relative z-10 h-3 w-3 text-[#c59b48] transition-transform duration-300 group-hover:translate-x-0.5 shrink-0" />
             </Link>

@@ -50,8 +50,8 @@ function classifySeverity(score: number): SeverityClassification {
       label: 'Tornado / Severe Hail Alert',
       subtitle: 'Critical convective supercell detected',
       colorHex: '#ef4444',
-      badgeClass: 'bg-red-600/30 text-red-200 border-red-500/60 animate-pulse',
-      bgGradient: 'from-red-950/40 via-red-900/20 to-slate-900/40',
+      badgeClass: 'bg-red-500/20 text-red-700 dark:text-red-200 border-red-500/50 animate-pulse',
+      bgGradient: 'from-red-50/90 via-white to-slate-50 dark:from-red-950/40 dark:via-red-900/20 dark:to-slate-900/40',
       advice: 'Seek fortified indoor shelter immediately. High potential for severe hail, violent downbursts, and structural damage.',
     };
   }
@@ -61,8 +61,8 @@ function classifySeverity(score: number): SeverityClassification {
       label: 'Convective Storm Warning',
       subtitle: 'High-intensity thunderstorm cells active',
       colorHex: '#f97316',
-      badgeClass: 'bg-orange-500/25 text-orange-300 border-orange-500/50',
-      bgGradient: 'from-orange-950/30 via-orange-900/15 to-slate-900/40',
+      badgeClass: 'bg-orange-500/20 text-orange-700 dark:text-orange-300 border-orange-500/50',
+      bgGradient: 'from-orange-50/90 via-white to-slate-50 dark:from-orange-950/30 dark:via-orange-900/15 dark:to-slate-900/40',
       advice: 'Strong convective precipitation and hazardous squalls in progress. Avoid open terrain and flooded transit corridors.',
     };
   }
@@ -72,8 +72,8 @@ function classifySeverity(score: number): SeverityClassification {
       label: 'Severe Thunderstorm Watch',
       subtitle: 'Elevated atmospheric instability',
       colorHex: '#eab308',
-      badgeClass: 'bg-yellow-500/25 text-yellow-300 border-yellow-500/50',
-      bgGradient: 'from-yellow-950/20 via-yellow-900/10 to-slate-900/40',
+      badgeClass: 'bg-yellow-500/20 text-yellow-800 dark:text-yellow-300 border-yellow-500/50',
+      bgGradient: 'from-yellow-50/90 via-white to-slate-50 dark:from-yellow-950/20 dark:via-yellow-900/10 dark:to-slate-900/40',
       advice: 'Atmospheric conditions favor convective updraft escalation. Monitor live Doppler radar reflectivity trends.',
     };
   }
@@ -83,8 +83,8 @@ function classifySeverity(score: number): SeverityClassification {
       label: 'Convective Advisory',
       subtitle: 'Isolated showers and moderate wind',
       colorHex: '#38bdf8',
-      badgeClass: 'bg-sky-500/20 text-sky-300 border-sky-500/40',
-      bgGradient: 'from-sky-950/20 via-sky-900/10 to-slate-900/40',
+      badgeClass: 'bg-sky-500/20 text-sky-700 dark:text-sky-300 border-sky-500/40',
+      bgGradient: 'from-sky-50/90 via-white to-slate-50 dark:from-sky-950/20 dark:via-sky-900/10 dark:to-slate-900/40',
       advice: 'Scattered light to moderate precipitation cells present. Normal precautions advised.',
     };
   }
@@ -93,8 +93,8 @@ function classifySeverity(score: number): SeverityClassification {
     label: 'Normal Baseline',
     subtitle: 'Stable atmospheric environment',
     colorHex: '#10b981',
-    badgeClass: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30',
-    bgGradient: 'from-emerald-950/15 via-emerald-900/5 to-slate-900/40',
+    badgeClass: 'bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border-emerald-500/30',
+    bgGradient: 'from-emerald-50/90 via-white to-slate-50 dark:from-emerald-950/15 dark:via-emerald-900/5 dark:to-slate-900/40',
     advice: 'No hazardous convective storm activity detected. Radar reflectivity within nominal background range.',
   };
 }
@@ -128,25 +128,25 @@ export const StormSeverityIndicator: React.FC<StormSeverityIndicatorProps> = ({
 
   return (
     <div
-      className={`relative bg-gradient-to-br ${classification.bgGradient} backdrop-blur-xl border border-slate-800/90 rounded-2xl p-4 sm:p-5 shadow-2xl text-slate-100 ${className}`}
+      className={`relative bg-gradient-to-br ${classification.bgGradient} backdrop-blur-xl border border-slate-200 dark:border-slate-800/90 rounded-2xl p-4 sm:p-5 shadow-xl dark:shadow-2xl text-slate-900 dark:text-slate-100 ${className}`}
     >
       {/* Header */}
       <div className="flex items-start justify-between gap-3 mb-4">
         <div className="flex items-center space-x-2.5">
-          <div className="p-2 rounded-xl bg-slate-950/60 border border-slate-800 text-amber-400">
+          <div className="p-2 rounded-xl bg-slate-100 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 text-[#c59b48]">
             {score >= 70 ? (
-              <Zap className="w-5 h-5 text-red-400 animate-pulse" />
+              <Zap className="w-5 h-5 text-red-500 dark:text-red-400 animate-pulse" />
             ) : score >= 50 ? (
-              <AlertTriangle className="w-5 h-5 text-yellow-400" />
+              <AlertTriangle className="w-5 h-5 text-yellow-500 dark:text-yellow-400" />
             ) : (
-              <ShieldAlert className="w-5 h-5 text-amber-400" />
+              <ShieldAlert className="w-5 h-5 text-[#c59b48]" />
             )}
           </div>
           <div>
-            <h3 className="text-base sm:text-lg font-bold text-white tracking-tight flex items-center space-x-2">
+            <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white tracking-tight flex items-center space-x-2">
               <span>Convective Storm Risk Meter</span>
             </h3>
-            <p className="text-xs text-slate-400">{classification.subtitle}</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400">{classification.subtitle}</p>
           </div>
         </div>
 
@@ -167,7 +167,7 @@ export const StormSeverityIndicator: React.FC<StormSeverityIndicatorProps> = ({
                 cx="50"
                 cy="50"
                 r={radius}
-                className="stroke-slate-800"
+                className="stroke-slate-200 dark:stroke-slate-800"
                 strokeWidth="10"
                 fill="transparent"
               />
@@ -186,38 +186,38 @@ export const StormSeverityIndicator: React.FC<StormSeverityIndicatorProps> = ({
               />
             </svg>
             <div className="absolute flex flex-col items-center justify-center">
-              <span className="text-2xl font-black font-mono text-white leading-none">
+              <span className="text-2xl font-black font-mono text-slate-900 dark:text-white leading-none">
                 {score}
               </span>
-              <span className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold mt-0.5">
+              <span className="text-[10px] uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold mt-0.5">
                 / 100
               </span>
             </div>
           </div>
 
           <div className="space-y-1">
-            <div className="text-sm font-semibold text-slate-200">
-              Composite Risk Index: <strong className="text-white">{score}%</strong>
+            <div className="text-sm font-semibold text-slate-800 dark:text-slate-200">
+              Composite Risk Index: <strong className="text-slate-900 dark:text-white">{score}%</strong>
             </div>
-            <p className="text-xs text-slate-300 leading-relaxed max-w-sm">
+            <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed max-w-sm">
               {classification.advice}
             </p>
           </div>
         </div>
 
         {/* Radar dBZ Telemetry Box */}
-        <div className="p-3 bg-slate-950/70 border border-slate-800/80 rounded-xl space-y-1.5 sm:w-60 flex-shrink-0">
-          <div className="flex items-center justify-between text-xs text-slate-400">
+        <div className="p-3 bg-slate-50/90 dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800/80 rounded-xl space-y-1.5 sm:w-60 flex-shrink-0">
+          <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
             <span className="flex items-center space-x-1">
-              <Radio className="w-3.5 h-3.5 text-amber-400" />
+              <Radio className="w-3.5 h-3.5 text-[#c59b48]" />
               <span>Doppler Return</span>
             </span>
-            <span className="font-mono font-bold text-amber-300 text-sm">
+            <span className="font-mono font-bold text-[#9a7224] dark:text-amber-300 text-sm">
               {calculatedDbz.toFixed(0)} dBZ
             </span>
           </div>
 
-          <div className="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+          <div className="w-full bg-slate-200 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
             <div
               className={`h-full rounded-full transition-all duration-500 ${
                 calculatedDbz >= 55
@@ -234,7 +234,7 @@ export const StormSeverityIndicator: React.FC<StormSeverityIndicatorProps> = ({
             />
           </div>
 
-          <div className="flex justify-between text-[9px] font-mono text-slate-500 pt-0.5">
+          <div className="flex justify-between text-[9px] font-mono text-slate-400 dark:text-slate-500 pt-0.5">
             <span>0 dBZ</span>
             <span>35 dBZ</span>
             <span>75 dBZ</span>
@@ -243,17 +243,17 @@ export const StormSeverityIndicator: React.FC<StormSeverityIndicatorProps> = ({
       </div>
 
       {/* Marshall-Palmer Radar Reflectivity Relationship Callout */}
-      <div className="mt-4 p-3 bg-slate-950/80 border border-slate-800/90 rounded-xl text-xs">
+      <div className="mt-4 p-3 bg-slate-50/90 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800/90 rounded-xl text-xs">
         <div className="flex items-center justify-between mb-1.5">
-          <span className="font-semibold text-amber-300 flex items-center space-x-1.5">
-            <Activity className="w-3.5 h-3.5 text-amber-400" />
+          <span className="font-semibold text-[#9a7224] dark:text-amber-300 flex items-center space-x-1.5">
+            <Activity className="w-3.5 h-3.5 text-[#c59b48]" />
             <span>Marshall-Palmer Z-R Formulation (Z = 200 · R^1.6)</span>
           </span>
-          <span className="text-[10px] text-slate-400 font-mono">
+          <span className="text-[10px] text-slate-500 dark:text-slate-400 font-mono">
             R = {rainRate.toFixed(1)} mm/h &rarr; Z &approx; {mpZFactor} mm⁶/m³
           </span>
         </div>
-        <p className="text-[11px] text-slate-400 leading-normal">
+        <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-normal">
           Calculates estimated radar reflectivity dBZ = 10 · log₁₀(Z) ≈ 23.01 + 16 · log₁₀(R) correlating precipitation rate with Doppler radar returns.
         </p>
       </div>
@@ -261,30 +261,30 @@ export const StormSeverityIndicator: React.FC<StormSeverityIndicatorProps> = ({
       {/* 4-Pillar Convective Risk Assessment Grid */}
       {!compact && (
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mt-3 pt-1">
-          <div className="p-2.5 bg-slate-900/60 border border-slate-800/80 rounded-lg">
-            <div className="text-[10px] text-slate-400">Synoptic Code</div>
-            <div className="text-xs font-bold text-white mt-0.5 truncate">
+          <div className="p-2.5 bg-white/90 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/80 rounded-lg">
+            <div className="text-[10px] text-slate-500 dark:text-slate-400">Synoptic Code</div>
+            <div className="text-xs font-bold text-slate-900 dark:text-white mt-0.5 truncate">
               {wmo.label} ({current.weatherCode})
             </div>
           </div>
 
-          <div className="p-2.5 bg-slate-900/60 border border-slate-800/80 rounded-lg">
-            <div className="text-[10px] text-slate-400">Wind Gusts</div>
-            <div className="text-xs font-bold text-white mt-0.5">
+          <div className="p-2.5 bg-white/90 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/80 rounded-lg">
+            <div className="text-[10px] text-slate-500 dark:text-slate-400">Wind Gusts</div>
+            <div className="text-xs font-bold text-slate-900 dark:text-white mt-0.5">
               {current.windGusts} km/h • {windFactor}
             </div>
           </div>
 
-          <div className="p-2.5 bg-slate-900/60 border border-slate-800/80 rounded-lg">
-            <div className="text-[10px] text-slate-400">Precipitation Rate</div>
-            <div className="text-xs font-bold text-white mt-0.5">
+          <div className="p-2.5 bg-white/90 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/80 rounded-lg">
+            <div className="text-[10px] text-slate-500 dark:text-slate-400">Precipitation Rate</div>
+            <div className="text-xs font-bold text-slate-900 dark:text-white mt-0.5">
               {rainRate} mm/h • {precipFactor}
             </div>
           </div>
 
-          <div className="p-2.5 bg-slate-900/60 border border-slate-800/80 rounded-lg">
-            <div className="text-[10px] text-slate-400">Convective Core</div>
-            <div className="text-xs font-bold text-amber-300 mt-0.5 font-mono">
+          <div className="p-2.5 bg-white/90 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/80 rounded-lg">
+            <div className="text-[10px] text-slate-500 dark:text-slate-400">Convective Core</div>
+            <div className="text-xs font-bold text-[#9a7224] dark:text-amber-300 mt-0.5 font-mono">
               {calculatedDbz.toFixed(0)} dBZ
             </div>
           </div>

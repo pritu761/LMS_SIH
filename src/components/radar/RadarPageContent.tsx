@@ -176,9 +176,9 @@ export function RadarPageContent() {
   };
 
   return (
-    <div className="min-h-screen bg-[#070f1a] text-slate-100 flex flex-col selection:bg-[#c59b48] selection:text-[#0b1e36]">
-      {/* Top Banner / Breadcrumb & Status Bar */}
-      <header className="relative bg-[#0b1e36] border-b border-[#c59b48]/30 px-3 sm:px-6 py-3 sm:py-4 shadow-xl z-20">
+    <div className="min-h-screen bg-slate-50 dark:bg-[#070f1a] text-slate-900 dark:text-slate-100 flex flex-col selection:bg-[#c59b48] selection:text-[#0b1e36]">
+      {/* Top Banner / Breadcrumb & Status Bar with Top Clearance for Floating Navbar */}
+      <header className="relative bg-[#0b1e36] text-white border-b border-[#c59b48]/30 pt-16 sm:pt-20 pb-3 sm:pb-4 px-3 sm:px-6 shadow-xl z-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row md:items-center justify-between gap-3">
           {/* Brand & Heading */}
           <div className="flex items-center gap-3">
@@ -218,7 +218,7 @@ export function RadarPageContent() {
             </button>
 
             {/* Quick Unit Temperature Toggle */}
-            <div className="flex rounded-xl bg-slate-900/90 p-1 border border-slate-800 text-xs">
+            <div className="flex rounded-xl bg-[#122c4d]/80 p-1 border border-[#c59b48]/30 text-xs">
               <button
                 type="button"
                 onClick={() => setUnits((u) => ({ ...u, temperature: 'celsius' }))}
@@ -318,7 +318,7 @@ export function RadarPageContent() {
               activeMobileTab !== 'map' ? 'hidden lg:flex' : 'flex'
             }`}
           >
-            <div className="relative rounded-3xl overflow-hidden border border-slate-800/90 shadow-2xl bg-slate-950">
+            <div className="relative rounded-3xl overflow-hidden border border-slate-200 dark:border-slate-800/90 shadow-xl dark:shadow-2xl bg-white dark:bg-slate-950">
               <WeatherRadarMap
                 center={[coordinates.lat, coordinates.lon]}
                 zoom={7}
@@ -334,14 +334,14 @@ export function RadarPageContent() {
             </div>
 
             {/* Quick Overview Note under map */}
-            <div className="flex items-center justify-between px-3 text-xs text-slate-400 font-mono">
+            <div className="flex items-center justify-between px-3 text-xs text-slate-500 dark:text-slate-400 font-mono">
               <span className="flex items-center gap-1.5">
                 <MapPin className="w-3.5 h-3.5 text-[#c59b48]" />
                 <span>
-                  Active Target: <strong className="text-white">{coordinates.name || 'Selected Position'}</strong> ({coordinates.lat.toFixed(3)}°, {coordinates.lon.toFixed(3)}°)
+                  Active Target: <strong className="text-slate-900 dark:text-white">{coordinates.name || 'Selected Position'}</strong> ({coordinates.lat.toFixed(3)}°, {coordinates.lon.toFixed(3)}°)
                 </span>
               </span>
-              <span className="hidden sm:inline text-slate-500">
+              <span className="hidden sm:inline text-slate-400 dark:text-slate-500">
                 Click anywhere on the map to inspect localized nowcasts
               </span>
             </div>
@@ -391,31 +391,31 @@ export function RadarPageContent() {
 
         {/* 38 IMD Doppler Weather Radar Network Quick Carousel */}
         <section
-          className={`mt-8 bg-slate-900/70 backdrop-blur-xl border border-slate-800/80 rounded-3xl p-4 sm:p-6 shadow-2xl ${
+          className={`mt-8 bg-white dark:bg-slate-900/70 backdrop-blur-xl border border-slate-200 dark:border-slate-800/80 rounded-3xl p-4 sm:p-6 shadow-xl dark:shadow-2xl ${
             activeMobileTab !== 'stations' ? 'hidden lg:block' : 'block'
           }`}
         >
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 mb-4 border-b border-slate-800">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 mb-4 border-b border-slate-200 dark:border-slate-800">
             <div>
               <div className="flex items-center gap-2">
                 <Satellite className="h-4 w-4 text-[#c59b48]" />
-                <h2 className="text-base sm:text-lg font-bold text-white tracking-tight">
+                <h2 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white tracking-tight">
                   National IMD Doppler Radar Network (38 Nodes)
                 </h2>
               </div>
-              <p className="text-xs text-slate-400 mt-0.5">
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                 Click any operational radar station to immediately center the live Doppler scope and synchronize nowcasting telemetry.
               </p>
             </div>
             <div className="flex items-center gap-2 text-xs font-sans font-bold">
-              <span className="px-2.5 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 font-bold">
+              <span className="px-2.5 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-700 dark:text-emerald-300 font-bold">
                 38/38 ONLINE
               </span>
             </div>
           </div>
 
           {/* Grid of Stations */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2.5 max-h-80 overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-slate-700">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2.5 max-h-80 overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-700">
             {ALL_38_DOPPLER_NODES.map((node) => {
               const isSelected = selectedStationId === node.id;
               return (
@@ -431,22 +431,22 @@ export function RadarPageContent() {
                   className={`p-2.5 rounded-2xl border text-left transition-all duration-200 group ${
                     isSelected
                       ? 'bg-[#c59b48]/20 border-[#c59b48] shadow-md ring-1 ring-[#c59b48]'
-                      : 'bg-slate-950/60 border-slate-800/80 hover:border-[#c59b48]/50 hover:bg-slate-800/50'
+                      : 'bg-slate-50 dark:bg-slate-950/60 border-slate-200 dark:border-slate-800/80 hover:border-[#c59b48]/50 hover:bg-slate-100 dark:hover:bg-slate-800/50'
                   }`}
                 >
                   <div className="flex items-center justify-between mb-1">
-                    <span className="text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-slate-800 text-[#dfb76c] border border-slate-700">
+                    <span className="text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-slate-100 dark:bg-slate-800 text-[#9a7224] dark:text-[#dfb76c] border border-slate-200 dark:border-slate-700">
                       {node.band}
                     </span>
-                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-pulse" />
                   </div>
-                  <div className="text-xs font-bold text-slate-100 truncate group-hover:text-[#dfb76c] transition-colors">
+                  <div className="text-xs font-bold text-slate-800 dark:text-slate-100 truncate group-hover:text-[#9a7224] dark:group-hover:text-[#dfb76c] transition-colors">
                     {node.city || node.name}
                   </div>
-                  <div className="text-[10px] text-slate-400 truncate mt-0.5">{node.state}</div>
-                  <div className="flex items-center justify-between mt-2 pt-1 border-t border-slate-800/60 text-[9px] font-mono text-slate-500">
+                  <div className="text-[10px] text-slate-500 dark:text-slate-400 truncate mt-0.5">{node.state}</div>
+                  <div className="flex items-center justify-between mt-2 pt-1 border-t border-slate-200 dark:border-slate-800/60 text-[9px] font-mono text-slate-500 dark:text-slate-400">
                     <span>{node.maxRangeKm} km</span>
-                    <span className="text-emerald-400 font-bold">{node.reflectivityDbz || 25} dBZ</span>
+                    <span className="text-emerald-600 dark:text-emerald-400 font-bold">{node.reflectivityDbz || 25} dBZ</span>
                   </div>
                 </button>
               );

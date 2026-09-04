@@ -99,7 +99,19 @@ export function LeafletRadarContainer({
 
     mapInstanceRef.current = map;
 
+    // Add ResizeObserver to auto-invalidate size when container flexes
+    let resizeObserver: ResizeObserver | null = null;
+    if (typeof ResizeObserver !== 'undefined' && mapContainerRef.current) {
+      resizeObserver = new ResizeObserver(() => {
+        map.invalidateSize();
+      });
+      resizeObserver.observe(mapContainerRef.current);
+    }
+
     return () => {
+      if (resizeObserver) {
+        resizeObserver.disconnect();
+      }
       map.remove();
       mapInstanceRef.current = null;
       basemapLayerRef.current = null;
@@ -334,7 +346,7 @@ export function LeafletRadarContainer({
   return (
     <div
       ref={mapContainerRef}
-      className={`w-full h-full min-h-[450px] relative z-0 outline-none select-none ${className}`}
+      className={`w-full h-full min-h-[280px] relative z-0 outline-none select-none ${className}`}
       tabIndex={0}
       aria-label="Interactive Weather Radar Map"
     />
