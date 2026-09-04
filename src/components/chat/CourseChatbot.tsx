@@ -491,7 +491,7 @@ export function CourseChatbot() {
                         >
                           {/* Markdown or plain message */}
                           {isUser ? (
-                            <p className="text-[13px] font-medium leading-relaxed whitespace-pre-wrap">{msg.content}</p>
+                            <p className="text-[13px] font-medium leading-relaxed whitespace-pre-wrap text-white">{msg.content}</p>
                           ) : (
                             <MarkdownView content={msg.content} />
                           )}
