@@ -604,7 +604,7 @@ export function CourseChatbot() {
                       onChange={(e) => setInput(e.target.value)}
                       placeholder="Ask about Radar, NWP, HPC, AI/ML courses..."
                       disabled={isTyping}
-                      className="w-full rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900/90 pl-4 pr-20 py-2.5 text-sm text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:border-[#c59b48] focus:outline-none focus:ring-1 focus:ring-[#c59b48] disabled:opacity-50 transition-all shadow-inner"
+                      className="chat-text-input w-full rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900/90 pl-4 pr-20 py-2.5 text-sm text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:border-[#c59b48] focus:outline-none focus:ring-1 focus:ring-[#c59b48] disabled:opacity-50 transition-all shadow-inner"
                     />
 
                     {/* Speech to text mic button */}

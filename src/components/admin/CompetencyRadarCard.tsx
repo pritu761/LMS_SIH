@@ -183,7 +183,7 @@ export function CompetencyRadarCard() {
                   <span>Competency Mapping & Faculty Allocation</span>
                 </h2>
                 <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-1 max-w-2xl leading-relaxed">
-                  Algorithmic matching system pairing accredited IMD/MoES trainers with curriculum modules using a strictly weighted 55/30/15 pedagogical formula.
+                  Algorithmic matching system pairing accredited IMD/MoES trainers with curriculum modules using a strictly weighted 55/30/15 formula.
                 </p>
               </div>
 

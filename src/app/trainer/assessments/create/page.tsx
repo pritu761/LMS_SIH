@@ -116,7 +116,7 @@ export default function AssessmentCreatorPage() {
         ],
         correctOption: 'opt_1',
         weight: 2.0,
-        explanation: 'Detailed pedagogical explanation for post-submission review.',
+        explanation: 'Detailed explanation for post-submission review.',
       },
     ]);
   };
@@ -374,7 +374,7 @@ export default function AssessmentCreatorPage() {
                   {/* Explanation */}
                   <div className="space-y-1.5">
                     <label className="text-xs font-semibold text-slate-600 dark:text-slate-300">
-                      Pedagogical Explanation (Shown after grading)
+                      Answer Explanation (Shown after grading)
                     </label>
                     <textarea
                       rows={2}

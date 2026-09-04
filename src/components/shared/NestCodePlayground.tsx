@@ -40,7 +40,7 @@ const SNIPPETS: CodeSnippet[] = [
   providers: [
     {
       provide: FACULTY_ALLOCATION_ENGINE,
-      useClass: PedagogicalWeightedMatcher, // 55% Skill, 30% Rating, 15% Batch
+      useClass: FacultyWeightedMatcher, // 55% Skill, 30% Rating, 15% Batch
     },
     GapResolutionService,
   ],
@@ -66,7 +66,7 @@ export class ForecasterCadreModule {}`,
 export class CompetencyGapController {
   constructor(
     private readonly gapService: GapResolutionService,
-    private readonly facultyMatcher: PedagogicalWeightedMatcher,
+    private readonly facultyMatcher: FacultyWeightedMatcher,
   ) {}
 
   @Get('evaluate/:officerId')
@@ -96,9 +96,9 @@ export class CompetencyGapController {
     id: 'service',
     filename: 'allocation.service.ts',
     lang: 'typescript',
-    description: 'The 55/30/15 Pedagogical Faculty Weighting Algorithm',
+      description: 'The 55/30/15 Faculty Weighting Algorithm',
     code: `@Injectable()
-export class PedagogicalWeightedMatcher {
+export class FacultyWeightedMatcher {
   calculateIndex(
     skillOverlapPct: number, // 0-100%
     trainerStarRating: number, // 1.0 - 5.0

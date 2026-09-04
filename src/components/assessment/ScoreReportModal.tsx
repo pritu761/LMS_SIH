@@ -172,7 +172,7 @@ export function ScoreReportModal({
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200 dark:border-slate-800 pb-2">
             <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-2">
               <ShieldCheck className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
-              <span>Pedagogical Review & Faculty Explanations</span>
+              <span>Answer Review & Faculty Explanations</span>
             </h3>
 
             {/* Filter Tabs */}

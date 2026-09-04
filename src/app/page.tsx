@@ -308,8 +308,8 @@ export default function HomePage() {
                 <h1 className="text-4xl sm:text-6xl md:text-7xl font-display font-black tracking-tight text-[#0b1e36] dark:text-white leading-[1.04]">
                   CAPACITY <span className="text-[#9a7224] dark:text-[#dfb76c]">CONNECT</span>
                 </h1>
-                <p className="text-xl sm:text-2xl md:text-3xl font-display font-extrabold text-slate-800 dark:text-slate-200 tracking-tight leading-snug">
-                  Sovereign Meteorological Competency & 55/30/15 Faculty Allocation Engine
+                <p className="text-lg sm:text-2xl font-display font-bold text-slate-700 dark:text-slate-200 tracking-tight leading-snug">
+                  Digital Capacity Building & Learning Management Portal
                 </p>
               </div>
 
@@ -320,8 +320,8 @@ export default function HomePage() {
               </div>
 
               {/* Clear Value Proposition */}
-              <p className="text-sm sm:text-base text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
-                Built for the <strong>India Meteorological Department (IMD)</strong> and <strong>Ministry of Earth Sciences (MoES)</strong> under <strong>Mission Mausam</strong>. CapacityConnect replaces static spreadsheets with an automated competency pipeline: assessing officer readiness, diagnosing skill gaps across 38 Doppler Radars, and allocating certified faculty via our weighted <strong>55/30/15 algorithm</strong>.
+              <p className="text-sm sm:text-base text-slate-700 dark:text-slate-300 leading-relaxed font-medium max-w-2xl">
+                <strong>CapacityConnect</strong> replaces static course tracking with an end-to-end meteorological intelligence pipeline: dynamically assessing officer skills, diagnosing cadre gaps, and matching certified faculty via our weighted <strong>55/30/15 algorithm</strong>.
               </p>
 
               {/* 6-Stage Journey Ribbon (Problem -> Outcome) */}
@@ -849,7 +849,7 @@ export default function HomePage() {
               <div className="h-10 w-10 rounded-xl bg-[#c59b48] gold-ink flex items-center justify-center font-bold">
                 2
               </div>
-              <h3 className="text-lg font-bold text-[#0b1e36] dark:text-white">Granular Skill Gap Diagnosis</h3>
+              <h3 className="text-lg font-bold text-[#0b1e36] dark:text-white">Skill Gap Diagnosis</h3>
               <p className="text-[13px] text-slate-600 dark:text-slate-300 leading-relaxed">
                 Rather than a vague pass/fail grade, the engine pinpoints specific deficits (e.g. &ldquo;Radar Velocity Dealiasing is 32% below benchmark&rdquo;).
               </p>
@@ -884,7 +884,7 @@ export default function HomePage() {
                 <span className="rounded-full bg-[#0b1e36]/10 dark:bg-[#c59b48]/15 px-3 py-1 text-xs font-sans font-bold text-[#0b1e36] dark:text-[#dfb76c] border border-[#c59b48]/30">
                   PHASE 5 • THE CORE DIFFERENTIATOR
                 </span>
-                <span className="text-xs text-slate-500 dark:text-slate-400 font-sans">Pedagogical Algorithm</span>
+                <span className="text-xs text-slate-500 dark:text-slate-400 font-sans">Matching Algorithm</span>
               </div>
               <h2 className="text-2xl sm:text-4xl font-black text-[#0b1e36] dark:text-white tracking-tight flex items-center gap-3">
                 <div className="h-10 w-10 rounded-xl bg-[#0b1e36] border border-[#c59b48]/40 flex items-center justify-center">

@@ -2609,6 +2609,22 @@ footer .text-white,
   color: #94a3b8 !important;
 }
 
+/* Exception: inputs that are intentionally light-styled even inside a
+   dark surface (e.g. the AI chatbot composer) keep a white field with
+   dark text in light mode so typed text stays visible. */
+[data-mode='light'] .dark-surface input.chat-text-input,
+.light .dark-surface input.chat-text-input {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #090a0f !important;
+  caret-color: #0b1e36 !important;
+}
+
+[data-mode='light'] .dark-surface input.chat-text-input::placeholder,
+.light .dark-surface input.chat-text-input::placeholder {
+  color: #94a3b8 !important;
+}
+
 [data-mode='light'] .dark-surface .text-amber-300,
 .light .dark-surface .text-amber-300 {
   color: #fcd34d !important;

@@ -304,7 +304,7 @@ export function NestEcosystemShowcase() {
                         </div>
                         <div className="flex items-center gap-2 p-2 rounded-lg bg-[#c59b48]/10 border border-[#c59b48]/30 text-[#dfb76c] text-[11px]">
                           <Zap className="h-3.5 w-3.5" />
-                          <span>PedagogicalWeightedMatcher (55/30/15)</span>
+                          <span>FacultyWeightedMatcher (55/30/15)</span>
                           <span className="ml-auto text-[9px] text-amber-300">RESOLVED</span>
                         </div>
                       </div>

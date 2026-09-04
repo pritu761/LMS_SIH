@@ -42,7 +42,7 @@ export default function TechnicalArchitecturePage() {
       badge: 'DEPENDENCY INJECTION',
       icon: Cpu,
       color: '#c59b48',
-      desc: 'Decoupled service providers inject assessment algorithms, telemetry connectors, and the 55/30/15 pedagogical matching engine at runtime.',
+      desc: 'Decoupled service providers inject assessment algorithms, telemetry connectors, and the 55/30/15 faculty matching engine at runtime.',
       highlights: ['Custom Injection Tokens', 'Interface-Driven Contracts', 'Dynamic Matcher Swapping'],
     },
     {
@@ -82,7 +82,7 @@ export default function TechnicalArchitecturePage() {
   const systemFlow = [
     { step: '01', title: 'HTTP / WebSocket Ingress', desc: 'Secure TLS terminating at Next.js / NestJS Gateway with Rate Limiting & RBAC Guard.' },
     { step: '02', title: 'DTO Validation Pipe', desc: 'Runtime validation of Radar Telemetry schemas, Question Payloads, and Batch metadata.' },
-    { step: '03', title: 'IoC Dependency Resolution', desc: 'Container injects the Pedagogical 55/30/15 Matcher and Proctored Assessment Engine.' },
+    { step: '03', title: 'IoC Dependency Resolution', desc: 'Container injects the Faculty 55/30/15 Matcher and Proctored Assessment Engine.' },
     { step: '04', title: 'State & Database Transaction', desc: 'Prisma ORM transactions with PostgreSQL for atomic score calculation and gap updates.' },
     { step: '05', title: 'Live Telemetry Broadcast', desc: 'Real-time WebSocket event dispatched to Admin Control Room and Trainee Dashboard.' },
   ];
@@ -111,7 +111,7 @@ export default function TechnicalArchitecturePage() {
                 Enterprise System Architecture
               </h1>
               <p className="text-sm text-slate-600 dark:text-slate-300 max-w-3xl mt-2 leading-relaxed">
-                A decoupled, modular, and type-safe architecture engineered for sovereign meteorological capacity building, real-time radar telemetry, and automated pedagogical optimization.
+                A decoupled, modular, and type-safe architecture engineered for sovereign meteorological capacity building, real-time radar telemetry, and automated competency optimization.
               </p>
             </div>
 
