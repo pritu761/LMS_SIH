@@ -306,17 +306,17 @@ export default function HomePage() {
 
               {/* Main Headline */}
               <div className="space-y-2">
-                <h1 className="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight text-[#0b1e36] dark:text-white leading-[1.04]">
-                  CAPACITY <span className="text-[#c59b48] dark:text-[#dfb76c]">CONNECT</span>
+                <h1 className="text-4xl sm:text-6xl md:text-7xl font-display font-black tracking-tight text-[#0b1e36] dark:text-white leading-[1.04]">
+                  CAPACITY <span className="text-[#9a7224] dark:text-[#dfb76c]">CONNECT</span>
                 </h1>
-                <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-800 dark:text-slate-200 tracking-tight leading-snug">
+                <p className="text-xl sm:text-2xl md:text-3xl font-display font-extrabold text-slate-800 dark:text-slate-200 tracking-tight leading-snug">
                   Sovereign Meteorological Competency & 55/30/15 Faculty Allocation Engine
-                </h2>
+                </p>
               </div>
 
               {/* Tagline Pill */}
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-gradient-to-r from-[#c59b48]/15 via-white/80 to-[#c59b48]/15 dark:from-[#0b1e36] dark:via-[#102744] dark:to-[#0b1e36] border border-[#c59b48]/40 text-xs sm:text-sm text-[#0b1e36] dark:text-[#dfb76c] font-bold shadow-sm">
-                <span className="text-[#c59b48] font-black text-base">★</span>
+                <span className="text-[#9a7224] dark:text-[#c59b48] font-black text-base" aria-hidden="true">★</span>
                 <span>Empowering People. Strengthening Competencies. Building a Future-Ready Workforce.</span>
               </div>
 
@@ -461,10 +461,10 @@ export default function HomePage() {
           {/* ════════════════ 5-PILLAR LEARNING PROGRESSION ARC ════════════════ */}
           <div className="pt-6 border-t border-slate-200 dark:border-white/10">
             <div className="text-center mb-6 space-y-1">
-              <span className="text-xs font-sans font-bold text-[#c59b48] uppercase tracking-wider">
+              <span className="text-xs font-sans font-bold text-[#9a7224] dark:text-[#c59b48] uppercase tracking-wider">
                 Systematic Capacity Building Progression
               </span>
-              <h3 className="text-xl sm:text-2xl font-black text-[#0b1e36] dark:text-white">
+              <h3 className="text-xl sm:text-2xl font-display font-extrabold text-[#0b1e36] dark:text-white tracking-tight">
                 The 5 Pillars of Meteorological Officer Readiness
               </h3>
             </div>
@@ -492,10 +492,10 @@ export default function HomePage() {
                       </span>
                     </div>
                     <div>
-                      <div className="font-black text-base text-[#0b1e36] dark:text-white tracking-tight">{p.name}</div>
-                      <div className="text-[11px] font-semibold text-[#c59b48] dark:text-[#dfb76c]">{p.title}</div>
+                      <div className="font-display font-extrabold text-base text-[#0b1e36] dark:text-white tracking-tight">{p.name}</div>
+                      <div className="text-[11px] font-semibold text-[#9a7224] dark:text-[#dfb76c]">{p.title}</div>
                     </div>
-                    <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                    <p className="text-[13px] text-slate-600 dark:text-slate-300 leading-relaxed">
                       {p.desc}
                     </p>
                   </div>
@@ -843,10 +843,10 @@ export default function HomePage() {
                 1
               </div>
               <h3 className="text-lg font-bold text-[#0b1e36] dark:text-white">Anti-Cheat Proctored Assessments</h3>
-              <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+              <p className="text-[13px] text-slate-600 dark:text-slate-300 leading-relaxed">
                 Randomized question pools, timed MCQ evaluation, fullscreen enforcement, and tab-switch monitoring prevent fraudulent evaluations.
               </p>
-              <div className="pt-2 text-xs font-sans text-[#c59b48] dark:text-[#dfb76c] font-bold">
+              <div className="pt-2 text-xs font-sans text-[#9a7224] dark:text-[#dfb76c] font-bold">
                 ✓ Full Integrity Audit Trail
               </div>
             </div>
@@ -856,7 +856,7 @@ export default function HomePage() {
                 2
               </div>
               <h3 className="text-lg font-bold text-[#0b1e36] dark:text-white">Granular Skill Gap Diagnosis</h3>
-              <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+              <p className="text-[13px] text-slate-600 dark:text-slate-300 leading-relaxed">
                 Rather than a vague pass/fail grade, the engine pinpoints specific deficits (e.g. &ldquo;Radar Velocity Dealiasing is 32% below benchmark&rdquo;).
               </p>
               <div className="pt-2 text-xs font-sans text-[#0b1e36] dark:text-[#dfb76c] font-bold">
@@ -869,7 +869,7 @@ export default function HomePage() {
                 3
               </div>
               <h3 className="text-lg font-bold text-[#0b1e36] dark:text-white">1-Click Targeted Upskilling</h3>
-              <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+              <p className="text-[13px] text-slate-600 dark:text-slate-300 leading-relaxed">
                 The platform dynamically injects the exact prerequisite module into the officer’s queue without forcing a repeat of unrelated subjects.
               </p>
               <div className="pt-2 text-xs font-sans text-emerald-700 dark:text-emerald-400 font-bold">

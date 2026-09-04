@@ -66,7 +66,7 @@ export default function AdminDashboardPage() {
 
           <div className="relative z-10">
             <div className="flex items-center gap-2">
-              <span className="rounded-md bg-emerald-500/10 px-2.5 py-0.5 text-xs font-bold text-emerald-400 border border-emerald-500/20">
+              <span className="rounded-md bg-emerald-500/10 px-2.5 py-0.5 text-xs font-bold text-emerald-700 dark:text-emerald-400 border border-emerald-500/20">
                 NATIONAL GOVERNANCE
               </span>
               <span className="text-xs text-slate-500 dark:text-slate-400">Executive Capacity Building Control Room</span>
@@ -75,10 +75,10 @@ export default function AdminDashboardPage() {
                 <span className="text-emerald-400 font-bold">All Systems Operational</span>
               </span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight mt-1">
+            <h1 className="text-2xl sm:text-3xl font-display font-extrabold text-slate-900 dark:text-white tracking-tight mt-1">
               Sitewide Intelligence & Governance Hub
             </h1>
-            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-1">
+            <p className="text-[13px] sm:text-sm text-slate-600 dark:text-slate-300 mt-1.5 leading-relaxed max-w-2xl">
               Monitor sitewide learner throughput, approve pending faculty, publish national bulletins, and run competency matching models.
             </p>
           </div>
@@ -130,12 +130,12 @@ export default function AdminDashboardPage() {
                 <div className="h-12 w-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 group-hover:scale-110 transition-all duration-300">
                   <Radio className="h-5 w-5 animate-pulse" />
                 </div>
-                <span className="rounded-full bg-emerald-500/20 px-2.5 py-0.5 text-xs font-bold text-emerald-300 animate-pulse">
+                <span className="rounded-full bg-emerald-500/20 px-2.5 py-0.5 text-xs font-bold text-emerald-700 dark:text-emerald-300">
                   38 Nodes Online
                 </span>
               </div>
               <div>
-                <h3 className="font-bold text-slate-900 dark:text-white text-base group-hover:text-emerald-300 transition-colors">
+                <h3 className="font-display font-bold text-slate-900 dark:text-white text-base group-hover:text-emerald-700 dark:group-hover:text-emerald-300 transition-colors">
                   Doppler Radar Network
                 </h3>
                 <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
@@ -153,12 +153,12 @@ export default function AdminDashboardPage() {
                 <div className="h-12 w-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 group-hover:scale-110 group-hover:shadow-glow-amber transition-all duration-300">
                   <ShieldCheck className="h-5 w-5" />
                 </div>
-                <span className="rounded-full bg-amber-500/20 px-2.5 py-0.5 text-xs font-bold text-amber-300 animate-pulse">
+                <span className="rounded-full bg-amber-500/20 px-2.5 py-0.5 text-xs font-bold text-amber-700 dark:text-amber-300">
                   {pendingUsersCount} Pending
                 </span>
               </div>
               <div>
-                <h3 className="font-bold text-slate-900 dark:text-white text-base group-hover:text-amber-300 transition-colors">
+                <h3 className="font-display font-bold text-slate-900 dark:text-white text-base group-hover:text-amber-700 dark:group-hover:text-amber-300 transition-colors">
                   User Approvals & RBAC
                 </h3>
                 <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
@@ -176,12 +176,12 @@ export default function AdminDashboardPage() {
                 <div className="h-12 w-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 group-hover:scale-110 group-hover:shadow-glow-sm transition-all duration-300">
                   <Brain className="h-5 w-5" />
                 </div>
-                <span className="rounded-full bg-indigo-500/20 px-2.5 py-0.5 text-xs font-bold text-indigo-300">
+                <span className="rounded-full bg-indigo-500/20 px-2.5 py-0.5 text-xs font-bold text-indigo-700 dark:text-indigo-300">
                   55/30/15 Engine
                 </span>
               </div>
               <div>
-                <h3 className="font-bold text-slate-900 dark:text-white text-base group-hover:text-indigo-300 transition-colors">
+                <h3 className="font-display font-bold text-slate-900 dark:text-white text-base group-hover:text-indigo-700 dark:group-hover:text-indigo-300 transition-colors">
                   Competency Engine
                 </h3>
                 <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
@@ -218,7 +218,7 @@ export default function AdminDashboardPage() {
                   <input
                     type="text"
                     required
-                    placeholder="e.g. 📢 Digital Governance Hackathon & Certification Drive"
+                    placeholder="e.g. Digital Governance Hackathon & Certification Drive"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-3 py-2.5 text-xs text-slate-900 dark:text-slate-200 input-glow transition-all"

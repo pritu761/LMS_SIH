@@ -76,20 +76,20 @@ export function AnnouncementFeed() {
                     {ann.type}
                   </span>
                   {ann.isPinned && (
-                    <span className="flex items-center gap-1 text-[10px] font-bold text-blue-600 dark:text-blue-400">
+                    <span className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-blue-700 dark:text-blue-400">
                       <Pin className="h-3 w-3 animate-pulse" /> Pinned
                     </span>
                   )}
                 </div>
-                <span className="text-[10px] text-slate-500 dark:text-slate-400 font-mono bg-slate-100 dark:bg-white/5 px-2 py-0.5 rounded border border-slate-200 dark:border-white/5">
+                <span className="text-[11px] text-slate-600 dark:text-slate-400 font-mono bg-slate-100 dark:bg-white/5 px-2 py-0.5 rounded border border-slate-200 dark:border-white/5 tabular-nums">
                   {timeAgo(ann.createdAt)}
                 </span>
               </div>
 
-              <h4 className="text-sm font-bold text-slate-900 dark:text-white mt-2">{ann.title}</h4>
-              <p className="text-xs text-slate-600 dark:text-slate-300 mt-1 leading-relaxed">{ann.content}</p>
+              <h4 className="text-[15px] font-display font-bold text-slate-900 dark:text-white mt-2 leading-snug">{ann.title}</h4>
+              <p className="text-[13px] text-slate-600 dark:text-slate-300 mt-1 leading-relaxed">{ann.content}</p>
 
-              <div className="text-[10px] text-slate-500 dark:text-slate-400 mt-2 font-medium">
+              <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-2 font-medium">
                 Published by <span className="text-slate-900 dark:text-slate-200 font-semibold">{ann.authorName}</span>
               </div>
             </motion.div>

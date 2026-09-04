@@ -109,7 +109,7 @@ export function Sidebar({ role, user }: SidebarProps) {
 
   const roleColors = {
     ADMIN: { label: 'text-[#0b1e36] dark:text-[#dfb76c]', badge: 'bg-[#0b1e36]/10 dark:bg-[#c59b48]/15 text-[#0b1e36] dark:text-[#dfb76c] border-[#c59b48]/40' },
-    TRAINER: { label: 'text-[#c59b48] dark:text-[#dfb76c]', badge: 'bg-[#c59b48]/10 text-[#0b1e36] dark:text-[#dfb76c] border-[#c59b48]/40' },
+    TRAINER: { label: 'text-[#9a7224] dark:text-[#dfb76c]', badge: 'bg-[#c59b48]/10 text-[#0b1e36] dark:text-[#dfb76c] border-[#c59b48]/40' },
     TRAINEE: { label: 'text-[#0b1e36] dark:text-[#dfb76c]', badge: 'bg-[#0b1e36]/10 dark:bg-[#c59b48]/15 text-[#0b1e36] dark:text-[#dfb76c] border-[#c59b48]/40' },
   };
 

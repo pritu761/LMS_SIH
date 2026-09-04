@@ -216,7 +216,7 @@ export function QuizEngine({ quiz }: QuizEngineProps) {
                       {letter}
                     </div>
 
-                    <div className="flex-1 text-xs sm:text-sm font-medium text-slate-900 dark:text-slate-200 pt-0.5">
+                    <div className="flex-1 text-sm sm:text-[15px] font-medium text-slate-900 dark:text-slate-200 pt-0.5 leading-relaxed">
                       {opt.text}
                     </div>
                   </div>
@@ -310,12 +310,12 @@ export function QuizEngine({ quiz }: QuizEngineProps) {
 
             <div>
               <h3 className="text-lg font-bold text-slate-900 dark:text-white">Confirm Final Submission</h3>
-              <p className="text-xs text-slate-600 dark:text-slate-300 mt-1">
-                You have answered <span className="font-bold text-slate-900 dark:text-white">{answeredCount}</span> out of{' '}
-                <span className="font-bold text-slate-900 dark:text-white">{totalQuestions}</span> questions.
+              <p className="text-[13px] text-slate-600 dark:text-slate-300 mt-1 leading-relaxed">
+                You have answered <span className="font-bold text-slate-900 dark:text-white tabular-nums">{answeredCount}</span> out of{' '}
+                <span className="font-bold text-slate-900 dark:text-white tabular-nums">{totalQuestions}</span> questions.
                 {answeredCount < totalQuestions && (
-                  <span className="text-amber-600 dark:text-amber-400 block mt-1">
-                    ⚠️ You still have {totalQuestions - answeredCount} unanswered questions.
+                  <span className="text-amber-700 dark:text-amber-400 font-semibold block mt-1">
+                    Note: {totalQuestions - answeredCount} {totalQuestions - answeredCount === 1 ? 'question is' : 'questions are'} still unanswered.
                   </span>
                 )}
               </p>

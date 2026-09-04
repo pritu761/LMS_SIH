@@ -90,10 +90,10 @@ export default function DopplerRadarCommandCenterPage() {
                 </span>
               </div>
 
-              <h1 className="text-2xl sm:text-4xl font-black text-[#0b1e36] dark:text-white tracking-tight mt-1">
+              <h1 className="text-2xl sm:text-3xl font-display font-extrabold text-[#0b1e36] dark:text-white tracking-tight mt-1">
                 National Doppler Weather Radar Network
               </h1>
-              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-3xl mt-1 leading-relaxed">
+              <p className="text-[13px] sm:text-sm text-slate-600 dark:text-slate-300 max-w-3xl mt-1.5 leading-relaxed">
                 Live polarimetric telemetry, PPI scans, Nyquist velocity de-aliasing, and automated hydrometeor classification across all 38 IMD radar stations.
               </p>
             </div>
@@ -117,8 +117,8 @@ export default function DopplerRadarCommandCenterPage() {
               <span>ACTIVE RADAR NODES</span>
               <Radio className="h-4 w-4 text-emerald-500" />
             </div>
-            <div className="text-2xl font-black text-[#0b1e36] dark:text-white">
-              38 / 38 <span className="text-xs font-bold text-emerald-500">100% ONLINE</span>
+            <div className="text-2xl font-display font-extrabold text-[#0b1e36] dark:text-white tabular-nums">
+              38 / 38 <span className="text-xs font-bold text-emerald-600 dark:text-emerald-500">100% ONLINE</span>
             </div>
             <div className="text-[11px] text-slate-500 dark:text-slate-400">
               17 S-Band • 13 C-Band • 8 X-Band
@@ -130,7 +130,7 @@ export default function DopplerRadarCommandCenterPage() {
               <span>AVG INGRESS LATENCY</span>
               <Activity className="h-4 w-4 text-cyan-500" />
             </div>
-            <div className="text-2xl font-black text-cyan-600 dark:text-cyan-400">
+            <div className="text-2xl font-display font-extrabold text-cyan-700 dark:text-cyan-400 tabular-nums">
               {summary.avgLatencyMs} ms
             </div>
             <div className="text-[11px] text-slate-500 dark:text-slate-400">
@@ -143,7 +143,7 @@ export default function DopplerRadarCommandCenterPage() {
               <span>NATIONAL COVERAGE</span>
               <Globe className="h-4 w-4 text-[#c59b48]" />
             </div>
-            <div className="text-2xl font-black text-[#0b1e36] dark:text-[#dfb76c]">
+            <div className="text-2xl font-display font-extrabold text-[#0b1e36] dark:text-[#dfb76c] tabular-nums">
               3.28M km²
             </div>
             <div className="text-[11px] text-slate-500 dark:text-slate-400">
@@ -156,8 +156,8 @@ export default function DopplerRadarCommandCenterPage() {
               <span>TRAINEE OBSERVERS</span>
               <Users className="h-4 w-4 text-purple-500" />
             </div>
-            <div className="text-2xl font-black text-purple-600 dark:text-purple-400">
-              {summary.activeTraineeObservers} Connected
+            <div className="text-2xl font-display font-extrabold text-purple-700 dark:text-purple-400 tabular-nums">
+              {summary.activeTraineeObservers} <span className="text-sm font-bold">Connected</span>
             </div>
             <div className="text-[11px] text-slate-500 dark:text-slate-400">
               DRSTC & FTC Live Sim Channels
@@ -250,7 +250,7 @@ export default function DopplerRadarCommandCenterPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs font-sans">
               <thead>
-                <tr className="border-b border-slate-200 dark:border-white/10 text-[10px] font-sans font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                <tr className="border-b border-slate-200 dark:border-white/10 text-[11px] font-sans font-bold text-slate-600 dark:text-slate-400 uppercase tracking-[0.08em]">
                   <th className="py-3 px-3">Station Code & Name</th>
                   <th className="py-3 px-3">Location</th>
                   <th className="py-3 px-3">Band / Freq</th>
@@ -276,7 +276,7 @@ export default function DopplerRadarCommandCenterPage() {
                     >
                       <td className="py-3 px-3">
                         <div className="flex items-center gap-2">
-                          <span className="text-[#c59b48] font-bold">{node.code}</span>
+                          <span className="text-[#9a7224] dark:text-[#c59b48] font-bold">{node.code}</span>
                           <span className="font-sans text-slate-900 dark:text-white font-medium">
                             {node.name}
                           </span>
@@ -302,11 +302,11 @@ export default function DopplerRadarCommandCenterPage() {
                         {node.peakPowerKw} kW / {node.prfHz} Hz
                       </td>
                       <td className="py-3 px-3">
-                        <span className="font-bold text-amber-600 dark:text-amber-400">
+                        <span className="font-bold text-amber-700 dark:text-amber-400 tabular-nums">
                           {node.reflectivityDbz} dBZ
                         </span>
                       </td>
-                      <td className="py-3 px-3 text-cyan-600 dark:text-cyan-400">
+                      <td className="py-3 px-3 text-cyan-700 dark:text-cyan-400 tabular-nums">
                         {node.latencyMs} ms
                       </td>
                       <td className="py-3 px-3">

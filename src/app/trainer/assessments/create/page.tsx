@@ -200,7 +200,7 @@ export default function AssessmentCreatorPage() {
                 <select
                   value={courseId}
                   onChange={(e) => setCourseId(e.target.value)}
-                  className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-3 py-2 text-xs text-slate-900 dark:text-slate-200 focus:border-indigo-500 focus:outline-none"
+                  className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-3 py-2.5 text-sm text-slate-900 dark:text-slate-200 focus:border-indigo-500 focus:outline-none"
                 >
                   {initialCourses.map((c) => (
                     <option key={c.id} value={c.id}>
@@ -217,7 +217,7 @@ export default function AssessmentCreatorPage() {
                   required
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-3 py-2 text-xs text-slate-900 dark:text-slate-200 focus:border-indigo-500 focus:outline-none"
+                  className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-3 py-2.5 text-sm text-slate-900 dark:text-slate-200 focus:border-indigo-500 focus:outline-none"
                 />
               </div>
 
@@ -231,7 +231,7 @@ export default function AssessmentCreatorPage() {
                   max={180}
                   value={timeLimitMinutes}
                   onChange={(e) => setTimeLimitMinutes(parseInt(e.target.value) || 30)}
-                  className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-3 py-2 text-xs text-slate-900 dark:text-slate-200 focus:border-indigo-500 focus:outline-none"
+                  className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-3 py-2.5 text-sm text-slate-900 dark:text-slate-200 focus:border-indigo-500 focus:outline-none"
                 />
               </div>
 
@@ -245,7 +245,7 @@ export default function AssessmentCreatorPage() {
                   max={100}
                   value={passingPercentage}
                   onChange={(e) => setPassingPercentage(parseFloat(e.target.value) || 70)}
-                  className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-3 py-2 text-xs text-slate-900 dark:text-slate-200 focus:border-indigo-500 focus:outline-none"
+                  className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-3 py-2.5 text-sm text-slate-900 dark:text-slate-200 focus:border-indigo-500 focus:outline-none"
                 />
               </div>
 
@@ -257,7 +257,7 @@ export default function AssessmentCreatorPage() {
                   max={10}
                   value={maxAttempts}
                   onChange={(e) => setMaxAttempts(parseInt(e.target.value) || 3)}
-                  className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-3 py-2 text-xs text-slate-900 dark:text-slate-200 focus:border-indigo-500 focus:outline-none"
+                  className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-3 py-2.5 text-sm text-slate-900 dark:text-slate-200 focus:border-indigo-500 focus:outline-none"
                 />
               </div>
 
@@ -269,7 +269,7 @@ export default function AssessmentCreatorPage() {
                   type="datetime-local"
                   value={cutoffDate}
                   onChange={(e) => setCutoffDate(e.target.value)}
-                  className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-3 py-2 text-xs text-slate-900 dark:text-slate-200 focus:border-indigo-500 focus:outline-none"
+                  className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-3 py-2.5 text-sm text-slate-900 dark:text-slate-200 focus:border-indigo-500 focus:outline-none"
                 />
               </div>
             </div>
@@ -299,7 +299,7 @@ export default function AssessmentCreatorPage() {
                   className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950/60 p-5 space-y-4"
                 >
                   <div className="flex items-center justify-between">
-                    <span className="rounded-lg bg-indigo-600/20 px-2.5 py-0.5 text-xs font-bold text-indigo-300 border border-indigo-500/30">
+                    <span className="rounded-lg bg-indigo-600/20 px-2.5 py-0.5 text-xs font-bold text-indigo-700 dark:text-indigo-300 border border-indigo-500/30">
                       Question {qIdx + 1}
                     </span>
                     <div className="flex items-center gap-2">
@@ -313,7 +313,7 @@ export default function AssessmentCreatorPage() {
                           updated[qIdx].weight = parseFloat(e.target.value) || 1.0;
                           setQuestions(updated);
                         }}
-                        className="w-16 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 px-2 py-1 text-xs text-slate-900 dark:text-slate-200 text-center"
+                        className="w-16 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 px-2 py-1.5 text-sm text-slate-900 dark:text-slate-200 text-center tabular-nums"
                       />
                       <button
                         type="button"
@@ -335,7 +335,7 @@ export default function AssessmentCreatorPage() {
                         updated[qIdx].questionText = e.target.value;
                         setQuestions(updated);
                       }}
-                      className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-2.5 text-xs text-slate-900 dark:text-slate-200 focus:border-indigo-500 focus:outline-none"
+                      className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-3 text-sm text-slate-900 dark:text-slate-200 focus:border-indigo-500 focus:outline-none"
                     />
                   </div>
 
@@ -365,7 +365,7 @@ export default function AssessmentCreatorPage() {
                             updated[qIdx].options[optIdx].text = e.target.value;
                             setQuestions(updated);
                           }}
-                          className="flex-1 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 px-2.5 py-1.5 text-xs text-slate-900 dark:text-slate-200 focus:border-indigo-500 focus:outline-none"
+                          className="flex-1 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 px-3 py-2 text-sm text-slate-900 dark:text-slate-200 focus:border-indigo-500 focus:outline-none"
                         />
                       </div>
                     ))}
@@ -384,7 +384,7 @@ export default function AssessmentCreatorPage() {
                         updated[qIdx].explanation = e.target.value;
                         setQuestions(updated);
                       }}
-                      className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-2.5 text-xs text-slate-900 dark:text-slate-200 focus:border-indigo-500 focus:outline-none"
+                      className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-3 text-sm text-slate-900 dark:text-slate-200 focus:border-indigo-500 focus:outline-none"
                     />
                   </div>
                 </div>

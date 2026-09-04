@@ -140,17 +140,17 @@ export default function CourseCatalogPage() {
               {/* Body */}
               <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
                 <div className="space-y-2">
-                  <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-[#c59b48] transition-colors leading-snug">
+                  <h3 className="text-lg font-display font-bold text-slate-900 dark:text-white group-hover:text-[#9a7224] dark:group-hover:text-[#c59b48] transition-colors leading-snug">
                     {course.title}
                   </h3>
-                  <p className="text-xs text-slate-600 dark:text-slate-300 line-clamp-3 leading-relaxed">
+                  <p className="text-[13px] text-slate-600 dark:text-slate-300 line-clamp-3 leading-relaxed">
                     {course.description}
                   </p>
                 </div>
 
                 {/* Target Competencies */}
                 <div className="space-y-1.5 pt-2">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                  <span className="text-[11px] font-bold uppercase tracking-[0.08em] text-slate-600 dark:text-slate-400">
                     Mapped Competencies
                   </span>
                   <div className="flex flex-wrap gap-1">
@@ -168,10 +168,10 @@ export default function CourseCatalogPage() {
                 {/* Footer / CTA */}
                 <div className="pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
                   <div>
-                    <div className="text-xs font-semibold text-slate-900 dark:text-slate-200">{course.trainerName}</div>
-                    <div className="text-[10px] text-slate-500 dark:text-slate-400 flex items-center gap-1">
-                      <Star className="h-3 w-3 text-amber-400 fill-amber-400" />
-                      <span>{course.trainerRating} ★ • {course.durationHours} Hours</span>
+                    <div className="text-[13px] font-semibold text-slate-900 dark:text-slate-200">{course.trainerName}</div>
+                    <div className="text-xs text-slate-600 dark:text-slate-400 flex items-center gap-1 tabular-nums">
+                      <Star className="h-3 w-3 text-amber-500 dark:text-amber-400 fill-amber-500 dark:fill-amber-400" />
+                      <span>{course.trainerRating} • {course.durationHours} Hours</span>
                     </div>
                   </div>
 
@@ -179,7 +179,7 @@ export default function CourseCatalogPage() {
                     href={`/trainee/courses/${course.id}`}
                     className="flex items-center gap-1.5 rounded-xl bg-[#0b1e36] hover:bg-[#122c4d] border border-[#c59b48]/50 px-4 py-2 text-xs font-bold text-white shadow-md shadow-[#0b1e36]/20 transition-all hover:scale-105"
                   >
-                    <span>Enroll / Play</span>
+                    <span>View Course</span>
                     <ChevronRight className="h-3.5 w-3.5 text-[#c59b48]" />
                   </Link>
                 </div>

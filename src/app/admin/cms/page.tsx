@@ -24,6 +24,7 @@ import {
   ShieldCheck,
   CheckCircle2,
   Zap,
+  X,
 } from 'lucide-react';
 
 export default function AdminCmsPage() {
@@ -175,7 +176,7 @@ export default function AdminCmsPage() {
 
         {/* Toast alert */}
         {toastMessage && (
-          <div className="rounded-2xl bg-emerald-500/10 border border-emerald-500/30 p-4 text-xs font-semibold text-emerald-300 flex items-center gap-2 animate-fade-in-up shadow-glow-emerald">
+          <div className="rounded-2xl bg-emerald-500/10 border border-emerald-500/30 p-4 text-[13px] font-semibold text-emerald-700 dark:text-emerald-300 leading-relaxed flex items-center gap-2 animate-fade-in-up shadow-glow-emerald">
             <CheckCircle2 className="h-4 w-4 shrink-0" />
             <span>{toastMessage}</span>
           </div>
@@ -184,21 +185,21 @@ export default function AdminCmsPage() {
         {/* CMS Analytics Cards */}
         <MotionSection variant="fade-up" delay={100}>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 p-4.5 space-y-1 card-tilt">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Total Bulletins</span>
-              <div className="text-2xl font-black text-slate-900 dark:text-white">{announcements.length} Active</div>
+            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 p-4 space-y-1 card-tilt">
+              <span className="text-[11px] font-bold uppercase tracking-[0.08em] text-slate-600 dark:text-slate-400">Total Bulletins</span>
+              <div className="text-2xl font-display font-extrabold text-slate-900 dark:text-white tabular-nums">{announcements.length} <span className="text-sm font-bold text-slate-500 dark:text-slate-400">Active</span></div>
             </div>
-            <div className="rounded-2xl border border-indigo-500/30 bg-indigo-950/20 p-4.5 space-y-1 card-tilt">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-300">Pinned to Top</span>
-              <div className="text-2xl font-black text-indigo-400">{pinnedCount} Items</div>
+            <div className="rounded-2xl border border-indigo-500/30 bg-indigo-500/10 dark:bg-indigo-950/20 p-4 space-y-1 card-tilt">
+              <span className="text-[11px] font-bold uppercase tracking-[0.08em] text-indigo-700 dark:text-indigo-300">Pinned to Top</span>
+              <div className="text-2xl font-display font-extrabold text-indigo-700 dark:text-indigo-400 tabular-nums">{pinnedCount} <span className="text-sm font-bold text-indigo-500 dark:text-indigo-400/70">Items</span></div>
             </div>
-            <div className="rounded-2xl border border-rose-500/30 bg-rose-950/20 p-4.5 space-y-1 card-tilt">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-rose-300">Active Alerts</span>
-              <div className="text-2xl font-black text-rose-400">{alertCount} Notices</div>
+            <div className="rounded-2xl border border-rose-500/30 bg-rose-500/10 dark:bg-rose-950/20 p-4 space-y-1 card-tilt">
+              <span className="text-[11px] font-bold uppercase tracking-[0.08em] text-rose-700 dark:text-rose-300">Active Alerts</span>
+              <div className="text-2xl font-display font-extrabold text-rose-700 dark:text-rose-400 tabular-nums">{alertCount} <span className="text-sm font-bold text-rose-500 dark:text-rose-400/70">Notices</span></div>
             </div>
-            <div className="rounded-2xl border border-amber-500/30 bg-amber-950/20 p-4.5 space-y-1 card-tilt">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-amber-300">Spotlight Feeds</span>
-              <div className="text-2xl font-black text-amber-400">{spotlightCount} Features</div>
+            <div className="rounded-2xl border border-amber-500/30 bg-amber-500/10 dark:bg-amber-950/20 p-4 space-y-1 card-tilt">
+              <span className="text-[11px] font-bold uppercase tracking-[0.08em] text-amber-700 dark:text-amber-300">Spotlight Feeds</span>
+              <div className="text-2xl font-display font-extrabold text-amber-700 dark:text-amber-400 tabular-nums">{spotlightCount} <span className="text-sm font-bold text-amber-600 dark:text-amber-400/70">Features</span></div>
             </div>
           </div>
         </MotionSection>
@@ -212,7 +213,7 @@ export default function AdminCmsPage() {
               placeholder="Search announcements by title, content, or author..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full rounded-2xl border border-slate-200 dark:border-slate-700/80 bg-white dark:bg-slate-900/80 pl-10 pr-4 py-2.5 text-xs text-slate-900 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 input-glow transition-all"
+              className="w-full rounded-2xl border border-slate-200 dark:border-slate-700/80 bg-white dark:bg-slate-900/80 pl-10 pr-4 py-2.5 text-sm text-slate-900 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 input-glow transition-all"
             />
           </div>
 
@@ -237,20 +238,20 @@ export default function AdminCmsPage() {
         <div className="space-y-3 stagger-children">
           {filteredAnnouncements.length > 0 ? (
             filteredAnnouncements.map((ann) => {
-              let badgeClass = 'bg-indigo-500/10 text-indigo-300 border-indigo-500/20';
+              let badgeClass = 'bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border-indigo-500/20';
               let Icon = Sparkles;
               let borderClass = 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60';
 
               if (ann.type === 'ALERT') {
-                badgeClass = 'bg-rose-500/10 text-rose-300 border-rose-500/20';
+                badgeClass = 'bg-rose-500/10 text-rose-700 dark:text-rose-300 border-rose-500/20';
                 Icon = AlertTriangle;
-                borderClass = 'border-rose-500/30 bg-rose-950/10';
+                borderClass = 'border-rose-500/30 bg-rose-500/5 dark:bg-rose-950/10';
               } else if (ann.type === 'ACHIEVEMENT') {
-                badgeClass = 'bg-amber-500/10 text-amber-300 border-amber-500/20';
+                badgeClass = 'bg-amber-500/10 text-amber-700 dark:text-amber-300 border-amber-500/20';
                 Icon = Trophy;
-                borderClass = 'border-amber-500/30 bg-amber-950/10';
+                borderClass = 'border-amber-500/30 bg-amber-500/5 dark:bg-amber-950/10';
               } else if (ann.isPinned) {
-                borderClass = 'border-indigo-500/40 bg-indigo-950/20';
+                borderClass = 'border-indigo-500/40 bg-indigo-500/5 dark:bg-indigo-950/20';
               }
 
               return (
@@ -265,7 +266,7 @@ export default function AdminCmsPage() {
                         {ann.type}
                       </span>
                       {ann.isPinned && (
-                        <span className="flex items-center gap-1 text-[10px] font-bold text-indigo-400 bg-indigo-500/10 px-2 py-0.5 rounded-lg border border-indigo-500/20">
+                        <span className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-indigo-700 dark:text-indigo-400 bg-indigo-500/10 px-2 py-0.5 rounded-lg border border-indigo-500/20">
                           <Pin className="h-3 w-3 animate-pulse" /> PINNED
                         </span>
                       )}
@@ -285,7 +286,7 @@ export default function AdminCmsPage() {
                         className={`p-1.5 rounded-xl border text-xs transition-all ${
                           ann.isPinned
                             ? 'bg-indigo-600 text-white border-indigo-500 shadow-glow-sm'
-                            : 'bg-slate-100 dark:bg-slate-800/80 text-slate-500 dark:text-slate-400 border-slate-200 dark:border-slate-700 hover:text-slate-900 dark:text-white hover:bg-slate-700'
+                            : 'bg-slate-100 dark:bg-slate-800/80 text-slate-500 dark:text-slate-400 border-slate-200 dark:border-slate-700 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-700'
                         }`}
                         title={ann.isPinned ? 'Unpin bulletin' : 'Pin to top of feed'}
                       >
@@ -294,7 +295,7 @@ export default function AdminCmsPage() {
 
                       <button
                         onClick={() => handleOpenComposer(ann)}
-                        className="p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800/80 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:text-white hover:bg-slate-700 transition-colors"
+                        className="p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800/80 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
                         title="Edit bulletin"
                       >
                         <Edit3 className="h-3.5 w-3.5" />
@@ -302,7 +303,7 @@ export default function AdminCmsPage() {
 
                       <button
                         onClick={() => handleDelete(ann.id)}
-                        className="p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800/80 text-slate-500 dark:text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 hover:border-rose-500/30 transition-colors"
+                        className="p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800/80 text-slate-500 dark:text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-500/10 hover:border-rose-500/30 transition-colors"
                         title="Delete bulletin"
                       >
                         <Trash2 className="h-3.5 w-3.5" />
@@ -310,14 +311,14 @@ export default function AdminCmsPage() {
                     </div>
                   </div>
 
-                  <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white">{ann.title}</h3>
-                  <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">{ann.content}</p>
+                  <h3 className="text-[15px] sm:text-base font-display font-bold text-slate-900 dark:text-white leading-snug">{ann.title}</h3>
+                  <p className="text-[13px] text-slate-600 dark:text-slate-300 leading-relaxed">{ann.content}</p>
 
                   <div className="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 pt-2 border-t border-slate-200 dark:border-slate-800/60">
                     <div>
                       Published by <span className="text-slate-900 dark:text-slate-200 font-semibold">{ann.authorName}</span>
                     </div>
-                    <div className="flex items-center gap-1 text-emerald-400 font-mono text-[10px]">
+                    <div className="flex items-center gap-1 text-emerald-700 dark:text-emerald-400 font-mono text-[10px] font-semibold">
                       <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-ping" />
                       <span>Live Broadcast Active</span>
                     </div>
@@ -339,7 +340,7 @@ export default function AdminCmsPage() {
         {/* Modal / Overlay Composer */}
         {isComposerOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in-up">
-            <div className="w-full max-w-2xl rounded-3xl border border-slate-200 dark:border-slate-700 bg-slate-900/98 p-6 sm:p-8 shadow-2xl backdrop-blur-2xl space-y-5 animate-scale-in relative">
+            <div className="w-full max-w-2xl rounded-3xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-6 sm:p-8 shadow-2xl backdrop-blur-2xl space-y-5 animate-scale-in relative">
               <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
                 <div className="flex items-center gap-2">
                   <div className="h-9 w-9 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
@@ -355,9 +356,10 @@ export default function AdminCmsPage() {
 
                 <button
                   onClick={() => setIsComposerOpen(false)}
-                  className="rounded-xl p-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:text-white hover:bg-slate-100 dark:bg-slate-800 transition-colors"
+                  className="rounded-xl p-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                  aria-label="Close composer"
                 >
-                  ✕
+                  <X className="h-4 w-4" />
                 </button>
               </div>
 
@@ -367,10 +369,10 @@ export default function AdminCmsPage() {
                   <input
                     type="text"
                     required
-                    placeholder="e.g. 📢 Digital Governance Hackathon & Certification Drive"
+                    placeholder="e.g. Digital Governance Hackathon & Certification Drive"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-3.5 py-2.5 text-xs text-slate-900 dark:text-slate-200 input-glow transition-all"
+                    className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-3.5 py-2.5 text-sm text-slate-900 dark:text-slate-200 input-glow transition-all"
                   />
                 </div>
 
@@ -380,7 +382,7 @@ export default function AdminCmsPage() {
                     <select
                       value={type}
                       onChange={(e) => setType(e.target.value as any)}
-                      className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-3.5 py-2.5 text-xs text-slate-900 dark:text-slate-200 input-glow transition-all"
+                      className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-3.5 py-2.5 text-sm text-slate-900 dark:text-slate-200 input-glow transition-all"
                     >
                       <option value="SPOTLIGHT">SPOTLIGHT (High Priority Feature)</option>
                       <option value="ALERT">ALERT (Security & Maintenance Warning)</option>
@@ -396,7 +398,7 @@ export default function AdminCmsPage() {
                       required
                       value={authorName}
                       onChange={(e) => setAuthorName(e.target.value)}
-                      className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-3.5 py-2.5 text-xs text-slate-900 dark:text-slate-200 input-glow transition-all"
+                      className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-3.5 py-2.5 text-sm text-slate-900 dark:text-slate-200 input-glow transition-all"
                     />
                   </div>
                 </div>
@@ -409,7 +411,7 @@ export default function AdminCmsPage() {
                     placeholder="Provide full directive details, instructions, circular links, or milestone notes..."
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
-                    className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 p-3.5 text-xs text-slate-900 dark:text-slate-200 input-glow transition-all"
+                    className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 p-3.5 text-sm text-slate-900 dark:text-slate-200 input-glow transition-all"
                   />
                 </div>
 
@@ -430,7 +432,7 @@ export default function AdminCmsPage() {
                   <button
                     type="button"
                     onClick={() => setIsComposerOpen(false)}
-                    className="rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 px-4 py-2.5 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-700 transition-colors"
+                    className="rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 px-4 py-2.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
                   >
                     Cancel
                   </button>

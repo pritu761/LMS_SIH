@@ -217,7 +217,7 @@ export default function TraineeDashboard() {
                         {c.durationHours}h
                       </span>
                     </div>
-                    <h4 className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-300 transition-colors">{c.title}</h4>
+                    <h4 className="text-[13px] font-bold text-slate-900 dark:text-white group-hover:text-indigo-700 dark:group-hover:text-indigo-300 transition-colors leading-snug">{c.title}</h4>
                     <div className="flex items-center justify-between pt-1">
                       <span className="text-[11px] text-slate-500 dark:text-slate-400">{c.trainerName}</span>
                       <span className="text-xs font-bold text-cyan-600 dark:text-cyan-400 group-hover:text-cyan-700 dark:group-hover:text-cyan-300 flex items-center gap-0.5">

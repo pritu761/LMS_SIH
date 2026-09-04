@@ -110,7 +110,7 @@ export default function TraineeProfilePage() {
                   type="text"
                   value={profile.fullName}
                   onChange={(e) => setProfile({ ...profile, fullName: e.target.value })}
-                  className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-950 px-3 py-2 text-xs text-slate-900 dark:text-slate-200 focus:border-indigo-500 focus:outline-none focus:bg-white dark:focus:bg-slate-950 transition-colors shadow-sm dark:shadow-none"
+                  className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-950 px-3 py-2.5 text-sm text-slate-900 dark:text-slate-200 focus:border-indigo-500 focus:outline-none focus:bg-white dark:focus:bg-slate-950 transition-colors shadow-sm dark:shadow-none"
                 />
               </div>
 
@@ -119,7 +119,7 @@ export default function TraineeProfilePage() {
                 <select
                   value={cadreTrack}
                   onChange={(e) => setCadreTrack(e.target.value as any)}
-                  className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-950 px-3 py-2 text-xs text-slate-900 dark:text-slate-200 focus:border-indigo-500 focus:outline-none focus:bg-white dark:focus:bg-slate-950 transition-colors shadow-sm dark:shadow-none"
+                  className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-950 px-3 py-2.5 text-sm text-slate-900 dark:text-slate-200 focus:border-indigo-500 focus:outline-none focus:bg-white dark:focus:bg-slate-950 transition-colors shadow-sm dark:shadow-none"
                 >
                   {initialCadres.map((c) => (
                     <option key={c.code} value={c.code}>
@@ -135,7 +135,7 @@ export default function TraineeProfilePage() {
                   type="text"
                   value={designation}
                   onChange={(e) => setDesignation(e.target.value)}
-                  className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-950 px-3 py-2 text-xs text-slate-900 dark:text-slate-200 focus:border-indigo-500 focus:outline-none focus:bg-white dark:focus:bg-slate-950 transition-colors shadow-sm dark:shadow-none"
+                  className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-950 px-3 py-2.5 text-sm text-slate-900 dark:text-slate-200 focus:border-indigo-500 focus:outline-none focus:bg-white dark:focus:bg-slate-950 transition-colors shadow-sm dark:shadow-none"
                 />
               </div>
 
@@ -145,7 +145,7 @@ export default function TraineeProfilePage() {
                   type="text"
                   value={centre}
                   onChange={(e) => setCentre(e.target.value)}
-                  className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-950 px-3 py-2 text-xs text-slate-900 dark:text-slate-200 focus:border-indigo-500 focus:outline-none focus:bg-white dark:focus:bg-slate-950 transition-colors shadow-sm dark:shadow-none"
+                  className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-950 px-3 py-2.5 text-sm text-slate-900 dark:text-slate-200 focus:border-indigo-500 focus:outline-none focus:bg-white dark:focus:bg-slate-950 transition-colors shadow-sm dark:shadow-none"
                 />
               </div>
             </div>
@@ -156,7 +156,7 @@ export default function TraineeProfilePage() {
                 rows={3}
                 value={profile.bio}
                 onChange={(e) => setProfile({ ...profile, bio: e.target.value })}
-                className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-950 p-3 text-xs text-slate-900 dark:text-slate-200 focus:border-indigo-500 focus:outline-none focus:bg-white dark:focus:bg-slate-950 transition-colors shadow-sm dark:shadow-none"
+                className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-950 p-3 text-sm text-slate-900 dark:text-slate-200 focus:border-indigo-500 focus:outline-none focus:bg-white dark:focus:bg-slate-950 transition-colors shadow-sm dark:shadow-none"
               />
             </div>
           </div>

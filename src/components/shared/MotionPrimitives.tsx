@@ -209,7 +209,7 @@ export function MotionCounter({
   return (
     <motion.span
       ref={ref}
-      className={className}
+      className={`tabular-nums ${className}`}
       initial={{ opacity: 0, scale: 0.8 }}
       animate={isInView ? { opacity: 1, scale: 1 } : {}}
       transition={{ type: 'spring', stiffness: 200, damping: 20 }}

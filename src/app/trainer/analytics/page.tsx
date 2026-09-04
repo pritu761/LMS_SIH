@@ -142,7 +142,7 @@ export default function CohortAnalyticsPage() {
 
             <button
               onClick={() => alert('Exporting cohort telemetry CSV report...')}
-              className="flex items-center gap-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 px-3.5 py-1.5 text-xs font-semibold text-slate-900 dark:text-slate-200 hover:bg-slate-700 transition-colors"
+              className="flex items-center gap-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 px-3.5 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
             >
               <Download className="h-3.5 w-3.5" />
               <span>Export CSV Roster</span>
@@ -150,8 +150,8 @@ export default function CohortAnalyticsPage() {
           </div>
 
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs text-slate-600 dark:text-slate-300">
-              <thead className="border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950/70 text-[10px] uppercase tracking-wider text-slate-500 dark:text-slate-400 font-bold">
+            <table className="w-full text-left text-[13px] text-slate-600 dark:text-slate-300">
+              <thead className="border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/70 text-[11px] uppercase tracking-[0.08em] text-slate-600 dark:text-slate-400 font-bold">
                 <tr>
                   <th className="px-4 py-3">Learner Name</th>
                   <th className="px-4 py-3">Department</th>
@@ -160,9 +160,9 @@ export default function CohortAnalyticsPage() {
                   <th className="px-4 py-3">Last Active</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/80">
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-800/80">
                 {traineesRoster.map((t) => (
-                  <tr key={t.id} className="hover:bg-slate-800/30 transition-colors">
+                  <tr key={t.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
                     <td className="px-4 py-3.5">
                       <div className="font-bold text-slate-900 dark:text-white">{t.name}</div>
                       <div className="text-[11px] text-slate-500 dark:text-slate-400 font-mono">{t.email}</div>
@@ -176,21 +176,21 @@ export default function CohortAnalyticsPage() {
                             style={{ width: `${t.progress}%` }}
                           />
                         </div>
-                        <span className="text-xs font-bold text-slate-900 dark:text-slate-200">{t.progress}%</span>
+                        <span className="text-sm font-bold text-slate-900 dark:text-slate-200 tabular-nums">{t.progress}%</span>
                       </div>
                     </td>
                     <td className="px-4 py-3.5">
                       {t.passed !== null ? (
                         <span
-                          className={`inline-flex items-center gap-1 font-bold ${
-                            t.passed ? 'text-emerald-400' : 'text-rose-400'
+                          className={`inline-flex items-center gap-1 font-bold tabular-nums ${
+                            t.passed ? 'text-emerald-700 dark:text-emerald-400' : 'text-rose-700 dark:text-rose-400'
                           }`}
                         >
                           <CheckCircle2 className="h-3.5 w-3.5" />
                           <span>Passed ({t.score})</span>
                         </span>
                       ) : (
-                        <span className="text-slate-500 italic">Not attempted yet</span>
+                        <span className="text-slate-500 dark:text-slate-400">Not attempted yet</span>
                       )}
                     </td>
                     <td className="px-4 py-3.5 text-slate-500 dark:text-slate-400">{t.lastActive}</td>

@@ -112,7 +112,7 @@ export function Navbar() {
 
   const navLinkClass = (href: string, exact = false) => {
     const isActive = exact ? pathname === href : pathname.startsWith(href);
-    return `px-2 xl:px-2.5 py-1 rounded-full text-[11px] xl:text-xs font-semibold font-sans tracking-tight whitespace-nowrap transition-all duration-200 ${
+    return `px-2.5 xl:px-3 py-1.5 rounded-full text-xs xl:text-[13px] font-semibold font-sans tracking-normal whitespace-nowrap transition-all duration-200 ${
       isActive
         ? 'bg-[#0b1e36] text-white shadow-sm border border-[#c59b48]/50 dark:bg-[#122c4d] dark:border-[#c59b48]/50'
         : 'text-slate-600 hover:text-[#0b1e36] hover:bg-slate-100 dark:text-slate-300 dark:hover:text-white dark:hover:bg-white/10'
