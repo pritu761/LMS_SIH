@@ -54,15 +54,15 @@ export default function CourseCatalogPage() {
         <div className="rounded-3xl border border-[#c59b48]/30 bg-gradient-to-br from-[#0b1e36]/90 via-[#102744] to-[#081526] p-6 sm:p-8 backdrop-blur-xl space-y-2 relative overflow-hidden shadow-xl">
           <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#c59b48]/60 to-transparent" />
           <div className="flex items-center gap-2">
-            <span className="rounded-md bg-[#c59b48]/15 px-2.5 py-0.5 text-xs font-bold text-[#dfb76c] border border-[#c59b48]/30">
+            <span className="rounded-md bg-[#c59b48]/15 px-2.5 py-0.5 text-xs font-bold !text-[#dfb76c] border border-[#c59b48]/30">
               MISSION MAUSAM CURRICULUM
             </span>
-            <span className="text-xs text-slate-300">IMD / MoES Official Training Tracks</span>
+            <span className="text-xs !text-slate-300">IMD / MoES Official Training Tracks</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-black !text-white tracking-tight">
             Meteorological Capacity Curriculum
           </h1>
-          <p className="text-xs sm:text-sm text-slate-300">
+          <p className="text-xs sm:text-sm !text-slate-300">
             Select specialized modules across DRSTC, FTC, IMTC, and Modular tracks to close competency gaps and earn WMO-compliant certifications.
           </p>
         </div>
