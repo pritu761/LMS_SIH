@@ -1,7 +1,7 @@
-# BRIEFING — 2026-09-01T21:18:00Z
+# BRIEFING — 2026-09-03T22:55:00Z
 
 ## Mission
-Adversarial Data & Logic Challenger: stress-test Marshall-Palmer Z-R conversions, storm severity index, unit conversions, geocoding sanitization, and nowcast/forecast consistency empirically.
+Adversarial Token & Session Security Challenger: empirically stress-test token tampering, forged signatures, role escalation, "none" algorithm attacks, expired tokens, malformed/fuzzed tokens, cookie attributes (login and logout), and status bypass defenses.
 
 ## 🔒 My Identity
 - Archetype: EMPIRICAL CHALLENGER
@@ -10,6 +10,8 @@ Adversarial Data & Logic Challenger: stress-test Marshall-Palmer Z-R conversions
 - Original parent: 952380c1-1f70-4c3b-b00f-78b3e03ae701
 - Milestone: Teamwork Verification
 - Instance: 1 of 1
+- Current parent: f8808099-647a-453d-82bb-17517aef9ff0
+- Current milestone: Milestone 4 - Gate Verification & Audit (Token & Session Security)
 
 ## 🔒 Key Constraints
 - Review-only — do NOT modify implementation code. (Adversarial test scripts outside `.agents/` allowed for empirical verification).
@@ -17,33 +19,34 @@ Adversarial Data & Logic Challenger: stress-test Marshall-Palmer Z-R conversions
 - Provide explicit verdict (APPROVE or REQUEST_CHANGES).
 
 ## Current Parent
-- Conversation ID: 952380c1-1f70-4c3b-b00f-78b3e03ae701
-- Updated: 2026-09-01T21:18:00Z
+- Conversation ID: f8808099-647a-453d-82bb-17517aef9ff0
+- Updated: 2026-09-03T22:55:00Z
 
 ## Review Scope
-- **Files to review**: `src/lib/weatherService.ts`, `src/lib/wmoCodes.ts`, `src/lib/mockWeatherData.ts`, `src/lib/mockRadarData.ts`, `src/components/radar/*`, `PROJECT.md`, `ORIGINAL_REQUEST.md`, `TEST_READY.md`
-- **Interface contracts**: `PROJECT.md`
-- **Review criteria**: Mathematical/physical validity, boundary resilience, sanitization safety, reversibility, logical consistency
+- **Files to review**: `src/lib/auth.ts`, `src/app/api/auth/login/route.ts`, `src/app/api/auth/logout/route.ts`, `src/proxy.ts`, `scripts/test-auth-db.ts`
+- **Interface contracts**: `PROJECT.md` Auth API Contract (`POST /api/auth/login`, `POST /api/auth/logout`, `getCurrentUser()`)
+- **Review criteria**: Token tampering, cryptographic attacks ("none" alg, forged signature, role escalation), expired tokens, empty/truncated/fuzzed tokens, cookie attributes (httpOnly, sameSite, path, maxAge), status bypass defense
 
 ## Attack Surface
 - **Hypotheses tested**:
-  1. Marshall-Palmer Z-R conversion boundary stability at R=0, 0.001, 50, 150, 500 mm/h and dBZ rounding/clamping to [0, 75]. -> PASS
-  2. Storm Severity Index multi-factor risk weighting and saturation behavior across 504 discrete parameter permutations. -> PASS
-  3. Reversibility of temperature, wind speed, pressure, and compass bearing conversions across extreme scientific ranges. -> PASS
-  4. Geocoding input sanitization resilience against SQL injection, XSS vectors, path traversals, unicode/accents, and coordinate boundary violations. -> PASS
-  5. Thermodynamic and physical invariants of 24-48h nowcasts and 7-day forecasts across 50 diverse global geographic points. -> PASS
-- **Vulnerabilities found**: None. All 134 adversarial stress test assertions and 151 baseline unit/e2e tests passed without failures.
-- **Untested angles**: Live external network latency variations under prolonged throttled conditions (handled via deterministic mock fallbacks).
+  - H1: Token tampering (role escalation from TRAINEE to ADMIN in payload without re-signing) will be accepted or rejected.
+  - H2: "none" algorithm header attack (omitted signature, alg: "none" / "NONE") will bypass verification.
+  - H3: Expired tokens (past exp timestamps) will be accepted.
+  - H4: Forged signature using foreign key will be accepted.
+  - H5: Empty, truncated, or random binary fuzz inputs will crash verification or proxy.
+  - H6: Cookie attributes on login (httpOnly, sameSite lax, maxAge 604800, path /) and logout (maxAge 0, empty value) are strictly enforced.
+  - H7: Token presented with SUSPENDED or REJECTED status is blocked by getCurrentUser() and proxy.
+  - H8: Stale token issued as APPROVED retains access if database status is subsequently mutated to SUSPENDED.
+- **Vulnerabilities found**: Under investigation.
+- **Untested angles**: Under investigation.
 
 ## Loaded Skills
 - None specified.
 
 ## Key Decisions Made
-- Implemented and executed `scripts/stress-test-data.ts` testing 134 edge cases, fuzzing vectors, and physical invariants.
-- Verified 100% pass rate on `scripts/test-weather-radar.ts` (151/151) and `scripts/stress-test-data.ts` (134/134).
-- Issued explicit verdict: **APPROVE**.
+- Constructing independent adversarial test suite in `scripts/stress-test-tokens.ts` covering 8 attack surface hypotheses across 5 attack tiers.
 
 ## Artifact Index
-- `scripts/stress-test-data.ts` — Adversarial stress test suite harness
+- `scripts/stress-test-tokens.ts` — Adversarial token & session security test suite
 - `.agents/challenger_2/handoff.md` — Final adversarial challenge report
 - `.agents/challenger_2/progress.md` — Progress tracker and heartbeat

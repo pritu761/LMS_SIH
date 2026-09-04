@@ -80,20 +80,20 @@ export default function DopplerRadarCommandCenterPage() {
           <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
               <div className="flex items-center gap-2">
-                <span className="rounded-md bg-[#0b1e36] text-[#dfb76c] border border-[#c59b48]/40 px-2.5 py-0.5 text-xs font-mono font-bold flex items-center gap-1.5">
+                <span className="rounded-md bg-[#0b1e36] text-[#dfb76c] border border-[#c59b48]/40 px-2.5 py-0.5 text-xs font-sans font-bold flex items-center gap-1.5">
                   <Radio className="h-3.5 w-3.5 text-[#c59b48] animate-pulse" />
                   NATIONAL RADAR TELEMETRY
                 </span>
-                <span className="text-xs font-mono text-emerald-600 dark:text-emerald-400 font-bold flex items-center gap-1">
+                <span className="text-xs font-sans text-emerald-600 dark:text-emerald-400 font-bold flex items-center gap-1">
                   <span className="h-2 w-2 rounded-full bg-emerald-500 animate-ping" />
                   38 / 38 Nodes Synchronized
                 </span>
               </div>
 
-              <h1 className="text-2xl sm:text-4xl font-black text-[#0b1e36] dark:text-white tracking-tight mt-1">
+              <h1 className="text-2xl sm:text-3xl font-display font-extrabold text-[#0b1e36] dark:text-white tracking-tight mt-1">
                 National Doppler Weather Radar Network
               </h1>
-              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-3xl mt-1 leading-relaxed">
+              <p className="text-[13px] sm:text-sm text-slate-600 dark:text-slate-300 max-w-3xl mt-1.5 leading-relaxed">
                 Live polarimetric telemetry, PPI scans, Nyquist velocity de-aliasing, and automated hydrometeor classification across all 38 IMD radar stations.
               </p>
             </div>
@@ -113,12 +113,12 @@ export default function DopplerRadarCommandCenterPage() {
         {/* 4 Summary Live Metrics */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#070f1a] p-4 space-y-1 shadow-sm">
-            <div className="flex items-center justify-between text-[11px] font-mono text-slate-500 dark:text-slate-400">
+            <div className="flex items-center justify-between text-[11px] font-sans font-bold tracking-wider text-slate-500 dark:text-slate-400">
               <span>ACTIVE RADAR NODES</span>
               <Radio className="h-4 w-4 text-emerald-500" />
             </div>
-            <div className="text-2xl font-black text-[#0b1e36] dark:text-white">
-              38 / 38 <span className="text-xs font-bold text-emerald-500">100% ONLINE</span>
+            <div className="text-2xl font-display font-extrabold text-[#0b1e36] dark:text-white tabular-nums">
+              38 / 38 <span className="text-xs font-bold text-emerald-600 dark:text-emerald-500">100% ONLINE</span>
             </div>
             <div className="text-[11px] text-slate-500 dark:text-slate-400">
               17 S-Band • 13 C-Band • 8 X-Band
@@ -126,11 +126,11 @@ export default function DopplerRadarCommandCenterPage() {
           </div>
 
           <div className="rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#070f1a] p-4 space-y-1 shadow-sm">
-            <div className="flex items-center justify-between text-[11px] font-mono text-slate-500 dark:text-slate-400">
+            <div className="flex items-center justify-between text-[11px] font-sans font-bold tracking-wider text-slate-500 dark:text-slate-400">
               <span>AVG INGRESS LATENCY</span>
               <Activity className="h-4 w-4 text-cyan-500" />
             </div>
-            <div className="text-2xl font-black text-cyan-600 dark:text-cyan-400">
+            <div className="text-2xl font-display font-extrabold text-cyan-700 dark:text-cyan-400 tabular-nums">
               {summary.avgLatencyMs} ms
             </div>
             <div className="text-[11px] text-slate-500 dark:text-slate-400">
@@ -139,11 +139,11 @@ export default function DopplerRadarCommandCenterPage() {
           </div>
 
           <div className="rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#070f1a] p-4 space-y-1 shadow-sm">
-            <div className="flex items-center justify-between text-[11px] font-mono text-slate-500 dark:text-slate-400">
+            <div className="flex items-center justify-between text-[11px] font-sans font-bold tracking-wider text-slate-500 dark:text-slate-400">
               <span>NATIONAL COVERAGE</span>
               <Globe className="h-4 w-4 text-[#c59b48]" />
             </div>
-            <div className="text-2xl font-black text-[#0b1e36] dark:text-[#dfb76c]">
+            <div className="text-2xl font-display font-extrabold text-[#0b1e36] dark:text-[#dfb76c] tabular-nums">
               3.28M km²
             </div>
             <div className="text-[11px] text-slate-500 dark:text-slate-400">
@@ -152,12 +152,12 @@ export default function DopplerRadarCommandCenterPage() {
           </div>
 
           <div className="rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#070f1a] p-4 space-y-1 shadow-sm">
-            <div className="flex items-center justify-between text-[11px] font-mono text-slate-500 dark:text-slate-400">
+            <div className="flex items-center justify-between text-[11px] font-sans font-bold tracking-wider text-slate-500 dark:text-slate-400">
               <span>TRAINEE OBSERVERS</span>
               <Users className="h-4 w-4 text-purple-500" />
             </div>
-            <div className="text-2xl font-black text-purple-600 dark:text-purple-400">
-              {summary.activeTraineeObservers} Connected
+            <div className="text-2xl font-display font-extrabold text-purple-700 dark:text-purple-400 tabular-nums">
+              {summary.activeTraineeObservers} <span className="text-sm font-bold">Connected</span>
             </div>
             <div className="text-[11px] text-slate-500 dark:text-slate-400">
               DRSTC & FTC Live Sim Channels
@@ -180,7 +180,7 @@ export default function DopplerRadarCommandCenterPage() {
         </div>
 
         {/* Live Incoming Radar Telemetry Packet Ticker */}
-        <div className="rounded-2xl bg-[#030712] border border-cyan-500/20 p-4 space-y-2 font-mono text-xs text-white shadow-xl">
+        <div className="dark-surface rounded-2xl bg-[#030712] border border-cyan-500/20 p-4 space-y-2 font-mono text-xs text-white shadow-xl">
           <div className="flex items-center justify-between text-[11px] border-b border-white/10 pb-2">
             <span className="flex items-center gap-2 text-cyan-300 font-bold">
               <Terminal className="h-3.5 w-3.5 text-cyan-400" />
@@ -224,18 +224,18 @@ export default function DopplerRadarCommandCenterPage() {
                   placeholder="Filter station..."
                   value={searchTableQuery}
                   onChange={(e) => setSearchTableQuery(e.target.value)}
-                  className="pl-8 pr-3 py-1.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs font-mono text-slate-900 dark:text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-[#c59b48] shadow-sm"
+                  className="pl-8 pr-3 py-1.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs font-sans text-slate-900 dark:text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-[#c59b48] shadow-sm"
                 />
               </div>
 
-              <div className="flex items-center gap-1 bg-slate-100 dark:bg-white/5 rounded-xl p-1 text-xs font-mono">
+              <div className="flex items-center gap-1 bg-slate-100 dark:bg-white/5 rounded-xl p-1 text-xs font-sans">
                 {['ALL', 'S-Band', 'C-Band', 'X-Band'].map((b) => (
                   <button
                     key={b}
                     onClick={() => setFilterBand(b)}
                     className={`px-2 py-0.5 rounded-lg transition-all ${
                       filterBand === b
-                        ? 'bg-[#0b1e36] text-[#dfb76c] font-bold shadow-sm'
+                        ? 'bg-[#0b1e36] dark:bg-[#122c4d] text-[#dfb76c] font-bold shadow-sm'
                         : 'text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
                     }`}
                   >
@@ -250,7 +250,7 @@ export default function DopplerRadarCommandCenterPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs font-sans">
               <thead>
-                <tr className="border-b border-slate-200 dark:border-white/10 text-[10px] font-mono text-slate-500 dark:text-slate-400 uppercase">
+                <tr className="border-b border-slate-200 dark:border-white/10 text-[11px] font-sans font-bold text-slate-600 dark:text-slate-400 uppercase tracking-[0.08em]">
                   <th className="py-3 px-3">Station Code & Name</th>
                   <th className="py-3 px-3">Location</th>
                   <th className="py-3 px-3">Band / Freq</th>
@@ -276,7 +276,7 @@ export default function DopplerRadarCommandCenterPage() {
                     >
                       <td className="py-3 px-3">
                         <div className="flex items-center gap-2">
-                          <span className="text-[#c59b48] font-bold">{node.code}</span>
+                          <span className="text-[#9a7224] dark:text-[#c59b48] font-bold">{node.code}</span>
                           <span className="font-sans text-slate-900 dark:text-white font-medium">
                             {node.name}
                           </span>
@@ -302,11 +302,11 @@ export default function DopplerRadarCommandCenterPage() {
                         {node.peakPowerKw} kW / {node.prfHz} Hz
                       </td>
                       <td className="py-3 px-3">
-                        <span className="font-bold text-amber-600 dark:text-amber-400">
+                        <span className="font-bold text-amber-700 dark:text-amber-400 tabular-nums">
                           {node.reflectivityDbz} dBZ
                         </span>
                       </td>
-                      <td className="py-3 px-3 text-cyan-600 dark:text-cyan-400">
+                      <td className="py-3 px-3 text-cyan-700 dark:text-cyan-400 tabular-nums">
                         {node.latencyMs} ms
                       </td>
                       <td className="py-3 px-3">
@@ -322,7 +322,7 @@ export default function DopplerRadarCommandCenterPage() {
                             setSelectedNode(node);
                             setIsDiagnosticsOpen(true);
                           }}
-                          className="px-2.5 py-1 rounded-lg bg-[#0b1e36] text-[#dfb76c] hover:bg-[#142e50] text-[10px] font-mono transition-all"
+                          className="px-2.5 py-1 rounded-lg bg-[#0b1e36] text-[#dfb76c] hover:bg-[#142e50] text-[10px] font-sans font-bold transition-all"
                         >
                           Test Node
                         </button>

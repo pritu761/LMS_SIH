@@ -24,39 +24,41 @@ export function StatsCard({
 }: StatsCardProps) {
   const [isHovered, setIsHovered] = useState(false);
 
+  // Icon treatments carry both light- and dark-mode tones so the glyph
+  // stays legible on white cards (light) and navy cards (dark).
   const colorMap = {
     red: {
-      icon: 'bg-[#e0234e]/10 text-[#ff4d6d] border-[#e0234e]/30',
-      glow: 'group-hover:border-[#e0234e]/50',
-      gradient: 'from-[#e0234e]/20 via-transparent to-transparent',
-      shadow: 'rgba(224, 35, 78, 0.3)',
+      icon: 'bg-[#c59b48]/15 text-[#9a7224] dark:text-[#dfb76c] border-[#c59b48]/30',
+      glow: 'group-hover:border-[#c59b48]/50',
+      gradient: 'from-[#c59b48]/20 via-transparent to-transparent',
+      shadow: 'rgba(197, 155, 72, 0.3)',
     },
     indigo: {
-      icon: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
+      icon: 'bg-blue-500/10 text-blue-700 dark:text-blue-400 border-blue-500/20',
       glow: 'group-hover:border-blue-500/40',
       gradient: 'from-blue-500/15 via-transparent to-transparent',
       shadow: 'rgba(37, 99, 235, 0.25)',
     },
     emerald: {
-      icon: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
+      icon: 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-500/20',
       glow: 'group-hover:border-emerald-500/40',
       gradient: 'from-emerald-500/15 via-transparent to-transparent',
       shadow: 'rgba(16, 185, 129, 0.25)',
     },
     amber: {
-      icon: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
+      icon: 'bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-500/20',
       glow: 'group-hover:border-amber-500/40',
       gradient: 'from-amber-500/15 via-transparent to-transparent',
       shadow: 'rgba(245, 158, 11, 0.25)',
     },
     cyan: {
-      icon: 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20',
+      icon: 'bg-cyan-500/10 text-cyan-700 dark:text-cyan-400 border-cyan-500/20',
       glow: 'group-hover:border-cyan-500/40',
       gradient: 'from-cyan-500/15 via-transparent to-transparent',
       shadow: 'rgba(6, 182, 212, 0.25)',
     },
     purple: {
-      icon: 'bg-purple-500/10 text-purple-400 border-purple-500/20',
+      icon: 'bg-purple-500/10 text-purple-700 dark:text-purple-400 border-purple-500/20',
       glow: 'group-hover:border-purple-500/40',
       gradient: 'from-purple-500/15 via-transparent to-transparent',
       shadow: 'rgba(168, 85, 247, 0.25)',
@@ -64,6 +66,10 @@ export function StatsCard({
   };
 
   const scheme = colorMap[color] || colorMap.red;
+
+  // Callers sometimes embed their own arrow (e.g. "↑ 12%"); strip it so the
+  // card never renders a doubled "↑ ↑ 12%".
+  const cleanChange = (change || '').replace(/^[↑↓↗↘]\s*/, '').trim();
 
   return (
     <motion.div
@@ -73,7 +79,7 @@ export function StatsCard({
         transition: { duration: 0.25, ease: ease.smooth },
       }}
       whileTap={{ scale: 0.98 }}
-      className={`group relative rounded-3xl border border-slate-200 bg-white dark:border-white/10 dark:bg-[#131726]/90 p-5 sm:p-6 backdrop-blur-xl transition-colors duration-300 hover:border-[#e0234e]/40 shadow-sm hover:shadow-md overflow-hidden ${scheme.glow}`}
+      className={`group relative rounded-3xl border border-slate-200 bg-white dark:border-white/10 dark:bg-[#131726]/90 p-5 sm:p-6 backdrop-blur-xl transition-colors duration-300 hover:border-[#c59b48]/40 shadow-sm hover:shadow-md overflow-hidden ${scheme.glow}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -82,7 +88,7 @@ export function StatsCard({
 
       <div className="relative z-10">
         <div className="flex items-center justify-between">
-          <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+          <span className="text-[11px] font-bold uppercase tracking-[0.08em] text-slate-600 dark:text-slate-400">
             {title}
           </span>
           <motion.div
@@ -99,19 +105,19 @@ export function StatsCard({
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.4 }}
-            className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight"
+            className="text-2xl sm:text-[2rem] font-display font-extrabold text-slate-900 dark:text-white tracking-tight tabular-nums"
           >
             {value}
           </motion.div>
-          {change && (
+          {cleanChange && (
             <motion.span
               animate={isHovered ? { y: -2 } : { y: 0 }}
-              className={`text-xs font-bold flex items-center gap-1 ${
-                isPositive ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'
+              className={`text-xs font-bold flex items-center gap-1 tabular-nums ${
+                isPositive ? 'text-emerald-700 dark:text-emerald-400' : 'text-rose-700 dark:text-rose-400'
               }`}
             >
-              <span>{isPositive ? '↑' : '↓'}</span>
-              {change}
+              <span aria-hidden="true">{isPositive ? '↑' : '↓'}</span>
+              {cleanChange}
             </motion.span>
           )}
         </div>

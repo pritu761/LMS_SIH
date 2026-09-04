@@ -47,7 +47,7 @@ const TOOLS: ToolItem[] = [
     description:
       'Continuous distributed monitoring across all 38 Doppler Weather Radar stations, tracking forecaster accuracy, INSAT-3DS interpretation latency, and active competency deficits in real time.',
     icon: Activity,
-    color: '#ff4d6d',
+    color: '#c59b48',
     tags: ['Live Nowcasting Stream', 'Latency: 14ms', 'WMO METAR Alerts'],
     features: [
       'Autonomous live radar stream anomaly tracking',

@@ -58,20 +58,20 @@ export default function TraineeDashboard() {
       <main className="flex-1 min-w-0 space-y-6">
 
         {/* Trainee Welcome Header - retains dark hero for contrast in both modes */}
-        <div className="rounded-3xl border border-[#e0234e]/25 bg-gradient-to-br from-[#1a0e16]/60 via-slate-900/80 to-[#0f121d] p-6 sm:p-8 backdrop-blur-xl space-y-3 relative overflow-hidden animate-fade-in-up shadow-xl">
-          <div className="absolute top-0 right-0 w-72 h-72 bg-[#e0234e]/5 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute bottom-0 left-0 w-48 h-48 bg-[#e0234e]/5 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#e0234e]/60 to-transparent animate-gradient-shift bg-[length:200%_100%]" />
+        <div className="rounded-3xl border border-[#c59b48]/30 bg-gradient-to-br from-[#0b1e36]/90 via-[#102744] to-[#081526] p-6 sm:p-8 backdrop-blur-xl space-y-3 relative overflow-hidden animate-fade-in-up shadow-xl">
+          <div className="absolute top-0 right-0 w-72 h-72 bg-[#c59b48]/5 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute bottom-0 left-0 w-48 h-48 bg-[#c59b48]/5 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#c59b48]/60 to-transparent animate-gradient-shift bg-[length:200%_100%]" />
 
           <div className="relative z-10">
             <div className="flex items-center gap-2">
-              <span className="rounded-md bg-[#e0234e]/15 px-2.5 py-0.5 text-xs font-bold text-[#ff4d6d] border border-[#e0234e]/30">
+              <span className="rounded-md bg-[#c59b48]/15 px-2.5 py-0.5 text-xs font-bold text-[#dfb76c] border border-[#c59b48]/30">
                 MISSION MAUSAM • DRSTC INDUCTION
               </span>
-              <span className="flex items-center gap-1.5 text-xs text-[#ff4d6d]">
+              <span className="flex items-center gap-1.5 text-xs text-emerald-400 font-bold">
                 <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#e0234e] opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-[#e0234e]"></span>
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
                 </span>
                 Active Cadre Track
               </span>
@@ -136,8 +136,8 @@ export default function TraineeDashboard() {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
               <div>
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="rounded-md bg-indigo-500/20 px-2.5 py-0.5 text-[10px] font-bold text-indigo-300 border border-indigo-500/30 flex items-center gap-1">
-                    <Flame className="h-3 w-3 text-amber-400" />
+                  <span className="rounded-md bg-indigo-500/20 px-2.5 py-0.5 text-[10px] font-bold text-indigo-700 dark:text-indigo-300 border border-indigo-500/30 flex items-center gap-1">
+                    <Flame className="h-3 w-3 text-amber-500 dark:text-amber-400" />
                     IN PROGRESS • {enrollment.progressPercentage}% COMPLETE
                   </span>
                   <span className="text-xs text-slate-500 dark:text-slate-400">{enrolledCourse.cadreTrack} Track • {enrolledCourse.category}</span>
@@ -172,11 +172,11 @@ export default function TraineeDashboard() {
               </div>
               <div className="flex justify-between text-[11px] text-slate-500 dark:text-slate-400 font-medium">
                 <span className="flex items-center gap-1">
-                  <CheckCircle2 className="h-3 w-3 text-emerald-400" />
+                  <CheckCircle2 className="h-3 w-3 text-emerald-500 dark:text-emerald-400" />
                   {enrollment.completedMaterialIds.length} of {enrolledCourse.materials.length} Modules Completed
                 </span>
                 <span className="flex items-center gap-1">
-                  <Target className="h-3 w-3 text-amber-400" />
+                  <Target className="h-3 w-3 text-amber-500 dark:text-amber-400" />
                   Exam Window Ready
                 </span>
               </div>
@@ -193,11 +193,11 @@ export default function TraineeDashboard() {
               <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
                 <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
                   <div className="h-8 w-8 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center">
-                    <Sparkles className="h-4 w-4 text-cyan-400" />
+                    <Sparkles className="h-4 w-4 text-cyan-600 dark:text-cyan-400" />
                   </div>
                   <span>Mission Mausam Curated Catalog</span>
                 </h3>
-                <Link href="/trainee/courses" className="text-xs text-indigo-400 hover:text-indigo-300 transition-colors flex items-center gap-0.5 group">
+                <Link href="/trainee/courses" className="text-xs text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 transition-colors flex items-center gap-0.5 group">
                   <span>View All</span>
                   <ChevronRight className="h-3 w-3 group-hover:translate-x-0.5 transition-transform" />
                 </Link>
@@ -211,16 +211,16 @@ export default function TraineeDashboard() {
                     className="block rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950/40 p-4 space-y-2 hover:border-indigo-500/40 transition-all duration-300 group hover:-translate-y-0.5 hover:shadow-elevation-1"
                   >
                     <div className="flex items-center justify-between text-[10px] text-slate-500 dark:text-slate-400">
-                      <span className="text-indigo-400 font-bold">{c.code} • {c.cadreTrack}</span>
+                      <span className="text-indigo-600 dark:text-indigo-400 font-bold">{c.code} • {c.cadreTrack}</span>
                       <span className="flex items-center gap-1">
                         <Clock className="h-3 w-3" />
                         {c.durationHours}h
                       </span>
                     </div>
-                    <h4 className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-indigo-300 transition-colors">{c.title}</h4>
+                    <h4 className="text-[13px] font-bold text-slate-900 dark:text-white group-hover:text-indigo-700 dark:group-hover:text-indigo-300 transition-colors leading-snug">{c.title}</h4>
                     <div className="flex items-center justify-between pt-1">
                       <span className="text-[11px] text-slate-500 dark:text-slate-400">{c.trainerName}</span>
-                      <span className="text-xs font-bold text-cyan-400 group-hover:text-cyan-300 flex items-center gap-0.5">
+                      <span className="text-xs font-bold text-cyan-600 dark:text-cyan-400 group-hover:text-cyan-700 dark:group-hover:text-cyan-300 flex items-center gap-0.5">
                         <span>Open</span>
                         <ChevronRight className="h-3 w-3 group-hover:translate-x-0.5 transition-transform" />
                       </span>

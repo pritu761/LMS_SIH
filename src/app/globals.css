@@ -33,6 +33,7 @@
 
     --ring: 40 54% 53%;
     --radius: 1rem;
+    --navbar-height: 4.25rem;
   }
 
   .dark {
@@ -61,10 +62,11 @@
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
     scroll-behavior: smooth;
+    scroll-padding-top: var(--navbar-height);
   }
 
   body {
-    @apply text-foreground antialiased selection:bg-[#E0234E] selection:text-white;
+    @apply text-foreground antialiased selection:bg-[#0b1e36] selection:text-[#c59b48] dark:selection:bg-[#c59b48] dark:selection:text-[#0b1e36];
     font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
     font-feature-settings: "rlig" 1, "calt" 1, "ss01" 1;
     font-optical-sizing: auto;
@@ -209,14 +211,14 @@
 
 [data-mode='light'] .text-aurora,
 .light .text-aurora {
-  background: linear-gradient(135deg, #e0234e 0%, #ea2845 40%, #ff4d6d 100%) !important;
+  background: linear-gradient(135deg, #0b1e36 0%, #c59b48 50%, #dfb76c 100%) !important;
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
 }
 
 [data-mode='light'][data-theme='nestjs'] .text-aurora,
 .light[data-theme='nestjs'] .text-aurora {
-  background: linear-gradient(135deg, #e0234e 0%, #ea2845 40%, #ff4d6d 100%) !important;
+  background: linear-gradient(135deg, #0b1e36 0%, #c59b48 50%, #dfb76c 100%) !important;
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
 }
@@ -1118,22 +1120,22 @@ footer .text-white,
   width: 200%;
   height: 200%;
   background: conic-gradient(from 0deg at 50% 50%,
-      #e0234e 0deg,
-      #ff4d6d 90deg,
-      #ff758c 180deg,
-      #ea2845 270deg,
-      #e0234e 360deg);
+      #c59b48 0deg,
+      #dfb76c 90deg,
+      #0b1e36 180deg,
+      #c59b48 270deg,
+      #dfb76c 360deg);
   animation: spinSlow 6s linear infinite;
   z-index: 0;
 }
 
 [data-theme='nestjs'] .btn-conic-glow::before {
   background: conic-gradient(from 0deg at 50% 50%,
-      #e0234e 0deg,
-      #ff4d6d 90deg,
-      #ff758c 180deg,
-      #ea2845 270deg,
-      #e0234e 360deg);
+      #c59b48 0deg,
+      #dfb76c 90deg,
+      #0b1e36 180deg,
+      #c59b48 270deg,
+      #dfb76c 360deg);
 }
 
 [data-theme='emerald'] .btn-conic-glow::before {
@@ -2516,9 +2518,193 @@ footer .text-white,
 
 [data-mode='dark'] .watermark-bg,
 .dark .watermark-bg {
-  opacity: 0.18 !important;
+  opacity: 0.05 !important;
   display: block !important;
   visibility: visible !important;
   filter: brightness(0.9) contrast(1.3) saturate(0.9) !important;
   mix-blend-mode: screen;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   RADAR CONTRAST GUARANTEES (auth + visibility hardening)
+   ──────────────────────────────────────────────────────────────
+   1. `.gold-ink` — navy text on gold backgrounds in BOTH modes.
+      The global dark-mode rule flips `text-[#0b1e36]` to white, which
+      makes gold pills/buttons unreadable. Use this instead wherever
+      text sits on `bg-[#c59b48]`.
+   2. `.gold-ink-dark` — navy text in DARK mode only, for controls that
+      are gold only in dark mode (navy in light mode).
+   3. `.dark-surface` — opt-out for always-dark radar/command panels.
+      Light-mode global overrides (headings, accent text, inputs) would
+      otherwise render dark-on-dark text inside these panels.
+   ══════════════════════════════════════════════════════════════ */
+.gold-ink,
+.gold-ink * {
+  color: #0b1e36 !important;
+  font-weight: 700;
+}
+
+[data-mode='dark'] .gold-ink,
+.dark .gold-ink,
+[data-mode='dark'] .gold-ink *,
+.dark .gold-ink * {
+  color: #0b1e36 !important;
+}
+
+[data-mode='light'] .gold-ink,
+.light .gold-ink,
+[data-mode='light'] .gold-ink *,
+.light .gold-ink * {
+  color: #0b1e36 !important;
+}
+
+[data-mode='dark'] .gold-ink-dark,
+.dark .gold-ink-dark,
+[data-mode='dark'] .gold-ink-dark *,
+.dark .gold-ink-dark * {
+  color: #0b1e36 !important;
+}
+
+/* Always-dark panels keep their dark-theme typography in light mode */
+[data-mode='light'] .dark-surface h1,
+.light .dark-surface h1,
+[data-mode='light'] .dark-surface h2,
+.light .dark-surface h2,
+[data-mode='light'] .dark-surface h3,
+.light .dark-surface h3,
+[data-mode='light'] .dark-surface h4,
+.light .dark-surface h4,
+[data-mode='light'] .dark-surface h5,
+.light .dark-surface h5,
+[data-mode='light'] .dark-surface h6,
+.light .dark-surface h6 {
+  color: #ffffff !important;
+}
+
+[data-mode='light'] .dark-surface p,
+.light .dark-surface p {
+  color: #cbd5e1 !important;
+}
+
+[data-mode='light'] .dark-surface label,
+.light .dark-surface label {
+  color: #e2e8f0 !important;
+}
+
+[data-mode='light'] .dark-surface input,
+.light .dark-surface input,
+[data-mode='light'] .dark-surface select,
+.light .dark-surface select,
+[data-mode='light'] .dark-surface textarea,
+.light .dark-surface textarea {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
+}
+
+[data-mode='light'] .dark-surface input::placeholder,
+.light .dark-surface input::placeholder,
+[data-mode='light'] .dark-surface textarea::placeholder,
+.light .dark-surface textarea::placeholder {
+  color: #94a3b8 !important;
+}
+
+[data-mode='light'] .dark-surface .text-amber-300,
+.light .dark-surface .text-amber-300 {
+  color: #fcd34d !important;
+}
+
+[data-mode='light'] .dark-surface .text-amber-400,
+.light .dark-surface .text-amber-400 {
+  color: #fbbf24 !important;
+}
+
+[data-mode='light'] .dark-surface .text-emerald-300,
+.light .dark-surface .text-emerald-300 {
+  color: #6ee7b7 !important;
+}
+
+[data-mode='light'] .dark-surface .text-emerald-400,
+.light .dark-surface .text-emerald-400 {
+  color: #34d399 !important;
+}
+
+[data-mode='light'] .dark-surface .text-cyan-300,
+.light .dark-surface .text-cyan-300 {
+  color: #67e8f6 !important;
+}
+
+[data-mode='light'] .dark-surface .text-cyan-400,
+.light .dark-surface .text-cyan-400 {
+  color: #22d3ee !important;
+}
+
+[data-mode='light'] .dark-surface .text-sky-300,
+.light .dark-surface .text-sky-300 {
+  color: #7dd3fc !important;
+}
+
+[data-mode='light'] .dark-surface .text-sky-400,
+.light .dark-surface .text-sky-400 {
+  color: #38bdf8 !important;
+}
+
+[data-mode='light'] .dark-surface .text-blue-300,
+.light .dark-surface .text-blue-300 {
+  color: #93c5fd !important;
+}
+
+[data-mode='light'] .dark-surface .text-blue-400,
+.light .dark-surface .text-blue-400 {
+  color: #60a5fa !important;
+}
+
+[data-mode='light'] .dark-surface .text-indigo-300,
+.light .dark-surface .text-indigo-300 {
+  color: #a5b4fc !important;
+}
+
+[data-mode='light'] .dark-surface .text-indigo-400,
+.light .dark-surface .text-indigo-400 {
+  color: #818cf8 !important;
+}
+
+[data-mode='light'] .dark-surface .text-purple-300,
+.light .dark-surface .text-purple-300 {
+  color: #d8b4fe !important;
+}
+
+[data-mode='light'] .dark-surface .text-purple-400,
+.light .dark-surface .text-purple-400 {
+  color: #c084fc !important;
+}
+
+[data-mode='light'] .dark-surface .text-rose-300,
+.light .dark-surface .text-rose-300 {
+  color: #fda4af !important;
+}
+
+[data-mode='light'] .dark-surface .text-rose-400,
+.light .dark-surface .text-rose-400 {
+  color: #fb7185 !important;
+}
+
+[data-mode='light'] .dark-surface .text-red-300,
+.light .dark-surface .text-red-300 {
+  color: #fca5a5 !important;
+}
+
+[data-mode='light'] .dark-surface .text-red-400,
+.light .dark-surface .text-red-400 {
+  color: #f87171 !important;
+}
+
+[data-mode='light'] .dark-surface .text-teal-300,
+.light .dark-surface .text-teal-300 {
+  color: #5eead4 !important;
+}
+
+[data-mode='light'] .dark-surface .text-teal-400,
+.light .dark-surface .text-teal-400 {
+  color: #2dd4bf !important;
 }

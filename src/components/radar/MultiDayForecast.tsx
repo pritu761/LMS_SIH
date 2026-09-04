@@ -110,16 +110,16 @@ export const MultiDayForecast: React.FC<MultiDayForecastProps> = ({
   };
 
   return (
-    <div className={`relative bg-slate-900/85 backdrop-blur-xl border border-slate-800/90 rounded-2xl p-4 sm:p-5 shadow-2xl text-slate-100 ${className}`}>
+    <div className={`relative bg-white dark:bg-slate-900/85 backdrop-blur-xl border border-slate-200 dark:border-slate-800/90 rounded-2xl p-4 sm:p-5 shadow-xl dark:shadow-2xl text-slate-900 dark:text-slate-100 ${className}`}>
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center space-x-2">
-          <Calendar className="w-4 h-4 text-amber-400" />
-          <h3 className="text-base sm:text-lg font-bold text-white tracking-tight">
+          <Calendar className="w-4 h-4 text-[#c59b48]" />
+          <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white tracking-tight">
             7-Day Synoptic Outlook
           </h3>
         </div>
-        <span className="text-xs text-slate-400 font-medium">
+        <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">
           Extended Forecast & Range
         </span>
       </div>
@@ -151,10 +151,10 @@ export const MultiDayForecast: React.FC<MultiDayForecastProps> = ({
               key={day.date}
               className={`rounded-xl border transition-all duration-200 overflow-hidden ${
                 isExpanded
-                  ? 'bg-slate-800/80 border-amber-500/60 shadow-lg'
+                  ? 'bg-slate-100/90 dark:bg-slate-800/80 border-[#c59b48]/60 shadow-md'
                   : isToday
-                  ? 'bg-slate-800/40 border-slate-700/80 hover:bg-slate-800/60'
-                  : 'bg-slate-900/50 border-slate-800/80 hover:bg-slate-800/40 hover:border-slate-700'
+                  ? 'bg-slate-50 dark:bg-slate-800/40 border-slate-200 dark:border-slate-700/80 hover:bg-slate-100/70 dark:hover:bg-slate-800/60'
+                  : 'bg-white dark:bg-slate-900/50 border-slate-200 dark:border-slate-800/80 hover:bg-slate-50 dark:hover:bg-slate-800/40 hover:border-slate-300 dark:hover:border-slate-700'
               }`}
             >
               {/* Main Summary Row */}
@@ -164,23 +164,23 @@ export const MultiDayForecast: React.FC<MultiDayForecastProps> = ({
               >
                 {/* Date & Weekday */}
                 <div className="w-24 sm:w-28 flex-shrink-0">
-                  <div className={`text-sm font-bold ${isToday ? 'text-amber-400' : 'text-white'}`}>
+                  <div className={`text-sm font-bold ${isToday ? 'text-[#9a7224] dark:text-amber-400' : 'text-slate-900 dark:text-white'}`}>
                     {weekdayName}
                   </div>
-                  <div className="text-[11px] text-slate-400">{formattedDate}</div>
+                  <div className="text-[11px] text-slate-500 dark:text-slate-400">{formattedDate}</div>
                 </div>
 
                 {/* Weather Condition Icon & Label */}
                 <div className="flex items-center space-x-2.5 flex-1 min-w-0">
-                  <div className="p-1 rounded-lg bg-slate-950/40 flex-shrink-0">
+                  <div className="p-1 rounded-lg bg-slate-100 dark:bg-slate-950/40 flex-shrink-0">
                     {renderWmoIcon(wmo.iconName, 'w-5 h-5')}
                   </div>
                   <div className="min-w-0 hidden xs:block">
-                    <span className="text-xs text-slate-200 font-medium truncate block">
+                    <span className="text-xs text-slate-700 dark:text-slate-200 font-medium truncate block">
                       {wmo.label}
                     </span>
                     {day.precipitationProbabilityMax > 0 && (
-                      <span className="text-[10px] text-cyan-300 flex items-center space-x-1">
+                      <span className="text-[10px] text-cyan-600 dark:text-cyan-300 flex items-center space-x-1">
                         <Droplets className="w-2.5 h-2.5" />
                         <span>{day.precipitationProbabilityMax}% precip ({day.precipitationSum} mm)</span>
                       </span>
@@ -190,11 +190,11 @@ export const MultiDayForecast: React.FC<MultiDayForecastProps> = ({
 
                 {/* Min / Max Temperature with Visual Range Bar */}
                 <div className="flex items-center space-x-3 w-40 sm:w-52 flex-shrink-0 justify-end">
-                  <span className="text-xs font-mono text-slate-400 text-right w-8">
+                  <span className="text-xs font-mono text-slate-500 dark:text-slate-400 text-right w-8">
                     {minTemp}°
                   </span>
 
-                  <div className="flex-1 bg-slate-800/80 h-2 rounded-full relative overflow-hidden hidden sm:block">
+                  <div className="flex-1 bg-slate-200 dark:bg-slate-800/80 h-2 rounded-full relative overflow-hidden hidden sm:block">
                     <div
                       className="absolute h-full rounded-full bg-gradient-to-r from-sky-400 via-amber-400 to-red-400 shadow-sm"
                       style={{
@@ -204,13 +204,13 @@ export const MultiDayForecast: React.FC<MultiDayForecastProps> = ({
                     />
                   </div>
 
-                  <span className="text-xs font-mono font-bold text-white text-left w-8">
+                  <span className="text-xs font-mono font-bold text-slate-900 dark:text-white text-left w-8">
                     {maxTemp}°
                   </span>
 
-                  <div className="text-slate-500 pl-1">
+                  <div className="text-slate-400 pl-1">
                     {isExpanded ? (
-                      <ChevronUp className="w-4 h-4 text-amber-400" />
+                      <ChevronUp className="w-4 h-4 text-[#c59b48]" />
                     ) : (
                       <ChevronDown className="w-4 h-4" />
                     )}
@@ -220,47 +220,47 @@ export const MultiDayForecast: React.FC<MultiDayForecastProps> = ({
 
               {/* Expanded Day Details Drawer */}
               {isExpanded && (
-                <div className="px-3 sm:px-4 pb-3 pt-1 border-t border-slate-800/80 bg-slate-950/60 text-xs animate-fadeIn">
+                <div className="px-3 sm:px-4 pb-3 pt-1 border-t border-slate-200 dark:border-slate-800/80 bg-slate-50/80 dark:bg-slate-950/60 text-xs animate-fadeIn">
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mt-2">
                     {/* Sunrise & Sunset */}
-                    <div className="p-2.5 bg-slate-900/80 border border-slate-800 rounded-lg flex items-center space-x-2.5">
-                      <Sunrise className="w-4 h-4 text-amber-400 flex-shrink-0" />
+                    <div className="p-2.5 bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-lg flex items-center space-x-2.5">
+                      <Sunrise className="w-4 h-4 text-amber-500 dark:text-amber-400 flex-shrink-0" />
                       <div>
                         <div className="text-[10px] text-slate-500 font-medium">Sunrise / Sunset</div>
-                        <div className="font-mono text-slate-200">
+                        <div className="font-mono text-slate-800 dark:text-slate-200">
                           {day.sunrise || '06:05'} • {day.sunset || '18:40'}
                         </div>
                       </div>
                     </div>
 
                     {/* Precipitation Accumulation */}
-                    <div className="p-2.5 bg-slate-900/80 border border-slate-800 rounded-lg flex items-center space-x-2.5">
-                      <Droplets className="w-4 h-4 text-cyan-400 flex-shrink-0" />
+                    <div className="p-2.5 bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-lg flex items-center space-x-2.5">
+                      <Droplets className="w-4 h-4 text-cyan-500 dark:text-cyan-400 flex-shrink-0" />
                       <div>
                         <div className="text-[10px] text-slate-500 font-medium">Precip Accumulation</div>
-                        <div className="font-mono text-cyan-300">
+                        <div className="font-mono text-cyan-600 dark:text-cyan-300">
                           {day.precipitationSum} mm ({day.precipitationProbabilityMax}% prob)
                         </div>
                       </div>
                     </div>
 
                     {/* Wind Extremes */}
-                    <div className="p-2.5 bg-slate-900/80 border border-slate-800 rounded-lg flex items-center space-x-2.5">
-                      <Wind className="w-4 h-4 text-teal-400 flex-shrink-0" />
+                    <div className="p-2.5 bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-lg flex items-center space-x-2.5">
+                      <Wind className="w-4 h-4 text-teal-600 dark:text-teal-400 flex-shrink-0" />
                       <div>
                         <div className="text-[10px] text-slate-500 font-medium">Max Wind / Gusts</div>
-                        <div className="font-mono text-slate-200">
+                        <div className="font-mono text-slate-800 dark:text-slate-200">
                           {maxWind} {windUnitSymbol} ({windDirCompass})
                         </div>
                       </div>
                     </div>
 
                     {/* UV Solar Peak */}
-                    <div className="p-2.5 bg-slate-900/80 border border-slate-800 rounded-lg flex items-center space-x-2.5">
-                      <Sun className="w-4 h-4 text-amber-400 flex-shrink-0" />
+                    <div className="p-2.5 bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-lg flex items-center space-x-2.5">
+                      <Sun className="w-4 h-4 text-amber-500 dark:text-amber-400 flex-shrink-0" />
                       <div>
                         <div className="text-[10px] text-slate-500 font-medium">Peak UV Index</div>
-                        <div className="font-mono text-amber-300 font-bold">
+                        <div className="font-mono text-[#9a7224] dark:text-amber-300 font-bold">
                           {day.uvIndexMax} / 12
                         </div>
                       </div>

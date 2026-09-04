@@ -139,19 +139,19 @@ export default function TrainerLibraryPage() {
               </span>
               <span className="text-xs text-slate-500 dark:text-slate-400">Course: {course.code}</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight mt-1">
+            <h1 className="text-2xl sm:text-3xl font-display font-extrabold text-slate-900 dark:text-white tracking-tight mt-1">
               Curriculum Media Library & Uploads
             </h1>
-            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-1">
+            <p className="text-[13px] sm:text-sm text-slate-600 dark:text-slate-300 mt-1.5 leading-relaxed">
               Upload recorded lectures (MP4), high-resolution slide decks (PDF/PPT), and reading documentation.
             </p>
           </div>
         </div>
 
         {showUploadSuccess && (
-          <div className="rounded-2xl bg-emerald-500/10 border border-emerald-500/30 p-4 text-xs font-semibold text-emerald-300 flex items-center gap-2 animate-fade-in-up shadow-glow-emerald">
-            <CheckCircle className="h-4 w-4" />
-            <span>Asset encoded and successfully linked to module curriculum!</span>
+          <div className="rounded-2xl bg-emerald-500/10 border border-emerald-500/30 p-4 text-[13px] font-semibold text-emerald-700 dark:text-emerald-300 leading-relaxed flex items-center gap-2 animate-fade-in-up shadow-glow-emerald">
+            <CheckCircle className="h-4 w-4 shrink-0" />
+            <span>Lecture uploaded and linked to the module curriculum.</span>
           </div>
         )}
 
@@ -171,7 +171,7 @@ export default function TrainerLibraryPage() {
             onDrop={handleDrop}
             className={`rounded-2xl border-2 border-dashed p-8 text-center transition-all duration-300 ${
               dragActive
-                ? 'border-indigo-500 bg-indigo-950/40 shadow-glow-sm scale-[1.01]'
+                ? 'border-indigo-500 bg-indigo-500/10 dark:bg-indigo-950/40 shadow-glow-sm scale-[1.01]'
                 : 'border-slate-200 dark:border-slate-700/80 bg-white dark:bg-slate-950/40 hover:border-slate-600'
             }`}
           >
@@ -272,12 +272,12 @@ export default function TrainerLibraryPage() {
                   </div>
                   <div className="min-w-0">
                     <div className="flex items-center gap-2">
-                      <span className="rounded-md bg-indigo-950/80 px-2 py-0.5 text-[10px] font-bold text-indigo-300 uppercase border border-indigo-500/20">
+                      <span className="rounded-md bg-indigo-500/10 dark:bg-indigo-950/80 px-2 py-0.5 text-[10px] font-bold text-indigo-700 dark:text-indigo-300 uppercase tracking-wider border border-indigo-500/20">
                         {m.type}
                       </span>
-                      <h4 className="text-xs font-bold text-slate-900 dark:text-white truncate group-hover:text-indigo-200 transition-colors">{m.title}</h4>
+                      <h4 className="text-[13px] font-bold text-slate-900 dark:text-white truncate group-hover:text-indigo-700 dark:group-hover:text-indigo-200 transition-colors">{m.title}</h4>
                     </div>
-                    <div className="text-[11px] text-slate-500 dark:text-slate-400 flex items-center gap-2 mt-0.5">
+                    <div className="text-xs text-slate-600 dark:text-slate-400 flex items-center gap-2 mt-0.5 tabular-nums">
                       <span>Size: {m.fileSize}</span>
                       {m.durationSeconds && <span>• Duration: {Math.floor(m.durationSeconds / 60)} mins</span>}
                     </div>
@@ -287,7 +287,7 @@ export default function TrainerLibraryPage() {
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => handleDeleteMaterial(m.id)}
-                    className="p-2 text-slate-500 hover:text-rose-400 hover:bg-rose-500/10 rounded-xl transition-all"
+                    className="p-2 text-slate-500 dark:text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-500/10 rounded-xl transition-all"
                     title="Remove asset"
                   >
                     <Trash2 className="h-4 w-4" />

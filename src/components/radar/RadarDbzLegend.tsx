@@ -110,7 +110,7 @@ export function RadarDbzLegend({
 
   return (
     <div
-      className={`rounded-2xl border border-slate-700/60 bg-slate-900/90 backdrop-blur-xl shadow-2xl p-3 text-white select-none transition-all duration-300 ${className}`}
+      className={`rounded-2xl border border-slate-200 dark:border-slate-700/60 bg-white/95 dark:bg-slate-900/90 backdrop-blur-xl shadow-xl p-3 text-slate-900 dark:text-white select-none transition-all duration-300 ${className}`}
       role="region"
       aria-label="Meteorological Radar dBZ Reflectivity Legend"
     >
@@ -120,19 +120,19 @@ export function RadarDbzLegend({
         onClick={() => setIsExpanded((prev) => !prev)}
       >
         <div className="flex items-center gap-2">
-          <Droplets className="w-4 h-4 text-sky-400" />
-          <span className="text-xs font-bold tracking-wider font-mono text-slate-200">
+          <Droplets className="w-4 h-4 text-sky-500 dark:text-sky-400" />
+          <span className="text-xs font-bold tracking-wider font-mono text-slate-800 dark:text-slate-200">
             REFLECTIVITY (dBZ)
           </span>
           {currentDbz !== undefined && (
-            <span className="text-[11px] font-mono font-bold px-1.5 py-0.5 rounded bg-amber-400/20 text-amber-300 border border-amber-400/30">
+            <span className="text-[11px] font-mono font-bold px-1.5 py-0.5 rounded bg-[#c59b48]/20 text-[#9a7224] dark:text-amber-300 border border-[#c59b48]/30">
               {currentDbz.toFixed(1)} dBZ
             </span>
           )}
         </div>
 
         <button
-          className="text-slate-400 hover:text-white p-0.5 rounded transition"
+          className="text-slate-400 hover:text-slate-700 dark:hover:text-white p-0.5 rounded transition"
           aria-label={isExpanded ? 'Collapse Legend' : 'Expand Legend'}
         >
           {isExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
@@ -141,7 +141,7 @@ export function RadarDbzLegend({
 
       {/* Horizontal Continuous Color Band */}
       <div className="mt-2 relative">
-        <div className="flex items-center h-3 rounded-full overflow-hidden w-full border border-slate-700/80 shadow-inner">
+        <div className="flex items-center h-3 rounded-full overflow-hidden w-full border border-slate-300 dark:border-slate-700/80 shadow-inner">
           {DBZ_SCALE_STEPS.map((step, idx) => {
             const stepColor = isNexrad ? step.nexradColor : step.color;
             const isHovered = hoveredStep?.dbz === step.dbz;
@@ -163,9 +163,9 @@ export function RadarDbzLegend({
         </div>
 
         {/* dBZ tick numbers below bar */}
-        <div className="flex justify-between text-[10px] font-mono text-slate-400 px-0.5 mt-1">
+        <div className="flex justify-between text-[10px] font-mono text-slate-500 dark:text-slate-400 px-0.5 mt-1">
           {DBZ_SCALE_STEPS.map((step, idx) => (
-            <span key={idx} className="cursor-pointer hover:text-amber-300" onClick={() => setHoveredStep(step)}>
+            <span key={idx} className="cursor-pointer hover:text-[#9a7224] dark:hover:text-amber-300" onClick={() => setHoveredStep(step)}>
               {step.dbz}
             </span>
           ))}
@@ -174,19 +174,19 @@ export function RadarDbzLegend({
 
       {/* Hovered or Active Step Details Popover */}
       {hoveredStep && (
-        <div className="mt-2.5 p-2 rounded-xl bg-slate-950/80 border border-slate-800 text-[11px] animate-fadeIn">
+        <div className="mt-2.5 p-2 rounded-xl bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 text-[11px] animate-fadeIn">
           <div className="flex items-center justify-between font-semibold">
             <div className="flex items-center gap-1.5">
               <span
                 className="w-2.5 h-2.5 rounded-full"
                 style={{ backgroundColor: isNexrad ? hoveredStep.nexradColor : hoveredStep.color }}
               />
-              <span className="text-slate-100">{hoveredStep.label}</span>
-              <span className="text-amber-400 font-mono">({hoveredStep.dbz} dBZ)</span>
+              <span className="text-slate-900 dark:text-slate-100">{hoveredStep.label}</span>
+              <span className="text-[#9a7224] dark:text-amber-400 font-mono">({hoveredStep.dbz} dBZ)</span>
             </div>
-            <span className="font-mono text-slate-400">{hoveredStep.rainRate}</span>
+            <span className="font-mono text-slate-500 dark:text-slate-400">{hoveredStep.rainRate}</span>
           </div>
-          <div className="text-slate-300 text-[10px] mt-1 leading-snug">
+          <div className="text-slate-600 dark:text-slate-300 text-[10px] mt-1 leading-snug">
             {hoveredStep.description}
           </div>
         </div>
@@ -194,8 +194,8 @@ export function RadarDbzLegend({
 
       {/* Expanded Table Breakdown */}
       {isExpanded && !hoveredStep && (
-        <div className="mt-3 pt-2.5 border-t border-slate-800 space-y-1.5 text-[11px]">
-          <div className="grid grid-cols-12 text-[10px] font-mono text-slate-400 pb-1 border-b border-slate-800/60">
+        <div className="mt-3 pt-2.5 border-t border-slate-200 dark:border-slate-800 space-y-1.5 text-[11px]">
+          <div className="grid grid-cols-12 text-[10px] font-mono text-slate-500 dark:text-slate-400 pb-1 border-b border-slate-200 dark:border-slate-800/60">
             <span className="col-span-3">INTENSITY</span>
             <span className="col-span-3">dBZ SCALE</span>
             <span className="col-span-6 text-right">EST. RAIN RATE</span>
@@ -212,8 +212,8 @@ export function RadarDbzLegend({
                 onMouseLeave={() => setHoveredStep(null)}
                 className={`grid grid-cols-12 items-center py-1 px-1.5 rounded-lg cursor-pointer transition ${
                   isActive
-                    ? 'bg-amber-500/20 border border-amber-400/40 text-amber-200'
-                    : 'hover:bg-slate-800/60 text-slate-300'
+                    ? 'bg-[#c59b48]/20 border border-[#c59b48]/40 text-[#9a7224] dark:text-amber-200 font-bold'
+                    : 'hover:bg-slate-100 dark:hover:bg-slate-800/60 text-slate-700 dark:text-slate-300'
                 }`}
               >
                 <div className="col-span-3 flex items-center gap-1.5">
@@ -223,16 +223,16 @@ export function RadarDbzLegend({
                   />
                   <span className="font-medium truncate">{step.label}</span>
                 </div>
-                <span className="col-span-3 font-mono text-slate-400">{step.dbz} dBZ</span>
-                <span className="col-span-6 font-mono text-right text-slate-300">
+                <span className="col-span-3 font-mono text-slate-500 dark:text-slate-400">{step.dbz} dBZ</span>
+                <span className="col-span-6 font-mono text-right text-slate-700 dark:text-slate-300">
                   {step.rainRate}
                 </span>
               </div>
             );
           })}
 
-          <div className="pt-2 text-[10px] text-slate-400 flex items-center gap-1">
-            <Info className="w-3 h-3 text-slate-500" />
+          <div className="pt-2 text-[10px] text-slate-500 dark:text-slate-400 flex items-center gap-1">
+            <Info className="w-3 h-3 text-slate-400 dark:text-slate-500" />
             <span>Reflectivity formula: Z = 200 · R^1.6 (Marshall-Palmer)</span>
           </div>
         </div>

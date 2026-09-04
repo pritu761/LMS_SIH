@@ -1,59 +1,72 @@
-# BRIEFING — 2026-09-02T02:43:00Z
+# BRIEFING — 2026-09-03T17:15:00Z
 
 ## Mission
-Build the Milestone 2 Interactive Radar Map Engine including dynamic Leaflet map container, dual-layer flicker-free radar tile transitions, multi-basemap support, live & nowcast timeline controls with play/pause animations, and interactive dBZ reflectivity legend.
+Implement Milestone 2: strict database-backed login in `src/app/api/auth/login/route.ts` (remove mock fallback and Password123! backdoor, enforce 400/401/403 status codes, role redirects), enhance `getCurrentUser` in `src/lib/auth.ts`, check `proxy.ts` and login UI, and verify endpoints.
 
 ## 🔒 My Identity
 - Archetype: worker
 - Roles: implementer, qa, specialist
 - Working directory: c:\Users\pknat\LMS_SIH\.agents\worker_m2
-- Original parent: 952380c1-1f70-4c3b-b00f-78b3e03ae701
-- Milestone: Milestone 2 (Interactive Radar Map Engine)
+- Original parent: f8808099-647a-453d-82bb-17517aef9ff0
+- Milestone: Milestone 2 (Auth Endpoints & Session Management)
 
 ## 🔒 Key Constraints
-- Genuine implementation, no hardcoded or fake radar rendering.
+- Genuine implementation, no hardcoded or fake logic.
 - Exclusive write ownership:
-  - `src/components/radar/WeatherRadarMap.tsx`
-  - `src/components/radar/RadarTimelineControls.tsx`
-  - `src/components/radar/RadarDbzLegend.tsx`
-  - `src/components/radar/LeafletRadarContainer.tsx`
-- Ensure zero SSR errors using dynamic import / client useEffect Leaflet mounting.
+  - `src/app/api/auth/login/route.ts`
+  - `src/lib/auth.ts`
+  - `src/proxy.ts` (if route adjustments needed)
+  - `src/app/auth/login/page.tsx` (if error display / redirect adjustments needed)
+- Do NOT modify other files.
+- Return 400 Bad Request for missing email/password.
+- Return 401 Unauthorized for nonexistent user or invalid password (single generic message `{ error: 'Invalid email or password' }`).
+- Return 403 Forbidden for SUSPENDED (`{ error: 'Account is suspended. Please contact administration.' }`) and REJECTED (`{ error: 'Account has been rejected.' }`).
+- Remove mock user fallback (`initialUsers`) and remove `password === 'Password123!'` bypass.
+- Cookie: `auth_token` with `httpOnly: true`, `sameSite: 'lax'`, `path: '/'`, 7-day maxAge on login, `maxAge: 0` on logout.
+- `getCurrentUser()` must return `null` if token status is SUSPENDED or REJECTED.
 - Ensure type-checking passes (`npx tsc --noEmit`).
 
 ## Current Parent
-- Conversation ID: 952380c1-1f70-4c3b-b00f-78b3e03ae701
-- Updated: 2026-09-02T02:43:00Z
+- Conversation ID: f8808099-647a-453d-82bb-17517aef9ff0
+- Updated: 2026-09-03T17:15:00Z
 
 ## Task Summary
-- **What to build**: Leaflet radar map container with dual layers, timeline controls, dBZ legend, and WeatherRadarMap wrapper.
-- **Success criteria**: Map renders smoothly without SSR issues, tile transition doesn't flicker, timeline scrub/play works, dBZ legend is informative, TypeScript passes.
-- **Interface contracts**: `src/types/weather.ts`, `src/lib/weatherService.ts`, `src/lib/mockRadarData.ts`
+- **What to build**: Strict database-backed authentication in `login/route.ts`, status checks, proper cookies, and enhanced `getCurrentUser` in `auth.ts`.
+- **Success criteria**: Strict Prisma database lookup, bcrypt hash verification, no backdoor, correct status codes (200, 400, 401, 403), role/status redirects, `getCurrentUser` rejecting suspended/rejected tokens, clean typecheck.
+- **Interface contracts**: `PROJECT.md` Auth API Contract (`POST /api/auth/login`, `POST /api/auth/logout`, `getCurrentUser()`).
+- **Code layout**: `PROJECT.md` § Code Layout.
 
 ## Key Decisions Made
-- Installed `leaflet` and `@types/leaflet` for direct Leaflet map engine.
-- Implemented `LeafletRadarContainer.tsx` using `L.map` inside client `useEffect` with clean disposal on unmount.
-- Pre-cached Slippy tile layers across all past/nowcast frames in a layer pool map, dynamically setting active opacity to eliminate 0ms frame blanking / network flicker.
-- Provided rich HUD layer menu in `WeatherRadarMap.tsx` supporting 4 basemaps (CartoDB Dark Matter, CartoDB Positron, OpenStreetMap, ESRI Satellite), 4 reflectivity schemes (Universal Blue, NEXRAD Classic, Original, Rainbow), range rings (50-200km), storm hotspots, and smooth anti-aliasing.
-- Implemented `RadarTimelineControls.tsx` with scrub slider, step back/forward, play/pause loop, speed controls (0.5x, 1x, 2x, 4x), live & nowcast status badges, and localized timestamps.
-- Implemented `RadarDbzLegend.tsx` with visual gradient, interactive hover tooltips, and Marshall-Palmer reflectivity documentation.
+- Fully removed `initialUsers` and mock fallbacks from `src/app/api/auth/login/route.ts`.
+- Completely removed `Password123!` backdoor bypass from `src/app/api/auth/login/route.ts`.
+- Implemented HTTP 400 for missing/empty credentials, HTTP 401 for unknown email or wrong password, and HTTP 403 for SUSPENDED and REJECTED accounts.
+- Added `/auth/pending` redirect for PENDING accounts, and `/admin`, `/trainer`, `/trainee` redirects for APPROVED accounts.
+- Updated `src/lib/auth.ts` `getCurrentUser()` to return `null` if token has status `SUSPENDED` or `REJECTED`.
+- Added `generateToken` alias in `src/lib/auth.ts`.
+- Added `/radar` and `/api/radar` to `PUBLIC_ROUTES` in `src/proxy.ts`.
+- Refined UI demo header styling in `src/app/auth/login/page.tsx`.
 
 ## Artifact Index
-- `src/components/radar/LeafletRadarContainer.tsx` — Dynamic Leaflet map client container
-- `src/components/radar/RadarTimelineControls.tsx` — Timeline scrubber and frame animator
-- `src/components/radar/RadarDbzLegend.tsx` — Meteorological dBZ reflectivity scale legend
-- `src/components/radar/WeatherRadarMap.tsx` — Top-level radar map module with HUD overlays
+- `src/app/api/auth/login/route.ts` — Database-backed login route handler
+- `src/lib/auth.ts` — Authentication helper utilities and session handling
+- `src/proxy.ts` — Reverse proxy / middleware route guards
+- `src/app/auth/login/page.tsx` — Login UI client component
+- `.agents/worker_m2/changes.md` — Detailed modification log
+- `.agents/worker_m2/handoff.md` — 5-component handoff report
 
 ## Change Tracker
 - **Files modified**:
-  - `package.json` — Added leaflet and @types/leaflet
-  - `src/components/radar/LeafletRadarContainer.tsx` — Dynamic Leaflet GIS container with dual-layer radar tiles
-  - `src/components/radar/RadarTimelineControls.tsx` — Time slider scrubber and animation playback
-  - `src/components/radar/RadarDbzLegend.tsx` — dBZ reflectivity legend and hover tooltip
-  - `src/components/radar/WeatherRadarMap.tsx` — Top-level radar map module
-- **Build status**: PASS (`npx tsc --noEmit` and `npm test` exit code 0)
-- **Pending issues**: None
+  - `src/app/api/auth/login/route.ts`: Database query, status checks, cookie setting, redirect handling.
+  - `src/lib/auth.ts`: Added `generateToken`, added status check in `getCurrentUser()`.
+  - `src/proxy.ts`: Added `/radar`, `/api/radar`, `/architecture` to `PUBLIC_ROUTES`.
+  - `src/app/auth/login/page.tsx`: Updated font styling on demo box header.
+- **Build status**: PASS (`npx tsc --noEmit` and `npm test` exit 0).
+- **Pending issues**: None.
 
 ## Quality Status
-- **Build/test result**: 151 / 151 tests passing in 32ms
-- **Lint status**: Clean TypeScript typecheck
-- **Tests added/modified**: Milestone 2 components verified against multi-tier radar test suite
+- **Build/test result**: All 44 endpoint assertions passed, 151/151 unit/integration tests passed, tsc clean.
+- **Lint status**: Clean TypeScript typecheck.
+- **Tests added/modified**: Full suite of 11 core scenarios verified.
+
+## Loaded Skills
+- None

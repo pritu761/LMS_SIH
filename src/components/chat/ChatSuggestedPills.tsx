@@ -17,9 +17,9 @@ export function ChatSuggestedPills({ suggestions, onSelect }: ChatSuggestedPills
         <button
           key={idx}
           onClick={() => onSelect(suggestion)}
-          className="group inline-flex items-center gap-1.5 rounded-full border border-[#e0234e]/30 bg-[#e0234e]/10 px-3 py-1 text-[11px] font-medium text-[#ff4d6d] transition-all duration-200 hover:border-[#e0234e] hover:bg-[#e0234e]/25 hover:text-white hover:scale-[1.02] active:scale-[0.98]"
+          className="group inline-flex items-center gap-1.5 rounded-full border border-[#c59b48]/30 bg-[#c59b48]/10 px-3 py-1 text-[11px] font-medium text-[#0b1e36] dark:text-[#dfb76c] transition-all duration-200 hover:border-[#c59b48] hover:bg-[#c59b48]/25 hover:text-[#0b1e36] dark:hover:text-white hover:scale-[1.02] active:scale-[0.98]"
         >
-          <Sparkles className="h-2.5 w-2.5 text-[#ff4d6d] group-hover:text-slate-900 dark:text-white transition-colors" />
+          <Sparkles className="h-2.5 w-2.5 text-[#c59b48] group-hover:text-[#0b1e36] dark:text-[#dfb76c] dark:group-hover:text-white transition-colors" />
           <span>{suggestion}</span>
         </button>
       ))}

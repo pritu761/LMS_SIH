@@ -1,38 +1,41 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { initialUsers } from '@/lib/mockData';
-import { signToken, setAuthCookie, comparePassword } from '@/lib/auth';
-import { loginSchema } from '@/lib/validations';
+import { generateToken, setAuthCookie, comparePassword } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
-    const parsed = loginSchema.safeParse(body);
-
-    if (!parsed.success) {
+    let body: any;
+    try {
+      body = await request.json();
+    } catch {
       return NextResponse.json(
-        { error: 'Invalid login credentials', details: parsed.error.format() },
+        { error: 'Email and password are required' },
         { status: 400 }
       );
     }
 
-    const { email, password } = parsed.data;
+    const { email, password } = body || {};
 
-    // 1. Check in PostgreSQL database
-    let dbUser: any = null;
-    try {
-      dbUser = await prisma.user.findUnique({
-        where: { email },
-        include: { profile: true },
-      });
-    } catch (e) {
-      // Fallback
+    if (
+      !email ||
+      typeof email !== 'string' ||
+      !email.trim() ||
+      !password ||
+      typeof password !== 'string'
+    ) {
+      return NextResponse.json(
+        { error: 'Email and password are required' },
+        { status: 400 }
+      );
     }
 
-    // 2. Or check runtime memory
-    const mockUser = initialUsers.find((u) => u.email.toLowerCase() === email.toLowerCase());
+    const normalizedEmail = email.trim().toLowerCase();
 
-    const user = dbUser || mockUser;
+    // Query PostgreSQL User and Profile models via Prisma
+    const user = await prisma.user.findUnique({
+      where: { email: normalizedEmail },
+      include: { profile: true },
+    });
 
     if (!user) {
       return NextResponse.json(
@@ -41,9 +44,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Compare Bcrypt password
-    const isPasswordValid =
-      password === 'Password123!' || (await comparePassword(password, user.passwordHash));
+    // Strictly compare Bcrypt password hash
+    const isPasswordValid = await comparePassword(password, user.passwordHash);
 
     if (!isPasswordValid) {
       return NextResponse.json(
@@ -52,45 +54,72 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const currentStatus = user.status;
-    const userRole = user.role;
-    const fullName = user.profile?.fullName || 'Valued User';
+    // Enforce account status checks
+    if (user.status === 'SUSPENDED') {
+      return NextResponse.json(
+        { error: 'Account is suspended. Please contact administration.' },
+        { status: 403 }
+      );
+    }
 
-    // Sign JWT token with current database status
-    const token = await signToken({
+    if (user.status === 'REJECTED') {
+      return NextResponse.json(
+        { error: 'Account has been rejected.' },
+        { status: 403 }
+      );
+    }
+
+    // Determine redirect URL based on status and role
+    let redirectUrl = '/trainee';
+    if (user.status === 'PENDING') {
+      redirectUrl = '/auth/pending';
+    } else if (user.status === 'APPROVED') {
+      switch (user.role) {
+        case 'ADMIN':
+          redirectUrl = '/admin';
+          break;
+        case 'TRAINER':
+          redirectUrl = '/trainer';
+          break;
+        case 'TRAINEE':
+        default:
+          redirectUrl = '/trainee';
+          break;
+      }
+    }
+
+    const fullName = user.profile?.fullName || '';
+
+    // Sign JWT token using edge-compatible helper
+    const token = await generateToken({
       userId: user.id,
       email: user.email,
-      role: userRole,
-      status: currentStatus,
-      fullName: fullName,
+      role: user.role,
+      status: user.status,
+      fullName,
     });
+
+    const avatarUrl = user.profile?.avatarUrl || '';
 
     const response = NextResponse.json({
       success: true,
       user: {
         id: user.id,
         email: user.email,
-        role: userRole,
-        status: currentStatus,
-        fullName: fullName,
-        avatarUrl: user.profile?.avatarUrl,
-        headline: user.profile?.headline,
+        role: user.role,
+        status: user.status,
+        fullName,
+        avatarUrl,
+        profile: user.profile,
       },
-      redirectUrl:
-        currentStatus === 'PENDING'
-          ? '/auth/pending'
-          : userRole === 'ADMIN'
-          ? '/admin'
-          : userRole === 'TRAINER'
-          ? '/trainer'
-          : '/trainee',
+      redirectUrl,
     });
 
     setAuthCookie(response, token);
     return response;
   } catch (error: any) {
     return NextResponse.json(
-      { error: 'Internal server error during authentication', details: error.message },
+      { error: 'Internal server error during authentication', details: error?.message },
       { status: 500 }
     );
   }

@@ -251,13 +251,13 @@ export function CoursePlayer({ course, initialEnrollment }: CoursePlayerProps) {
                 </div>
 
                 {/* Video Info & Quick Actions Bar */}
-                <div className="p-4 bg-slate-950/95 backdrop-blur-xl border-t border-slate-200 dark:border-slate-800/80 flex flex-wrap items-center justify-between gap-3">
+                <div className="p-4 bg-slate-50 dark:bg-slate-950/95 backdrop-blur-xl border-t border-slate-200 dark:border-slate-800/80 flex flex-wrap items-center justify-between gap-3">
                   <div className="flex items-center gap-2 sm:gap-3">
                     <button
                       onClick={() => toggleMaterialComplete(activeMaterial.id)}
                       className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
                         completedIds.includes(activeMaterial.id)
-                          ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 hover:bg-emerald-500/30 shadow-sm'
+                          ? 'bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-emerald-500/40 hover:bg-emerald-500/30 shadow-sm'
                           : 'bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 text-white shadow-md shadow-indigo-600/30'
                       }`}
                     >
@@ -269,7 +269,7 @@ export function CoursePlayer({ course, initialEnrollment }: CoursePlayerProps) {
                       href={ytInfo.originalUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-red-600/15 text-red-300 hover:bg-red-600/25 border border-red-500/30 text-xs font-semibold transition-all"
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-red-600/15 text-red-700 dark:text-red-300 hover:bg-red-600/25 border border-red-500/30 text-xs font-semibold transition-all"
                     >
                       <Youtube className="h-3.5 w-3.5 text-red-500" />
                       <span className="hidden sm:inline">Watch on YouTube</span>
@@ -278,15 +278,15 @@ export function CoursePlayer({ course, initialEnrollment }: CoursePlayerProps) {
                   </div>
 
                   <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
-                    <span className="hidden md:flex items-center gap-1.5 text-[11px] font-mono text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-900/90 px-2.5 py-1 rounded-lg border border-slate-200 dark:border-slate-800">
-                      <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+                    <span className="hidden md:flex items-center gap-1.5 text-[11px] font-mono text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-900/90 px-2.5 py-1 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-none">
+                      <span className="h-2 w-2 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-pulse" />
                       HD Topic Stream
                     </span>
 
                     {hasPrevMaterial && (
                       <button
                         onClick={handlePrevLesson}
-                        className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-white dark:bg-slate-900 hover:bg-slate-100 dark:bg-slate-800 text-xs font-semibold text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 transition-all hover:scale-105"
+                        className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 text-xs font-semibold text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 transition-all hover:scale-105 shadow-sm dark:shadow-none"
                       >
                         <ChevronLeft className="h-3.5 w-3.5" />
                         <span className="hidden sm:inline">Prev</span>
@@ -296,7 +296,7 @@ export function CoursePlayer({ course, initialEnrollment }: CoursePlayerProps) {
                     {hasNextMaterial && (
                       <button
                         onClick={handleNextLesson}
-                        className="flex items-center gap-1 px-3 py-1.5 rounded-xl bg-indigo-600/20 hover:bg-indigo-600/30 text-xs font-bold text-indigo-300 border border-indigo-500/30 transition-all hover:scale-105"
+                        className="flex items-center gap-1 px-3 py-1.5 rounded-xl bg-indigo-600/15 hover:bg-indigo-600/25 text-xs font-bold text-indigo-700 dark:text-indigo-300 border border-indigo-500/30 transition-all hover:scale-105 shadow-sm dark:shadow-none"
                       >
                         <span>Next Lesson</span>
                         <ChevronRight className="h-3.5 w-3.5" />
@@ -318,7 +318,7 @@ export function CoursePlayer({ course, initialEnrollment }: CoursePlayerProps) {
                 />
 
                 {/* Custom Video Controls Bar */}
-                <div className="p-4 bg-slate-950/95 backdrop-blur-xl border-t border-slate-200 dark:border-slate-800/80 space-y-3">
+                <div className="p-4 bg-slate-50 dark:bg-slate-950/95 backdrop-blur-xl border-t border-slate-200 dark:border-slate-800/80 space-y-3">
                   {/* Seekbar */}
                   <input
                     type="range"
@@ -326,7 +326,7 @@ export function CoursePlayer({ course, initialEnrollment }: CoursePlayerProps) {
                     max={duration || 100}
                     value={currentTime}
                     onChange={handleSeek}
-                    className="w-full h-1.5 bg-slate-100 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-indigo-500"
+                    className="w-full h-1.5 bg-slate-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-indigo-500"
                   />
 
                   <div className="flex items-center justify-between">
@@ -345,12 +345,12 @@ export function CoursePlayer({ course, initialEnrollment }: CoursePlayerProps) {
                             setIsMuted(!isMuted);
                           }
                         }}
-                        className="p-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:text-white transition-colors"
+                        className="p-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
                       >
                         {isMuted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
                       </button>
 
-                      <span className="text-xs font-mono text-slate-500 dark:text-slate-400">
+                      <span className="text-xs font-mono text-slate-600 dark:text-slate-400">
                         {formatVideoTime(currentTime)} / {formatVideoTime(duration || activeMaterial.durationSeconds || 0)}
                       </span>
                     </div>
@@ -363,8 +363,8 @@ export function CoursePlayer({ course, initialEnrollment }: CoursePlayerProps) {
                           onClick={() => handleSpeedChange(speed)}
                           className={`px-2 py-1 rounded text-[11px] font-semibold transition-colors ${
                             playbackSpeed === speed
-                              ? 'bg-indigo-600/30 text-indigo-300 border border-indigo-500/40'
-                              : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:text-white bg-white dark:bg-slate-900'
+                              ? 'bg-indigo-600 text-white shadow-sm dark:bg-indigo-600/30 dark:text-indigo-300 border border-indigo-500/40'
+                              : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800'
                           }`}
                         >
                           {speed}x
@@ -379,14 +379,14 @@ export function CoursePlayer({ course, initialEnrollment }: CoursePlayerProps) {
             /* Document / PDF / Slides Resource Viewer */
             <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/80 overflow-hidden shadow-2xl space-y-0">
               {/* Document Header & Action Toolbar */}
-              <div className="p-5 bg-slate-950/95 border-b border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="p-5 bg-slate-50 dark:bg-slate-950/95 border-b border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div className="flex items-center gap-3">
-                  <div className="h-12 w-12 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-400 shrink-0 shadow-inner">
+                  <div className="h-12 w-12 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-600 dark:text-red-400 shrink-0 shadow-inner">
                     <FileText className="h-6 w-6" />
                   </div>
                   <div>
                     <div className="flex items-center gap-2">
-                      <span className="rounded bg-red-950/80 px-2 py-0.5 text-[9px] font-extrabold text-red-300 uppercase border border-red-500/30">
+                      <span className="rounded bg-red-100 dark:bg-red-950/80 px-2 py-0.5 text-[9px] font-extrabold text-red-700 dark:text-red-300 uppercase border border-red-200 dark:border-red-500/30">
                         {activeMaterial.type} DOCUMENT
                       </span>
                       <span className="text-[11px] text-slate-500 dark:text-slate-400 font-mono">File: {activeMaterial.fileSize}</span>
@@ -411,9 +411,9 @@ export function CoursePlayer({ course, initialEnrollment }: CoursePlayerProps) {
                     href={activeMaterial.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-700 px-3.5 py-2 text-xs font-semibold text-slate-900 dark:text-slate-200 border border-slate-200 dark:border-slate-700 transition-all hover:scale-105"
+                    className="flex items-center gap-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 px-3.5 py-2 text-xs font-semibold text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700 transition-all hover:scale-105 shadow-sm dark:shadow-none"
                   >
-                    <ExternalLink className="h-3.5 w-3.5 text-indigo-400" />
+                    <ExternalLink className="h-3.5 w-3.5 text-indigo-600 dark:text-indigo-400" />
                     <span>Open in New Tab</span>
                   </a>
 
@@ -421,11 +421,11 @@ export function CoursePlayer({ course, initialEnrollment }: CoursePlayerProps) {
                     onClick={() => toggleMaterialComplete(activeMaterial.id)}
                     className={`flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-xs font-bold transition-all ${
                       completedIds.includes(activeMaterial.id)
-                        ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 hover:bg-emerald-500/30'
-                        : 'bg-slate-100 dark:bg-slate-800 hover:bg-slate-700 text-slate-900 dark:text-slate-200 border border-slate-200 dark:border-slate-700'
+                        ? 'bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-emerald-500/40 hover:bg-emerald-500/30'
+                        : 'bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700'
                     }`}
                   >
-                    <CheckCircle className="h-3.5 w-3.5 text-emerald-400" />
+                    <CheckCircle className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
                     <span>{completedIds.includes(activeMaterial.id) ? 'Reviewed' : 'Mark Reviewed'}</span>
                   </button>
                 </div>
@@ -440,7 +440,7 @@ export function CoursePlayer({ course, initialEnrollment }: CoursePlayerProps) {
                 >
                   {/* Fallback card if browser sandbox blocks direct plugin inlining */}
                   <div className="p-8 h-full flex flex-col items-center justify-center text-center space-y-4 bg-gradient-to-b from-slate-50 dark:from-slate-900 to-white dark:to-slate-950">
-                    <div className="h-16 w-16 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
+                    <div className="h-16 w-16 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
                       <FileText className="h-8 w-8" />
                     </div>
                     <div className="max-w-md space-y-1">
@@ -464,7 +464,7 @@ export function CoursePlayer({ course, initialEnrollment }: CoursePlayerProps) {
                         href={activeMaterial.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-700 px-4 py-2.5 text-xs font-semibold text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 transition-all"
+                        className="flex items-center gap-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 px-4 py-2.5 text-xs font-semibold text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 transition-all shadow-sm dark:shadow-none"
                       >
                         <ExternalLink className="h-4 w-4" />
                         <span>Open Fullscreen</span>
@@ -477,9 +477,9 @@ export function CoursePlayer({ course, initialEnrollment }: CoursePlayerProps) {
           )}
 
           {/* Module Notes & Lecture Description */}
-          <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/40 p-6 space-y-4">
+          <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/40 p-6 space-y-4 shadow-sm dark:shadow-none">
             <h2 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-              <Sparkles className="h-4 w-4 text-indigo-400" />
+              <Sparkles className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
               <span>Lesson Overview & Key Learning Objectives</span>
             </h2>
             <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
@@ -487,7 +487,7 @@ export function CoursePlayer({ course, initialEnrollment }: CoursePlayerProps) {
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-              <div className="rounded-xl bg-white dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800/80 p-3 space-y-1">
+              <div className="rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800/80 p-3 space-y-1 shadow-sm dark:shadow-none">
                 <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                   Target Competencies Covered
                 </span>
@@ -495,7 +495,7 @@ export function CoursePlayer({ course, initialEnrollment }: CoursePlayerProps) {
                   {course.competencies.map((comp) => (
                     <span
                       key={comp.competencyId}
-                      className="rounded bg-indigo-950/60 px-2 py-0.5 text-[11px] font-medium text-indigo-300 border border-indigo-500/20"
+                      className="rounded bg-indigo-50 dark:bg-indigo-950/60 px-2 py-0.5 text-[11px] font-medium text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-500/20"
                     >
                       {comp.competencyName} (Lvl {comp.requiredProficiency})
                     </span>
@@ -503,7 +503,7 @@ export function CoursePlayer({ course, initialEnrollment }: CoursePlayerProps) {
                 </div>
               </div>
 
-              <div className="rounded-xl bg-white dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800/80 p-3 space-y-1">
+              <div className="rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800/80 p-3 space-y-1 shadow-sm dark:shadow-none">
                 <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                   Course Metadata
                 </span>
@@ -518,7 +518,7 @@ export function CoursePlayer({ course, initialEnrollment }: CoursePlayerProps) {
 
         {/* Right Column: Interactive Curriculum Checklist */}
         <div className="space-y-4">
-          <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 p-5 space-y-4 backdrop-blur-xl animate-fade-in-right animation-delay-200">
+          <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 p-5 space-y-4 backdrop-blur-xl shadow-sm dark:shadow-none animate-fade-in-right animation-delay-200">
             <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
               <h2 className="text-base font-bold text-slate-900 dark:text-white">Course Curriculum</h2>
               <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
@@ -536,8 +536,8 @@ export function CoursePlayer({ course, initialEnrollment }: CoursePlayerProps) {
                     key={mat.id}
                     className={`rounded-xl border p-3 transition-all cursor-pointer ${
                       isSelected
-                        ? 'border-indigo-500/50 bg-indigo-950/30 shadow-md shadow-indigo-500/10'
-                        : 'border-slate-200 dark:border-slate-800/80 bg-white dark:bg-slate-950/40 hover:bg-white dark:bg-slate-900/80 hover:border-slate-200 dark:border-slate-700'
+                        ? 'border-indigo-500 bg-indigo-50/80 dark:border-indigo-500/50 dark:bg-indigo-950/30 shadow-sm dark:shadow-md dark:shadow-indigo-500/10'
+                        : 'border-slate-200 dark:border-slate-800/80 bg-white dark:bg-slate-950/40 hover:bg-slate-50 dark:hover:bg-slate-900/80 hover:border-slate-300 dark:hover:border-slate-700'
                     }`}
                     onClick={() => setActiveMaterial(mat)}
                   >
@@ -547,26 +547,26 @@ export function CoursePlayer({ course, initialEnrollment }: CoursePlayerProps) {
                           e.stopPropagation();
                           toggleMaterialComplete(mat.id);
                         }}
-                        className="mt-0.5 text-slate-500 dark:text-slate-400 hover:text-emerald-400 transition-colors"
+                        className="mt-0.5 text-slate-500 dark:text-slate-400 hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors"
                         title={isDone ? 'Mark Incomplete' : 'Mark Complete'}
                       >
                         {isDone ? (
-                          <CheckCircle className="h-5 w-5 text-emerald-400 fill-emerald-400/20" />
+                          <CheckCircle className="h-5 w-5 text-emerald-500 dark:text-emerald-400 fill-emerald-500/20" />
                         ) : (
-                          <Circle className="h-5 w-5 text-slate-600" />
+                          <Circle className="h-5 w-5 text-slate-400 dark:text-slate-600" />
                         )}
                       </button>
 
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2">
-                          <span className="text-[10px] font-bold text-indigo-400 uppercase tracking-wider">
+                          <span className="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider">
                             Lesson {idx + 1}
                           </span>
-                          <span className="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.2 text-[9px] font-semibold text-slate-600 dark:text-slate-300 uppercase">
+                          <span className="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.2 text-[9px] font-semibold text-slate-700 dark:text-slate-300 uppercase">
                             {mat.type}
                           </span>
                         </div>
-                        <h4 className={`text-xs font-semibold truncate mt-0.5 ${isSelected ? 'text-indigo-200' : 'text-slate-900 dark:text-slate-200'}`}>
+                        <h4 className={`text-xs font-semibold truncate mt-0.5 ${isSelected ? 'text-indigo-700 dark:text-indigo-200 font-bold' : 'text-slate-900 dark:text-slate-200'}`}>
                           {mat.title}
                         </h4>
                         <div className="flex items-center gap-2 text-[11px] text-slate-500 dark:text-slate-400 mt-1">
@@ -581,9 +581,9 @@ export function CoursePlayer({ course, initialEnrollment }: CoursePlayerProps) {
             </div>
 
             {/* Assessment Callout Banner */}
-            <div className="mt-4 rounded-xl border border-indigo-500/30 bg-gradient-to-br from-indigo-50 dark:from-indigo-950/80 to-white dark:to-slate-900 p-4 space-y-3 animate-border-glow">
+            <div className="mt-4 rounded-xl border border-indigo-200 dark:border-indigo-500/30 bg-gradient-to-br from-indigo-50/80 to-white dark:from-indigo-950/80 dark:to-slate-900 p-4 space-y-3 shadow-sm dark:shadow-none animate-border-glow">
               <div className="flex items-center gap-2">
-                <Award className="h-5 w-5 text-indigo-400" />
+                <Award className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
                 <span className="text-xs font-bold text-slate-900 dark:text-white">Subject-Wise Assessment</span>
               </div>
               <p className="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">

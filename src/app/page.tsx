@@ -48,7 +48,6 @@ import {
   CheckCircle,
   HelpCircle,
   Network,
-  Flag,
   Quote,
   Landmark,
 } from 'lucide-react';
@@ -68,23 +67,6 @@ export default function HomePage() {
   const calculatedSimScore = Math.round(
     skillOverlapSim * 0.55 + (ratingSim / 5.0) * 100 * 0.30 + Math.min(coursesSim / 10.0, 1.0) * 100 * 0.15
   );
-
-  const handleQuickLogin = async (role: string) => {
-    try {
-      const res = await fetch('/api/auth/demo-login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ role }),
-      });
-      if (res.ok) {
-        if (role === 'ADMIN') router.push('/admin');
-        else if (role === 'TRAINER') router.push('/trainer');
-        else router.push('/trainee');
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  };
 
   // 6-Step Journey Navigation Items
   const judgeJourneyStages = [
@@ -210,7 +192,7 @@ export default function HomePage() {
       title: 'Radar & Satellite Nowcasting',
       code: 'RAD-NOWCAST',
       icon: Radar,
-      color: 'text-[#e0234e] bg-[#e0234e]/10 border-[#e0234e]/20',
+      color: 'text-[#0b1e36] dark:text-[#dfb76c] bg-[#c59b48]/15 border-[#c59b48]/30',
       benchmarks: [
         'Dual-Polarization (ZDR, KDP, CC) Interpretation',
         'Doppler Velocity Dealiasing & Mesocyclone Detection',
@@ -283,17 +265,17 @@ export default function HomePage() {
                 <Satellite className="h-6 w-6" />
               </div>
               <div>
-                <div className="text-xs font-mono font-extrabold text-[#0b1e36] dark:text-slate-100 tracking-wider uppercase flex items-center gap-2 justify-center sm:justify-start">
+                <div className="text-xs font-sans font-extrabold text-[#0b1e36] dark:text-slate-100 tracking-wider uppercase flex items-center gap-2 justify-center sm:justify-start">
                   <span>INDIA METEOROLOGICAL DEPARTMENT (IMD)</span>
                 </div>
-                <div className="text-[11px] font-mono text-[#c59b48] dark:text-[#dfb76c] font-bold tracking-wide">
+                <div className="text-[11px] font-sans text-[#c59b48] dark:text-[#dfb76c] font-bold tracking-wide">
                   MINISTRY OF EARTH SCIENCES (MoES) • GOVERNMENT OF INDIA
                 </div>
               </div>
             </div>
 
             <div className="flex items-center gap-2.5 flex-wrap justify-center">
-              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#0b1e36] text-white border-2 border-[#c59b48] text-xs font-mono font-black shadow-lg">
+              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#0b1e36] text-white border-2 border-[#c59b48] text-xs font-sans font-black shadow-lg">
                 <span className="relative flex h-2.5 w-2.5">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
                   <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-400" />
@@ -303,7 +285,7 @@ export default function HomePage() {
                 <span className="text-white font-extrabold tracking-wider uppercase">NATIONAL CAPACITY PORTAL</span>
               </span>
 
-              <span className="hidden md:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-900 dark:text-emerald-200 border-2 border-emerald-400 dark:border-emerald-600 text-xs font-mono font-black shadow-sm">
+              <span className="hidden md:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-900 dark:text-emerald-200 border-2 border-emerald-400 dark:border-emerald-600 text-xs font-sans font-black shadow-sm">
                 <ShieldCheck className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
                 <span>WMO RTC COMPLIANT</span>
               </span>
@@ -316,24 +298,24 @@ export default function HomePage() {
             {/* Left 7 Columns: Core Identity & Evaluation Journey */}
             <div className="lg:col-span-7 space-y-6 text-left">
               {/* Sovereign Initiative Eyebrow */}
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0b1e36]/10 dark:bg-[#c59b48]/15 border border-[#c59b48]/40 text-xs font-mono font-bold text-[#0b1e36] dark:text-[#dfb76c]">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0b1e36]/10 dark:bg-[#c59b48]/15 border border-[#c59b48]/40 text-xs font-sans font-bold text-[#0b1e36] dark:text-[#dfb76c]">
                 <Sparkles className="h-3.5 w-3.5 text-[#c59b48]" />
                 <span>DIGITAL CAPACITY BUILDING & COMPETENCY MANAGEMENT</span>
               </div>
 
               {/* Main Headline */}
               <div className="space-y-2">
-                <h1 className="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight text-[#0b1e36] dark:text-white leading-[1.04]">
-                  CAPACITY <span className="text-[#c59b48] underline decoration-[#c59b48]/40 decoration-wavy decoration-2">CONNECT</span>
+                <h1 className="text-4xl sm:text-6xl md:text-7xl font-display font-black tracking-tight text-[#0b1e36] dark:text-white leading-[1.04]">
+                  CAPACITY <span className="text-[#9a7224] dark:text-[#dfb76c]">CONNECT</span>
                 </h1>
-                <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-800 dark:text-slate-200 tracking-tight leading-snug">
+                <p className="text-xl sm:text-2xl md:text-3xl font-display font-extrabold text-slate-800 dark:text-slate-200 tracking-tight leading-snug">
                   Sovereign Meteorological Competency & 55/30/15 Faculty Allocation Engine
-                </h2>
+                </p>
               </div>
 
               {/* Tagline Pill */}
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-gradient-to-r from-[#c59b48]/15 via-white/80 to-[#c59b48]/15 dark:from-[#0b1e36] dark:via-[#102744] dark:to-[#0b1e36] border border-[#c59b48]/40 text-xs sm:text-sm text-[#0b1e36] dark:text-[#dfb76c] font-bold shadow-sm">
-                <span className="text-[#c59b48] font-black text-base">★</span>
+                <span className="text-[#9a7224] dark:text-[#c59b48] font-black text-base" aria-hidden="true">★</span>
                 <span>Empowering People. Strengthening Competencies. Building a Future-Ready Workforce.</span>
               </div>
 
@@ -344,7 +326,7 @@ export default function HomePage() {
 
               {/* 6-Stage Journey Ribbon (Problem -> Outcome) */}
               <div className="space-y-2 pt-1">
-                <div className="text-[11px] font-mono font-black text-[#0b1e36] dark:text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+                <div className="text-[11px] font-sans font-black text-[#0b1e36] dark:text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
                   <Activity className="h-3.5 w-3.5 text-[#c59b48]" />
                   <span>6-STAGE EVALUATION & ACCREDITATION WORKFLOW:</span>
                 </div>
@@ -353,7 +335,7 @@ export default function HomePage() {
                     <a
                       key={stage.num}
                       href={stage.href}
-                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-mono font-extrabold border shadow-sm transition-all duration-300 hover:scale-105 hover:shadow-md ${stage.color}`}
+                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-sans font-extrabold border shadow-sm transition-all duration-300 hover:scale-105 hover:shadow-md ${stage.color}`}
                     >
                       <span className="opacity-80 font-black">{stage.num}.</span>
                       <span>{stage.label}</span>
@@ -384,7 +366,7 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Right 5 Columns: National Leadership Spotlight Card (PM Narendra Modi & Mission Mausam Vision) */}
+            {/* Right 5 Columns: National Mission Vision Spotlight Card */}
             <div className="lg:col-span-5">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -396,50 +378,45 @@ export default function HomePage() {
                 <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-orange-500 via-white to-emerald-600 opacity-90" />
                 <div className="absolute -top-16 -right-16 w-44 h-44 rounded-full bg-[#c59b48]/10 blur-2xl pointer-events-none" />
 
-                {/* Header Badge */}
-                <div className="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-white/10">
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#0b1e36] text-[#dfb76c] border border-[#c59b48]/40 text-[10px] font-mono font-bold uppercase tracking-wider">
-                    <Flag className="h-3 w-3 text-orange-400" />
-                    NATIONAL LEADERSHIP & VISION
-                  </span>
-                  <span className="text-[10px] font-mono text-slate-500 dark:text-slate-400 font-bold">
-                    VIKSIT BHARAT 2047
-                  </span>
-                </div>
-
-                {/* PM Portrait & Identity Container */}
+                {/* Mission Emblem & Identity Container */}
                 <div className="pt-4 flex flex-col items-center text-center space-y-3">
-                  {/* Portrait with Royal Gold Border & Gentle Elevation */}
+                  {/* Emblem with Royal Gold Border & Gentle Elevation */}
                   <div className="relative">
-                    <div className="w-36 h-44 sm:w-40 sm:h-48 rounded-2xl overflow-hidden border-2 border-[#c59b48] shadow-xl bg-gradient-to-b from-slate-100 to-amber-50/40 dark:from-slate-800 dark:to-[#081526] relative flex items-end justify-center group-hover:scale-105 transition-transform duration-500">
-                      <img
-                        src="/pm-modi.png"
-                        alt="Shri Narendra Modi, Hon'ble Prime Minister of India"
-                        className="w-full h-full object-cover object-top drop-shadow-md"
-                        loading="eager"
-                      />
+                    <div className="w-36 h-44 sm:w-40 sm:h-48 rounded-2xl overflow-hidden border-2 border-[#c59b48] shadow-xl bg-gradient-to-b from-[#0b1e36] via-[#102744] to-[#081526] relative flex items-center justify-center group-hover:scale-105 transition-transform duration-500">
+                      {/* Concentric radar rings */}
+                      <div className="absolute w-24 h-24 rounded-full border border-[#c59b48]/30" />
+                      <div className="absolute w-16 h-16 rounded-full border border-[#c59b48]/40" />
+                      <div className="absolute w-28 h-28 rounded-full border border-dashed border-[#c59b48]/20 animate-spin-slow" />
+                      {/* Crosshair lines */}
+                      <div className="absolute inset-x-6 top-1/2 h-px bg-[#c59b48]/25" />
+                      <div className="absolute inset-y-6 left-1/2 w-px bg-[#c59b48]/25" />
+                      {/* Center radar sigil */}
+                      <div className="relative h-14 w-14 rounded-full bg-[#c59b48]/15 border border-[#c59b48]/60 flex items-center justify-center shadow-lg shadow-[#c59b48]/20">
+                        <Radio className="h-7 w-7 text-[#dfb76c]" />
+                        <span className="absolute h-2 w-2 rounded-full bg-emerald-400 animate-pulse -top-0.5 -right-0.5 ring-2 ring-[#0b1e36]" />
+                      </div>
                     </div>
                     {/* Official Seal Pill Tag */}
-                    <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap px-3 py-0.5 rounded-full bg-[#0b1e36] text-[#dfb76c] border border-[#c59b48] text-[9px] font-mono font-black shadow-md">
+                    <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap px-3 py-0.5 rounded-full bg-[#0b1e36] text-[#dfb76c] border border-[#c59b48] text-[9px] font-sans font-black shadow-md">
                       GOVERNMENT OF INDIA
                     </div>
                   </div>
 
-                  {/* Leader Name & Designation */}
+                  {/* Mission Name & Designation */}
                   <div className="pt-1 space-y-0.5">
-                    <h3 className="text-xl sm:text-2xl font-black text-[#0b1e36] dark:text-white tracking-tight">
-                      Shri Narendra Modi
+                    <h3 className="text-xl sm:text-2xl font-display font-extrabold text-[#0b1e36] dark:text-white tracking-tight">
+                      Mission Mausam
                     </h3>
-                    <div className="text-xs font-mono font-bold text-[#c59b48] dark:text-[#dfb76c]">
-                      Hon&apos;ble Prime Minister of India
+                    <div className="text-xs font-sans font-bold text-[#9a7224] dark:text-[#dfb76c]">
+                      IMD &bull; Ministry of Earth Sciences
                     </div>
                   </div>
 
-                  {/* Prime Minister's Mission Mausam Quote */}
+                  {/* Mission Vision Statement */}
                   <div className="relative rounded-2xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 p-4 text-left">
                     <Quote className="h-4 w-4 text-[#c59b48] mb-1.5 opacity-80" />
                     <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-200 font-medium italic leading-relaxed">
-                      &ldquo;Mission Mausam and continuous competency building are the cornerstones of a disaster-resilient Viksit Bharat. Empowering our meteorological scientists with cutting-edge training ensures safety and prosperity for every citizen.&rdquo;
+                      &ldquo;Continuous competency building and an always-on Doppler radar network are the cornerstones of a disaster-resilient nation &mdash; keeping every citizen safe and prepared.&rdquo;
                     </p>
                   </div>
 
@@ -454,7 +431,7 @@ export default function HomePage() {
                       <div className="text-[9px] text-slate-500 dark:text-slate-400">Unified Portal</div>
                     </div>
                     <div className="p-2 rounded-xl bg-[#0b1e36]/5 dark:bg-white/5 border border-[#0b1e36]/10 dark:border-white/10">
-                      <div className="text-[10px] font-black text-[#0b1e36] dark:text-[#dfb76c]">Viksit Bharat</div>
+                      <div className="text-[10px] font-black text-[#0b1e36] dark:text-[#dfb76c]">Weather Ready</div>
                       <div className="text-[9px] text-slate-500 dark:text-slate-400">Resilient Nation</div>
                     </div>
                   </div>
@@ -478,10 +455,10 @@ export default function HomePage() {
           {/* ════════════════ 5-PILLAR LEARNING PROGRESSION ARC ════════════════ */}
           <div className="pt-6 border-t border-slate-200 dark:border-white/10">
             <div className="text-center mb-6 space-y-1">
-              <span className="text-xs font-mono font-bold text-[#c59b48] uppercase tracking-wider">
+              <span className="text-xs font-sans font-bold text-[#9a7224] dark:text-[#c59b48] uppercase tracking-wider">
                 Systematic Capacity Building Progression
               </span>
-              <h3 className="text-xl sm:text-2xl font-black text-[#0b1e36] dark:text-white">
+              <h3 className="text-xl sm:text-2xl font-display font-extrabold text-[#0b1e36] dark:text-white tracking-tight">
                 The 5 Pillars of Meteorological Officer Readiness
               </h3>
             </div>
@@ -509,10 +486,10 @@ export default function HomePage() {
                       </span>
                     </div>
                     <div>
-                      <div className="font-black text-base text-[#0b1e36] dark:text-white tracking-tight">{p.name}</div>
-                      <div className="text-[11px] font-semibold text-[#c59b48] dark:text-[#dfb76c]">{p.title}</div>
+                      <div className="font-display font-extrabold text-base text-[#0b1e36] dark:text-white tracking-tight">{p.name}</div>
+                      <div className="text-[11px] font-semibold text-[#9a7224] dark:text-[#dfb76c]">{p.title}</div>
                     </div>
-                    <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                    <p className="text-[13px] text-slate-600 dark:text-slate-300 leading-relaxed">
                       {p.desc}
                     </p>
                   </div>
@@ -521,26 +498,26 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* 1-Click Direct Role Sandbox Card */}
+          {/* Sovereign Cadre Access & SSO Gateway Card */}
           <div className="w-full rounded-3xl bg-white dark:bg-[#0b1e36]/90 border border-[#c59b48]/40 p-4 sm:p-6 shadow-xl shadow-[#0b1e36]/5 space-y-3">
-            <div className="flex flex-wrap items-center justify-between pb-3 border-b border-slate-100 dark:border-white/10 text-xs font-mono gap-2">
+            <div className="flex flex-wrap items-center justify-between pb-3 border-b border-slate-100 dark:border-white/10 text-xs font-sans gap-2">
               <div className="flex items-center gap-2">
                 <span className="h-2.5 w-2.5 rounded-full bg-emerald-500 animate-ping" />
-                <span className="font-bold text-[#0b1e36] dark:text-white">1-Click Live Persona Sandbox</span>
+                <span className="font-bold text-[#0b1e36] dark:text-white">IMD Sovereign Cadre Access Gateway</span>
               </div>
-              <span className="text-[#c59b48] dark:text-[#dfb76c] text-[11px] font-semibold">Instant Direct Authentication for Evaluators</span>
+              <span className="text-[#c59b48] dark:text-[#dfb76c] text-[11px] font-semibold">Production Single Sign-On (SSO) with Neon PostgreSQL</span>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <button
-                onClick={() => handleQuickLogin('TRAINEE')}
-                className="w-full text-left p-3.5 rounded-2xl bg-slate-50 hover:bg-[#0b1e36]/5 border border-slate-200 hover:border-[#c59b48] dark:bg-white/5 dark:border-white/10 dark:hover:bg-white/10 transition-all group"
+              <Link
+                href="/auth/login"
+                className="w-full text-left p-3.5 rounded-2xl bg-slate-50 hover:bg-[#0b1e36]/5 border border-slate-200 hover:border-[#c59b48] dark:bg-white/5 dark:border-white/10 dark:hover:bg-white/10 transition-all group block"
               >
                 <div className="flex items-center justify-between mb-2">
                   <div className="h-8 w-8 rounded-lg bg-[#0b1e36] text-[#c59b48] flex items-center justify-center group-hover:scale-110 transition-transform">
                     <Award className="h-4 w-4" />
                   </div>
-                  <span className="text-[9px] font-mono font-bold text-[#0b1e36] bg-[#0b1e36]/10 px-2 py-0.5 rounded border border-[#0b1e36]/20 dark:text-[#dfb76c] dark:bg-[#c59b48]/15 dark:border-[#c59b48]/30">
+                  <span className="text-[9px] font-sans font-bold text-[#0b1e36] bg-[#0b1e36]/10 px-2 py-0.5 rounded border border-[#0b1e36]/20 dark:text-[#dfb76c] dark:bg-[#c59b48]/15 dark:border-[#c59b48]/30">
                     DRSTC INDUCTEE
                   </span>
                 </div>
@@ -548,17 +525,21 @@ export default function HomePage() {
                   Aarav Patel (Scientist-B)
                 </div>
                 <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">NWP Division • Doppler Radar Gaps</div>
-              </button>
+                <div className="mt-2 text-[10px] font-bold text-[#c59b48] flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+                  <span>Sign In via SSO</span>
+                  <ArrowRight className="h-3 w-3" />
+                </div>
+              </Link>
 
-              <button
-                onClick={() => handleQuickLogin('TRAINER')}
-                className="w-full text-left p-3.5 rounded-2xl bg-slate-50 hover:bg-amber-50 border border-slate-200 hover:border-amber-300 dark:bg-white/5 dark:border-white/10 dark:hover:bg-amber-500/10 transition-all group"
+              <Link
+                href="/auth/login"
+                className="w-full text-left p-3.5 rounded-2xl bg-slate-50 hover:bg-amber-50 border border-slate-200 hover:border-amber-300 dark:bg-white/5 dark:border-white/10 dark:hover:bg-amber-500/10 transition-all group block"
               >
                 <div className="flex items-center justify-between mb-2">
                   <div className="h-8 w-8 rounded-lg bg-amber-100 text-amber-800 flex items-center justify-center group-hover:scale-110 transition-transform">
                     <BookOpen className="h-4 w-4" />
                   </div>
-                  <span className="text-[9px] font-mono font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-200 dark:bg-amber-950/40 dark:text-amber-300 dark:border-amber-800">
+                  <span className="text-[9px] font-sans font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-200 dark:bg-amber-950/40 dark:text-amber-300 dark:border-amber-800">
                     LEAD FACULTY
                   </span>
                 </div>
@@ -566,17 +547,21 @@ export default function HomePage() {
                   Prof. Vikramaditya Sen
                 </div>
                 <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">MTI Pune / IITM • NetCDF Labs</div>
-              </button>
+                <div className="mt-2 text-[10px] font-bold text-amber-700 dark:text-amber-400 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+                  <span>Sign In via SSO</span>
+                  <ArrowRight className="h-3 w-3" />
+                </div>
+              </Link>
 
-              <button
-                onClick={() => handleQuickLogin('ADMIN')}
-                className="w-full text-left p-3.5 rounded-2xl bg-slate-50 hover:bg-emerald-50 border border-slate-200 hover:border-emerald-300 dark:bg-white/5 dark:border-white/10 dark:hover:bg-emerald-500/10 transition-all group"
+              <Link
+                href="/auth/login"
+                className="w-full text-left p-3.5 rounded-2xl bg-slate-50 hover:bg-emerald-50 border border-slate-200 hover:border-emerald-300 dark:bg-white/5 dark:border-white/10 dark:hover:bg-emerald-500/10 transition-all group block"
               >
                 <div className="flex items-center justify-between mb-2">
                   <div className="h-8 w-8 rounded-lg bg-[#0b1e36] text-emerald-400 flex items-center justify-center group-hover:scale-110 transition-transform">
                     <ShieldCheck className="h-4 w-4" />
                   </div>
-                  <span className="text-[9px] font-mono font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800">
+                  <span className="text-[9px] font-sans font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800">
                     DIRECTOR GENERAL
                   </span>
                 </div>
@@ -584,7 +569,11 @@ export default function HomePage() {
                   Dr. Mrutyunjay Mohapatra
                 </div>
                 <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">National DG • 55/30/15 Allocations</div>
-              </button>
+                <div className="mt-2 text-[10px] font-bold text-emerald-700 dark:text-emerald-400 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+                  <span>Sign In via SSO</span>
+                  <ArrowRight className="h-3 w-3" />
+                </div>
+              </Link>
             </div>
           </div>
         </div>
@@ -592,18 +581,18 @@ export default function HomePage() {
 
       {/* ════════════════ TRUST MARQUEE ════════════════ */}
       <section className="py-6 border-b border-slate-200 dark:border-white/10 bg-slate-50/70 dark:bg-[#070f1a]/60">
-        <div className="max-w-7xl mx-auto px-4 text-center mb-3">
-          <div className="font-mono text-xs text-slate-500 dark:text-slate-400 flex items-center justify-center gap-1.5">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-3">
+          <div className="font-sans text-xs text-slate-500 dark:text-slate-400 flex items-center justify-center gap-1.5">
             <span className="text-[#c59b48] font-bold">//</span>
             <span>TRUSTED BY LEADING METEOROLOGICAL & EARTH SCIENCE INSTITUTIONS</span>
           </div>
         </div>
 
-        <div className="flex flex-wrap items-center justify-center gap-2 max-w-6xl mx-auto px-4">
+        <div className="flex flex-wrap items-center justify-center gap-2 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {trustBadges.map((badge, i) => (
             <div
               key={i}
-              className="flex items-center gap-2 px-4 py-1.5 rounded-full border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0b1e36] text-xs font-mono text-slate-700 dark:text-slate-300 shadow-sm"
+              className="flex items-center gap-2 px-4 py-1.5 rounded-full border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0b1e36] text-xs font-sans text-slate-700 dark:text-slate-300 shadow-sm"
             >
               <Globe className="h-3.5 w-3.5 text-[#c59b48]" />
               <span>{badge}</span>
@@ -613,49 +602,56 @@ export default function HomePage() {
       </section>
 
       {/* ════════════════ PHASE 1: THE PROBLEM ════════════════ */}
-      <section id="problem" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-20 space-y-12">
+      <section id="problem" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-20 space-y-12 scroll-mt-24">
         <div className="text-center max-w-3xl mx-auto space-y-3">
-          <span className="inline-flex items-center gap-2 rounded-full bg-[#0b1e36]/10 dark:bg-[#c59b48]/15 border border-[#0b1e36]/20 dark:border-[#c59b48]/30 px-4 py-1.5 text-xs font-bold text-[#0b1e36] dark:text-[#dfb76c] font-mono">
+          <span className="inline-flex items-center gap-2 rounded-full bg-[#0b1e36]/10 dark:bg-[#c59b48]/15 border border-[#0b1e36]/20 dark:border-[#c59b48]/30 px-4 py-1.5 text-xs font-bold text-[#0b1e36] dark:text-[#dfb76c] font-sans">
             <AlertTriangle className="h-3.5 w-3.5 text-rose-600" />
             PHASE 1 • THE NATIONAL PROBLEM
           </span>
           <h2 className="text-3xl sm:text-5xl font-black text-[#0b1e36] dark:text-white tracking-tight">
-            Why Traditional LMS Fails National Meteorology
+            Meteorological Training Before Mission Mausam
           </h2>
           <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-            Generic e-learning portals track simple video views, but fail to measure operational capability when a severe cyclone or cloudburst threatens civilian lives.
+            The India Meteorological Department faces three critical bottlenecks in operational readiness.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {problemPoints.map((p, idx) => {
-            const Icon = p.icon;
+        {/* 4 Critical Problem Breakdown Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {problemPoints.map((item, idx) => {
+            const Icon = item.icon;
             return (
-              <MotionSection key={p.title} variant="slide-up" delay={idx * 80}>
-                <div className="rounded-3xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0b1e36]/80 p-7 h-full flex flex-col justify-between space-y-4 shadow-sm hover:shadow-md hover:border-[#c59b48]/60 transition-all">
+              <MotionSection key={item.title} variant="slide-up" delay={idx * 80}>
+                <div className="rounded-3xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0b1e36]/80 p-6 h-full flex flex-col justify-between space-y-4 shadow-sm hover:shadow-md hover:border-[#c59b48]/60 transition-all">
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <div className="h-12 w-12 rounded-2xl bg-[#0b1e36]/5 dark:bg-white/5 border border-[#0b1e36]/10 dark:border-white/10 flex items-center justify-center text-[#0b1e36] dark:text-[#dfb76c]">
-                        <Icon className="h-6 w-6" />
+                      <div className="h-10 w-10 rounded-xl bg-[#0b1e36] border border-[#c59b48]/40 flex items-center justify-center text-[#c59b48]">
+                        <Icon className="h-5 w-5" />
                       </div>
-                      <span className="font-mono text-xs font-bold text-rose-700 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/40 px-3 py-1 rounded-full border border-rose-200 dark:border-rose-900/50">
-                        DEFICIT {idx + 1}
+                      <span className="text-[10px] font-mono text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-white/5 px-2 py-0.5 rounded">
+                        DEFICIT 0{idx + 1}
                       </span>
                     </div>
 
-                    <div>
-                      <h3 className="text-xl font-bold text-[#0b1e36] dark:text-white">{p.title}</h3>
-                      <div className="text-xs text-[#c59b48] dark:text-[#dfb76c] font-mono font-bold mt-0.5">{p.subtitle}</div>
+                    <h3 className="text-base font-bold text-[#0b1e36] dark:text-white leading-snug">
+                      {item.title}
+                    </h3>
+                    <div className="text-[11px] font-sans text-rose-600 dark:text-rose-400 font-semibold">
+                      {item.subtitle}
                     </div>
 
-                    <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                      {p.desc}
+                    <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                      {item.desc}
                     </p>
                   </div>
 
-                  <div className="pt-4 border-t border-slate-100 dark:border-white/10 flex items-center justify-between font-mono">
-                    <span className="text-xs text-slate-500 dark:text-slate-400">{p.statLabel}</span>
-                    <span className="text-sm font-bold text-[#0b1e36] dark:text-[#dfb76c]">{p.stat}</span>
+                  <div className="pt-3 border-t border-slate-100 dark:border-white/10">
+                    <div className="text-xl font-mono font-black text-[#0b1e36] dark:text-white">
+                      {item.stat}
+                    </div>
+                    <div className="text-[10px] font-sans text-slate-500 dark:text-slate-400 mt-0.5">
+                      {item.statLabel}
+                    </div>
                   </div>
                 </div>
               </MotionSection>
@@ -665,10 +661,10 @@ export default function HomePage() {
       </section>
 
       {/* ════════════════ PHASE 2: THE USERS & CADRES ════════════════ */}
-      <section id="cadres" className="bg-slate-50/60 dark:bg-[#070f1a]/60 border-y border-slate-200 dark:border-white/10 py-20 px-4 sm:px-6 lg:px-8">
+      <section id="cadres" className="bg-slate-50/60 dark:bg-[#070f1a]/60 border-y border-slate-200 dark:border-white/10 py-20 px-4 sm:px-6 lg:px-8 scroll-mt-24">
         <div className="max-w-7xl mx-auto space-y-12">
           <div className="text-center max-w-3xl mx-auto space-y-3">
-            <span className="inline-flex items-center gap-2 rounded-full bg-[#0b1e36]/10 dark:bg-[#c59b48]/15 border border-[#c59b48]/40 px-4 py-1.5 text-xs font-bold text-[#0b1e36] dark:text-[#dfb76c] font-mono">
+            <span className="inline-flex items-center gap-2 rounded-full bg-[#0b1e36]/10 dark:bg-[#c59b48]/15 border border-[#c59b48]/40 px-4 py-1.5 text-xs font-bold text-[#0b1e36] dark:text-[#dfb76c] font-sans">
               <Users className="h-3.5 w-3.5 text-[#c59b48]" />
               PHASE 2 • THE USERS & CADRES
             </span>
@@ -690,20 +686,20 @@ export default function HomePage() {
               <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
                 Scientist-B inductees and operational radar observers get personalized gap dashboards, proctored tests, and targeted module recommendations.
               </p>
-              <div className="pt-2 text-xs font-mono text-[#c59b48] dark:text-[#dfb76c] font-bold">
+              <div className="pt-2 text-xs font-sans text-[#c59b48] dark:text-[#dfb76c] font-bold">
                 → Access: /trainee & /trainee/profile
               </div>
             </div>
 
             <div className="rounded-3xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0b1e36]/80 p-6 space-y-4 shadow-sm">
-              <div className="h-10 w-10 rounded-xl bg-[#c59b48] text-[#0b1e36] flex items-center justify-center font-bold">
+              <div className="h-10 w-10 rounded-xl bg-[#c59b48] gold-ink flex items-center justify-center font-bold">
                 02
               </div>
               <h3 className="text-lg font-bold text-[#0b1e36] dark:text-white">Trainers & Lead Faculty</h3>
               <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
                 Senior scientists at MTI Pune and IITM create cadre rubrics, publish NetCDF lab assessments, and receive algorithm-matched cohorts.
               </p>
-              <div className="pt-2 text-xs font-mono text-[#0b1e36] dark:text-[#dfb76c] font-bold">
+              <div className="pt-2 text-xs font-sans text-[#0b1e36] dark:text-[#dfb76c] font-bold">
                 → Access: /trainer & /trainer/analytics
               </div>
             </div>
@@ -716,7 +712,7 @@ export default function HomePage() {
               <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
                 DG IMD and MoES Directors monitor sitewide learner readiness, approve faculty accreditations, and execute the 55/30/15 matching engine.
               </p>
-              <div className="pt-2 text-xs font-mono text-emerald-700 dark:text-emerald-400 font-bold">
+              <div className="pt-2 text-xs font-sans text-emerald-700 dark:text-emerald-400 font-bold">
                 → Access: /admin & /admin/competency
               </div>
             </div>
@@ -768,9 +764,9 @@ export default function HomePage() {
       </section>
 
       {/* ════════════════ PHASE 3: COMPETENCY MATRIX ════════════════ */}
-      <section id="competency" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-20 space-y-12">
+      <section id="competency" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-20 space-y-12 scroll-mt-24">
         <div className="text-center max-w-3xl mx-auto space-y-3">
-          <span className="inline-flex items-center gap-2 rounded-full bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 px-4 py-1.5 text-xs font-bold text-emerald-800 dark:text-emerald-300 font-mono">
+          <span className="inline-flex items-center gap-2 rounded-full bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 px-4 py-1.5 text-xs font-bold text-emerald-800 dark:text-emerald-300 font-sans">
             <Radar className="h-3.5 w-3.5 text-emerald-600" />
             PHASE 3 • STANDARDIZED COMPETENCY MATRIX
           </span>
@@ -790,7 +786,7 @@ export default function HomePage() {
                 <div className="rounded-3xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0b1e36]/80 p-6 h-full flex flex-col justify-between space-y-4 shadow-sm hover:shadow-md hover:border-[#c59b48]/50 transition-all">
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <span className={`px-2.5 py-1 rounded-md text-[10px] font-mono font-bold uppercase border ${domain.color}`}>
+                      <span className={`px-2.5 py-1 rounded-md text-[10px] font-sans font-bold uppercase border ${domain.color}`}>
                         {domain.code}
                       </span>
                       <Icon className="h-5 w-5 text-[#0b1e36] dark:text-[#dfb76c]" />
@@ -820,10 +816,10 @@ export default function HomePage() {
       </section>
 
       {/* ════════════════ PHASE 4: GAP DETECTION & ASSESSMENTS ════════════════ */}
-      <section id="gap" className="bg-slate-50/60 dark:bg-[#070f1a]/60 border-y border-slate-200 dark:border-white/10 py-20 px-4 sm:px-6 lg:px-8">
+      <section id="gap" className="bg-slate-50/60 dark:bg-[#070f1a]/60 border-y border-slate-200 dark:border-white/10 py-20 px-4 sm:px-6 lg:px-8 scroll-mt-24">
         <div className="max-w-7xl mx-auto space-y-12">
           <div className="text-center max-w-3xl mx-auto space-y-3">
-            <span className="inline-flex items-center gap-2 rounded-full bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 px-4 py-1.5 text-xs font-bold text-amber-800 dark:text-amber-300 font-mono">
+            <span className="inline-flex items-center gap-2 rounded-full bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 px-4 py-1.5 text-xs font-bold text-amber-800 dark:text-amber-300 font-sans">
               <Target className="h-3.5 w-3.5 text-amber-600" />
               PHASE 4 • PROCTORED GAP ANALYSIS
             </span>
@@ -841,23 +837,23 @@ export default function HomePage() {
                 1
               </div>
               <h3 className="text-lg font-bold text-[#0b1e36] dark:text-white">Anti-Cheat Proctored Assessments</h3>
-              <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+              <p className="text-[13px] text-slate-600 dark:text-slate-300 leading-relaxed">
                 Randomized question pools, timed MCQ evaluation, fullscreen enforcement, and tab-switch monitoring prevent fraudulent evaluations.
               </p>
-              <div className="pt-2 text-xs font-mono text-[#c59b48] dark:text-[#dfb76c] font-bold">
+              <div className="pt-2 text-xs font-sans text-[#9a7224] dark:text-[#dfb76c] font-bold">
                 ✓ Full Integrity Audit Trail
               </div>
             </div>
 
             <div className="rounded-3xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0b1e36]/80 p-7 space-y-4 shadow-sm">
-              <div className="h-10 w-10 rounded-xl bg-[#c59b48] text-[#0b1e36] flex items-center justify-center font-bold">
+              <div className="h-10 w-10 rounded-xl bg-[#c59b48] gold-ink flex items-center justify-center font-bold">
                 2
               </div>
               <h3 className="text-lg font-bold text-[#0b1e36] dark:text-white">Granular Skill Gap Diagnosis</h3>
-              <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+              <p className="text-[13px] text-slate-600 dark:text-slate-300 leading-relaxed">
                 Rather than a vague pass/fail grade, the engine pinpoints specific deficits (e.g. &ldquo;Radar Velocity Dealiasing is 32% below benchmark&rdquo;).
               </p>
-              <div className="pt-2 text-xs font-mono text-[#0b1e36] dark:text-[#dfb76c] font-bold">
+              <div className="pt-2 text-xs font-sans text-[#0b1e36] dark:text-[#dfb76c] font-bold">
                 ✓ Domain-Level Vector Breakdown
               </div>
             </div>
@@ -867,10 +863,10 @@ export default function HomePage() {
                 3
               </div>
               <h3 className="text-lg font-bold text-[#0b1e36] dark:text-white">1-Click Targeted Upskilling</h3>
-              <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+              <p className="text-[13px] text-slate-600 dark:text-slate-300 leading-relaxed">
                 The platform dynamically injects the exact prerequisite module into the officer’s queue without forcing a repeat of unrelated subjects.
               </p>
-              <div className="pt-2 text-xs font-mono text-emerald-700 dark:text-emerald-400 font-bold">
+              <div className="pt-2 text-xs font-sans text-emerald-700 dark:text-emerald-400 font-bold">
                 ✓ Eliminates 80% Retraining Waste
               </div>
             </div>
@@ -879,16 +875,16 @@ export default function HomePage() {
       </section>
 
       {/* ════════════════ PHASE 5: RECOMMENDATION & 55/30/15 ALGORITHM ════════════════ */}
-      <section id="algorithm" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-20">
+      <section id="algorithm" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-20 scroll-mt-24">
         <div className="rounded-[32px] bg-white dark:bg-[#0b1e36] border-2 border-[#c59b48]/40 p-6 sm:p-12 space-y-8 relative overflow-hidden shadow-2xl shadow-[#0b1e36]/10">
 
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div>
               <div className="flex items-center gap-2 mb-2">
-                <span className="rounded-full bg-[#0b1e36]/10 dark:bg-[#c59b48]/15 px-3 py-1 text-xs font-mono font-bold text-[#0b1e36] dark:text-[#dfb76c] border border-[#c59b48]/30">
+                <span className="rounded-full bg-[#0b1e36]/10 dark:bg-[#c59b48]/15 px-3 py-1 text-xs font-sans font-bold text-[#0b1e36] dark:text-[#dfb76c] border border-[#c59b48]/30">
                   PHASE 5 • THE CORE DIFFERENTIATOR
                 </span>
-                <span className="text-xs text-slate-500 dark:text-slate-400 font-mono">Pedagogical Algorithm</span>
+                <span className="text-xs text-slate-500 dark:text-slate-400 font-sans">Pedagogical Algorithm</span>
               </div>
               <h2 className="text-2xl sm:text-4xl font-black text-[#0b1e36] dark:text-white tracking-tight flex items-center gap-3">
                 <div className="h-10 w-10 rounded-xl bg-[#0b1e36] border border-[#c59b48]/40 flex items-center justify-center">
@@ -903,14 +899,14 @@ export default function HomePage() {
 
             {/* Calculated Output Score Box */}
             <div className="rounded-2xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 p-6 text-center sm:text-right min-w-[240px] shadow-sm">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 font-mono">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 font-sans">
                 Faculty Compatibility Index
               </span>
               <div className="text-5xl font-black text-[#0b1e36] dark:text-white mt-1 tabular-nums font-mono">
                 {calculatedSimScore}%
               </div>
               <span
-                className={`inline-block rounded-full px-3 py-0.5 text-[9px] font-black uppercase tracking-wider mt-2 border font-mono ${
+                className={`inline-block rounded-full px-3 py-0.5 text-[9px] font-black uppercase tracking-wider mt-2 border font-sans ${
                   calculatedSimScore >= 85
                     ? 'bg-emerald-50 text-emerald-700 border-emerald-300 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800'
                     : calculatedSimScore >= 70
@@ -997,10 +993,10 @@ export default function HomePage() {
       </section>
 
       {/* ════════════════ PHASE 6: OUTCOMES & MEASURABLE IMPACT ════════════════ */}
-      <section id="outcomes" className="bg-slate-50/60 dark:bg-[#070f1a]/60 border-y border-slate-200 dark:border-white/10 py-20 px-4 sm:px-6 lg:px-8">
+      <section id="outcomes" className="bg-slate-50/60 dark:bg-[#070f1a]/60 border-y border-slate-200 dark:border-white/10 py-20 px-4 sm:px-6 lg:px-8 scroll-mt-24">
         <div className="max-w-7xl mx-auto space-y-12">
           <div className="text-center max-w-3xl mx-auto space-y-3">
-            <span className="inline-flex items-center gap-2 rounded-full bg-purple-50 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-800 px-4 py-1.5 text-xs font-bold text-purple-700 dark:text-purple-300 font-mono">
+            <span className="inline-flex items-center gap-2 rounded-full bg-purple-50 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-800 px-4 py-1.5 text-xs font-bold text-purple-700 dark:text-purple-300 font-sans">
               <Award className="h-3.5 w-3.5 text-purple-600" />
               PHASE 6 • MEASURABLE NATIONAL OUTCOMES
             </span>
@@ -1050,7 +1046,7 @@ export default function HomePage() {
                         <Star key={j} className="h-3.5 w-3.5 fill-amber-400" />
                       ))}
                     </div>
-                    <span className="text-[10px] font-mono font-bold text-[#0b1e36] dark:text-[#dfb76c] bg-[#0b1e36]/10 dark:bg-[#c59b48]/15 px-2 py-0.5 rounded border border-[#0b1e36]/20 dark:border-[#c59b48]/30">
+                    <span className="text-[10px] font-sans font-bold text-[#0b1e36] dark:text-[#dfb76c] bg-[#0b1e36]/10 dark:bg-[#c59b48]/15 px-2 py-0.5 rounded border border-[#0b1e36]/20 dark:border-[#c59b48]/30">
                       {t.badge}
                     </span>
                   </div>
@@ -1072,7 +1068,7 @@ export default function HomePage() {
       <section id="architecture-callout" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-16">
         <div className="rounded-[32px] border-2 border-[#c59b48]/50 bg-white dark:bg-[#0b1e36] bg-gradient-to-r from-white via-slate-50 to-[#faf8f5] dark:from-[#0b1e36] dark:via-[#102744] dark:to-[#081526] p-8 sm:p-12 shadow-xl shadow-[#0b1e36]/5 dark:shadow-black/40 flex flex-col lg:flex-row items-center justify-between gap-8">
           <div className="space-y-3 max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0b1e36]/10 text-[#0b1e36] dark:bg-[#c59b48]/15 dark:text-[#c59b48] text-xs font-mono font-bold border border-[#c59b48]/40">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0b1e36]/10 text-[#0b1e36] dark:bg-[#c59b48]/15 dark:text-[#c59b48] text-xs font-sans font-bold border border-[#c59b48]/40">
               <Code2 className="h-3.5 w-3.5 text-[#c59b48]" />
               FOR TECHNICAL EVALUATORS & ARCHITECTS
             </div>
@@ -1100,7 +1096,7 @@ export default function HomePage() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-12 space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <span className="inline-flex items-center gap-2 rounded-full bg-purple-50 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-800 px-4 py-1.5 text-xs font-bold text-purple-700 dark:text-purple-300 mb-2 font-mono">
+            <span className="inline-flex items-center gap-2 rounded-full bg-purple-50 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-800 px-4 py-1.5 text-xs font-bold text-purple-700 dark:text-purple-300 mb-2 font-sans">
               <BookOpen className="h-3.5 w-3.5 text-purple-600 dark:text-purple-400" />
               OFFICIAL CURRICULUM
             </span>
@@ -1124,7 +1120,7 @@ export default function HomePage() {
               <SpotlightCard spotlightColor="rgba(197, 155, 72, 0.2)" className="space-y-4 group h-full flex flex-col justify-between">
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
-                    <span className="rounded-md bg-[#0b1e36]/10 dark:bg-[#c59b48]/15 px-2.5 py-1 text-xs font-bold text-[#0b1e36] dark:text-[#c59b48] border border-[#c59b48]/30 font-mono">
+                    <span className="rounded-md bg-[#0b1e36]/10 dark:bg-[#c59b48]/15 px-2.5 py-1 text-xs font-bold text-[#0b1e36] dark:text-[#c59b48] border border-[#c59b48]/30 font-sans">
                       {course.code} • {course.cadreTrack} TRACK
                     </span>
                     <span className="text-xs text-slate-500 dark:text-slate-400">{course.category}</span>
@@ -1157,7 +1153,7 @@ export default function HomePage() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-16">
         <div className="rounded-[36px] bg-gradient-to-r from-[#0b1e36] via-[#122c4d] to-[#0b1e36] text-white p-10 sm:p-16 text-center relative overflow-hidden shadow-2xl border-2 border-[#c59b48]/40">
           <div className="relative z-10 space-y-6 max-w-3xl mx-auto">
-            <span className="inline-flex items-center gap-2 rounded-full bg-[#c59b48]/15 border border-[#c59b48]/40 px-4 py-1.5 text-xs font-mono font-bold text-[#c59b48]">
+            <span className="inline-flex items-center gap-2 rounded-full bg-[#c59b48]/15 border border-[#c59b48]/40 px-4 py-1.5 text-xs font-sans font-bold text-[#c59b48]">
               <Radio className="h-3.5 w-3.5 animate-pulse text-[#c59b48]" />
               MISSION MAUSAM CAPACITY READY
             </span>

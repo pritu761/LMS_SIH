@@ -82,7 +82,7 @@ export function LiveRadarScope({ node, onOpenDiagnostics }: LiveRadarScopeProps)
   const productInfo = getProductDetails(selectedProduct);
 
   return (
-    <div className="rounded-3xl bg-gradient-to-b from-[#060a14] via-[#091222] to-[#040810] border border-[#c59b48]/30 p-5 sm:p-6 shadow-2xl space-y-6 text-white font-sans relative overflow-hidden">
+    <div className="dark-surface rounded-3xl bg-gradient-to-b from-[#060a14] via-[#091222] to-[#040810] border border-[#c59b48]/30 p-5 sm:p-6 shadow-2xl space-y-6 text-white font-sans relative overflow-hidden">
       {/* Subtle Glows */}
       <div className="absolute top-0 right-0 w-80 h-80 bg-[#c59b48]/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
@@ -91,7 +91,7 @@ export function LiveRadarScope({ node, onOpenDiagnostics }: LiveRadarScopeProps)
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-white/10 relative z-10">
         <div>
           <div className="flex items-center gap-2">
-            <span className="px-2 py-0.5 rounded-full bg-[#c59b48]/15 border border-[#c59b48]/40 text-[#dfb76c] font-mono text-[10px] font-bold uppercase tracking-wider">
+            <span className="px-2 py-0.5 rounded-full bg-[#c59b48]/15 border border-[#c59b48]/40 text-[#dfb76c] font-sans text-[10px] font-bold uppercase tracking-wider">
               DUAL-POL PPI POLAR SCOPE
             </span>
             <span className="text-xs font-mono text-slate-400">Node: {node.code}</span>
@@ -104,7 +104,7 @@ export function LiveRadarScope({ node, onOpenDiagnostics }: LiveRadarScopeProps)
         <div className="flex items-center gap-2">
           <button
             onClick={onOpenDiagnostics}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-[#0b1e36] to-[#142e50] border border-[#c59b48]/50 hover:border-[#c59b48] text-xs font-mono font-bold text-[#dfb76c] transition-all shadow-md hover:scale-105"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-[#0b1e36] to-[#142e50] border border-[#c59b48]/50 hover:border-[#c59b48] text-xs font-sans font-bold text-[#dfb76c] transition-all shadow-md hover:scale-105"
           >
             <Zap className="h-3.5 w-3.5 text-[#c59b48]" />
             <span>Run Station Diagnostics</span>
@@ -211,7 +211,7 @@ export function LiveRadarScope({ node, onOpenDiagnostics }: LiveRadarScopeProps)
         <div className="lg:col-span-5 space-y-4">
           {/* Dual-Pol Product Channel Switcher */}
           <div className="space-y-2">
-            <div className="text-[11px] font-mono font-bold text-slate-200 flex items-center justify-between">
+            <div className="text-[11px] font-sans font-bold text-slate-200 flex items-center justify-between">
               <span>POLARIMETRIC PRODUCT CHANNEL</span>
               <span className="text-[#dfb76c] font-bold">Dual-Pol Active</span>
             </div>
@@ -236,7 +236,7 @@ export function LiveRadarScope({ node, onOpenDiagnostics }: LiveRadarScopeProps)
           {/* Active Product Info Card */}
           <div className="rounded-2xl bg-white/10 border border-white/15 p-4 space-y-2">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-white font-mono">{productInfo.title}</span>
+              <span className="text-xs font-bold text-white font-sans">{productInfo.title}</span>
               <span
                 className="text-sm font-black font-mono px-2 py-0.5 rounded border"
                 style={{

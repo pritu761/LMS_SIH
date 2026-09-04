@@ -11,6 +11,8 @@
     "lint": "next lint",
     "test": "tsx scripts/test-weather-radar.ts",
     "test:radar": "tsx scripts/test-weather-radar.ts",
+    "test:auth": "tsx scripts/test-auth-db.ts",
+    "verify:ui": "tsx scripts/verify-ui-ux.ts",
     "prisma:generate": "prisma generate",
     "prisma:push": "prisma db push",
     "prisma:seed": "tsx prisma/seed.ts",

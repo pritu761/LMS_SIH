@@ -218,9 +218,9 @@ export const WeatherSearchBar: React.FC<WeatherSearchBarProps> = ({
   return (
     <div ref={containerRef} className={`relative w-full ${className}`}>
       {/* Search Bar Input Container */}
-      <div className="relative flex items-center w-full bg-slate-900/90 backdrop-blur-md border border-slate-700/80 hover:border-amber-500/50 focus-within:border-amber-500 focus-within:ring-2 focus-within:ring-amber-500/20 rounded-xl shadow-lg transition-all duration-200">
+      <div className="relative flex items-center w-full bg-white dark:bg-slate-900/90 backdrop-blur-md border border-slate-200 dark:border-slate-700/80 hover:border-[#c59b48]/60 focus-within:border-[#c59b48] focus-within:ring-2 focus-within:ring-[#c59b48]/20 rounded-xl shadow-sm hover:shadow-md transition-all duration-200">
         <div className="pl-3.5 pr-2 text-slate-400">
-          <Search className="w-4 h-4 text-amber-400/90" />
+          <Search className="w-4 h-4 text-[#c59b48]" />
         </div>
 
         <input
@@ -241,19 +241,19 @@ export const WeatherSearchBar: React.FC<WeatherSearchBarProps> = ({
           onKeyDown={handleKeyDown}
           placeholder={placeholder}
           autoFocus={autoFocus}
-          className="w-full py-2.5 pr-20 text-sm text-slate-100 placeholder-slate-400 bg-transparent focus:outline-none"
+          className="w-full py-2.5 pr-20 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 bg-transparent focus:outline-none"
         />
 
         <div className="absolute right-2 flex items-center space-x-1.5">
           {isLoading && (
-            <Loader2 className="w-4 h-4 text-amber-400 animate-spin mr-1" />
+            <Loader2 className="w-4 h-4 text-[#c59b48] animate-spin mr-1" />
           )}
 
           {query && (
             <button
               type="button"
               onClick={handleClear}
-              className="p-1 rounded-md text-slate-400 hover:text-slate-200 hover:bg-slate-800 transition-colors"
+              className="p-1 rounded-md text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
               title="Clear search"
               aria-label="Clear search"
             >
@@ -267,15 +267,15 @@ export const WeatherSearchBar: React.FC<WeatherSearchBarProps> = ({
             disabled={isLocating}
             className={`flex items-center space-x-1 px-2 py-1 rounded-md text-xs font-medium border transition-colors ${
               isLocating
-                ? 'bg-amber-500/20 border-amber-500/40 text-amber-300'
-                : 'bg-slate-800/80 hover:bg-slate-700 border-slate-700 hover:border-slate-600 text-slate-300 hover:text-amber-300'
+                ? 'bg-[#c59b48]/20 border-[#c59b48]/40 text-[#9a7224] dark:text-amber-300'
+                : 'bg-slate-100 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-700 border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 text-slate-700 dark:text-slate-300 hover:text-[#9a7224] dark:hover:text-amber-300'
             }`}
             title="Use current GPS location"
           >
             {isLocating ? (
-              <Loader2 className="w-3.5 h-3.5 animate-spin text-amber-400" />
+              <Loader2 className="w-3.5 h-3.5 animate-spin text-[#c59b48]" />
             ) : (
-              <Crosshair className="w-3.5 h-3.5 text-amber-400" />
+              <Crosshair className="w-3.5 h-3.5 text-[#c59b48]" />
             )}
             <span className="hidden sm:inline">GPS</span>
           </button>
@@ -284,19 +284,19 @@ export const WeatherSearchBar: React.FC<WeatherSearchBarProps> = ({
 
       {/* Geolocation error notification */}
       {geoError && (
-        <div className="absolute top-full left-0 right-0 mt-1.5 px-3 py-1.5 bg-red-900/90 border border-red-700/80 rounded-lg text-xs text-red-200 z-50 shadow-lg animate-fadeIn">
+        <div className="absolute top-full left-0 right-0 mt-1.5 px-3 py-1.5 bg-red-100 dark:bg-red-900/90 border border-red-300 dark:border-red-700/80 rounded-lg text-xs text-red-800 dark:text-red-200 z-50 shadow-lg animate-fadeIn">
           {geoError}
         </div>
       )}
 
       {/* Autocomplete Dropdown */}
       {isOpen && (
-        <div className="absolute top-full left-0 right-0 mt-1.5 bg-slate-900/95 backdrop-blur-xl border border-slate-700/90 rounded-xl shadow-2xl z-50 overflow-hidden max-h-80 overflow-y-auto divide-y divide-slate-800 animate-fadeIn">
+        <div className="absolute top-full left-0 right-0 mt-1.5 bg-white dark:bg-slate-900/95 backdrop-blur-xl border border-slate-200 dark:border-slate-700/90 rounded-xl shadow-2xl z-50 overflow-hidden max-h-80 overflow-y-auto divide-y divide-slate-100 dark:divide-slate-800 animate-fadeIn">
           {results.length > 0 ? (
             <div>
-              <div className="px-3 py-1.5 bg-slate-950/60 text-[11px] font-semibold uppercase tracking-wider text-slate-400 flex items-center justify-between">
+              <div className="px-3 py-1.5 bg-slate-50 dark:bg-slate-950/60 text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center justify-between">
                 <span>Matching Locations</span>
-                <span className="text-[10px] text-slate-500">{results.length} found</span>
+                <span className="text-[10px] text-slate-400 dark:text-slate-500">{results.length} found</span>
               </div>
               {results.map((loc, idx) => {
                 const isSelected = idx === selectedIndex;
@@ -308,30 +308,30 @@ export const WeatherSearchBar: React.FC<WeatherSearchBarProps> = ({
                     onMouseEnter={() => setSelectedIndex(idx)}
                     className={`w-full px-3.5 py-2.5 text-left flex items-start space-x-3 transition-colors ${
                       isSelected
-                        ? 'bg-amber-500/20 text-white'
-                        : 'hover:bg-slate-800/80 text-slate-200'
+                        ? 'bg-[#c59b48]/15 dark:bg-amber-500/20 text-slate-900 dark:text-white'
+                        : 'hover:bg-slate-50 dark:hover:bg-slate-800/80 text-slate-700 dark:text-slate-200'
                     }`}
                   >
                     <MapPin
                       className={`w-4 h-4 mt-0.5 flex-shrink-0 ${
-                        isSelected ? 'text-amber-400' : 'text-slate-400'
+                        isSelected ? 'text-[#c59b48]' : 'text-slate-400'
                       }`}
                     />
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center space-x-2">
-                        <span className="text-sm font-semibold text-slate-100 truncate">
+                        <span className="text-sm font-semibold text-slate-900 dark:text-slate-100 truncate">
                           {loc.name || 'Unnamed Location'}
                         </span>
                         {loc.country && (
-                          <span className="text-xs px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">
+                          <span className="text-xs px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
                             {loc.country}
                           </span>
                         )}
                       </div>
-                      <div className="text-xs text-slate-400 flex items-center space-x-2 mt-0.5">
+                      <div className="text-xs text-slate-500 dark:text-slate-400 flex items-center space-x-2 mt-0.5">
                         {loc.admin1 && <span>{loc.admin1}</span>}
                         <span>•</span>
-                        <span className="font-mono text-[11px] text-slate-500">
+                        <span className="font-mono text-[11px] text-slate-400 dark:text-slate-500">
                           {loc.lat.toFixed(3)}°N, {loc.lon.toFixed(3)}°E
                         </span>
                       </div>
@@ -342,8 +342,8 @@ export const WeatherSearchBar: React.FC<WeatherSearchBarProps> = ({
             </div>
           ) : query.trim().length >= 2 && !isLoading ? (
             <div className="px-4 py-6 text-center text-slate-400 text-xs">
-              <Globe2 className="w-8 h-8 mx-auto mb-2 text-slate-600 opacity-60" />
-              <p className="font-medium text-slate-300">No locations found for &ldquo;{query}&rdquo;</p>
+              <Globe2 className="w-8 h-8 mx-auto mb-2 text-slate-400 dark:text-slate-600 opacity-60" />
+              <p className="font-medium text-slate-700 dark:text-slate-300">No locations found for &ldquo;{query}&rdquo;</p>
               <p className="text-slate-500 mt-1">
                 Try searching for a major city, state, or direct coordinate format (e.g. 28.61, 77.20)
               </p>
@@ -354,8 +354,8 @@ export const WeatherSearchBar: React.FC<WeatherSearchBarProps> = ({
 
       {/* Quick Preset Location Chips */}
       <div className="mt-2 flex items-center space-x-1.5 overflow-x-auto pb-1 scrollbar-none text-xs">
-        <span className="text-[11px] font-medium text-slate-400 flex items-center space-x-1 flex-shrink-0 mr-0.5">
-          <Sparkles className="w-3 h-3 text-amber-400" />
+        <span className="text-[11px] font-medium text-slate-500 dark:text-slate-400 flex items-center space-x-1 flex-shrink-0 mr-0.5">
+          <Sparkles className="w-3 h-3 text-[#c59b48]" />
           <span>Quick:</span>
         </span>
         {POPULAR_PRESETS.map((preset) => {
@@ -379,8 +379,8 @@ export const WeatherSearchBar: React.FC<WeatherSearchBarProps> = ({
               }
               className={`flex-shrink-0 px-2.5 py-1 rounded-lg text-xs font-medium border transition-all ${
                 isCurrent
-                  ? 'bg-amber-500/20 border-amber-500/50 text-amber-300 shadow-sm'
-                  : 'bg-slate-900/70 hover:bg-slate-800 border-slate-800 hover:border-slate-700 text-slate-300 hover:text-slate-100'
+                  ? 'bg-[#c59b48]/20 border-[#c59b48] text-[#9a7224] dark:text-amber-300 shadow-sm font-bold'
+                  : 'bg-white dark:bg-slate-900/70 hover:bg-slate-50 dark:hover:bg-slate-800 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-100'
               }`}
             >
               {preset.name}

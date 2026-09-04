@@ -30,6 +30,7 @@ import { fetchRadarMetadata } from '@/lib/weatherService';
 import { MOCK_RADAR_HOTSPOTS } from '@/lib/mockRadarData';
 import { RadarTimelineControls } from './RadarTimelineControls';
 import { RadarDbzLegend } from './RadarDbzLegend';
+import { useVisualTheme } from '@/context/ThemeContext';
 
 // Dynamic import with zero SSR error guarantee
 const LeafletRadarContainer = dynamic(
@@ -37,25 +38,25 @@ const LeafletRadarContainer = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="w-full h-full min-h-[500px] flex flex-col items-center justify-center bg-slate-950 text-slate-400 relative overflow-hidden rounded-2xl border border-slate-800">
+      <div className="w-full h-full min-h-[500px] flex flex-col items-center justify-center bg-slate-50 dark:bg-slate-950 text-slate-600 dark:text-slate-400 relative overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-800">
         {/* Radar Scanner Animation Loading Screen */}
-        <div className="relative w-48 h-48 rounded-full border border-amber-500/20 flex items-center justify-center">
-          <div className="absolute inset-0 rounded-full border-2 border-dashed border-amber-500/30 animate-spin" style={{ animationDuration: '8s' }} />
-          <div className="absolute w-32 h-32 rounded-full border border-amber-400/20" />
-          <div className="absolute w-16 h-16 rounded-full border border-amber-400/30" />
-          <div className="w-2 h-2 rounded-full bg-amber-400 shadow-[0_0_12px_#fbbf24] animate-ping" />
+        <div className="relative w-48 h-48 rounded-full border border-[#c59b48]/30 dark:border-amber-500/20 flex items-center justify-center">
+          <div className="absolute inset-0 rounded-full border-2 border-dashed border-[#c59b48]/40 dark:border-amber-500/30 animate-spin" style={{ animationDuration: '8s' }} />
+          <div className="absolute w-32 h-32 rounded-full border border-[#c59b48]/30 dark:border-amber-400/20" />
+          <div className="absolute w-16 h-16 rounded-full border border-[#c59b48]/40 dark:border-amber-400/30" />
+          <div className="w-2 h-2 rounded-full bg-[#c59b48] dark:bg-amber-400 shadow-[0_0_12px_#c59b48] animate-ping" />
           
           {/* Sweeping Beam */}
           <div
-            className="absolute inset-0 rounded-full bg-gradient-to-tr from-amber-400/20 via-transparent to-transparent animate-spin origin-center pointer-events-none"
+            className="absolute inset-0 rounded-full bg-gradient-to-tr from-[#c59b48]/20 dark:from-amber-400/20 via-transparent to-transparent animate-spin origin-center pointer-events-none"
             style={{ animationDuration: '3s' }}
           />
         </div>
-        <div className="mt-4 flex items-center gap-2 text-sm font-mono text-amber-300">
-          <Radio className="w-4 h-4 animate-pulse text-amber-400" />
+        <div className="mt-4 flex items-center gap-2 text-sm font-mono text-[#9a7224] dark:text-amber-300">
+          <Radio className="w-4 h-4 animate-pulse text-[#c59b48] dark:text-amber-400" />
           <span>INITIALIZING DOPPLER RADAR ENGINE...</span>
         </div>
-        <p className="text-xs text-slate-500 mt-1 font-mono">Mounting Slippy GIS Canvas & Tile Layers</p>
+        <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 font-mono">Mounting Slippy GIS Canvas & Tile Layers</p>
       </div>
     ),
   }
@@ -119,9 +120,13 @@ export function WeatherRadarMap({
   const [isGeoLocating, setIsGeoLocating] = useState<boolean>(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
+  // Theme integration
+  const { mode } = useVisualTheme();
+  const userOverrodeBasemap = useRef<boolean>(!!initialSettings?.basemap);
+
   // Layer settings
-  const [settings, setSettings] = useState<RadarLayerSettings>({
-    basemap: 'dark',
+  const [settings, setSettings] = useState<RadarLayerSettings>(() => ({
+    basemap: initialSettings?.basemap || (mode === 'light' ? 'light' : 'dark'),
     colorScheme: 2, // Universal Blue
     opacity: 0.85,
     smooth: true,
@@ -130,7 +135,20 @@ export function WeatherRadarMap({
     showRangeRings: true,
     showStormCells: true,
     ...initialSettings,
-  });
+  }));
+
+  // Synchronize basemap when global theme changes unless user explicitly customized it
+  useEffect(() => {
+    if (!userOverrodeBasemap.current) {
+      setSettings((prev) => {
+        const target = mode === 'light' ? 'light' : 'dark';
+        if (prev.basemap !== target && (prev.basemap === 'dark' || prev.basemap === 'light')) {
+          return { ...prev, basemap: target };
+        }
+        return prev;
+      });
+    }
+  }, [mode]);
 
   // Sync prop center/zoom
   useEffect(() => {
@@ -278,12 +296,12 @@ export function WeatherRadarMap({
   return (
     <div
       ref={containerRef}
-      className={`relative w-full h-full min-h-[550px] rounded-2xl overflow-hidden border border-slate-800 bg-slate-950 shadow-2xl flex flex-col select-none ${
+      className={`relative w-full h-full min-h-[550px] rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 shadow-xl dark:shadow-2xl flex flex-col select-none ${
         isFullscreen ? 'fixed inset-0 z-50 rounded-none border-none min-h-screen' : ''
       } ${className}`}
     >
       {/* 1. Interactive Leaflet Map Layer */}
-      <div className="relative flex-1 w-full h-full">
+      <div className="relative flex-1 min-h-0 w-full">
         {radarData ? (
           <LeafletRadarContainer
             center={internalCenter}
@@ -319,7 +337,7 @@ export function WeatherRadarMap({
                   onSelectLocation?.(found.center[0], found.center[1], found.name);
                 }
               }}
-              className="bg-slate-900/90 hover:bg-slate-800/90 text-slate-200 text-xs font-medium py-1.5 px-3 rounded-xl border border-slate-700/80 shadow-lg backdrop-blur-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-amber-400/50"
+              className="bg-white/95 hover:bg-white dark:bg-slate-900/90 dark:hover:bg-slate-800/90 text-slate-800 dark:text-slate-200 text-xs font-medium py-1.5 px-3 rounded-xl border border-slate-200 dark:border-slate-700/80 shadow-lg backdrop-blur-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#c59b48]/50"
             >
               <option value="" disabled>
                 📍 Jump to Region...
@@ -336,17 +354,17 @@ export function WeatherRadarMap({
           <button
             onClick={handleLocateUser}
             disabled={isGeoLocating}
-            className="bg-slate-900/90 hover:bg-slate-800 text-slate-200 hover:text-amber-400 p-2 rounded-xl border border-slate-700/80 shadow-lg backdrop-blur-md transition active:scale-95 flex items-center gap-1 text-xs font-medium"
+            className="bg-white/95 hover:bg-slate-100 dark:bg-slate-900/90 dark:hover:bg-slate-800 text-slate-700 hover:text-[#9a7224] dark:text-slate-200 dark:hover:text-amber-400 p-2 rounded-xl border border-slate-200 dark:border-slate-700/80 shadow-lg backdrop-blur-md transition active:scale-95 flex items-center gap-1 text-xs font-medium"
             title="Locate My Position via GPS"
             aria-label="Locate My Position"
           >
-            <Navigation className={`w-3.5 h-3.5 ${isGeoLocating ? 'animate-spin text-amber-400' : ''}`} />
+            <Navigation className={`w-3.5 h-3.5 ${isGeoLocating ? 'animate-spin text-[#c59b48]' : ''}`} />
             <span className="hidden sm:inline">My GPS</span>
           </button>
 
           {/* Offline Fallback Badge */}
           {isOfflineFallback && (
-            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-amber-500/20 border border-amber-400/40 text-amber-300 text-xs font-mono shadow-lg backdrop-blur-md">
+            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-amber-500/20 border border-amber-400/40 text-[#9a7224] dark:text-amber-300 text-xs font-mono shadow-lg backdrop-blur-md">
               <Zap className="w-3.5 h-3.5 animate-pulse" />
               <span>Simulation Mode</span>
             </div>
@@ -355,14 +373,13 @@ export function WeatherRadarMap({
 
         {/* 3. Top-Right HUD Action Buttons */}
         <div className="absolute top-3 right-3 z-[400] flex items-center gap-2">
-          {/* Layer Settings Toggle Button */}
           {showLayerMenu && (
             <button
               onClick={() => setIsLayerMenuOpen((p) => !p)}
               className={`p-2 rounded-xl border shadow-lg backdrop-blur-md transition active:scale-95 ${
                 isLayerMenuOpen
-                  ? 'bg-amber-500 text-slate-950 border-amber-400 font-bold shadow-amber-500/20'
-                  : 'bg-slate-900/90 hover:bg-slate-800 text-slate-200 border-slate-700/80'
+                  ? 'bg-[#c59b48] gold-ink border-[#c59b48] font-bold shadow-[#c59b48]/20'
+                  : 'bg-white/95 hover:bg-slate-100 dark:bg-slate-900/90 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-700/80'
               }`}
               title="Radar Layer & Map Settings"
               aria-label="Toggle Layer Settings"
@@ -374,7 +391,7 @@ export function WeatherRadarMap({
           {/* Fullscreen Button */}
           <button
             onClick={toggleFullscreen}
-            className="p-2 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-slate-200 hover:text-white border border-slate-700/80 shadow-lg backdrop-blur-md transition active:scale-95"
+            className="p-2 rounded-xl bg-white/95 hover:bg-slate-100 dark:bg-slate-900/90 dark:hover:bg-slate-800 text-slate-700 hover:text-slate-950 dark:text-slate-200 dark:hover:text-white border border-slate-200 dark:border-slate-700/80 shadow-lg backdrop-blur-md transition active:scale-95"
             title={isFullscreen ? 'Exit Fullscreen (F)' : 'Fullscreen Map (F)'}
             aria-label={isFullscreen ? 'Exit Fullscreen' : 'Fullscreen Map'}
           >
@@ -384,15 +401,15 @@ export function WeatherRadarMap({
 
         {/* 4. Layer Settings Dropdown Drawer (Floating Modal HUD) */}
         {isLayerMenuOpen && (
-          <div className="absolute top-14 right-3 z-[500] w-72 sm:w-80 rounded-2xl border border-slate-700/80 bg-slate-900/95 backdrop-blur-2xl shadow-2xl p-4 text-white text-xs space-y-3.5 animate-fadeIn">
-            <div className="flex items-center justify-between pb-2 border-b border-slate-800 font-bold text-slate-200">
+          <div className="absolute top-14 right-3 z-[500] w-72 sm:w-80 rounded-2xl border border-slate-200 dark:border-slate-700/80 bg-white/95 dark:bg-slate-900/95 backdrop-blur-2xl shadow-2xl p-4 text-slate-900 dark:text-white text-xs space-y-3.5 animate-fadeIn">
+            <div className="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-800 font-bold text-slate-800 dark:text-slate-200">
               <div className="flex items-center gap-2">
-                <Sliders className="w-4 h-4 text-amber-400" />
+                <Sliders className="w-4 h-4 text-[#c59b48]" />
                 <span>Radar & Map Layers</span>
               </div>
               <button
                 onClick={() => setIsLayerMenuOpen(false)}
-                className="text-slate-400 hover:text-white"
+                className="text-slate-400 hover:text-slate-700 dark:hover:text-white"
               >
                 ✕
               </button>
@@ -400,18 +417,21 @@ export function WeatherRadarMap({
 
             {/* Basemap Selection */}
             <div>
-              <label className="text-[11px] font-mono text-slate-400 uppercase tracking-wider block mb-1.5">
+              <label className="text-[11px] font-mono text-slate-500 dark:text-slate-400 uppercase tracking-wider block mb-1.5">
                 Basemap Layer
               </label>
               <div className="grid grid-cols-2 gap-1.5">
                 {(['dark', 'light', 'voyager', 'osm', 'satellite'] as BasemapType[]).map((bm) => (
                   <button
                     key={bm}
-                    onClick={() => setSettings((s) => ({ ...s, basemap: bm }))}
+                    onClick={() => {
+                      userOverrodeBasemap.current = true;
+                      setSettings((s) => ({ ...s, basemap: bm }));
+                    }}
                     className={`py-1.5 px-2 rounded-lg text-xs font-medium capitalize border transition ${
                       settings.basemap === bm
-                        ? 'bg-amber-500/20 border-amber-400 text-amber-300'
-                        : 'bg-slate-800/80 border-slate-700 text-slate-300 hover:bg-slate-800'
+                        ? 'bg-[#c59b48]/20 border-[#c59b48] text-[#9a7224] dark:text-amber-300 font-bold'
+                        : 'bg-slate-100 dark:bg-slate-800/80 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800'
                     }`}
                   >
                     {bm === 'osm' ? 'OpenStreetMap' : bm === 'voyager' ? 'CARTO Voyager' : bm}
@@ -422,7 +442,7 @@ export function WeatherRadarMap({
 
             {/* Color Scheme Selection */}
             <div>
-              <label className="text-[11px] font-mono text-slate-400 uppercase tracking-wider block mb-1.5">
+              <label className="text-[11px] font-mono text-slate-500 dark:text-slate-400 uppercase tracking-wider block mb-1.5">
                 Reflectivity Color Scheme
               </label>
               <div className="grid grid-cols-2 gap-1.5">
@@ -437,8 +457,8 @@ export function WeatherRadarMap({
                     onClick={() => setSettings((s) => ({ ...s, colorScheme: scheme.id }))}
                     className={`py-1.5 px-2 rounded-lg text-xs font-medium border transition ${
                       settings.colorScheme === scheme.id
-                        ? 'bg-amber-500/20 border-amber-400 text-amber-300'
-                        : 'bg-slate-800/80 border-slate-700 text-slate-300 hover:bg-slate-800'
+                        ? 'bg-[#c59b48]/20 border-[#c59b48] text-[#9a7224] dark:text-amber-300 font-bold'
+                        : 'bg-slate-100 dark:bg-slate-800/80 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800'
                     }`}
                   >
                     {scheme.name}
@@ -449,9 +469,9 @@ export function WeatherRadarMap({
 
             {/* Radar Opacity Slider */}
             <div>
-              <div className="flex items-center justify-between text-[11px] font-mono text-slate-400 mb-1">
+              <div className="flex items-center justify-between text-[11px] font-mono text-slate-500 dark:text-slate-400 mb-1">
                 <span>RADAR TILE OPACITY</span>
-                <span className="text-amber-400 font-bold">{Math.round(settings.opacity * 100)}%</span>
+                <span className="text-[#9a7224] dark:text-amber-400 font-bold">{Math.round(settings.opacity * 100)}%</span>
               </div>
               <input
                 type="range"
@@ -462,54 +482,54 @@ export function WeatherRadarMap({
                 onChange={(e) =>
                   setSettings((s) => ({ ...s, opacity: parseFloat(e.target.value) }))
                 }
-                className="w-full h-1.5 rounded-lg bg-slate-800 appearance-none cursor-pointer accent-amber-400"
+                className="w-full h-1.5 rounded-lg bg-slate-200 dark:bg-slate-800 appearance-none cursor-pointer accent-[#c59b48]"
               />
             </div>
 
             {/* Overlay Toggles */}
-            <div className="pt-2 border-t border-slate-800 space-y-2">
+            <div className="pt-2 border-t border-slate-200 dark:border-slate-800 space-y-2">
               <label className="flex items-center justify-between cursor-pointer">
-                <span className="text-slate-300">Concentric Range Rings (50-200km)</span>
+                <span className="text-slate-700 dark:text-slate-300">Concentric Range Rings (50-200km)</span>
                 <input
                   type="checkbox"
                   checked={settings.showRangeRings}
                   onChange={(e) =>
                     setSettings((s) => ({ ...s, showRangeRings: e.target.checked }))
                   }
-                  className="rounded bg-slate-800 border-slate-700 text-amber-400 focus:ring-0 cursor-pointer"
+                  className="rounded bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-slate-700 text-[#c59b48] focus:ring-0 cursor-pointer"
                 />
               </label>
 
               <label className="flex items-center justify-between cursor-pointer">
-                <span className="text-slate-300">Convective Storm Cell Overlays</span>
+                <span className="text-slate-700 dark:text-slate-300">Convective Storm Cell Overlays</span>
                 <input
                   type="checkbox"
                   checked={settings.showStormCells}
                   onChange={(e) =>
                     setSettings((s) => ({ ...s, showStormCells: e.target.checked }))
                   }
-                  className="rounded bg-slate-800 border-slate-700 text-amber-400 focus:ring-0 cursor-pointer"
+                  className="rounded bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-slate-700 text-[#c59b48] focus:ring-0 cursor-pointer"
                 />
               </label>
 
               <label className="flex items-center justify-between cursor-pointer">
-                <span className="text-slate-300">Radar Anti-Aliasing (Smooth)</span>
+                <span className="text-slate-700 dark:text-slate-300">Radar Anti-Aliasing (Smooth)</span>
                 <input
                   type="checkbox"
                   checked={settings.smooth}
                   onChange={(e) =>
                     setSettings((s) => ({ ...s, smooth: e.target.checked }))
                   }
-                  className="rounded bg-slate-800 border-slate-700 text-amber-400 focus:ring-0 cursor-pointer"
+                  className="rounded bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-slate-700 text-[#c59b48] focus:ring-0 cursor-pointer"
                 />
               </label>
             </div>
           </div>
         )}
 
-        {/* 5. Reflectivity dBZ Legend Overlay (Collapsible in Bottom-Left or Top-Left on Mobile) */}
+        {/* 5. Reflectivity dBZ Legend Overlay */}
         {showLegend && (
-          <div className="absolute bottom-24 sm:bottom-28 left-3 z-[400] max-w-[280px] sm:max-w-xs">
+          <div className="absolute bottom-3 left-3 z-[400] max-w-[280px] sm:max-w-xs">
             <RadarDbzLegend
               currentDbz={currentDbz}
               colorScheme={settings.colorScheme}
@@ -521,7 +541,7 @@ export function WeatherRadarMap({
 
       {/* 6. Bottom Docked Timeline Playback Controls */}
       {showControls && (
-        <div className="p-3 sm:p-4 bg-slate-950/95 border-t border-slate-800 z-[400] relative">
+        <div className="p-2.5 sm:p-3.5 bg-slate-50/95 dark:bg-slate-950/95 border-t border-slate-200 dark:border-slate-800 z-[400] relative shrink-0">
           <RadarTimelineControls
             frames={allFrames}
             currentIndex={currentFrameIndex}

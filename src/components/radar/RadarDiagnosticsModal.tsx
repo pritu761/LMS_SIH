@@ -61,7 +61,7 @@ export function RadarDiagnosticsModal({ node, isOpen, onClose }: RadarDiagnostic
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="w-full max-w-3xl rounded-3xl bg-[#040810] border border-[#c59b48]/40 shadow-2xl p-6 space-y-6 text-white font-sans relative overflow-hidden max-h-[90vh] flex flex-col"
+        className="dark-surface w-full max-w-3xl rounded-3xl bg-[#040810] border border-[#c59b48]/40 shadow-2xl p-6 space-y-6 text-white font-sans relative overflow-hidden max-h-[90vh] flex flex-col"
       >
         {/* Background ambient lighting */}
         <div className="absolute top-0 right-0 w-72 h-72 bg-[#c59b48]/10 rounded-full blur-3xl pointer-events-none" />
@@ -73,7 +73,7 @@ export function RadarDiagnosticsModal({ node, isOpen, onClose }: RadarDiagnostic
               <Zap className="h-5 w-5" />
             </div>
             <div>
-              <div className="text-[10px] font-mono font-bold text-[#dfb76c] uppercase">
+              <div className="text-[10px] font-sans font-bold text-[#dfb76c] uppercase">
                 TELEMETRY DIAGNOSTIC TEST RUNNER
               </div>
               <h3 className="text-lg font-bold text-white">
@@ -92,7 +92,7 @@ export function RadarDiagnosticsModal({ node, isOpen, onClose }: RadarDiagnostic
 
         {/* Test Configuration Selector */}
         <div className="space-y-3 shrink-0">
-          <label className="text-xs font-mono text-slate-300 font-bold">
+          <label className="text-xs font-sans text-slate-300 font-bold">
             SELECT HARDWARE / TELEMETRY DIAGNOSTIC SUITE
           </label>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
@@ -104,7 +104,7 @@ export function RadarDiagnosticsModal({ node, isOpen, onClose }: RadarDiagnostic
               <button
                 key={t}
                 onClick={() => setTestType(t)}
-                className={`p-3 rounded-2xl text-left text-xs font-mono border transition-all ${
+                className={`p-3 rounded-2xl text-left text-xs font-sans font-medium border transition-all ${
                   testType === t
                     ? 'bg-[#0b1e36] border-[#c59b48] text-[#dfb76c] font-bold shadow-md'
                     : 'bg-white/5 border-white/10 text-slate-400 hover:text-white'
@@ -118,15 +118,15 @@ export function RadarDiagnosticsModal({ node, isOpen, onClose }: RadarDiagnostic
 
         {/* Execute Button */}
         <div className="flex items-center justify-between shrink-0">
-          <div className="text-xs font-mono text-slate-400">
-            Node Frequency: <span className="text-white">{node.frequencyGhz}</span> • Band:{' '}
-            <span className="text-cyan-400">{node.band}</span>
+          <div className="text-xs font-sans text-slate-400">
+            Node Frequency: <span className="text-white font-mono">{node.frequencyGhz}</span> • Band:{' '}
+            <span className="text-cyan-400 font-mono">{node.band}</span>
           </div>
 
           <button
             onClick={runTest}
             disabled={isRunning}
-            className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-mono text-xs font-bold transition-all shadow-lg ${
+            className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-sans text-xs font-bold transition-all shadow-lg ${
               isRunning
                 ? 'bg-slate-700 text-slate-400 cursor-not-allowed'
                 : 'bg-gradient-to-r from-[#0b1e36] via-[#16365f] to-[#0b1e36] border border-[#c59b48] text-[#dfb76c] hover:scale-105 shadow-[#c59b48]/20'

@@ -50,7 +50,7 @@ function MarkdownView({ content }: { content: string }) {
             <Link
               key={i}
               href={linkHref}
-              className="text-[#ff758c] font-semibold underline underline-offset-2 hover:text-slate-900 dark:text-white transition-colors"
+              className="text-rose-600 dark:text-[#ff758c] font-semibold underline underline-offset-2 hover:text-rose-700 dark:hover:text-white transition-colors"
             >
               {linkText}
             </Link>
@@ -75,7 +75,7 @@ function MarkdownView({ content }: { content: string }) {
         return (
           <code
             key={i}
-            className="rounded bg-white/10 px-1.5 py-0.5 font-mono text-[11px] text-cyan-300 border border-white/5"
+            className="rounded bg-slate-900/[0.06] dark:bg-white/10 px-1.5 py-0.5 font-mono text-[11px] text-cyan-700 dark:text-cyan-300 border border-slate-900/10 dark:border-white/10"
           >
             {part.slice(1, -1)}
           </code>
@@ -91,22 +91,22 @@ function MarkdownView({ content }: { content: string }) {
       const rows = tableRows.slice(1).filter((r) => !r.every((c) => c.includes('---')));
 
       renderedElements.push(
-        <div key={`table-${keyIndex}`} className="my-2 overflow-x-auto rounded-xl border border-white/10 bg-black/40">
-          <table className="w-full text-left text-xs">
+        <div key={`table-${keyIndex}`} className="my-2 overflow-x-auto rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-black/40">
+          <table className="w-full text-left text-[13px]">
             <thead>
-              <tr className="border-b border-white/10 bg-white/5">
+              <tr className="border-b border-slate-200 dark:border-white/10 bg-slate-100 dark:bg-white/5">
                 {header.map((col, cIdx) => (
-                  <th key={cIdx} className="p-2 font-semibold text-cyan-300 text-[11px]">
+                  <th key={cIdx} className="p-2 font-semibold text-cyan-700 dark:text-cyan-300 text-xs">
                     {parseInline(col.trim())}
                   </th>
                 ))}
               </tr>
             </thead>
-            <tbody className="divide-y divide-white/5">
+            <tbody className="divide-y divide-slate-200 dark:divide-white/5">
               {rows.map((row, rIdx) => (
-                <tr key={rIdx} className="hover:bg-white/[0.02]">
+                <tr key={rIdx} className="hover:bg-slate-100 dark:hover:bg-white/[0.02]">
                   {row.map((cell, cIdx) => (
-                    <td key={cIdx} className="p-2 text-slate-600 dark:text-slate-300 text-[11px]">
+                    <td key={cIdx} className="p-2 text-slate-700 dark:text-slate-300 text-xs leading-relaxed">
                       {parseInline(cell.trim())}
                     </td>
                   ))}
@@ -146,8 +146,8 @@ function MarkdownView({ content }: { content: string }) {
     // Bullet point
     if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
       renderedElements.push(
-        <div key={index} className="flex items-start gap-2 text-xs text-slate-600 dark:text-slate-300 my-1 ml-1">
-          <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 mt-1.5 flex-shrink-0" />
+        <div key={index} className="flex items-start gap-2 text-[13px] text-slate-700 dark:text-slate-300 my-1 ml-1">
+          <span className="h-1.5 w-1.5 rounded-full bg-cyan-600 dark:bg-cyan-400 mt-1.5 flex-shrink-0" />
           <span className="leading-relaxed">{parseInline(trimmed.slice(2))}</span>
         </div>
       );
@@ -159,8 +159,8 @@ function MarkdownView({ content }: { content: string }) {
       const num = trimmed.match(/^(\d+)\.\s/)?.[1];
       const rest = trimmed.replace(/^\d+\.\s/, '');
       renderedElements.push(
-        <div key={index} className="flex items-start gap-2 text-xs text-slate-600 dark:text-slate-300 my-1 ml-1">
-          <span className="font-bold text-cyan-400 text-[11px] min-w-[14px]">{num}.</span>
+        <div key={index} className="flex items-start gap-2 text-[13px] text-slate-700 dark:text-slate-300 my-1 ml-1">
+          <span className="font-bold text-cyan-700 dark:text-cyan-400 text-xs min-w-[14px] tabular-nums">{num}.</span>
           <span className="leading-relaxed">{parseInline(rest)}</span>
         </div>
       );
@@ -170,7 +170,7 @@ function MarkdownView({ content }: { content: string }) {
     // Heading (e.g. ## or ###)
     if (trimmed.startsWith('### ')) {
       renderedElements.push(
-        <h4 key={index} className="text-xs font-bold text-cyan-300 mt-2 mb-1">
+        <h4 key={index} className="text-[13px] font-bold text-cyan-700 dark:text-cyan-300 mt-2 mb-1">
           {parseInline(trimmed.slice(4))}
         </h4>
       );
@@ -187,7 +187,7 @@ function MarkdownView({ content }: { content: string }) {
 
     // Normal paragraph
     renderedElements.push(
-      <p key={index} className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed my-1">
+      <p key={index} className="text-[13px] text-slate-700 dark:text-slate-300 leading-relaxed my-1">
         {parseInline(trimmed)}
       </p>
     );
@@ -332,25 +332,25 @@ export function CourseChatbot() {
               type="button"
               onClick={toggleChat}
               aria-label="Open Course AI Assistant"
-              className="group relative flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-tr from-[#e0234e] via-[#ea2845] to-[#ff4d6d] p-[1.5px] shadow-2xl shadow-[#e0234e]/40 transition-all duration-300 hover:scale-110 hover:shadow-[#e0234e]/60 active:scale-95"
+              className="group relative flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-tr from-[#0b1e36] via-[#122c4d] to-[#c59b48] p-[1.5px] shadow-2xl shadow-[#0b1e36]/40 transition-all duration-300 hover:scale-110 hover:shadow-[#c59b48]/40 active:scale-95"
             >
               {/* Outer subtle glow ring */}
-              <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-[#e0234e] to-[#ff758c] opacity-40 blur-md group-hover:opacity-75 transition duration-500 animate-pulse" />
+              <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-[#0b1e36] to-[#c59b48] opacity-40 blur-md group-hover:opacity-75 transition duration-500 animate-pulse" />
 
               <div className="relative flex h-full w-full items-center justify-center rounded-[14px] bg-white dark:bg-slate-950/90 backdrop-blur-sm">
-                <Bot className="h-6 w-6 text-[#ff4d6d] transition-transform duration-300 group-hover:scale-110 group-hover:text-slate-900 dark:text-white" />
+                <Bot className="h-6 w-6 text-[#c59b48] transition-transform duration-300 group-hover:scale-110" />
                 <Sparkles className="absolute top-2 right-2 h-2.5 w-2.5 text-amber-400 animate-pulse" />
               </div>
 
               {/* Unread Message Badge */}
               {unreadCount > 0 && (
-                <span className="absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-[#e0234e] text-[10px] font-black text-white ring-2 ring-black animate-bounce">
+                <span className="absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-[#c59b48] gold-ink text-[10px] font-black ring-2 ring-black animate-bounce tabular-nums">
                   {unreadCount}
                 </span>
               )}
 
               {/* Floating Tooltip */}
-              <div className="pointer-events-none absolute right-16 top-1/2 -translate-y-1/2 whitespace-nowrap rounded-xl border border-white/10 bg-black/90 px-3 py-1.5 text-xs font-semibold text-slate-900 dark:text-slate-200 shadow-xl opacity-0 transition-opacity duration-200 group-hover:opacity-100 backdrop-blur-md">
+              <div className="pointer-events-none absolute right-16 top-1/2 -translate-y-1/2 whitespace-nowrap rounded-xl border border-white/10 bg-black/90 px-3 py-1.5 text-xs font-semibold text-white shadow-xl opacity-0 transition-opacity duration-200 group-hover:opacity-100 backdrop-blur-md">
                 Ask Course Navigator AI
               </div>
             </button>
@@ -372,7 +372,7 @@ export function CourseChatbot() {
             }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.25, ease: 'easeOut' }}
-            className={`fixed z-50 flex flex-col overflow-hidden rounded-3xl border border-white/15 bg-slate-950/95 shadow-2xl backdrop-blur-2xl transition-all duration-300 ${
+            className={`dark-surface fixed z-50 flex flex-col overflow-hidden rounded-3xl border border-white/15 bg-slate-950/95 shadow-2xl backdrop-blur-2xl transition-all duration-300 ${
               isMaximized
                 ? 'inset-x-0 bottom-6 mx-auto max-w-6xl'
                 : 'bottom-6 right-6 max-h-[85vh] max-w-[95vw]'
@@ -381,27 +381,27 @@ export function CourseChatbot() {
             {/* Header */}
             <div className="relative flex items-center justify-between border-b border-white/10 bg-white dark:bg-slate-900/80 px-4 py-3.5 backdrop-blur-xl select-none">
               {/* Electric subtle gradient highlight */}
-              <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#e0234e] via-[#ea2845] to-[#ff758c]" />
+              <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#0b1e36] via-[#c59b48] to-[#dfb76c]" />
 
               <div className="flex items-center gap-2.5">
-                <div className="relative flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-tr from-[#e0234e] to-[#ff4d6d] p-[1px]">
+                <div className="relative flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-tr from-[#0b1e36] to-[#c59b48] p-[1px]">
                   <div className="flex h-full w-full items-center justify-center rounded-[11px] bg-black">
-                    <Bot className="h-4 w-4 text-[#ff4d6d]" />
+                    <Bot className="h-4 w-4 text-[#c59b48]" />
                   </div>
                   <span className="absolute bottom-0 right-0 h-2 w-2 rounded-full bg-emerald-400 ring-2 ring-black" />
                 </div>
                 <div>
                   <div className="flex items-center gap-1.5">
-                    <h3 className="text-xs font-bold text-slate-900 dark:text-white tracking-tight">
-                      MausamBot <span className="text-[#ff4d6d]">AI Navigator</span>
+                    <h3 className="text-[13px] font-bold text-slate-900 dark:text-white tracking-tight">
+                      MausamBot <span className="text-[#9a7224] dark:text-[#c59b48]">AI Navigator</span>
                     </h3>
-                    <span className="rounded-full bg-[#e0234e]/10 px-1.5 py-0.2 text-[8px] font-black text-[#ff4d6d] border border-[#e0234e]/20">
-                      NESTJS CORE
+                    <span className="rounded-full bg-[#c59b48]/15 px-1.5 py-0.5 text-[9px] font-black tracking-wider text-[#9a7224] dark:text-[#dfb76c] border border-[#c59b48]/30">
+                      LIVE
                     </span>
                   </div>
-                  <p className="text-[10px] text-slate-500 dark:text-slate-400 flex items-center gap-1">
-                    <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#e0234e] animate-pulse" />
-                    Live Course Intelligence • WMO BIP-M
+                  <p className="text-[11px] text-slate-600 dark:text-slate-400 flex items-center gap-1">
+                    <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    Live Course Intelligence
                   </p>
                 </div>
               </div>
@@ -414,7 +414,7 @@ export function CourseChatbot() {
                   onClick={() => setTtsEnabled(!ttsEnabled)}
                   title={ttsEnabled ? 'Mute AI Voice' : 'Enable Voice Readout'}
                   className={`rounded-lg p-1.5 transition-colors ${
-                    ttsEnabled ? 'bg-[#e0234e]/20 text-[#ff4d6d]' : 'hover:bg-white/5 hover:text-white'
+                    ttsEnabled ? 'bg-[#c59b48]/20 text-[#dfb76c]' : 'hover:bg-white/5 hover:text-white'
                   }`}
                 >
                   {ttsEnabled ? <Volume2 className="h-4 w-4" /> : <VolumeX className="h-4 w-4" />}
@@ -475,9 +475,9 @@ export function CourseChatbot() {
                         className={`flex gap-2.5 ${isUser ? 'justify-end' : 'justify-start'} animate-fade-in`}
                       >
                         {!isUser && (
-                          <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-tr from-[#e0234e] to-[#ff4d6d] p-[1px] mt-0.5">
+                          <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-tr from-[#0b1e36] to-[#c59b48] p-[1px] mt-0.5">
                             <div className="flex h-full w-full items-center justify-center rounded-[10px] bg-black">
-                              <Bot className="h-3.5 w-3.5 text-[#ff4d6d]" />
+                              <Bot className="h-3.5 w-3.5 text-[#c59b48]" />
                             </div>
                           </div>
                         )}
@@ -485,13 +485,13 @@ export function CourseChatbot() {
                         <div
                           className={`group relative max-w-[85%] rounded-2xl px-3.5 py-2.5 transition-all ${
                             isUser
-                              ? 'bg-gradient-to-r from-[#e0234e] to-[#ea2845] text-white shadow-md shadow-[#e0234e]/20 rounded-tr-none'
-                              : 'border border-white/10 bg-white dark:bg-slate-900/90 text-slate-900 dark:text-slate-200 rounded-tl-none backdrop-blur-md'
+                              ? 'bg-gradient-to-r from-[#0b1e36] to-[#122c4d] border border-[#c59b48]/40 text-white shadow-md shadow-[#0b1e36]/20 rounded-tr-none'
+                              : 'border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900/90 text-slate-900 dark:text-slate-200 rounded-tl-none backdrop-blur-md shadow-sm'
                           }`}
                         >
                           {/* Markdown or plain message */}
                           {isUser ? (
-                            <p className="text-xs font-medium leading-relaxed whitespace-pre-wrap">{msg.content}</p>
+                            <p className="text-[13px] font-medium leading-relaxed whitespace-pre-wrap">{msg.content}</p>
                           ) : (
                             <MarkdownView content={msg.content} />
                           )}
@@ -507,8 +507,8 @@ export function CourseChatbot() {
 
                           {/* Suggested follow-up prompt pills */}
                           {msg.suggestedQueries && msg.suggestedQueries.length > 0 && (
-                            <div className="mt-3 pt-2 border-t border-white/10">
-                              <span className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 block mb-1">
+                            <div className="mt-3 pt-2 border-t border-slate-200 dark:border-white/10">
+                              <span className="text-[11px] font-semibold text-slate-600 dark:text-slate-400 block mb-1">
                                 Related Inquiries:
                               </span>
                               <ChatSuggestedPills
@@ -520,8 +520,8 @@ export function CourseChatbot() {
 
                           {/* Timestamp & Copy Action */}
                           <div
-                            className={`mt-1.5 flex items-center justify-between gap-2 text-[9px] ${
-                              isUser ? 'text-red-200/80' : 'text-slate-500'
+                            className={`mt-1.5 flex items-center justify-between gap-2 text-[10px] tabular-nums ${
+                              isUser ? 'text-slate-300' : 'text-slate-500 dark:text-slate-400'
                             }`}
                           >
                             <span>{msg.timestamp}</span>
@@ -560,15 +560,15 @@ export function CourseChatbot() {
                   {/* Typing / Loading Indicator */}
                   {isTyping && (
                     <div className="flex items-center gap-2.5 animate-fade-in">
-                      <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-xl bg-[#e0234e]/30 p-[1px]">
-                        <Bot className="h-3.5 w-3.5 text-[#ff4d6d]" />
+                      <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-xl bg-[#c59b48]/20 border border-[#c59b48]/30 p-[1px]">
+                        <Bot className="h-3.5 w-3.5 text-[#c59b48]" />
                       </div>
-                      <div className="rounded-2xl border border-white/10 bg-white dark:bg-slate-900/90 px-4 py-3 text-xs text-slate-500 dark:text-slate-400 rounded-tl-none flex items-center gap-1.5">
-                        <span className="h-1.5 w-1.5 rounded-full bg-[#e0234e] animate-bounce [animation-delay:-0.3s]" />
-                        <span className="h-1.5 w-1.5 rounded-full bg-[#e0234e] animate-bounce [animation-delay:-0.15s]" />
-                        <span className="h-1.5 w-1.5 rounded-full bg-[#e0234e] animate-bounce" />
-                        <span className="ml-1 text-[11px] text-[#ff4d6d] font-medium">
-                          Searching course catalog & syllabus...
+                      <div className="rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900/90 px-4 py-3 text-[13px] text-slate-600 dark:text-slate-400 rounded-tl-none flex items-center gap-1.5">
+                        <span className="h-1.5 w-1.5 rounded-full bg-[#c59b48] animate-bounce [animation-delay:-0.3s]" />
+                        <span className="h-1.5 w-1.5 rounded-full bg-[#c59b48] animate-bounce [animation-delay:-0.15s]" />
+                        <span className="h-1.5 w-1.5 rounded-full bg-[#c59b48] animate-bounce" />
+                        <span className="ml-1 text-xs text-[#9a7224] dark:text-[#dfb76c] font-medium">
+                          Searching course catalog and syllabus...
                         </span>
                       </div>
                     </div>
@@ -581,7 +581,7 @@ export function CourseChatbot() {
                 <div className="border-t border-white/10 bg-white dark:bg-slate-950/90 p-3 backdrop-blur-xl">
                   {/* Speech recognition active notice */}
                   {isRecording && (
-                    <div className="mb-2 flex items-center justify-between rounded-xl bg-red-500/10 border border-red-500/30 px-3 py-1.5 text-xs text-red-300 animate-pulse">
+                    <div className="mb-2 flex items-center justify-between rounded-xl bg-red-500/10 border border-red-500/30 px-3 py-1.5 text-xs text-red-700 dark:text-red-300 font-medium">
                       <span className="flex items-center gap-1.5">
                         <span className="h-2 w-2 rounded-full bg-red-500" />
                         Listening for course search...
@@ -604,7 +604,7 @@ export function CourseChatbot() {
                       onChange={(e) => setInput(e.target.value)}
                       placeholder="Ask about Radar, NWP, HPC, AI/ML courses..."
                       disabled={isTyping}
-                      className="w-full rounded-2xl border border-white/10 bg-white dark:bg-slate-900/90 pl-4 pr-20 py-2.5 text-xs text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:border-[#e0234e] focus:outline-none focus:ring-1 focus:ring-[#e0234e] disabled:opacity-50 transition-all shadow-inner"
+                      className="w-full rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900/90 pl-4 pr-20 py-2.5 text-sm text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:border-[#c59b48] focus:outline-none focus:ring-1 focus:ring-[#c59b48] disabled:opacity-50 transition-all shadow-inner"
                     />
 
                     {/* Speech to text mic button */}
@@ -614,8 +614,8 @@ export function CourseChatbot() {
                       title={isRecording ? 'Stop Recording' : 'Search by Voice'}
                       className={`absolute right-10 top-1/2 -translate-y-1/2 rounded-xl p-1.5 transition-all ${
                         isRecording
-                          ? 'bg-red-500 text-slate-900 dark:text-white animate-pulse'
-                          : 'text-slate-500 dark:text-slate-400 hover:bg-white/10 hover:text-slate-900 dark:text-white'
+                          ? 'bg-red-500 text-white animate-pulse'
+                          : 'text-slate-500 dark:text-slate-400 hover:bg-slate-900/5 dark:hover:bg-white/10 hover:text-slate-900 dark:hover:text-white'
                       }`}
                     >
                       {isRecording ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
@@ -625,17 +625,17 @@ export function CourseChatbot() {
                     <button
                       type="submit"
                       disabled={!input.trim() || isTyping}
-                      className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-tr from-[#e0234e] to-[#ff4d6d] text-white shadow-md shadow-[#e0234e]/30 transition-all hover:scale-105 active:scale-95 disabled:opacity-40 disabled:hover:scale-100"
+                      className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-[#0b1e36] hover:bg-[#122c4d] border border-[#c59b48]/50 text-[#c59b48] shadow-md shadow-[#0b1e36]/30 transition-all hover:scale-105 active:scale-95 disabled:opacity-40 disabled:hover:scale-100"
                     >
                       <Send className="h-4 w-4" />
                     </button>
                   </form>
 
-                  <div className="mt-2 flex items-center justify-between text-[10px] text-slate-500 px-1">
+                  <div className="mt-2 flex items-center justify-between text-[11px] text-slate-600 dark:text-slate-500 px-1">
                     <span>Press Enter to send</span>
                     <span className="flex items-center gap-1">
-                      <Sparkles className="h-2.5 w-2.5 text-[#ff4d6d]" />
-                      Powered by Mission Mausam NLP Engine
+                      <Sparkles className="h-2.5 w-2.5 text-[#c59b48]" />
+                      Mission Mausam Assistant
                     </span>
                   </div>
                 </div>

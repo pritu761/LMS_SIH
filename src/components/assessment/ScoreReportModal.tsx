@@ -50,7 +50,7 @@ export function ScoreReportModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-xl overflow-y-auto animate-in fade-in zoom-in-95 duration-200">
       {isPassed && <ConfettiEffect />}
 
-      <div className="relative my-8 w-full max-w-3xl rounded-3xl border border-slate-200 dark:border-slate-700/80 bg-slate-900/95 p-6 sm:p-8 shadow-2xl backdrop-blur-2xl space-y-6">
+      <div className="relative my-8 w-full max-w-3xl rounded-3xl border border-slate-200 dark:border-slate-700/80 bg-white dark:bg-slate-900/95 p-6 sm:p-8 shadow-2xl backdrop-blur-2xl space-y-6">
         
         {/* Glow ambient background aura */}
         <div
@@ -72,14 +72,14 @@ export function ScoreReportModal({
           </div>
 
           <div>
-            <div className="inline-flex items-center gap-1.5 rounded-full px-3.5 py-1 text-xs font-black uppercase tracking-wider border shadow-sm mb-2 backdrop-blur-md">
+            <div className="inline-flex items-center gap-1.5 rounded-full px-3.5 py-1 text-xs font-black uppercase tracking-wider border shadow-sm mb-2 backdrop-blur-md bg-slate-50 dark:bg-slate-900/60 border-slate-200 dark:border-slate-800">
               <span
                 className={`h-2 w-2 rounded-full ${
-                  isPassed ? 'bg-emerald-400 animate-ping' : 'bg-rose-400'
+                  isPassed ? 'bg-emerald-500 animate-ping' : 'bg-rose-500'
                 }`}
               />
               <span
-                className={isPassed ? 'text-emerald-300' : 'text-rose-300'}
+                className={isPassed ? 'text-emerald-700 dark:text-emerald-300' : 'text-rose-700 dark:text-rose-300'}
               >
                 {isPassed ? 'OFFICIAL CERTIFICATION ISSUED' : 'MINIMUM CUTOFF NOT REACHED'}
               </span>
@@ -96,13 +96,13 @@ export function ScoreReportModal({
 
         {/* Score & Metrics Showcase Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          <div className="rounded-2xl bg-white dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 p-4 text-center space-y-1 shadow-md">
+          <div className="rounded-2xl bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 p-4 text-center space-y-1 shadow-sm dark:shadow-md">
             <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
               Score Percentage
             </span>
             <div
               className={`text-2xl sm:text-3xl font-black tracking-tight ${
-                isPassed ? 'text-emerald-400' : 'text-rose-400'
+                isPassed ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'
               }`}
             >
               {result.percentage}%
@@ -112,21 +112,21 @@ export function ScoreReportModal({
             </span>
           </div>
 
-          <div className="rounded-2xl bg-white dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 p-4 text-center space-y-1 shadow-md">
+          <div className="rounded-2xl bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 p-4 text-center space-y-1 shadow-sm dark:shadow-md">
             <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
               Passing Threshold
             </span>
-            <div className="text-2xl sm:text-3xl font-black text-indigo-400 tracking-tight">
+            <div className="text-2xl sm:text-3xl font-black text-indigo-600 dark:text-indigo-400 tracking-tight">
               {result.passingScorePercentage}%
             </div>
             <span className="text-[10px] text-slate-500 dark:text-slate-400">Required minimum</span>
           </div>
 
-          <div className="rounded-2xl bg-white dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 p-4 text-center space-y-1 shadow-md">
+          <div className="rounded-2xl bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 p-4 text-center space-y-1 shadow-sm dark:shadow-md">
             <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
               Time Taken
             </span>
-            <div className="text-2xl sm:text-3xl font-black text-cyan-400 tracking-tight">
+            <div className="text-2xl sm:text-3xl font-black text-cyan-600 dark:text-cyan-400 tracking-tight">
               {Math.floor(result.timeSpentSeconds / 60)}m {result.timeSpentSeconds % 60}s
             </div>
             <span className="text-[10px] text-slate-500 dark:text-slate-400">
@@ -134,11 +134,11 @@ export function ScoreReportModal({
             </span>
           </div>
 
-          <div className="rounded-2xl bg-white dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 p-4 text-center space-y-1 shadow-md">
+          <div className="rounded-2xl bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 p-4 text-center space-y-1 shadow-sm dark:shadow-md">
             <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
               Accuracy
             </span>
-            <div className="text-2xl sm:text-3xl font-black text-amber-400 tracking-tight">
+            <div className="text-2xl sm:text-3xl font-black text-amber-600 dark:text-amber-400 tracking-tight">
               {correctCount}/{totalCount}
             </div>
             <span className="text-[10px] text-slate-500 dark:text-slate-400">Correct answers</span>
@@ -147,9 +147,9 @@ export function ScoreReportModal({
 
         {/* Certificate Callout (If passed) */}
         {isPassed && (
-          <div className="rounded-2xl border border-emerald-500/40 bg-gradient-to-r from-emerald-950/40 via-white dark:via-slate-900 to-white dark:to-indigo-950/40 p-4 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-lg shadow-emerald-500/10">
+          <div className="rounded-2xl border border-emerald-500/40 bg-emerald-50/70 dark:bg-gradient-to-r dark:from-emerald-950/40 dark:via-slate-900 dark:to-indigo-950/40 p-4 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-sm dark:shadow-lg dark:shadow-emerald-500/10">
             <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400">
+              <div className="h-10 w-10 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
                 <Sparkles className="h-5 w-5 animate-pulse" />
               </div>
               <div>
@@ -171,7 +171,7 @@ export function ScoreReportModal({
         <div className="space-y-3">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200 dark:border-slate-800 pb-2">
             <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-2">
-              <ShieldCheck className="h-4 w-4 text-indigo-400" />
+              <ShieldCheck className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
               <span>Pedagogical Review & Faculty Explanations</span>
             </h3>
 
@@ -182,7 +182,7 @@ export function ScoreReportModal({
                 className={`rounded-lg px-2.5 py-1 text-[10px] font-bold transition-all ${
                   filterType === 'ALL'
                     ? 'bg-indigo-600 text-white'
-                    : 'bg-white dark:bg-slate-950 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:text-white'
+                    : 'bg-slate-100 dark:bg-slate-950 text-slate-700 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-slate-800'
                 }`}
               >
                 All ({result.questionBreakdown.length})
@@ -192,7 +192,7 @@ export function ScoreReportModal({
                 className={`rounded-lg px-2.5 py-1 text-[10px] font-bold transition-all ${
                   filterType === 'CORRECT'
                     ? 'bg-emerald-600 text-white'
-                    : 'bg-white dark:bg-slate-950 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:text-white'
+                    : 'bg-slate-100 dark:bg-slate-950 text-slate-700 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-slate-800'
                 }`}
               >
                 Correct ({correctCount})
@@ -201,8 +201,8 @@ export function ScoreReportModal({
                 onClick={() => setFilterType('INCORRECT')}
                 className={`rounded-lg px-2.5 py-1 text-[10px] font-bold transition-all ${
                   filterType === 'INCORRECT'
-                    ? 'bg-rose-600 text-slate-900 dark:text-white'
-                    : 'bg-white dark:bg-slate-950 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:text-white'
+                    ? 'bg-rose-600 text-white'
+                    : 'bg-slate-100 dark:bg-slate-950 text-slate-700 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-slate-800'
                 }`}
               >
                 Incorrect ({totalCount - correctCount})
@@ -216,8 +216,8 @@ export function ScoreReportModal({
                 key={q.questionId}
                 className={`rounded-2xl border p-4 transition-all ${
                   q.isCorrect
-                    ? 'border-emerald-500/30 bg-emerald-950/15'
-                    : 'border-rose-500/30 bg-rose-950/15'
+                    ? 'border-emerald-500/30 bg-emerald-50/60 dark:bg-emerald-950/15'
+                    : 'border-rose-500/30 bg-rose-50/60 dark:bg-rose-950/15'
                 }`}
               >
                 <div className="flex items-start justify-between gap-3">
@@ -227,7 +227,7 @@ export function ScoreReportModal({
                     </span>
                     <span
                       className={`inline-flex items-center gap-1 text-xs font-bold ${
-                        q.isCorrect ? 'text-emerald-400' : 'text-rose-400'
+                        q.isCorrect ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'
                       }`}
                     >
                       {q.isCorrect ? (
@@ -248,12 +248,12 @@ export function ScoreReportModal({
                 </p>
 
                 {/* Explanation Box */}
-                <div className="mt-3 rounded-xl bg-white dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 p-3 text-xs text-slate-600 dark:text-slate-300 space-y-1">
-                  <span className="font-semibold text-indigo-300 flex items-center gap-1.5">
-                    <Sparkles className="h-3.5 w-3.5 text-indigo-400" />
+                <div className="mt-3 rounded-xl bg-white dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 p-3 text-xs text-slate-700 dark:text-slate-300 space-y-1 shadow-sm dark:shadow-none">
+                  <span className="font-semibold text-indigo-700 dark:text-indigo-300 flex items-center gap-1.5">
+                    <Sparkles className="h-3.5 w-3.5 text-indigo-600 dark:text-indigo-400" />
                     <span>Faculty Rationale</span>
                   </span>
-                  <p className="text-slate-500 dark:text-slate-400 text-[11px] leading-relaxed">{q.explanation}</p>
+                  <p className="text-slate-600 dark:text-slate-400 text-[11px] leading-relaxed">{q.explanation}</p>
                 </div>
               </div>
             ))}
@@ -264,7 +264,7 @@ export function ScoreReportModal({
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-4 border-t border-slate-200 dark:border-slate-800">
           <button
             onClick={onRetake}
-            className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-700 px-5 py-2.5 text-xs font-semibold text-slate-900 dark:text-slate-200 border border-slate-200 dark:border-slate-700 transition-colors"
+            className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 px-5 py-2.5 text-xs font-semibold text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700 transition-colors shadow-sm dark:shadow-none"
           >
             <RotateCcw className="h-4 w-4" />
             <span>Retake Assessment</span>
@@ -273,7 +273,7 @@ export function ScoreReportModal({
           <div className="w-full sm:w-auto flex items-center gap-3">
             <Link
               href="/trainee/courses"
-              className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-700 px-5 py-2.5 text-xs font-semibold text-slate-900 dark:text-slate-200 border border-slate-200 dark:border-slate-700 transition-colors"
+              className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 px-5 py-2.5 text-xs font-semibold text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700 transition-colors shadow-sm dark:shadow-none"
             >
               <BookOpen className="h-4 w-4" />
               <span>Explore Catalog</span>

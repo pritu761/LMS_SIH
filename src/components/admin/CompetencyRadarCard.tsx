@@ -121,11 +121,11 @@ export function CompetencyRadarCard() {
           onClick={() => setActiveTab('ALLOCATION')}
           className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
             activeTab === 'ALLOCATION'
-              ? 'bg-gradient-to-r from-[#e0234e] to-[#ff4d6d] text-white shadow-lg shadow-[#e0234e]/30'
+              ? 'bg-[#0b1e36] dark:bg-[#122c4d] text-[#dfb76c] border border-[#c59b48]/50 shadow-lg shadow-[#0b1e36]/20'
               : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-800/60'
           }`}
         >
-          <Sliders className="h-4 w-4" />
+          <Sliders className="h-4 w-4 text-[#c59b48]" />
           <span>55/30/15 Course-to-Trainer Allocation</span>
         </button>
 
@@ -133,13 +133,13 @@ export function CompetencyRadarCard() {
           onClick={() => setActiveTab('GAP_ANALYSIS')}
           className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap relative ${
             activeTab === 'GAP_ANALYSIS'
-              ? 'bg-gradient-to-r from-[#e0234e] to-[#ff4d6d] text-white shadow-lg shadow-[#e0234e]/30'
+              ? 'bg-[#0b1e36] dark:bg-[#122c4d] text-[#dfb76c] border border-[#c59b48]/50 shadow-lg shadow-[#0b1e36]/20'
               : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-800/60'
           }`}
         >
-          <Brain className="h-4 w-4 text-[#ff4d6d]" />
+          <Brain className="h-4 w-4 text-[#c59b48]" />
           <span>Trainee Competency Gap Analyzer</span>
-          <span className="rounded-full bg-[#e0234e]/20 text-[#ff758c] text-[9px] px-1.5 py-0.2 border border-[#e0234e]/30 font-black">
+          <span className="rounded-full bg-[#c59b48]/20 text-[#dfb76c] text-[9px] px-1.5 py-0.2 border border-[#c59b48]/30 font-black">
             CORE
           </span>
         </button>
@@ -148,7 +148,7 @@ export function CompetencyRadarCard() {
           onClick={() => setActiveTab('DISCOVERY')}
           className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
             activeTab === 'DISCOVERY'
-              ? 'bg-gradient-to-r from-[#e0234e] to-[#ff4d6d] text-white shadow-lg shadow-[#e0234e]/30'
+              ? 'bg-[#0b1e36] dark:bg-[#122c4d] text-[#dfb76c] border border-[#c59b48]/50 shadow-lg shadow-[#0b1e36]/20'
               : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-800/60'
           }`}
         >
