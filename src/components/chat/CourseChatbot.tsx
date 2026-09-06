@@ -225,12 +225,72 @@ export function CourseChatbot() {
   const inputRef = useRef<HTMLInputElement>(null);
   const recognitionRef = useRef<any>(null);
 
-  // Auto-scroll to bottom of messages
+  // ── ChatGPT-style token streaming state ──────────────────────────────
+  // Reveals each assistant reply character-by-character like token generation.
+  const [streamedChars, setStreamedChars] = useState<Record<string, number>>({});
+  const [streamingId, setStreamingId] = useState<string | null>(null);
+  const streamedDoneRef = useRef<Set<string>>(new Set());
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  // Only auto-scroll when the user is already near the bottom (don't yank
+  // them away while reading older messages during a stream).
+  const scrollToBottomIfNear = () => {
+    const el = scrollContainerRef.current;
+    if (!el) return;
+    const distance = el.scrollHeight - el.scrollTop - el.clientHeight;
+    if (distance < 140) el.scrollTop = el.scrollHeight;
+  };
+
+  // Stream the newest assistant message in, ChatGPT-style
+  useEffect(() => {
+    const last = messages[messages.length - 1];
+    if (!last || last.role !== 'assistant' || streamedDoneRef.current.has(last.id)) return;
+
+    const fullLength = last.content.length;
+    const reducedMotion =
+      typeof window !== 'undefined' &&
+      typeof window.matchMedia === 'function' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (reducedMotion || fullLength === 0) {
+      streamedDoneRef.current.add(last.id);
+      setStreamedChars((prev) => ({ ...prev, [last.id]: fullLength }));
+      return;
+    }
+
+    setStreamingId(last.id);
+    setStreamedChars((prev) => ({ ...prev, [last.id]: 0 }));
+
+    let i = 0;
+    const timer = setInterval(() => {
+      i += 4; // characters per tick ≈ token-stream pace
+      if (i >= fullLength) {
+        clearInterval(timer);
+        streamedDoneRef.current.add(last.id);
+        setStreamingId(null);
+        setStreamedChars((prev) => ({ ...prev, [last.id]: fullLength }));
+      } else {
+        setStreamedChars((prev) => ({ ...prev, [last.id]: i }));
+      }
+    }, 16);
+
+    return () => {
+      clearInterval(timer);
+      // Interrupted (new message arrived / unmounted) → reveal fully
+      if (!streamedDoneRef.current.has(last.id)) {
+        streamedDoneRef.current.add(last.id);
+        setStreamingId((cur) => (cur === last.id ? null : cur));
+        setStreamedChars((prev) => ({ ...prev, [last.id]: fullLength }));
+      }
+    };
+  }, [messages]);
+
+  // Auto-scroll to bottom of messages (pinned only when near bottom)
   useEffect(() => {
     if (isOpen && !isMinimized) {
-      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+      scrollToBottomIfNear();
     }
-  }, [messages, isTyping, isOpen, isMinimized]);
+  }, [messages, isTyping, streamedChars, isOpen, isMinimized]);
 
   // Focus input when opened
   useEffect(() => {
@@ -465,10 +525,15 @@ export function CourseChatbot() {
             {/* Chat Body (Hidden when minimized) */}
             {!isMinimized && (
               <>
-                <div className="flex-1 overflow-y-auto p-4 space-y-4 scroll-smooth">
+                <div ref={scrollContainerRef} className="flex-1 overflow-y-auto p-4 space-y-4 scroll-smooth">
                   {/* Messages list */}
                   {messages.map((msg) => {
                     const isUser = msg.role === 'user';
+                    const isStreaming = streamingId === msg.id;
+                    const shownContent =
+                      !isUser && streamedChars[msg.id] !== undefined
+                        ? msg.content.slice(0, streamedChars[msg.id])
+                        : msg.content;
                     return (
                       <div
                         key={msg.id}
@@ -493,11 +558,19 @@ export function CourseChatbot() {
                           {isUser ? (
                             <p className="text-[13px] font-medium leading-relaxed whitespace-pre-wrap text-white">{msg.content}</p>
                           ) : (
-                            <MarkdownView content={msg.content} />
+                            <>
+                              <MarkdownView content={shownContent} />
+                              {isStreaming && (
+                                <span
+                                  aria-hidden
+                                  className="ml-0.5 inline-block h-4 w-[7px] animate-pulse rounded-[1px] bg-[#c59b48] align-[-2px]"
+                                />
+                              )}
+                            </>
                           )}
 
-                          {/* Matched Rich Course Cards */}
-                          {msg.matchedCourses && msg.matchedCourses.length > 0 && (
+                          {/* Matched Rich Course Cards (revealed after streaming completes) */}
+                          {!isStreaming && msg.matchedCourses && msg.matchedCourses.length > 0 && (
                             <div className="mt-3 space-y-2">
                               {msg.matchedCourses.map((c) => (
                                 <ChatCourseCard key={c.id} course={c} />
@@ -505,8 +578,8 @@ export function CourseChatbot() {
                             </div>
                           )}
 
-                          {/* Suggested follow-up prompt pills */}
-                          {msg.suggestedQueries && msg.suggestedQueries.length > 0 && (
+                          {/* Suggested follow-up prompt pills (revealed after streaming completes) */}
+                          {!isStreaming && msg.suggestedQueries && msg.suggestedQueries.length > 0 && (
                             <div className="mt-3 pt-2 border-t border-slate-200 dark:border-white/10">
                               <span className="text-[11px] font-semibold text-slate-600 dark:text-slate-400 block mb-1">
                                 Related Inquiries:

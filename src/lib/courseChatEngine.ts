@@ -147,10 +147,19 @@ export async function generateCourseChatResponse(
     cleanQuery === 'hi' ||
     cleanQuery === 'hello' ||
     cleanQuery === 'hey' ||
+    cleanQuery === 'namaste' ||
+    cleanQuery === 'namaskar' ||
+    cleanQuery === 'pranam' ||
+    cleanQuery === 'greetings' ||
+    cleanQuery === 'yo' ||
+    cleanQuery === 'good day' ||
+    cleanQuery === 'hey there' ||
+    cleanQuery === 'hello there' ||
     cleanQuery.startsWith('hi ') ||
     cleanQuery.startsWith('hello ') ||
     cleanQuery === 'who are you' ||
-    cleanQuery.includes('what can you do')
+    cleanQuery.includes('what can you do') ||
+    cleanQuery.includes('your name')
   ) {
     const allCourses = await getAllCourses();
     return {
@@ -228,6 +237,28 @@ Select any module below to inspect the syllabus, preview video lessons, or take 
   }
 
   // 2. Check for Certification / Cadre Benchmark FAQs
+  // 2a. Certificate download & verification (checked first — more specific)
+  if (
+    cleanQuery.includes('cert') &&
+    (cleanQuery.includes('download') ||
+      cleanQuery.includes('verify') ||
+      cleanQuery.includes('verification') ||
+      cleanQuery.includes('qr') ||
+      cleanQuery.includes('print') ||
+      cleanQuery.includes('get my'))
+  ) {
+    const allCourses = await getAllCourses();
+    return {
+      reply: `📜 **Download & Verify Your Certificate**\n\n1. Finish a module to **100% progress** (all videos + handbooks).\n2. Clear its timed exam with **≥ 70%** (up to 3 attempts per module).\n3. Your **digitally-signed NISG & MoES certificate** unlocks automatically on the course page — click **Download Certificate**.\n4. Every certificate carries a **QR code**: anyone can scan it to verify authenticity against Capacity Connect records.\n\nNeed a certificate-eligible module? Start here:`,
+      matchedCourses: allCourses.slice(0, 3),
+      suggestedQueries: [
+        'Show passing score & exam details',
+        'Which course should a beginner start with?',
+        'Tell me about certification',
+      ],
+      intent: 'CERTIFICATE_DOWNLOAD',
+    };
+  }
   if (
     cleanQuery.includes('certificate') ||
     cleanQuery.includes('certification') ||
@@ -308,9 +339,9 @@ Here are the certified flagship modules available for immediate enrollment:`,
     }
   }
 
-  // 2c. Exam / assessment pattern ("passing score", "exam details", "attempts")
+  // 2c. Exam / assessment pattern ("passing score", "exam details", "attempts", "retake", "results")
   if (
-    /\b(exams?|assessment|tests?|quiz|passing|marks?|scores?|grades?|attempts?|proctor\w*|timed|evaluation|pattern|question paper)\b/.test(cleanQuery)
+    /\b(exams?|assessment|tests?|quiz|passing|marks?|scores?|grades?|attempts?|proctor\w*|timed|evaluation|pattern|question paper|retake|re-attempt|reattempt|retry|results?|scorecard|failed|\bfail\b)\b/.test(cleanQuery)
   ) {
     const allCourses = await getAllCourses();
     const target = findCourseByMention(allCourses, cleanQuery);
@@ -379,8 +410,10 @@ Here are the certified flagship modules available for immediate enrollment:`,
   }
 
   // 2e. Beginner / recommendation guidance ("Which course should I start with?")
+  // (skipped for language questions — handled by the LANGUAGE_INFO intent)
   if (
-    cleanQuery.includes('prereq') ||
+    !cleanQuery.includes('language') &&
+    (cleanQuery.includes('prereq') ||
     cleanQuery.includes('eligib') ||
     cleanQuery.includes('beginner') ||
     cleanQuery.includes('fresher') ||
@@ -391,7 +424,7 @@ Here are the certified flagship modules available for immediate enrollment:`,
     cleanQuery.includes('first course') ||
     cleanQuery.includes('new to') ||
     cleanQuery.includes('where') && cleanQuery.includes('start') ||
-    cleanQuery.includes('which') && cleanQuery.includes('course')
+    cleanQuery.includes('which') && cleanQuery.includes('course'))
   ) {
     const allCourses = await getAllCourses();
     const byTrack = (t: string) => allCourses.filter((c) => c.cadreTrack === t);
@@ -476,6 +509,245 @@ Here are the certified flagship modules available for immediate enrollment:`,
         'Show all courses',
       ],
       intent: 'FEES_INFO',
+    };
+  }
+
+  // 2h1. Duration / time-required queries ("How long is IMD-FTC-201?")
+  if (
+    /\bduration\b/.test(cleanQuery) ||
+    cleanQuery.includes('how long') ||
+    cleanQuery.includes('how many hours') ||
+    cleanQuery.includes('time required') ||
+    cleanQuery.includes('length of') ||
+    cleanQuery.includes('total hours')
+  ) {
+    const allCourses = await getAllCourses();
+    const target = findCourseByMention(allCourses, cleanQuery);
+    if (target) {
+      return {
+        reply: `⏱️ **Duration: ${target.code} — ${target.title}**\n\n- 🕐 **Total learning time:** ${target.durationHours} hours\n- 📶 **Level:** ${target.level}\n- 📚 **Materials:** ${(target.materials || []).length} lectures & handbooks\n- 📝 **Exam:** timed MCQ after 100% completion\n\nAt ~1 hour a day, you can finish in **${Math.max(1, Math.ceil(target.durationHours / 7))}–${Math.max(1, Math.ceil(target.durationHours / 3))} weeks**. Open the module to begin:`,
+        matchedCourses: [target],
+        suggestedQueries: [
+          `What is covered in ${target.code}?`,
+          'Show passing score & exam details',
+          'Which course should a beginner start with?',
+        ],
+        intent: 'DURATION_INFO',
+      };
+    }
+    return {
+      reply: `⏱️ **Course Durations (self-paced)**\n\n${allCourses
+        .map((c) => `- **[${c.code}]** ${c.durationHours}h • ${c.level}`)
+        .join('\n')}\n\nShortest finish: **MOD-401** (14h). Most comprehensive: **DRSTC-101** (24h). Ask about any module (e.g. *"How long is IMD-IMTC-301?"*):`,
+      matchedCourses: allCourses,
+      suggestedQueries: [
+        'Which course should a beginner start with?',
+        'Show short masterclasses under 15 hours',
+        'Show all courses',
+      ],
+      intent: 'DURATION_INFO',
+    };
+  }
+
+  // 2h2. Ratings / reviews ("Best rated course?")
+  if (
+    cleanQuery.includes('rating') ||
+    cleanQuery.includes('review') ||
+    cleanQuery.includes('feedback') ||
+    cleanQuery.includes('best rated') ||
+    cleanQuery.includes('top rated') ||
+    cleanQuery.includes('highest rated') ||
+    cleanQuery.includes('most popular')
+  ) {
+    const allCourses = await getAllCourses();
+    const ranked = [...allCourses].sort((a, b) => b.trainerRating - a.trainerRating);
+    return {
+      reply: `⭐ **Top-Rated Modules by Learner Feedback**\n\n${ranked
+        .map((c, i) => `${i + 1}. **[${c.code}] ${c.title}** — **${c.trainerRating.toFixed(2)} / 5.0 ★** by ${c.trainerName}`)
+        .join('\n')}\n\nRatings reflect content quality, faculty interaction, and exam fairness:`,
+      matchedCourses: ranked,
+      suggestedQueries: [
+        'Which course should a beginner start with?',
+        'Show passing score & exam details',
+        'Show all courses',
+      ],
+      intent: 'RATINGS_INFO',
+    };
+  }
+
+  // 2h3. Schedule / batches ("When does the course start?")
+  if (
+    cleanQuery.includes('schedule') ||
+    cleanQuery.includes('timetable') ||
+    cleanQuery.includes('time table') ||
+    cleanQuery.includes('batch') ||
+    cleanQuery.includes('cohort') ||
+    cleanQuery.includes('start date') ||
+    cleanQuery.includes('when does') ||
+    cleanQuery.includes('when will') ||
+    cleanQuery.includes('deadline') ||
+    cleanQuery.includes('calendar') ||
+    cleanQuery.includes('timing')
+  ) {
+    const allCourses = await getAllCourses();
+    return {
+      reply: `🗓️ **Schedule & Batches**\n\nCapacity Connect modules are **100% self-paced — no fixed batches or start dates**. Enroll anytime, learn at your own speed:\n\n- ▶️ Start instantly after enrollment; preview lectures are free\n- ⏸️ Pause and resume — progress is saved per lecture\n- 📝 Attempt the timed exam whenever you hit 100% completion (3 attempts allowed)\n- 📜 Certificates unlock immediately on passing\n\nPick any module below to start today:`,
+      matchedCourses: allCourses.slice(0, 3),
+      suggestedQueries: [
+        'How do I enroll in a course?',
+        'Which course should a beginner start with?',
+        'Show passing score & exam details',
+      ],
+      intent: 'SCHEDULE_INFO',
+    };
+  }
+
+  // 2h4. Language / medium of instruction
+  if (
+    cleanQuery.includes('language') ||
+    cleanQuery.includes('hindi') ||
+    cleanQuery.includes('english') ||
+    cleanQuery.includes('medium of') ||
+    cleanQuery.includes('taught in')
+  ) {
+    const allCourses = await getAllCourses();
+    return {
+      reply: `🌐 **Language of Instruction**\n\nAll video lectures, technical handbooks, assessments, and certificates on Capacity Connect are delivered in **English** — the official working language of IMD/MoES scientific training, including all WMO terminology, METAR codes, and model documentation.\n\nBrowse the English-medium catalog:`,
+      matchedCourses: allCourses.slice(0, 3),
+      suggestedQueries: [
+        'Which course should a beginner start with?',
+        'Show all courses',
+        'How do I enroll in a course?',
+      ],
+      intent: 'LANGUAGE_INFO',
+    };
+  }
+
+  // 2h5. Mobile app / offline learning
+  if (
+    cleanQuery.includes('mobile') ||
+    cleanQuery.includes('android') ||
+    cleanQuery.includes('ios') ||
+    cleanQuery.includes('offline') ||
+    cleanQuery.includes('download video') ||
+    cleanQuery.includes('without internet') ||
+    /\bapp\b/.test(cleanQuery)
+  ) {
+    const allCourses = await getAllCourses();
+    return {
+      reply: `📱 **Mobile & Offline Learning**\n\n- 🌐 Capacity Connect is a **responsive web portal** — it works on mobile browsers with no separate app install needed.\n- 📄 All **PDF handbooks are downloadable** for offline reading (look for the download icon on each material).\n- 🎬 Video lectures stream online; complete them to unlock the exam.\n- 📊 Your progress syncs across devices when you sign in.\n\nStart with a downloadable-friendly module:`,
+      matchedCourses: allCourses.slice(0, 3),
+      suggestedQueries: [
+        'How do I enroll in a course?',
+        'Which course should a beginner start with?',
+        'Show all courses',
+      ],
+      intent: 'MOBILE_OFFLINE_INFO',
+    };
+  }
+
+  // 2h6. Official IMD / MoES links
+  if (
+    cleanQuery.includes('mausam') ||
+    cleanQuery.includes('moes.gov') ||
+    cleanQuery.includes('official website') ||
+    cleanQuery.includes('official site') ||
+    cleanQuery.includes('imd site') ||
+    cleanQuery.includes('imd website') ||
+    cleanQuery.includes('tropmet') ||
+    cleanQuery.includes('ncmrwf')
+  ) {
+    const allCourses = await getAllCourses();
+    return {
+      reply: `🏛️ **Official IMD / MoES Portals**\n\n- 🛰️ **IMD Official:** [mausam.imd.gov.in](https://mausam.imd.gov.in) — forecasts, warnings, radar products\n- 🌍 **Ministry of Earth Sciences:** [moes.gov.in](https://moes.gov.in) — Mission Mausam & policy\n- 🔬 **IITM Pune:** [tropmet.res.in](https://www.tropmet.res.in) — research & modelling\n- 🖥️ **NCMRWF HPC Center:** [ncmrwf.gov.in](https://ncmrwf.gov.in) — numerical weather prediction\n\nFor structured learning on these very systems, train here on Capacity Connect:`,
+      matchedCourses: allCourses.slice(0, 3),
+      suggestedQueries: [
+        'Show live radar courses',
+        'Tell me about certification',
+        'Show all courses',
+      ],
+      intent: 'OFFICIAL_LINKS',
+    };
+  }
+
+  // 2h7. Study plan / learning path / career roadmap
+  if (
+    cleanQuery.includes('study plan') ||
+    cleanQuery.includes('learning path') ||
+    cleanQuery.includes('roadmap') ||
+    cleanQuery.includes('road map') ||
+    cleanQuery.includes('career') ||
+    cleanQuery.includes('become a forecaster') ||
+    cleanQuery.includes('become a scientist') ||
+    cleanQuery.includes('path to') ||
+    cleanQuery.includes('step by step') ||
+    cleanQuery.includes('step-by-step')
+  ) {
+    const allCourses = await getAllCourses();
+    const find = (code: string) => allCourses.find((c) => c.code === code);
+    const imtc = find('IMD-IMTC-301');
+    const ftc = find('IMD-FTC-201');
+    const drstc = find('IMD-DRSTC-101');
+    const mod = find('IMD-MOD-401');
+    return {
+      reply: `🗺️ **Recommended Learning Paths**\n\n**🌱 Observer → Forecaster track (total ~48h):**\n1. **IMTC-301** (${imtc?.durationHours || 16}h) — synoptic foundations & METAR\n2. **FTC-201** (${ftc?.durationHours || 18.5}h) — radar & cyclone nowcasting\n3. **MOD-401** (${mod?.durationHours || 14}h) — AI nowcasting edge\n\n**🖥️ Scientist-B (DRSTC) track (total ~38h):**\n1. **DRSTC-101** (${drstc?.durationHours || 24}h) — NWP + HPC on Pratyush\n2. **MOD-401** (${mod?.durationHours || 14}h) — physics-informed AI\n\nPass each exam (≥ 70%) to stack WMO-aligned certificates. Your full path with these modules:`,
+      matchedCourses: [imtc, ftc, drstc, mod].filter((c): c is MockCourse => Boolean(c)),
+      suggestedQueries: [
+        'Which course should a beginner start with?',
+        'Show passing score & exam details',
+        'How do I enroll in a course?',
+      ],
+      intent: 'STUDY_PLAN',
+    };
+  }
+
+  // 2h8. Latest / new courses
+  if (
+    cleanQuery.includes('latest') ||
+    cleanQuery.includes('newest') ||
+    cleanQuery.includes('recently added') ||
+    cleanQuery.includes("what's new") ||
+    cleanQuery.includes('what is new') ||
+    cleanQuery.includes('new courses') ||
+    cleanQuery.includes('recent courses')
+  ) {
+    const allCourses = await getAllCourses();
+    return {
+      reply: `✨ **Latest Flagship Modules on Capacity Connect**\n\nFreshly updated for the Mission Mausam 2026 curriculum across all four cadre tracks — enroll anytime, all self-paced:\n\n${allCourses
+        .map((c) => `- **[${c.code}] ${c.title}** — ${c.durationHours}h • ${c.level}`)
+        .join('\n')}`,
+      matchedCourses: allCourses,
+      suggestedQueries: [
+        'Which course should a beginner start with?',
+        'Show passing score & exam details',
+        'How do I enroll in a course?',
+      ],
+      intent: 'LATEST_COURSES',
+    };
+  }
+
+  // 2h9. Live radar / live weather (deep-link to the radar experience)
+  if (
+    cleanQuery.includes('live radar') ||
+    cleanQuery.includes('live weather') ||
+    cleanQuery.includes('current weather') ||
+    cleanQuery.includes("today's weather") ||
+    cleanQuery.includes('weather today') ||
+    cleanQuery.includes('cyclone warning') ||
+    cleanQuery.includes('storm warning') ||
+    cleanQuery.includes('imd radar')
+  ) {
+    const searchResults = await searchCourses({ query: 'radar nowcasting' });
+    const matched = searchResults.map((r) => r.course);
+    return {
+      reply: `🛰️ **Live Weather & Doppler Radar**\n\n- 📡 Watch the real-time network right now on the [Live Doppler Weather Radar](/radar) page — 38-node DWR network with nowcasting strips.\n- 🌪️ For official warnings, visit [mausam.imd.gov.in](https://mausam.imd.gov.in).\n- 🎓 To *understand* what you are seeing (reflectivity, velocity couplets, ZDR hail signatures), train in these radar modules:`,
+      matchedCourses: matched.length > 0 ? matched : await getAllCourses(),
+      suggestedQueries: [
+        'What is Doppler radar?',
+        'What is covered in IMD-FTC-201?',
+        'Explain the monsoon',
+      ],
+      intent: 'LIVE_RADAR',
     };
   }
 
@@ -642,9 +914,11 @@ Here are intensive training modules designed for in-service forecasters with rap
 
 You can also ask me things like:
 - **"What is covered in IMD-FTC-201?"** for full syllabus & materials
-- **"Exam pattern for IMD-MOD-401"** for time limit, attempts & passing score
-- **"How do I enroll?"** / **"Is there any fee?"**
-- **"Which course should a beginner start with?"**
+- **"Exam pattern for IMD-MOD-401"** / **"Can I retake the exam?"**
+- **"How do I enroll?"** / **"Is there any fee?"** / **"Download my certificate"**
+- **"Which course should a beginner start with?"** / **"Give me a study plan"**
+- **"How long is IMD-IMTC-301?"** / **"Best rated course?"** / **"When does the batch start?"**
+- **"Show live radar"** for the real-time DWR network
 - **"What is Doppler radar?"** / **"Explain the monsoon"** for quick concept explainers
 - **"Radar"** for S/C/X-band Dual-Polarimetric nowcasting
 - **"NWP"** for Earth-System HPC numerical simulations
