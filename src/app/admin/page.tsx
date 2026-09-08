@@ -21,6 +21,7 @@ import {
   Activity,
   Zap,
   Radio,
+  FileText,
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -123,11 +124,11 @@ export default function AdminDashboardPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <Link
               href="/admin/radar"
-              className="rounded-3xl border border-emerald-500/25 bg-gradient-to-br from-emerald-950/20 via-white dark:via-slate-900/80 to-white dark:to-slate-950 p-6 backdrop-blur-xl hover:border-emerald-500/50 transition-all duration-500 group space-y-3 card-tilt hover:shadow-elevation-1 relative overflow-hidden"
+              className="rounded-3xl border border-emerald-500/25 bg-gradient-to-br from-emerald-950/20 via-white dark:via-slate-900/80 to-white dark:to-slate-950 p-6 backdrop-blur-xl hover:border-emerald-500/50 transition-all duration-500 group space-y-3 card-tilt hover:shadow-lg relative overflow-hidden"
             >
               <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-emerald-500/30 to-transparent" />
               <div className="flex items-center justify-between">
-                <div className="h-12 w-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 group-hover:scale-110 transition-all duration-300">
+                <div className="h-12 w-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-600 dark:text-emerald-400 group-hover:scale-110 transition-all duration-300">
                   <Radio className="h-5 w-5 animate-pulse" />
                 </div>
                 <span className="rounded-full bg-emerald-500/20 px-2.5 py-0.5 text-xs font-bold text-emerald-700 dark:text-emerald-300">
@@ -146,11 +147,11 @@ export default function AdminDashboardPage() {
 
             <Link
               href="/admin/users"
-              className="rounded-3xl border border-amber-500/25 bg-gradient-to-br from-amber-950/20 via-white dark:via-slate-900/80 to-white dark:to-slate-950 p-6 backdrop-blur-xl hover:border-amber-500/50 transition-all duration-500 group space-y-3 card-tilt hover:shadow-elevation-1 relative overflow-hidden"
+              className="rounded-3xl border border-amber-500/25 bg-gradient-to-br from-amber-950/20 via-white dark:via-slate-900/80 to-white dark:to-slate-950 p-6 backdrop-blur-xl hover:border-amber-500/50 transition-all duration-500 group space-y-3 card-tilt hover:shadow-lg relative overflow-hidden"
             >
               <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-amber-500/30 to-transparent" />
               <div className="flex items-center justify-between">
-                <div className="h-12 w-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 group-hover:scale-110 group-hover:shadow-glow-amber transition-all duration-300">
+                <div className="h-12 w-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-600 dark:text-amber-400 group-hover:scale-110 transition-all duration-300">
                   <ShieldCheck className="h-5 w-5" />
                 </div>
                 <span className="rounded-full bg-amber-500/20 px-2.5 py-0.5 text-xs font-bold text-amber-700 dark:text-amber-300">
@@ -169,11 +170,11 @@ export default function AdminDashboardPage() {
 
             <Link
               href="/admin/competency"
-              className="rounded-3xl border border-indigo-500/25 bg-gradient-to-br from-indigo-50 dark:from-indigo-950/20 via-white dark:via-slate-900/80 to-white dark:to-slate-950 p-6 backdrop-blur-xl hover:border-indigo-500/50 transition-all duration-500 group space-y-3 card-tilt hover:shadow-elevation-1 relative overflow-hidden"
+              className="rounded-3xl border border-indigo-500/25 bg-gradient-to-br from-indigo-50 dark:from-indigo-950/20 via-white dark:via-slate-900/80 to-white dark:to-slate-950 p-6 backdrop-blur-xl hover:border-indigo-500/50 transition-all duration-500 group space-y-3 card-tilt hover:shadow-lg relative overflow-hidden"
             >
               <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-indigo-500/30 to-transparent" />
               <div className="flex items-center justify-between">
-                <div className="h-12 w-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 group-hover:scale-110 group-hover:shadow-glow-sm transition-all duration-300">
+                <div className="h-12 w-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-600 dark:text-indigo-400 group-hover:scale-110 transition-all duration-300">
                   <Brain className="h-5 w-5" />
                 </div>
                 <span className="rounded-full bg-indigo-500/20 px-2.5 py-0.5 text-xs font-bold text-indigo-700 dark:text-indigo-300">
@@ -186,6 +187,53 @@ export default function AdminDashboardPage() {
                 </h3>
                 <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
                   Run automated matching algorithm to compute compatibility and rank faculty for any course.
+                </p>
+              </div>
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+            <Link
+              href="/admin/cms"
+              className="rounded-3xl border border-cyan-500/25 bg-gradient-to-br from-cyan-950/20 via-white dark:via-slate-900/80 to-white dark:to-slate-950 p-6 backdrop-blur-xl hover:border-cyan-500/50 transition-all duration-500 group space-y-3 card-tilt hover:shadow-lg relative overflow-hidden"
+            >
+              <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-500/30 to-transparent" />
+              <div className="flex items-center justify-between">
+                <div className="h-12 w-12 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-600 dark:text-cyan-400 group-hover:scale-110 transition-all duration-300">
+                  <Megaphone className="h-5 w-5" />
+                </div>
+                <span className="rounded-full bg-cyan-500/20 px-2.5 py-0.5 text-xs font-bold text-cyan-700 dark:text-cyan-300">
+                  Sitewide Broadcast
+                </span>
+              </div>
+              <div>
+                <h3 className="font-display font-bold text-slate-900 dark:text-white text-base group-hover:text-cyan-700 dark:group-hover:text-cyan-300 transition-colors">
+                  Directives & CMS Studio
+                </h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
+                  Compose, edit, pin and withdraw ministry bulletins with full feed history.
+                </p>
+              </div>
+            </Link>
+
+            <Link
+              href="/admin/reports"
+              className="rounded-3xl border border-[#c59b48]/25 bg-gradient-to-br from-[#c59b48]/10 via-white dark:via-slate-900/80 to-white dark:to-slate-950 p-6 backdrop-blur-xl hover:border-[#c59b48]/50 transition-all duration-500 group space-y-3 card-tilt hover:shadow-lg relative overflow-hidden"
+            >
+              <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#c59b48]/50 to-transparent" />
+              <div className="flex items-center justify-between">
+                <div className="h-12 w-12 rounded-xl bg-[#c59b48]/10 border border-[#c59b48]/30 flex items-center justify-center text-[#9a7224] dark:text-[#dfb76c] group-hover:scale-110 transition-all duration-300">
+                  <FileText className="h-5 w-5" />
+                </div>
+                <span className="rounded-full bg-[#c59b48]/20 px-2.5 py-0.5 text-xs font-bold text-[#9a7224] dark:text-[#dfb76c]">
+                  CSV • Audit-ready
+                </span>
+              </div>
+              <div>
+                <h3 className="font-display font-bold text-slate-900 dark:text-white text-base group-hover:text-[#9a7224] dark:group-hover:text-[#dfb76c] transition-colors">
+                  Reports & Data Exports
+                </h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
+                  Certification rosters, user directories and competency matrices for MoES audits.
                 </p>
               </div>
             </Link>

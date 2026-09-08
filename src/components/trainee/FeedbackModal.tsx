@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Star, X, CheckCircle, Sparkles, Send } from 'lucide-react';
 
 interface FeedbackModalProps {
@@ -16,6 +16,13 @@ export function FeedbackModal({ courseId, courseTitle, onClose }: FeedbackModalP
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
+    };
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,7 +43,7 @@ export function FeedbackModal({ courseId, courseTitle, onClose }: FeedbackModalP
 
       if (res.ok) {
         setSubmitted(true);
-        setTimeout(() => {
+        closeTimerRef.current = setTimeout(() => {
           onClose();
         }, 2000);
       } else {
@@ -51,11 +58,19 @@ export function FeedbackModal({ courseId, courseTitle, onClose }: FeedbackModalP
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in">
-      <div className="relative w-full max-w-lg rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900/95 p-6 shadow-2xl backdrop-blur-xl">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto">
+      <div className="fixed inset-0 bg-black/80 backdrop-blur-md animate-in fade-in" onClick={onClose} aria-hidden />
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-label={`Review ${courseTitle}`}
+        onKeyDown={(e) => { if (e.key === 'Escape') onClose(); }}
+        className="relative w-full max-w-lg rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900/95 p-6 shadow-2xl backdrop-blur-xl max-h-[90vh] overflow-y-auto"
+      >
         <button
           onClick={onClose}
-          className="absolute right-4 top-4 rounded-lg p-1.5 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+          aria-label="Close feedback form"
+          className="absolute right-4 top-4 rounded-lg p-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
         >
           <X className="h-5 w-5" />
         </button>

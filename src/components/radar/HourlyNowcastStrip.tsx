@@ -195,10 +195,10 @@ export const HourlyNowcastStrip: React.FC<HourlyNowcastStripProps> = ({
       </div>
 
       {/* Immediate 6-Hour Nowcast Summary Banner */}
-      <div className={`mb-3.5 px-3.5 py-2 rounded-xl border text-xs font-medium flex items-center justify-between gap-2 shadow-sm ${nowcastBadgeStyle}`}>
-        <div className="flex items-center space-x-2">
+      <div className={`mb-3.5 px-3.5 py-2 rounded-xl border text-xs font-medium flex items-center justify-between gap-2 flex-wrap shadow-sm ${nowcastBadgeStyle}`}>
+        <div className="flex items-center space-x-2 min-w-0">
           <AlertCircle className="w-4 h-4 flex-shrink-0" />
-          <span>{nowcast?.onsetSummary || nowcastBadgeText}</span>
+          <span className="min-w-0">{nowcast?.onsetSummary || nowcastBadgeText}</span>
         </div>
         <div className="flex items-center space-x-3 text-[11px] font-mono flex-shrink-0">
           <span className="flex items-center space-x-1 text-cyan-600 dark:text-cyan-300">
@@ -303,18 +303,18 @@ export const HourlyNowcastStrip: React.FC<HourlyNowcastStripProps> = ({
       {/* Selected Hour Telemetry Inspector Popover */}
       {activeHour && (
         <div className="mt-3 p-3.5 bg-white dark:bg-slate-950/90 border border-[#c59b48]/40 rounded-xl shadow-xl animate-fadeIn text-xs text-slate-800 dark:text-slate-300">
-          <div className="flex items-center justify-between pb-2 mb-2.5 border-b border-slate-200 dark:border-slate-800">
-            <div className="flex items-center space-x-2">
-              <span className="px-2 py-0.5 rounded bg-[#c59b48] gold-ink font-bold text-xs">
+          <div className="flex items-center justify-between gap-2 pb-2 mb-2.5 border-b border-slate-200 dark:border-slate-800 flex-wrap">
+            <div className="flex items-center space-x-2 min-w-0">
+              <span className="px-2 py-0.5 rounded bg-[#c59b48] gold-ink font-bold text-xs whitespace-nowrap">
                 {new Date(activeHour.time).toLocaleDateString([], { weekday: 'short', month: 'short', day: 'numeric' })} at{' '}
                 {new Date(activeHour.time).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true })}
               </span>
-              <span className="text-slate-700 dark:text-slate-300 font-semibold">{getWmoDetails(activeHour.weatherCode).label}</span>
+              <span className="text-slate-700 dark:text-slate-300 font-semibold truncate">{getWmoDetails(activeHour.weatherCode).label}</span>
             </div>
             <button
               type="button"
               onClick={() => setSelectedHourIdx(null)}
-              className="text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 text-xs px-1.5 py-0.5 rounded hover:bg-slate-100 dark:hover:bg-slate-800"
+              className="text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 text-xs px-1.5 py-0.5 rounded hover:bg-slate-100 dark:hover:bg-slate-800 shrink-0"
             >
               Close ✕
             </button>

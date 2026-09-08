@@ -183,7 +183,7 @@ export function UserApprovalTable({ initialUsersList }: UserApprovalTableProps) 
                   className={`rounded-xl px-3 py-1.5 text-xs font-semibold whitespace-nowrap transition-all ${
                     isActive
                       ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/30'
-                      : 'bg-white dark:bg-slate-950/60 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:text-white border border-slate-200 dark:border-slate-800'
+                      : 'bg-white dark:bg-slate-950/60 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-slate-800'
                   }`}
                 >
                   {label}
@@ -243,9 +243,13 @@ export function UserApprovalTable({ initialUsersList }: UserApprovalTableProps) 
                       <select
                         value={u.role}
                         disabled={isUpdating}
-                        onChange={(e) =>
-                          handleUpdateStatus(u.id, u.status, e.target.value as any)
-                        }
+                        onChange={(e) => {
+                          const nextRole = e.target.value as 'TRAINEE' | 'TRAINER' | 'ADMIN';
+                          if (nextRole === 'ADMIN' && u.role !== 'ADMIN') {
+                            if (!window.confirm(`Grant ADMIN privileges to ${u.profile.fullName} (${u.email})? This gives full governance access.`)) return;
+                          }
+                          handleUpdateStatus(u.id, u.status, nextRole);
+                        }}
                         className="rounded-lg bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-700 px-2.5 py-1 text-xs font-semibold text-slate-900 dark:text-slate-200 focus:border-indigo-500 focus:outline-none"
                       >
                         <option value="TRAINEE">TRAINEE</option>
@@ -292,16 +296,29 @@ export function UserApprovalTable({ initialUsersList }: UserApprovalTableProps) 
                           <span>Dossier</span>
                         </button>
 
-                        {/* Approve button for pending accounts */}
+                        {/* Approve + Reject buttons for pending accounts */}
                         {u.status === 'PENDING' && (
-                          <button
-                            onClick={() => handleUpdateStatus(u.id, 'APPROVED')}
-                            disabled={isUpdating}
-                            className="flex items-center gap-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 px-3 py-1.5 text-xs font-bold text-white shadow-md shadow-emerald-600/20 transition-all disabled:opacity-50"
-                          >
-                            <CheckCircle className="h-3.5 w-3.5" />
-                            <span>Approve</span>
-                          </button>
+                          <>
+                            <button
+                              onClick={() => handleUpdateStatus(u.id, 'APPROVED')}
+                              disabled={isUpdating}
+                              className="flex items-center gap-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 px-3 py-1.5 text-xs font-bold text-white shadow-md shadow-emerald-600/20 transition-all disabled:opacity-50"
+                            >
+                              <CheckCircle className="h-3.5 w-3.5" />
+                              <span>Approve</span>
+                            </button>
+                            <button
+                              onClick={() => {
+                                if (window.confirm(`Reject the application of ${u.profile.fullName}? They will need to re-apply.`)) {
+                                  handleUpdateStatus(u.id, 'REJECTED');
+                                }
+                              }}
+                              disabled={isUpdating}
+                              className="rounded-lg border border-rose-500/30 bg-rose-500/10 hover:bg-rose-500/20 px-2.5 py-1.5 text-xs font-medium text-rose-700 dark:text-rose-300 transition-colors disabled:opacity-50"
+                            >
+                              Reject
+                            </button>
+                          </>
                         )}
 
                         {/* Suspend / Reactivate Toggle */}
@@ -333,8 +350,17 @@ export function UserApprovalTable({ initialUsersList }: UserApprovalTableProps) 
           </table>
 
           {filteredUsers.length === 0 && (
-            <div className="py-12 text-center text-sm text-slate-600 dark:text-slate-400">
-              No matching user records found for the selected filters.
+            <div className="py-12 text-center space-y-2">
+              <p className="text-sm text-slate-600 dark:text-slate-400">
+                No matching user records found for the selected filters.
+              </p>
+              <button
+                type="button"
+                onClick={() => { setRoleFilter('ALL'); setStatusFilter('ALL'); setSearchQuery(''); }}
+                className="text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:underline"
+              >
+                Reset all filters
+              </button>
             </div>
           )}
         </div>

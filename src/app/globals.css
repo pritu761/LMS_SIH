@@ -2724,3 +2724,45 @@ footer .text-white,
 .light .dark-surface .text-teal-400 {
   color: #2dd4bf !important;
 }
+
+/* ══════════════════════════════════════════════════════════════
+   LEAFLET MAP CHROME — anti-overlap hardening
+   The default attribution strip is long ("© OpenStreetMap © CARTO")
+   and wraps into 2-3 lines over the zoom buttons and the dBZ legend.
+   Keep it to a single truncated line, clear of map controls.
+   ══════════════════════════════════════════════════════════════ */
+.leaflet-control-attribution {
+  max-width: 46%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 9px !important;
+  line-height: 1.5 !important;
+  padding: 1px 6px !important;
+  border-radius: 8px 0 0 0;
+  background: rgba(255, 255, 255, 0.75) !important;
+  color: #64748b !important;
+  backdrop-filter: blur(6px);
+}
+
+.leaflet-control-attribution a {
+  color: #9a7224 !important;
+}
+
+.dark .leaflet-control-attribution,
+[data-mode='dark'] .leaflet-control-attribution {
+  background: rgba(2, 6, 16, 0.72) !important;
+  color: #64748b !important;
+}
+
+.leaflet-control-zoom {
+  margin-bottom: 26px !important;
+  border-radius: 12px !important;
+  overflow: hidden;
+  box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.35) !important;
+}
+
+.leaflet-container {
+  font-family: var(--font-sans), system-ui, sans-serif;
+  outline: none;
+}

@@ -96,7 +96,7 @@ export function CompetencyGapAnalyzer({ initialUserId }: Props) {
                 r={r}
                 fill="none"
                 stroke="currentColor"
-                className="text-slate-800/80"
+                className="text-slate-300 dark:text-slate-800/80"
                 strokeDasharray={lvl === 5 ? 'none' : '3 3'}
                 strokeWidth="1"
               />
@@ -114,7 +114,7 @@ export function CompetencyGapAnalyzer({ initialUserId }: Props) {
                 x2={spokeEnd.x}
                 y2={spokeEnd.y}
                 stroke="currentColor"
-                className="text-slate-800"
+                className="text-slate-300 dark:text-slate-800"
                 strokeWidth="1"
               />
             );
@@ -181,7 +181,7 @@ export function CompetencyGapAnalyzer({ initialUserId }: Props) {
                 y={y}
                 textAnchor="middle"
                 dominantBaseline="central"
-                className="fill-slate-300 text-[9px] font-bold font-mono"
+                className="fill-slate-600 dark:fill-slate-300 text-[9px] font-bold font-mono"
               >
                 {g.code}
               </text>

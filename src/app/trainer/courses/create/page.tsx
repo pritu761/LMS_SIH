@@ -171,14 +171,14 @@ export default function TrainerCourseCreatorPage() {
         </div>
 
         {isSaved && (
-          <div className="rounded-2xl bg-emerald-500/10 border border-emerald-500/30 p-4 text-xs font-semibold text-emerald-700 dark:text-emerald-300 flex items-center justify-between gap-2 animate-fade-in-up shadow-glow-emerald">
-            <div className="flex items-center gap-2">
-              <CheckCircle2 className="h-5 w-5" />
-              <span>Course &ldquo;{code}: {title}&rdquo; successfully authored and published sitewide!</span>
+          <div className="rounded-2xl bg-emerald-500/10 border border-emerald-500/30 p-4 text-xs font-semibold text-emerald-700 dark:text-emerald-300 flex items-center justify-between gap-2 flex-wrap animate-fade-in-up">
+            <div className="flex items-center gap-2 min-w-0">
+              <CheckCircle2 className="h-5 w-5 shrink-0" />
+              <span className="truncate">Course &ldquo;{code}: {title}&rdquo; successfully authored and published sitewide!</span>
             </div>
             <Link
               href="/trainee/courses"
-              className="rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1 text-xs font-bold transition-all"
+              className="rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1 text-xs font-bold transition-all shrink-0"
             >
               View in Catalog
             </Link>
@@ -258,6 +258,41 @@ export default function TrainerCourseCreatorPage() {
                   onChange={(e) => setDurationHours(parseFloat(e.target.value) || 10)}
                   className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-3.5 py-2.5 text-xs text-slate-900 dark:text-slate-200 focus:border-[#c59b48] focus:outline-none"
                 />
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold text-slate-600 dark:text-slate-300">Difficulty Level</label>
+                <select
+                  value={level}
+                  onChange={(e) => setLevel(e.target.value as 'Beginner' | 'Intermediate' | 'Advanced')}
+                  className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-3.5 py-2.5 text-xs text-slate-900 dark:text-slate-200 focus:border-[#c59b48] focus:outline-none"
+                >
+                  <option value="Beginner">Beginner — Foundational Inductee</option>
+                  <option value="Intermediate">Intermediate — Operational</option>
+                  <option value="Advanced">Advanced — Specialized</option>
+                </select>
+              </div>
+
+              <div className="space-y-1.5 sm:col-span-2">
+                <label className="text-xs font-semibold text-slate-600 dark:text-slate-300">Cover Thumbnail (image URL)</label>
+                <div className="flex items-center gap-3">
+                  <input
+                    type="url"
+                    value={thumbnail}
+                    onChange={(e) => setThumbnail(e.target.value)}
+                    placeholder="https://…"
+                    className="flex-1 min-w-0 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-3.5 py-2.5 text-xs text-slate-900 dark:text-slate-200 focus:border-[#c59b48] focus:outline-none font-mono"
+                  />
+                  {thumbnail && (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={thumbnail}
+                      alt="Course cover preview"
+                      className="h-12 w-20 rounded-xl object-cover border border-slate-200 dark:border-slate-700 shrink-0"
+                      onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                    />
+                  )}
+                </div>
               </div>
             </div>
 

@@ -131,9 +131,9 @@ export const StormSeverityIndicator: React.FC<StormSeverityIndicatorProps> = ({
       className={`relative bg-gradient-to-br ${classification.bgGradient} backdrop-blur-xl border border-slate-200 dark:border-slate-800/90 rounded-2xl p-4 sm:p-5 shadow-xl dark:shadow-2xl text-slate-900 dark:text-slate-100 ${className}`}
     >
       {/* Header */}
-      <div className="flex items-start justify-between gap-3 mb-4">
-        <div className="flex items-center space-x-2.5">
-          <div className="p-2 rounded-xl bg-slate-100 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 text-[#c59b48]">
+      <div className="flex items-start justify-between gap-3 mb-4 flex-wrap">
+        <div className="flex items-center space-x-2.5 min-w-0">
+          <div className="p-2 rounded-xl bg-slate-100 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 text-[#c59b48] shrink-0">
             {score >= 70 ? (
               <Zap className="w-5 h-5 text-red-500 dark:text-red-400 animate-pulse" />
             ) : score >= 50 ? (
@@ -142,16 +142,16 @@ export const StormSeverityIndicator: React.FC<StormSeverityIndicatorProps> = ({
               <ShieldAlert className="w-5 h-5 text-[#c59b48]" />
             )}
           </div>
-          <div>
+          <div className="min-w-0">
             <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white tracking-tight flex items-center space-x-2">
-              <span>Convective Storm Risk Meter</span>
+              <span className="truncate">Convective Storm Risk Meter</span>
             </h3>
-            <p className="text-xs text-slate-500 dark:text-slate-400">{classification.subtitle}</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400 truncate">{classification.subtitle}</p>
           </div>
         </div>
 
         {/* Severity Badge */}
-        <div className={`px-3 py-1 rounded-xl border text-xs font-bold ${classification.badgeClass}`}>
+        <div className={`px-3 py-1 rounded-xl border text-xs font-bold text-center shrink-0 ${classification.badgeClass}`}>
           {classification.label}
         </div>
       </div>

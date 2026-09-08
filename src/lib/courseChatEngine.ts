@@ -172,7 +172,7 @@ I can help you explore and enroll in specialized training modules across all cad
 - 🤖 **Physics-Informed AI/ML Nowcasting Masterclasses** (Modular Track)
 
 How can I assist your upskilling journey today? You can type any topic, faculty name, or select a prompt below.`,
-      matchedCourses: allCourses.slice(0, 3),
+      matchedCourses: [],
       suggestedQueries: [
         'Show all courses',
         'Show me Doppler Radar courses',
@@ -249,8 +249,8 @@ Select any module below to inspect the syllabus, preview video lessons, or take 
   ) {
     const allCourses = await getAllCourses();
     return {
-      reply: `📜 **Download & Verify Your Certificate**\n\n1. Finish a module to **100% progress** (all videos + handbooks).\n2. Clear its timed exam with **≥ 70%** (up to 3 attempts per module).\n3. Your **digitally-signed NISG & MoES certificate** unlocks automatically on the course page — click **Download Certificate**.\n4. Every certificate carries a **QR code**: anyone can scan it to verify authenticity against Capacity Connect records.\n\nNeed a certificate-eligible module? Start here:`,
-      matchedCourses: allCourses.slice(0, 3),
+      reply: `📜 **Download & Verify Your Certificate**\n\n1. Finish a module to **100% progress** (all videos + handbooks).\n2. Clear its timed exam with **≥ 70%** (up to 3 attempts per module).\n3. Your **digitally-signed NISG & MoES certificate** unlocks automatically on the course page — click **Download Certificate**.\n4. Every certificate carries a **QR code**: anyone can scan it to verify authenticity against Capacity Connect records.\n\nAsk me about any specific module's exam pattern or syllabus!`,
+      matchedCourses: [],
       suggestedQueries: [
         'Show passing score & exam details',
         'Which course should a beginner start with?',
@@ -484,8 +484,8 @@ Here are the certified flagship modules available for immediate enrollment:`,
   ) {
     const allCourses = await getAllCourses();
     return {
-      reply: `🛟 **Capacity Connect Platform Help**\n\n- 🔐 **Sign in:** use the *Sign In* button (top-right) with your official gov ID. New users can register via *Sign Up*.\n- 👥 **Roles:** *Admin* (DG IMD — approvals & analytics), *Trainer* (faculty — create courses & assessments), *Trainee* (scientists/forecasters — learn & certify). Switch workspaces from the profile menu.\n- 📊 **Track progress:** open *My Cadre / Trainee dashboard* for your 55/30/15 competency dossier, readiness score, and gap analysis.\n- 🛰️ **Live tools:** explore the *Live Doppler Radar* page and the *Technical Architecture* page from the navbar.\n- 📜 **Certificates:** auto-issued on the course page after 100% progress + ≥ 70% exam score.\n\nMeanwhile, here are popular modules learners ask about:`,
-      matchedCourses: allCourses.slice(0, 3),
+      reply: `🛟 **Capacity Connect Platform Help**\n\n- 🔐 **Sign in:** use the *Sign In* button (top-right) with your official gov ID. New users can register via *Sign Up*.\n- 👥 **Roles:** *Admin* (DG IMD — approvals & analytics), *Trainer* (faculty — create courses & assessments), *Trainee* (scientists/forecasters — learn & certify). Switch workspaces from the profile menu.\n- 📊 **Track progress:** open *My Cadre / Trainee dashboard* for your 55/30/15 competency dossier, readiness score, and gap analysis.\n- 🛰️ **Live tools:** explore the *Live Doppler Radar* page and the *Technical Architecture* page from the navbar.\n- 📜 **Certificates:** auto-issued on the course page after 100% progress + ≥ 70% exam score.\n\nLet me know if you need help with anything specific!`,
+      matchedCourses: [],
       suggestedQueries: [
         'How do I enroll in a course?',
         'Which course should a beginner start with?',
@@ -501,8 +501,8 @@ Here are the certified flagship modules available for immediate enrollment:`,
   ) {
     const allCourses = await getAllCourses();
     return {
-      reply: `💰 **Course Fees**\n\nCapacity Connect is a **sovereign, mission-funded platform** — all IMD/MoES training modules, video lectures, handbooks, timed assessments, and digitally-signed certificates are **completely FREE** for authorized government personnel (no payment step during enrollment).\n\nJust sign in, enroll, and start learning:`,
-      matchedCourses: allCourses.slice(0, 3),
+      reply: `💰 **Course Fees**\n\nCapacity Connect is a **sovereign, mission-funded platform** — all IMD/MoES training modules, video lectures, handbooks, timed assessments, and digitally-signed certificates are **completely FREE** for authorized government personnel (no payment step during enrollment).\n\nJust sign in, enroll, and start learning! Ask me which course to begin with.`,
+      matchedCourses: [],
       suggestedQueries: [
         'How do I enroll in a course?',
         'Which course should a beginner start with?',
@@ -591,8 +591,8 @@ Here are the certified flagship modules available for immediate enrollment:`,
   ) {
     const allCourses = await getAllCourses();
     return {
-      reply: `🗓️ **Schedule & Batches**\n\nCapacity Connect modules are **100% self-paced — no fixed batches or start dates**. Enroll anytime, learn at your own speed:\n\n- ▶️ Start instantly after enrollment; preview lectures are free\n- ⏸️ Pause and resume — progress is saved per lecture\n- 📝 Attempt the timed exam whenever you hit 100% completion (3 attempts allowed)\n- 📜 Certificates unlock immediately on passing\n\nPick any module below to start today:`,
-      matchedCourses: allCourses.slice(0, 3),
+      reply: `🗓️ **Schedule & Batches**\n\nCapacity Connect modules are **100% self-paced — no fixed batches or start dates**. Enroll anytime, learn at your own speed:\n\n- ▶️ Start instantly after enrollment; preview lectures are free\n- ⏸️ Pause and resume — progress is saved per lecture\n- 📝 Attempt the timed exam whenever you hit 100% completion (3 attempts allowed)\n- 📜 Certificates unlock immediately on passing\n\nAsk me about any specific module or say *"Show all courses"* to browse!`,
+      matchedCourses: [],
       suggestedQueries: [
         'How do I enroll in a course?',
         'Which course should a beginner start with?',
@@ -612,8 +612,8 @@ Here are the certified flagship modules available for immediate enrollment:`,
   ) {
     const allCourses = await getAllCourses();
     return {
-      reply: `🌐 **Language of Instruction**\n\nAll video lectures, technical handbooks, assessments, and certificates on Capacity Connect are delivered in **English** — the official working language of IMD/MoES scientific training, including all WMO terminology, METAR codes, and model documentation.\n\nBrowse the English-medium catalog:`,
-      matchedCourses: allCourses.slice(0, 3),
+      reply: `🌐 **Language of Instruction**\n\nAll video lectures, technical handbooks, assessments, and certificates on Capacity Connect are delivered in **English** — the official working language of IMD/MoES scientific training, including all WMO terminology, METAR codes, and model documentation.\n\nAsk me about any course or say *"Show all courses"* to browse the catalog!`,
+      matchedCourses: [],
       suggestedQueries: [
         'Which course should a beginner start with?',
         'Show all courses',
@@ -635,8 +635,8 @@ Here are the certified flagship modules available for immediate enrollment:`,
   ) {
     const allCourses = await getAllCourses();
     return {
-      reply: `📱 **Mobile & Offline Learning**\n\n- 🌐 Capacity Connect is a **responsive web portal** — it works on mobile browsers with no separate app install needed.\n- 📄 All **PDF handbooks are downloadable** for offline reading (look for the download icon on each material).\n- 🎬 Video lectures stream online; complete them to unlock the exam.\n- 📊 Your progress syncs across devices when you sign in.\n\nStart with a downloadable-friendly module:`,
-      matchedCourses: allCourses.slice(0, 3),
+      reply: `📱 **Mobile & Offline Learning**\n\n- 🌐 Capacity Connect is a **responsive web portal** — it works on mobile browsers with no separate app install needed.\n- 📄 All **PDF handbooks are downloadable** for offline reading (look for the download icon on each material).\n- 🎬 Video lectures stream online; complete them to unlock the exam.\n- 📊 Your progress syncs across devices when you sign in.\n\nAsk me about any specific module or say *"Show all courses"* to get started!`,
+      matchedCourses: [],
       suggestedQueries: [
         'How do I enroll in a course?',
         'Which course should a beginner start with?',
@@ -659,8 +659,8 @@ Here are the certified flagship modules available for immediate enrollment:`,
   ) {
     const allCourses = await getAllCourses();
     return {
-      reply: `🏛️ **Official IMD / MoES Portals**\n\n- 🛰️ **IMD Official:** [mausam.imd.gov.in](https://mausam.imd.gov.in) — forecasts, warnings, radar products\n- 🌍 **Ministry of Earth Sciences:** [moes.gov.in](https://moes.gov.in) — Mission Mausam & policy\n- 🔬 **IITM Pune:** [tropmet.res.in](https://www.tropmet.res.in) — research & modelling\n- 🖥️ **NCMRWF HPC Center:** [ncmrwf.gov.in](https://ncmrwf.gov.in) — numerical weather prediction\n\nFor structured learning on these very systems, train here on Capacity Connect:`,
-      matchedCourses: allCourses.slice(0, 3),
+      reply: `🏛️ **Official IMD / MoES Portals**\n\n- 🛰️ **IMD Official:** [mausam.imd.gov.in](https://mausam.imd.gov.in) — forecasts, warnings, radar products\n- 🌍 **Ministry of Earth Sciences:** [moes.gov.in](https://moes.gov.in) — Mission Mausam & policy\n- 🔬 **IITM Pune:** [tropmet.res.in](https://www.tropmet.res.in) — research & modelling\n- 🖥️ **NCMRWF HPC Center:** [ncmrwf.gov.in](https://ncmrwf.gov.in) — numerical weather prediction\n\nFor structured learning on these very systems, say *"Show all courses"* or ask about a specific topic!`,
+      matchedCourses: [],
       suggestedQueries: [
         'Show live radar courses',
         'Tell me about certification',
@@ -924,7 +924,7 @@ You can also ask me things like:
 - **"NWP"** for Earth-System HPC numerical simulations
 - **"Satellite"** for INSAT-3DS sounder and atmospheric motion vectors
 - **"AI"** for GraphCast and physics-informed neural networks`,
-    matchedCourses: fallbackCourses,
+    matchedCourses: [],
     suggestedQueries: [
       'Show Doppler Weather Radar course',
       'Show Earth-System HPC Modelling',

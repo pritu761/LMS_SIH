@@ -8,26 +8,41 @@ import { Clock, ShieldAlert, CheckCircle, ArrowRight, RefreshCw, Home, LogIn, Lo
 export default function PendingApprovalPage() {
   const router = useRouter();
   const [checking, setChecking] = useState(false);
+  const [status, setStatus] = useState<string | null>(null);
+  const [autoCheck, setAutoCheck] = useState(true);
 
-  const checkApprovalStatus = async () => {
-    setChecking(true);
+  const checkApprovalStatus = async (silent = false) => {
+    if (!silent) setChecking(true);
     try {
       const res = await fetch('/api/auth/me');
       if (res.ok) {
         const data = await res.json();
-        if (data.user?.status === 'APPROVED') {
+        const userStatus = data.user?.status as string | undefined;
+        if (userStatus) setStatus(userStatus);
+        if (userStatus === 'APPROVED') {
           if (data.user.role === 'ADMIN') router.push('/admin');
           else if (data.user.role === 'TRAINER') router.push('/trainer');
           else router.push('/trainee');
-          return;
+          return true;
         }
+        return false;
       }
     } catch (e) {
       // Still pending
     } finally {
-      setChecking(false);
+      if (!silent) setChecking(false);
     }
+    return false;
   };
+
+  // Auto-poll every 20s so approval lands without manual refresh
+  useEffect(() => {
+    if (!autoCheck) return;
+    checkApprovalStatus(true);
+    const interval = setInterval(() => checkApprovalStatus(true), 20000);
+    return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [autoCheck]);
 
   const handleSwitchAccount = async () => {
     try {
@@ -48,7 +63,7 @@ export default function PendingApprovalPage() {
       <div className="absolute bottom-1/4 right-1/4 w-72 h-72 bg-indigo-500/10 rounded-full blur-[100px] pointer-events-none morph-blob-alt" />
 
       <div className="w-full max-w-md relative z-10 space-y-6 animate-scale-in">
-        <div className="rounded-3xl border border-amber-500/30 bg-white dark:bg-slate-900/80 p-8 backdrop-blur-2xl shadow-elevation-3 text-center space-y-6 relative overflow-hidden">
+        <div className="rounded-3xl border border-amber-500/30 bg-white dark:bg-slate-900/80 p-8 backdrop-blur-2xl shadow-xl text-center space-y-6 relative overflow-hidden">
           <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-amber-500/60 to-transparent animate-gradient-shift bg-[length:200%_100%]" />
           
           {/* Animated Waiting Icon */}
@@ -61,15 +76,27 @@ export default function PendingApprovalPage() {
           </div>
 
           <div className="space-y-3">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-500/10 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-amber-700 dark:text-amber-300 border border-amber-500/30">
-              <span className="h-1.5 w-1.5 rounded-full bg-amber-500 dark:bg-amber-400 animate-pulse" />
-              Account Status: Pending Verification
+            <span className={`inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-wider border ${
+              status === 'SUSPENDED' || status === 'REJECTED'
+                ? 'bg-rose-500/10 text-rose-700 dark:text-rose-300 border-rose-500/30'
+                : 'bg-amber-500/10 text-amber-700 dark:text-amber-300 border-amber-500/30'
+            }`}>
+              <span className={`h-1.5 w-1.5 rounded-full animate-pulse ${status === 'SUSPENDED' || status === 'REJECTED' ? 'bg-rose-500' : 'bg-amber-500 dark:bg-amber-400'}`} />
+              Account Status: {status === 'SUSPENDED' ? 'Suspended' : status === 'REJECTED' ? 'Not Approved' : 'Pending Verification'}
             </span>
             <h1 className="text-2xl sm:text-3xl font-display font-extrabold text-slate-900 dark:text-white tracking-tight pt-1">
-              Awaiting Admin Approval
+              {status === 'SUSPENDED'
+                ? 'Account Suspended'
+                : status === 'REJECTED'
+                ? 'Application Not Approved'
+                : 'Awaiting Admin Approval'}
             </h1>
             <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed max-w-sm mx-auto">
-              Your registration has been submitted and is under review by the System Administrator. You will gain access as soon as it is approved.
+              {status === 'SUSPENDED'
+                ? 'Your access has been suspended by the administrator. Contact the IMD training division helpdesk with your registered email to appeal.'
+                : status === 'REJECTED'
+                ? 'Your application was not approved. You may correct your details and register again, or contact the helpdesk for clarification.'
+                : 'Your registration has been submitted and is under review by the System Administrator. You will gain access as soon as it is approved.'}
             </p>
           </div>
 
@@ -103,9 +130,9 @@ export default function PendingApprovalPage() {
 
           {/* Check Status Button */}
           <button
-            onClick={checkApprovalStatus}
+            onClick={() => checkApprovalStatus(false)}
             disabled={checking}
-            className="w-full flex items-center justify-center gap-2 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 dark:bg-amber-600/20 dark:hover:bg-amber-600/30 border border-amber-500/30 px-5 py-3 text-sm font-bold text-amber-800 dark:text-amber-200 transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 hover:shadow-glow-amber"
+            className="w-full flex items-center justify-center gap-2 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 dark:bg-amber-600/20 dark:hover:bg-amber-600/30 border border-amber-500/30 px-5 py-3 text-sm font-bold text-amber-800 dark:text-amber-200 transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50"
           >
             {checking ? (
               <Loader2 className="h-4 w-4 animate-spin" />
@@ -114,6 +141,16 @@ export default function PendingApprovalPage() {
             )}
             <span>{checking ? 'Checking Status...' : 'Check Approval Status'}</span>
           </button>
+
+          <label className="flex items-center justify-center gap-2 text-[11px] text-slate-500 dark:text-slate-400 cursor-pointer select-none">
+            <input
+              type="checkbox"
+              checked={autoCheck}
+              onChange={(e) => setAutoCheck(e.target.checked)}
+              className="rounded border-slate-300 dark:border-slate-700 text-amber-500 focus:ring-0 cursor-pointer"
+            />
+            <span>Auto-check every 20 seconds</span>
+          </label>
 
           <div className="flex items-center justify-center gap-3 pt-2">
             <Link

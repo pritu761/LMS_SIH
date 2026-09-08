@@ -53,8 +53,19 @@ function getYouTubeEmbedInfo(url?: string): { isYouTube: boolean; embedUrl: stri
 export function CoursePlayer({ course, initialEnrollment }: CoursePlayerProps) {
   const [activeMaterial, setActiveMaterial] = useState(course.materials[0]);
   const [completedIds, setCompletedIds] = useState<string[]>(
-    initialEnrollment?.completedMaterialIds || ['mat-1']
+    initialEnrollment?.completedMaterialIds || []
   );
+  const [recipientName, setRecipientName] = useState('Aarav Patel');
+
+  useEffect(() => {
+    fetch('/api/auth/me')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        const name = d?.user?.profile?.fullName || d?.user?.fullName;
+        if (name) setRecipientName(name);
+      })
+      .catch(() => {});
+  }, []);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [playbackSpeed, setPlaybackSpeed] = useState(1);
@@ -170,13 +181,15 @@ export function CoursePlayer({ course, initialEnrollment }: CoursePlayerProps) {
         <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-indigo-500/50 to-transparent animate-gradient-shift bg-[length:200%_100%]" />
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <div className="flex items-center gap-2 mb-1">
-              <span className="rounded-md bg-indigo-500/10 px-2 py-0.5 text-xs font-semibold text-indigo-400 border border-indigo-500/20">
+            <div className="flex items-center gap-2 mb-1 flex-wrap">
+              <span className="rounded-md bg-indigo-500/10 px-2 py-0.5 text-xs font-semibold text-indigo-700 dark:text-indigo-300 border border-indigo-500/20">
                 {course.code}
               </span>
               <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">{course.category}</span>
               <span className="text-slate-600">•</span>
-              <span className="text-xs text-emerald-400 font-medium">{course.level} Level</span>
+              <span className="text-xs text-emerald-700 dark:text-emerald-300 font-medium">{course.level} Level</span>
+              <span className="text-slate-600">•</span>
+              <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">{course.durationHours}h • {course.materials.length} lessons</span>
             </div>
             <h1 className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">{course.title}</h1>
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
@@ -184,7 +197,7 @@ export function CoursePlayer({ course, initialEnrollment }: CoursePlayerProps) {
             </p>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 flex-wrap">
             {progressPercent >= 100 && (
               <button
                 onClick={() => setIsCertOpen(true)}
@@ -197,7 +210,7 @@ export function CoursePlayer({ course, initialEnrollment }: CoursePlayerProps) {
 
             <button
               onClick={() => setIsFeedbackOpen(true)}
-              className="flex items-center gap-2 rounded-xl bg-slate-100 dark:bg-slate-800/80 hover:bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 px-4 py-2.5 text-xs font-semibold text-slate-900 dark:text-slate-200 transition-all duration-300 shadow-sm hover:shadow-glow-amber hover:border-amber-500/30"
+              className="flex items-center gap-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800/80 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700/80 px-4 py-2.5 text-xs font-semibold text-slate-900 dark:text-slate-200 transition-all duration-300 shadow-sm hover:border-amber-500/30"
             >
               <Star className="h-4 w-4 text-amber-400 fill-amber-400" />
               <span>Review Course</span>
@@ -205,7 +218,7 @@ export function CoursePlayer({ course, initialEnrollment }: CoursePlayerProps) {
 
             <Link
               href={`/trainee/assessments/${course.assessmentId}`}
-              className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 text-white px-5 py-2.5 text-xs font-semibold shadow-lg shadow-indigo-500/25 transition-all hover:scale-[1.02] hover:shadow-glow-md btn-shimmer"
+              className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 text-white px-5 py-2.5 text-xs font-semibold shadow-lg shadow-indigo-500/25 transition-all hover:scale-[1.02] btn-shimmer"
             >
               <Award className="h-4 w-4" />
               <span>Take Assessment</span>
@@ -218,7 +231,7 @@ export function CoursePlayer({ course, initialEnrollment }: CoursePlayerProps) {
         <div className="mt-6 pt-5 border-t border-slate-200 dark:border-slate-800/80">
           <div className="flex items-center justify-between text-xs mb-2">
             <span className="font-semibold text-slate-600 dark:text-slate-300">Course Completion Progress</span>
-            <span className="font-bold text-indigo-400">{progressPercent}% Completed</span>
+            <span className="font-bold text-indigo-700 dark:text-indigo-300">{progressPercent}% Completed</span>
           </div>
           <div className="h-3 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
             <div
@@ -307,7 +320,7 @@ export function CoursePlayer({ course, initialEnrollment }: CoursePlayerProps) {
               </div>
             ) : (
               /* Custom HTML5 Video Player */
-              <div className="relative rounded-2xl overflow-hidden bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 shadow-elevation-3 group">
+              <div className="relative rounded-2xl overflow-hidden bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 shadow-2xl group">
                 <video
                   ref={videoRef}
                   src={activeMaterial.url}
@@ -562,11 +575,11 @@ export function CoursePlayer({ course, initialEnrollment }: CoursePlayerProps) {
                           <span className="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider">
                             Lesson {idx + 1}
                           </span>
-                          <span className="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.2 text-[9px] font-semibold text-slate-700 dark:text-slate-300 uppercase">
+                          <span className="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 text-[9px] font-semibold text-slate-700 dark:text-slate-300 uppercase">
                             {mat.type}
                           </span>
                         </div>
-                        <h4 className={`text-xs font-semibold truncate mt-0.5 ${isSelected ? 'text-indigo-700 dark:text-indigo-200 font-bold' : 'text-slate-900 dark:text-slate-200'}`}>
+                        <h4 title={mat.title} className={`text-xs font-semibold truncate mt-0.5 ${isSelected ? 'text-indigo-700 dark:text-indigo-200 font-bold' : 'text-slate-900 dark:text-slate-200'}`}>
                           {mat.title}
                         </h4>
                         <div className="flex items-center gap-2 text-[11px] text-slate-500 dark:text-slate-400 mt-1">
@@ -591,7 +604,7 @@ export function CoursePlayer({ course, initialEnrollment }: CoursePlayerProps) {
               </p>
               <Link
                 href={`/trainee/assessments/${course.assessmentId}`}
-                className="block text-center rounded-lg bg-indigo-600 hover:bg-indigo-500 py-2.5 text-xs font-bold text-white transition-all shadow-md shadow-indigo-600/30 hover:shadow-glow-md btn-shimmer"
+                className="block text-center rounded-lg bg-indigo-600 hover:bg-indigo-500 py-2.5 text-xs font-bold text-white transition-all shadow-md shadow-indigo-600/30 btn-shimmer"
               >
                 Launch Exam Room
               </Link>
@@ -613,7 +626,7 @@ export function CoursePlayer({ course, initialEnrollment }: CoursePlayerProps) {
       <CertificateModal
         isOpen={isCertOpen}
         onClose={() => setIsCertOpen(false)}
-        recipientName="Aarav Patel"
+        recipientName={recipientName}
         courseTitle={course.title}
         courseCode={course.code}
         cadreTrack={`${course.cadreTrack} Track`}
