@@ -152,7 +152,7 @@ export const WeatherMetricsHud: React.FC<WeatherMetricsHudProps> = ({
             <div className="h-4 w-32 bg-slate-200 dark:bg-slate-800 rounded" />
           </div>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-2">
+        <div className="grid grid-cols-2 gap-2.5 pt-2">
           {[...Array(8)].map((_, i) => (
             <div key={i} className="h-20 bg-slate-100 dark:bg-slate-800/60 rounded-xl" />
           ))}
@@ -370,15 +370,15 @@ export const WeatherMetricsHud: React.FC<WeatherMetricsHudProps> = ({
       </div>
 
       {/* Glassmorphic 8-Card Telemetry Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-4">
+      <div className="grid grid-cols-2 gap-2.5 pt-4">
         {/* 1. Relative Humidity */}
         <div className="p-3 bg-slate-50/80 hover:bg-slate-100 dark:bg-slate-800/40 dark:hover:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/50 rounded-xl transition-all">
-          <div className="flex items-center justify-between text-slate-500 dark:text-slate-400 text-xs mb-1">
-            <span className="flex items-center space-x-1">
+          <div className="flex items-center justify-between flex-wrap gap-x-1 gap-y-0.5 text-slate-500 dark:text-slate-400 text-xs mb-1">
+            <span className="flex items-center space-x-1 shrink-0">
               <Droplets className="w-3.5 h-3.5 text-blue-500 dark:text-blue-400" />
               <span>Humidity</span>
             </span>
-            <span className="text-[10px] text-slate-400 dark:text-slate-500 font-medium">{getHumidityRating(current.relativeHumidity)}</span>
+            <span className="text-[10px] text-slate-400 dark:text-slate-500 font-medium truncate">{getHumidityRating(current.relativeHumidity)}</span>
           </div>
           <div className="text-lg font-bold text-slate-900 dark:text-white font-mono">{current.relativeHumidity}%</div>
           <div className="w-full bg-slate-200 dark:bg-slate-700 h-1 rounded-full mt-2 overflow-hidden">
@@ -391,12 +391,12 @@ export const WeatherMetricsHud: React.FC<WeatherMetricsHudProps> = ({
 
         {/* 2. Precipitation Probability & Rain Rate */}
         <div className="p-3 bg-slate-50/80 hover:bg-slate-100 dark:bg-slate-800/40 dark:hover:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/50 rounded-xl transition-all">
-          <div className="flex items-center justify-between text-slate-500 dark:text-slate-400 text-xs mb-1">
-            <span className="flex items-center space-x-1">
+          <div className="flex items-center justify-between flex-wrap gap-x-1 gap-y-0.5 text-slate-500 dark:text-slate-400 text-xs mb-1">
+            <span className="flex items-center space-x-1 shrink-0">
               <CloudRainWind className="w-3.5 h-3.5 text-cyan-500 dark:text-cyan-400" />
-              <span>Precipitation</span>
+              <span>Precip.</span>
             </span>
-            <span className="text-[10px] text-slate-400 dark:text-slate-500 font-mono">{current.precipitation} mm/h</span>
+            <span className="text-[10px] text-slate-400 dark:text-slate-500 font-mono truncate">{current.precipitation} mm/h</span>
           </div>
           <div className="text-lg font-bold text-slate-900 dark:text-white font-mono">
             {current.precipitationProbability}%
@@ -411,12 +411,12 @@ export const WeatherMetricsHud: React.FC<WeatherMetricsHudProps> = ({
 
         {/* 3. Wind Velocity & Compass Dial */}
         <div className="p-3 bg-slate-50/80 hover:bg-slate-100 dark:bg-slate-800/40 dark:hover:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/50 rounded-xl transition-all">
-          <div className="flex items-center justify-between text-slate-500 dark:text-slate-400 text-xs mb-1">
-            <span className="flex items-center space-x-1">
+          <div className="flex items-center justify-between flex-wrap gap-x-1 gap-y-0.5 text-slate-500 dark:text-slate-400 text-xs mb-1">
+            <span className="flex items-center space-x-1 shrink-0">
               <Wind className="w-3.5 h-3.5 text-teal-600 dark:text-teal-400" />
               <span>Wind</span>
             </span>
-            <div className="flex items-center space-x-1 text-[11px] font-mono text-[#9a7224] dark:text-amber-300">
+            <div className="flex items-center space-x-1 text-[11px] font-mono text-[#9a7224] dark:text-amber-300 shrink-0">
               <Compass
                 className="w-3 h-3 text-[#c59b48] transition-transform duration-500"
                 style={{ transform: `rotate(${current.windDirection}deg)` }}
@@ -434,12 +434,12 @@ export const WeatherMetricsHud: React.FC<WeatherMetricsHudProps> = ({
 
         {/* 4. UV Solar Index */}
         <div className="p-3 bg-slate-50/80 hover:bg-slate-100 dark:bg-slate-800/40 dark:hover:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/50 rounded-xl transition-all">
-          <div className="flex items-center justify-between text-slate-500 dark:text-slate-400 text-xs mb-1">
-            <span className="flex items-center space-x-1">
+          <div className="flex items-center justify-between flex-wrap gap-x-1 gap-y-0.5 text-slate-500 dark:text-slate-400 text-xs mb-1">
+            <span className="flex items-center space-x-1 shrink-0">
               <Sun className="w-3.5 h-3.5 text-amber-500 dark:text-amber-400" />
               <span>UV Index</span>
             </span>
-            <span className={`text-[10px] font-semibold px-1.5 py-0.2 rounded border ${uvClass.badgeClass}`}>
+            <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded border shrink-0 ${uvClass.badgeClass}`}>
               {uvClass.label}
             </span>
           </div>
@@ -454,24 +454,24 @@ export const WeatherMetricsHud: React.FC<WeatherMetricsHudProps> = ({
 
         {/* 5. Barometric Pressure */}
         <div className="p-3 bg-slate-50/80 hover:bg-slate-100 dark:bg-slate-800/40 dark:hover:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/50 rounded-xl transition-all">
-          <div className="flex items-center justify-between text-slate-500 dark:text-slate-400 text-xs mb-1">
-            <span className="flex items-center space-x-1">
+          <div className="flex items-center justify-between flex-wrap gap-x-1 gap-y-0.5 text-slate-500 dark:text-slate-400 text-xs mb-1">
+            <span className="flex items-center space-x-1 shrink-0">
               <Gauge className="w-3.5 h-3.5 text-purple-500 dark:text-purple-400" />
               <span>Pressure</span>
             </span>
           </div>
-          <div className="text-lg font-bold text-slate-900 dark:text-white font-mono">
+          <div className="text-lg font-bold text-slate-900 dark:text-white font-mono truncate">
             {pressureFormatted} <span className="text-xs font-normal text-slate-500 dark:text-slate-400">{pressureUnitSymbol}</span>
           </div>
-          <div className="text-[10px] text-slate-500 dark:text-slate-400 mt-1">
-            {current.surfacePressure >= 1013 ? 'High pressure system' : 'Low pressure trough'}
+          <div className="text-[10px] text-slate-500 dark:text-slate-400 mt-1 truncate">
+            {current.surfacePressure >= 1013 ? 'High pressure' : 'Low pressure'}
           </div>
         </div>
 
         {/* 6. Dew Point */}
         <div className="p-3 bg-slate-50/80 hover:bg-slate-100 dark:bg-slate-800/40 dark:hover:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/50 rounded-xl transition-all">
-          <div className="flex items-center justify-between text-slate-500 dark:text-slate-400 text-xs mb-1">
-            <span className="flex items-center space-x-1">
+          <div className="flex items-center justify-between flex-wrap gap-x-1 gap-y-0.5 text-slate-500 dark:text-slate-400 text-xs mb-1">
+            <span className="flex items-center space-x-1 shrink-0">
               <Thermometer className="w-3.5 h-3.5 text-emerald-500 dark:text-emerald-400" />
               <span>Dew Point</span>
             </span>
@@ -479,15 +479,15 @@ export const WeatherMetricsHud: React.FC<WeatherMetricsHudProps> = ({
           <div className="text-lg font-bold text-slate-900 dark:text-white font-mono">
             {dewPointFormatted}{tempUnitSymbol}
           </div>
-          <div className="text-[10px] text-slate-500 dark:text-slate-400 mt-1">
+          <div className="text-[10px] text-slate-500 dark:text-slate-400 mt-1 truncate">
             {current.dewPoint > 21 ? 'Muggy / Sticky' : current.dewPoint > 15 ? 'Pleasant' : 'Crisp & Dry'}
           </div>
         </div>
 
         {/* 7. Cloud Cover */}
         <div className="p-3 bg-slate-50/80 hover:bg-slate-100 dark:bg-slate-800/40 dark:hover:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/50 rounded-xl transition-all">
-          <div className="flex items-center justify-between text-slate-500 dark:text-slate-400 text-xs mb-1">
-            <span className="flex items-center space-x-1">
+          <div className="flex items-center justify-between flex-wrap gap-x-1 gap-y-0.5 text-slate-500 dark:text-slate-400 text-xs mb-1">
+            <span className="flex items-center space-x-1 shrink-0">
               <Layers className="w-3.5 h-3.5 text-sky-500 dark:text-sky-300" />
               <span>Cloud Cover</span>
             </span>
@@ -503,14 +503,14 @@ export const WeatherMetricsHud: React.FC<WeatherMetricsHudProps> = ({
 
         {/* 8. Visibility */}
         <div className="p-3 bg-slate-50/80 hover:bg-slate-100 dark:bg-slate-800/40 dark:hover:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/50 rounded-xl transition-all">
-          <div className="flex items-center justify-between text-slate-500 dark:text-slate-400 text-xs mb-1">
-            <span className="flex items-center space-x-1">
+          <div className="flex items-center justify-between flex-wrap gap-x-1 gap-y-0.5 text-slate-500 dark:text-slate-400 text-xs mb-1">
+            <span className="flex items-center space-x-1 shrink-0">
               <Eye className="w-3.5 h-3.5 text-[#c59b48]" />
               <span>Visibility</span>
             </span>
           </div>
           <div className="text-lg font-bold text-slate-900 dark:text-white font-mono">{visibilityFormatted}</div>
-          <div className="text-[10px] text-slate-500 dark:text-slate-400 mt-1">
+          <div className="text-[10px] text-slate-500 dark:text-slate-400 mt-1 truncate">
             {current.visibility >= 10000 ? 'Clear horizon' : current.visibility >= 4000 ? 'Moderate haze' : 'Dense obstruction'}
           </div>
         </div>
