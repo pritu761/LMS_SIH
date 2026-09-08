@@ -139,7 +139,7 @@ export function CompetencyRadarCard() {
         >
           <Brain className="h-4 w-4 text-[#c59b48]" />
           <span>Trainee Competency Gap Analyzer</span>
-          <span className="rounded-full bg-[#c59b48]/20 text-[#dfb76c] text-[9px] px-1.5 py-0.2 border border-[#c59b48]/30 font-black">
+          <span className="rounded-full bg-[#c59b48]/20 text-[#9a7224] dark:text-[#dfb76c] text-[9px] px-1.5 py-0.5 border border-[#c59b48]/30 font-black">
             CORE
           </span>
         </button>
@@ -306,6 +306,14 @@ export function CompetencyRadarCard() {
               <div className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/40 p-12 text-center text-xs text-slate-500 dark:text-slate-400 animate-pulse">
                 Computing weighted competency compatibility vectors...
               </div>
+            ) : displayedMatches.length === 0 ? (
+              <div className="rounded-3xl border border-dashed border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900/40 p-10 text-center space-y-2">
+                <Brain className="h-8 w-8 mx-auto text-slate-300 dark:text-slate-600" />
+                <p className="text-sm font-bold text-slate-700 dark:text-slate-300">No faculty matches for this configuration</p>
+                <p className="text-[11px] text-slate-500 dark:text-slate-400 max-w-sm mx-auto">
+                  Try a different course, reset the 55/30/15 sliders to defaults, or onboard more faculty so the engine has candidates to rank.
+                </p>
+              </div>
             ) : (
               <div className="grid grid-cols-1 gap-4">
                 {displayedMatches.map((res) => {
@@ -378,7 +386,7 @@ export function CompetencyRadarCard() {
                               <div className="flex items-center justify-between">
                                 <span className="font-bold text-slate-900 dark:text-slate-200 truncate">{b.competencyName}</span>
                                 <span
-                                  className={`text-[9px] font-black uppercase px-1.5 py-0.2 rounded ${
+                                  className={`text-[9px] font-black uppercase px-1.5 py-0.5 rounded ${
                                     b.status === 'EXCEEDS'
                                       ? 'bg-emerald-500/20 text-emerald-700 dark:text-emerald-300'
                                       : b.status === 'MATCHES'

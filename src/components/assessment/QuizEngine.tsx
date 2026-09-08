@@ -29,6 +29,7 @@ export function QuizEngine({ quiz }: QuizEngineProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [gradingResult, setGradingResult] = useState<any>(null);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [startTime] = useState<number>(Date.now());
 
   const currentQuestion = quiz.questions[currentIdx];
@@ -37,6 +38,7 @@ export function QuizEngine({ quiz }: QuizEngineProps) {
   const submitQuiz = useCallback(async () => {
     setIsSubmitting(true);
     setShowConfirmModal(false);
+    setSubmitError(null);
 
     const timeSpentSeconds = Math.floor((Date.now() - startTime) / 1000);
 
@@ -54,11 +56,11 @@ export function QuizEngine({ quiz }: QuizEngineProps) {
         const data = await res.json();
         setGradingResult(data.result);
       } else {
-        alert('Submission failed. Please check your network connection.');
+        setSubmitError('Submission failed. Your answers are preserved — check your connection and press Finish & Grade again.');
       }
     } catch (err) {
       console.error(err);
-      alert('Error submitting assessment.');
+      setSubmitError('Network error while submitting. Your answers are preserved — please retry.');
     } finally {
       setIsSubmitting(false);
     }
@@ -115,8 +117,8 @@ export function QuizEngine({ quiz }: QuizEngineProps) {
   return (
     <div className="space-y-6">
       {/* Top Fixed Exam Banner & Live Countdown Clock */}
-      <div className="sticky top-16 z-40 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/90 p-4 sm:p-5 backdrop-blur-xl shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div>
+      <div className="sticky top-20 z-40 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/90 p-4 sm:p-5 backdrop-blur-xl shadow-xl flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="min-w-0 w-full sm:w-auto">
           <div className="flex items-center gap-2">
             <span className="rounded bg-indigo-50 dark:bg-indigo-500/10 px-2 py-0.5 text-[10px] font-bold text-indigo-700 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-500/20">
               EXAM PROCTORED
@@ -131,7 +133,7 @@ export function QuizEngine({ quiz }: QuizEngineProps) {
         </div>
 
         {/* Live Timer & Submit button */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
           <div
             className={`flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-mono font-bold border transition-colors ${
               isTimeCritical
@@ -200,7 +202,7 @@ export function QuizEngine({ quiz }: QuizEngineProps) {
                   <div
                     key={opt.id}
                     onClick={() => handleSelectOption(currentQuestion.id, opt.id)}
-                    className={`rounded-2xl border p-4 sm:p-4.5 cursor-pointer transition-all flex items-start gap-4 ${
+                    className={`rounded-2xl border p-4 sm:p-5 cursor-pointer transition-all flex items-start gap-4 ${
                       isSelected
                         ? 'border-indigo-500 bg-indigo-50/80 dark:border-indigo-500/80 dark:bg-indigo-950/40 shadow-sm dark:shadow-lg dark:shadow-indigo-500/15'
                         : 'border-slate-200 dark:border-slate-800/90 bg-white dark:bg-slate-950/50 hover:bg-slate-50 dark:hover:bg-slate-900 hover:border-slate-300 dark:hover:border-slate-700 shadow-sm dark:shadow-none'
@@ -266,8 +268,8 @@ export function QuizEngine({ quiz }: QuizEngineProps) {
 
                 let bgClass = 'bg-slate-50 dark:bg-slate-950/60 text-slate-700 dark:text-slate-400 border-slate-200 dark:border-slate-800';
                 if (isAnswered) bgClass = 'bg-indigo-50 dark:bg-indigo-600/20 text-indigo-700 dark:text-indigo-300 border-indigo-200 dark:border-indigo-500/40 font-bold';
+                if (isFlagged && !isCurrent) bgClass = 'bg-amber-50 dark:bg-amber-500/20 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-500/40 font-semibold' + (isAnswered ? ' ring-2 ring-indigo-500 dark:ring-indigo-400' : '');
                 if (isCurrent) bgClass = 'ring-2 ring-indigo-500 bg-indigo-600 text-white font-black';
-                if (isFlagged && !isCurrent) bgClass = 'bg-amber-50 dark:bg-amber-500/20 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-500/40 font-semibold';
 
                 return (
                   <button
@@ -300,10 +302,25 @@ export function QuizEngine({ quiz }: QuizEngineProps) {
         </div>
       </div>
 
+      {/* Submission error banner (answers preserved) */}
+      {submitError && (
+        <div className="rounded-2xl bg-rose-500/10 border border-rose-500/30 p-3.5 text-xs font-semibold text-rose-700 dark:text-rose-300 flex items-start gap-2">
+          <AlertTriangle className="h-4 w-4 shrink-0 mt-0.5" />
+          <span>{submitError}</span>
+        </div>
+      )}
+
       {/* Confirmation Modal Before Final Submission */}
       {showConfirmModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in">
-          <div className="w-full max-w-md rounded-3xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900/95 p-6 shadow-2xl backdrop-blur-xl space-y-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto">
+          <div className="fixed inset-0 bg-black/80 backdrop-blur-md animate-in fade-in" onClick={() => setShowConfirmModal(false)} aria-hidden />
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-label="Confirm final submission"
+            onKeyDown={(e) => { if (e.key === 'Escape') setShowConfirmModal(false); }}
+            className="relative w-full max-w-md rounded-3xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900/95 p-6 shadow-2xl backdrop-blur-xl space-y-4 max-h-[90vh] overflow-y-auto"
+          >
             <div className="h-12 w-12 rounded-2xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
               <ShieldAlert className="h-6 w-6" />
             </div>

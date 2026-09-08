@@ -1,8 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { Sidebar } from '@/components/layout/Sidebar';
-import { initialUsers, initialCompetencies, initialCadres } from '@/lib/mockData';
+import { initialUsers, initialCompetencies, initialCadres, initialEnrollments, initialCourses, initialFeedbacks } from '@/lib/mockData';
 import {
   User,
   GraduationCap,
@@ -18,6 +19,8 @@ import {
   Sparkles,
   Radio,
   Compass,
+  BookOpen,
+  ChevronRight,
 } from 'lucide-react';
 
 export default function TraineeProfilePage() {
@@ -93,6 +96,59 @@ export default function TraineeProfilePage() {
             <span>Profile dossier and meteorological competency levels updated successfully!</span>
           </div>
         )}
+
+        {/* Training Record: enrollments, certificates, reviews given */}
+        <div className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 p-6 backdrop-blur-xl space-y-4 shadow-sm dark:shadow-none">
+          <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+            <BookOpen className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
+            <span>Training Record</span>
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 p-4">
+              <div className="text-2xl font-extrabold text-slate-900 dark:text-white tabular-nums">{initialEnrollments.length}</div>
+              <div className="text-[11px] text-slate-500 dark:text-slate-400 font-semibold">Active Enrollments</div>
+              <div className="mt-2 space-y-1">
+                {initialEnrollments.map((e) => {
+                  const c = initialCourses.find((x) => x.id === e.courseId);
+                  return (
+                    <Link key={e.id} href={c ? `/trainee/courses/${c.id}` : '/trainee/courses'} className="flex items-center justify-between gap-2 text-[11px] group">
+                      <span className="font-bold text-indigo-700 dark:text-indigo-300 truncate">{c?.code || e.courseId}</span>
+                      <span className="text-slate-500 dark:text-slate-400 tabular-nums shrink-0">{Math.round(e.progressPercentage)}%</span>
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 p-4">
+              <div className="text-2xl font-extrabold text-slate-900 dark:text-white tabular-nums">
+                {initialEnrollments.filter((e) => e.certificateId).length}
+              </div>
+              <div className="text-[11px] text-slate-500 dark:text-slate-400 font-semibold">Certificates Earned</div>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-2 leading-relaxed">
+                Pass any module exam (≥ 70%) to unlock a QR-verified NISG & MoES certificate here.
+              </p>
+            </div>
+            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 p-4">
+              <div className="text-2xl font-extrabold text-slate-900 dark:text-white tabular-nums">{initialFeedbacks.length}</div>
+              <div className="text-[11px] text-slate-500 dark:text-slate-400 font-semibold">Reviews Contributed</div>
+              <div className="mt-2 space-y-1">
+                {initialFeedbacks.slice(0, 3).map((fb) => {
+                  const c = initialCourses.find((x) => x.id === fb.courseId);
+                  return (
+                    <div key={fb.id} className="flex items-center justify-between gap-2 text-[11px]">
+                      <span className="text-slate-600 dark:text-slate-300 truncate">{c?.code || fb.courseId}</span>
+                      <span className="text-amber-500 font-bold shrink-0">★ {fb.rating}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+          <Link href="/trainee" className="inline-flex items-center gap-1 text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:underline">
+            <span>Open learning dashboard</span>
+            <ChevronRight className="h-3 w-3" />
+          </Link>
+        </div>
 
         <form onSubmit={handleSave} className="space-y-6">
 

@@ -342,7 +342,7 @@ export default function LoginPage() {
                                 {cadre.role}
                               </span>
                             </div>
-                            <div className="text-[11px] text-slate-500 dark:text-slate-400 font-mono truncate">
+                            <div className="text-[11px] text-slate-500 dark:text-slate-400 font-mono truncate" title={cadre.email}>
                               {cadre.email}
                             </div>
                           </div>

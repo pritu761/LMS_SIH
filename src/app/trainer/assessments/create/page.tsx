@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { Sidebar } from '@/components/layout/Sidebar';
 import { initialCourses } from '@/lib/mockData';
 import {
@@ -99,6 +100,40 @@ export default function AssessmentCreatorPage() {
           explanation: 'Velocity aliasing occurs when radial velocity exceeds Nyquist interval [-V_max, +V_max], causing inbound velocities to appear falsely as outbound.',
         },
       ]);
+    } else if (track === 'IMTC') {
+      setTitle('IMTC Synoptic Meteorology & INSAT-3DS Certification Exam');
+      setDescription('Foundational officer examination on synoptic chart analysis, isobaric patterns, frontal dynamics, and INSAT-3DS thermal-infrared interpretation with WMO METAR coding.');
+      setQuestions([
+        {
+          id: `q_${Date.now()}_1`,
+          questionText: 'In the Northern Hemisphere, in which direction does surface wind circulate around a low-pressure centre (Buys Ballot’s Law)?',
+          options: [
+            { id: 'opt_1', text: 'Counter-clockwise (cyclonic)' },
+            { id: 'opt_2', text: 'Clockwise (anticyclonic)' },
+            { id: 'opt_3', text: 'Directly outward along the pressure gradient' },
+          ],
+          correctOption: 'opt_1',
+          weight: 2.5,
+          explanation: 'Coriolis deflection turns gradient-driven inflow to the right in the Northern Hemisphere, producing counter-clockwise cyclonic circulation around lows.',
+        },
+      ]);
+    } else if (track === 'MODULAR') {
+      setTitle('Modular AI/ML Extreme Weather Nowcasting Exam');
+      setDescription('In-service masterclass evaluation on physics-informed neural networks, ConvLSTM/GraphCast nowcasting architectures, and CSI/FSS verification metrics.');
+      setQuestions([
+        {
+          id: `q_${Date.now()}_1`,
+          questionText: 'Why does plain Mean Squared Error (MSE) loss produce blurry precipitation nowcasts for extreme convective cells?',
+          options: [
+            { id: 'opt_1', text: 'MSE predicts the conditional mean, smoothing away intense localized rainfall peaks' },
+            { id: 'opt_2', text: 'MSE cannot be differentiated on GPUs' },
+            { id: 'opt_3', text: 'MSE ignores satellite infrared channels entirely' },
+          ],
+          correctOption: 'opt_1',
+          weight: 2.5,
+          explanation: 'Minimizing MSE averages the predictive distribution, so sharp storm cores are washed out; CSI/focal losses preserve extremes.',
+        },
+      ]);
     }
   };
 
@@ -157,7 +192,7 @@ export default function AssessmentCreatorPage() {
 
             {/* Template Presets */}
             <div className="flex items-center gap-1.5 self-start sm:self-auto flex-wrap">
-              <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block sm:inline mr-1">
+              <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mr-1">
                 Templates:
               </span>
               <button
@@ -173,6 +208,20 @@ export default function AssessmentCreatorPage() {
                 className="px-2.5 py-1 rounded-lg text-xs font-bold bg-cyan-50 dark:bg-cyan-950/40 text-cyan-700 dark:text-cyan-300 border border-cyan-200 dark:border-cyan-800 hover:bg-cyan-100"
               >
                 FTC Radar
+              </button>
+              <button
+                type="button"
+                onClick={() => loadPresetTemplate('IMTC')}
+                className="px-2.5 py-1 rounded-lg text-xs font-bold bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800 hover:bg-amber-100"
+              >
+                IMTC Synoptic
+              </button>
+              <button
+                type="button"
+                onClick={() => loadPresetTemplate('MODULAR')}
+                className="px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 hover:bg-emerald-100"
+              >
+                Modular AI
               </button>
             </div>
           </div>
@@ -221,6 +270,16 @@ export default function AssessmentCreatorPage() {
                 />
               </div>
 
+              <div className="space-y-1.5 sm:col-span-2">
+                <label className="text-xs font-semibold text-slate-600 dark:text-slate-300">Exam Description (shown to trainees)</label>
+                <textarea
+                  rows={2}
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-3 py-2.5 text-sm text-slate-900 dark:text-slate-200 focus:border-indigo-500 focus:outline-none"
+                />
+              </div>
+
               <div className="space-y-1.5">
                 <label className="text-xs font-semibold text-slate-600 dark:text-slate-300">
                   Time Limit (Minutes)
@@ -261,6 +320,18 @@ export default function AssessmentCreatorPage() {
                 />
               </div>
 
+              <div className="space-y-1.5 sm:col-span-2">
+                <div className="flex items-center justify-between rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 px-3.5 py-2.5 text-xs">
+                  <span className="text-slate-600 dark:text-slate-400">
+                    Total weight: <strong className="text-slate-900 dark:text-white tabular-nums">{questions.reduce((s, q) => s + (q.weight || 0), 0).toFixed(1)} pts</strong>
+                    {' '}across {questions.length} question{questions.length === 1 ? '' : 's'}
+                  </span>
+                  <span className="text-slate-600 dark:text-slate-400">
+                    Pass mark: <strong className="text-emerald-700 dark:text-emerald-300 tabular-nums">{((questions.reduce((s, q) => s + (q.weight || 0), 0) * passingPercentage) / 100).toFixed(1)} pts</strong>
+                    {' '}({passingPercentage}%)
+                  </span>
+                </div>
+              </div>
               <div className="space-y-1.5">
                 <label className="text-xs font-semibold text-slate-600 dark:text-slate-300">
                   Submission Cutoff Date
@@ -307,6 +378,8 @@ export default function AssessmentCreatorPage() {
                       <input
                         type="number"
                         step="0.5"
+                        min={0.5}
+                        max={10}
                         value={q.weight}
                         onChange={(e) => {
                           const updated = [...questions];
@@ -392,7 +465,13 @@ export default function AssessmentCreatorPage() {
             </div>
           </div>
 
-          <div className="flex justify-end">
+          <div className="flex items-center justify-between gap-2 flex-wrap">
+            <Link
+              href="/trainer"
+              className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-6 py-3 text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all"
+            >
+              Cancel
+            </Link>
             <button
               type="submit"
               className="flex items-center gap-2 rounded-2xl bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 px-8 py-3 text-xs font-bold text-white shadow-xl shadow-cyan-600/30 transition-all hover:scale-105"

@@ -171,8 +171,8 @@ export function TraineeSkillGapCard({ userId }: Props) {
                 </div>
 
                 {item.recommendedCourse && item.recommendedTrainer && (
-                  <div className="pt-2 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
-                    <div className="text-[11px] text-slate-600 dark:text-slate-300 truncate max-w-[240px]">
+                  <div className="pt-2 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between gap-2">
+                    <div className="text-[11px] text-slate-600 dark:text-slate-300 truncate min-w-0 flex-1">
                       <span className="text-slate-900 dark:text-white font-semibold">{item.recommendedCourse.code}</span>
                       <span className="text-slate-500 dark:text-slate-400 block text-[10px] truncate">
                         Faculty: {item.recommendedTrainer.name}
@@ -191,6 +191,11 @@ export function TraineeSkillGapCard({ userId }: Props) {
               </div>
             ))}
           </div>
+        )}
+        {deficientSkills.length > 2 && (
+          <p className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">
+            + {deficientSkills.length - 2} more gap{deficientSkills.length - 2 === 1 ? '' : 's'} — close the top two first, then revisit your dossier for the next recommendations.
+          </p>
         )}
       </div>
     </div>

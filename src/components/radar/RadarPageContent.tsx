@@ -72,8 +72,30 @@ export function RadarPageContent() {
   const [selectedStationId, setSelectedStationId] = useState<string | null>('dwr-01');
   const [activeMobileTab, setActiveMobileTab] = useState<'map' | 'hud' | 'stations'>('map');
   const [isMapExpanded, setIsMapExpanded] = useState<boolean>(false);
+  const [dopplerNodes, setDopplerNodes] = useState<RadarNode[]>(ALL_38_DOPPLER_NODES);
+  const [nodesLive, setNodesLive] = useState<boolean>(false);
 
   const weatherAbortRef = useRef<AbortController | null>(null);
+
+  // 0. Fetch live per-station Doppler telemetry (real-time dBZ from Open-Meteo)
+  const loadDopplerNodes = useCallback(async () => {
+    try {
+      const res = await fetch('/api/radar/nodes');
+      const data = await res.json();
+      if (data.success && Array.isArray(data.nodes) && data.nodes.length > 0) {
+        setDopplerNodes(data.nodes);
+        setNodesLive(Boolean(data.isLive));
+      }
+    } catch (err) {
+      console.error('Failed to load live Doppler nodes, using static network:', err);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadDopplerNodes();
+    const interval = setInterval(loadDopplerNodes, 90 * 1000); // 90 seconds
+    return () => clearInterval(interval);
+  }, [loadDopplerNodes]);
 
   // 1. Fetch Radar Metadata on Mount and periodically
   const loadRadarMetadata = useCallback(async () => {
@@ -171,7 +193,7 @@ export function RadarPageContent() {
   // Manual Full Sync Refresh
   const handleManualRefresh = async () => {
     setIsRefreshing(true);
-    await Promise.all([loadRadarMetadata(), loadWeatherForecast(coordinates)]);
+    await Promise.all([loadRadarMetadata(), loadWeatherForecast(coordinates), loadDopplerNodes()]);
     setTimeout(() => setIsRefreshing(false), 500);
   };
 
@@ -334,14 +356,14 @@ export function RadarPageContent() {
             </div>
 
             {/* Quick Overview Note under map */}
-            <div className="flex items-center justify-between px-3 text-xs text-slate-500 dark:text-slate-400 font-mono">
-              <span className="flex items-center gap-1.5">
-                <MapPin className="w-3.5 h-3.5 text-[#c59b48]" />
-                <span>
+            <div className="flex items-center justify-between gap-2 px-3 text-xs text-slate-500 dark:text-slate-400 font-mono">
+              <span className="flex items-center gap-1.5 min-w-0">
+                <MapPin className="w-3.5 h-3.5 text-[#c59b48] shrink-0" />
+                <span className="truncate">
                   Active Target: <strong className="text-slate-900 dark:text-white">{coordinates.name || 'Selected Position'}</strong> ({coordinates.lat.toFixed(3)}°, {coordinates.lon.toFixed(3)}°)
                 </span>
               </span>
-              <span className="hidden sm:inline text-slate-400 dark:text-slate-500">
+              <span className="hidden sm:inline text-slate-400 dark:text-slate-500 shrink-0">
                 Click anywhere on the map to inspect localized nowcasts
               </span>
             </div>
@@ -408,15 +430,16 @@ export function RadarPageContent() {
               </p>
             </div>
             <div className="flex items-center gap-2 text-xs font-sans font-bold">
-              <span className="px-2.5 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-700 dark:text-emerald-300 font-bold">
-                38/38 ONLINE
+              <span className="px-2.5 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-700 dark:text-emerald-300 font-bold inline-flex items-center gap-1.5">
+                <span className={`h-1.5 w-1.5 rounded-full bg-emerald-500 ${nodesLive ? 'animate-ping' : ''}`} />
+                38/38 ONLINE{nodesLive ? ' • LIVE dBZ' : ''}
               </span>
             </div>
           </div>
 
           {/* Grid of Stations */}
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2.5 max-h-80 overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-700">
-            {ALL_38_DOPPLER_NODES.map((node) => {
+            {dopplerNodes.map((node) => {
               const isSelected = selectedStationId === node.id;
               return (
                 <button

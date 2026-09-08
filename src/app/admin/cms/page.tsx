@@ -71,7 +71,7 @@ export default function AdminCmsPage() {
     if (!title.trim() || !content.trim()) return;
 
     if (editingId) {
-      // Edit existing
+      // Edit existing — mirror into the shared mock store so dashboard feeds stay in sync
       setAnnouncements((prev) =>
         prev.map((a) =>
           a.id === editingId
@@ -79,6 +79,14 @@ export default function AdminCmsPage() {
             : a
         )
       );
+      const stored = initialAnnouncements.find((a) => a.id === editingId);
+      if (stored) {
+        stored.title = title;
+        stored.content = content;
+        stored.type = type;
+        stored.isPinned = isPinned;
+        stored.authorName = authorName;
+      }
       showToast('Bulletin updated successfully!');
     } else {
       // Create new
@@ -102,6 +110,8 @@ export default function AdminCmsPage() {
   };
 
   const handleDelete = (id: string) => {
+    const target = announcements.find((a) => a.id === id);
+    if (!window.confirm(`Withdraw the bulletin “${target?.title.slice(0, 60) || id}” from all dashboards? This cannot be undone.`)) return;
     setAnnouncements((prev) => prev.filter((a) => a.id !== id));
     const idx = initialAnnouncements.findIndex((a) => a.id === id);
     if (idx !== -1) initialAnnouncements.splice(idx, 1);
@@ -339,12 +349,19 @@ export default function AdminCmsPage() {
 
         {/* Modal / Overlay Composer */}
         {isComposerOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in-up">
-            <div className="w-full max-w-2xl rounded-3xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-6 sm:p-8 shadow-2xl backdrop-blur-2xl space-y-5 animate-scale-in relative">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto">
+            <div className="fixed inset-0 bg-black/80 backdrop-blur-md animate-fade-in-up" onClick={() => setIsComposerOpen(false)} aria-hidden />
+            <div
+              role="dialog"
+              aria-modal="true"
+              aria-label={editingId ? 'Edit directive' : 'Broadcast new directive'}
+              onKeyDown={(e) => { if (e.key === 'Escape') setIsComposerOpen(false); }}
+              className="relative w-full max-w-2xl rounded-3xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-6 sm:p-8 shadow-2xl backdrop-blur-2xl space-y-5 animate-scale-in max-h-[90vh] overflow-y-auto"
+            >
               <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
                 <div className="flex items-center gap-2">
                   <div className="h-9 w-9 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
-                    <Megaphone className="h-4.5 w-4.5" />
+                    <Megaphone className="h-4 w-4" />
                   </div>
                   <div>
                     <h3 className="text-base font-bold text-slate-900 dark:text-white">

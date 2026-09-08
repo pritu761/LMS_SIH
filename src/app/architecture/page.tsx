@@ -115,7 +115,7 @@ export default function TechnicalArchitecturePage() {
               </p>
             </div>
 
-            <div className="flex items-center gap-3 shrink-0">
+            <div className="flex items-center gap-3 shrink-0 flex-wrap">
               <Link
                 href="/admin/radar"
                 className="btn-gold flex items-center gap-1.5"
@@ -223,15 +223,15 @@ export default function TechnicalArchitecturePage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-4 md:gap-5">
             {systemFlow.map((s, idx) => (
               <div key={s.step} className="rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0b1e36]/80 p-5 space-y-2 relative shadow-sm hover:border-[#c59b48] transition-colors">
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between gap-2">
                   <span className="text-xs font-sans font-black text-[#0b1e36] dark:text-[#dfb76c] bg-[#0b1e36]/10 dark:bg-[#c59b48]/15 px-2 py-0.5 rounded border border-[#0b1e36]/20 dark:border-[#c59b48]/30">
                     STAGE {s.step}
                   </span>
                   {idx < 4 && (
-                    <ChevronRight className="hidden md:block h-4 w-4 text-slate-400 absolute -right-2 top-1/2 -translate-y-1/2 z-10" />
+                    <ChevronRight className="hidden md:block h-4 w-4 text-[#c59b48] shrink-0" />
                   )}
                 </div>
                 <h3 className="text-sm font-bold text-[#0b1e36] dark:text-white">{s.title}</h3>

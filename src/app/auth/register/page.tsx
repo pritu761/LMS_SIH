@@ -29,6 +29,7 @@ export default function RegisterPage() {
   const [organization, setOrganization] = useState('');
   const [department, setDepartment] = useState('');
   const [headline, setHeadline] = useState('');
+  const [cadreTrack, setCadreTrack] = useState('DRSTC');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -55,6 +56,7 @@ export default function RegisterPage() {
           organization,
           department,
           headline,
+          cadreTrack,
         }),
       });
 
@@ -250,6 +252,22 @@ export default function RegisterPage() {
               </div>
 
               <div className="space-y-1.5">
+                <label className="text-xs font-semibold text-slate-600 dark:text-slate-300">Department / Division</label>
+                <div className="relative group">
+                  <Briefcase className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500 group-focus-within:text-indigo-400 transition-colors" />
+                  <input
+                    type="text"
+                    placeholder="e.g. Satellite Meteorology Division"
+                    value={department}
+                    onChange={(e) => setDepartment(e.target.value)}
+                    className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 pl-10 pr-3 py-2.5 text-sm text-slate-900 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 input-glow transition-all"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="space-y-1.5">
                 <label className="text-xs font-semibold text-slate-600 dark:text-slate-300">Professional Headline</label>
                 <div className="relative group">
                   <Briefcase className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500 group-focus-within:text-indigo-400 transition-colors" />
@@ -261,6 +279,20 @@ export default function RegisterPage() {
                     className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 pl-10 pr-3 py-2.5 text-sm text-slate-900 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 input-glow transition-all"
                   />
                 </div>
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold text-slate-600 dark:text-slate-300">Cadre Track Applying For</label>
+                <select
+                  value={cadreTrack}
+                  onChange={(e) => setCadreTrack(e.target.value)}
+                  className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-3.5 py-2.5 text-sm text-slate-900 dark:text-slate-200 input-glow transition-all"
+                >
+                  <option value="DRSTC">DRSTC — Scientist Inductee</option>
+                  <option value="FTC">FTC — Forecaster Track</option>
+                  <option value="IMTC">IMTC — Met Officer</option>
+                  <option value="MODULAR">MODULAR — AI/HPC Specialist</option>
+                </select>
               </div>
             </div>
 

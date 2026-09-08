@@ -15,6 +15,7 @@ import {
   Maximize2,
   Minimize2,
   RotateCcw,
+  RefreshCw,
   Bot,
   User,
   Compass,
@@ -23,8 +24,10 @@ import {
   ChevronDown,
   BookOpen,
   HelpCircle,
+  ThumbsUp,
+  ThumbsDown,
 } from 'lucide-react';
-import { useCourseChat, ChatMessage } from '@/context/ChatContext';
+import { useCourseChat, ChatMessage, GROQ_MODEL_OPTIONS } from '@/context/ChatContext';
 import { ChatCourseCard } from '@/components/chat/ChatCourseCard';
 import { ChatSuggestedPills } from '@/components/chat/ChatSuggestedPills';
 
@@ -213,12 +216,22 @@ export function CourseChatbot() {
     toggleMinimize,
     toggleMaximize,
     sendMessage,
+    regenerate,
+    modelPref,
+    setModelPref,
     clearChat,
     unreadCount,
   } = useCourseChat();
 
   const [input, setInput] = useState('');
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [votes, setVotes] = useState<Record<string, 1 | -1>>(() => {
+    try {
+      return JSON.parse(localStorage.getItem('capacity-connect-chat-votes') || '{}');
+    } catch {
+      return {};
+    }
+  });
   const [ttsEnabled, setTtsEnabled] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -375,6 +388,19 @@ export function CourseChatbot() {
     setCopiedId(id);
     setTimeout(() => setCopiedId(null), 2000);
   };
+
+  const handleVote = (id: string, vote: 1 | -1) => {
+    setVotes((prev) => {
+      const next = { ...prev, [id]: prev[id] === vote ? undefined : vote } as Record<string, 1 | -1>;
+      if (next[id] === undefined) delete next[id];
+      try {
+        localStorage.setItem('capacity-connect-chat-votes', JSON.stringify(next));
+      } catch { /* private mode */ }
+      return next;
+    });
+  };
+
+  const canRegenerate = !isTyping && messages.some((m) => m.role === 'user');
 
   return (
     <>
@@ -597,26 +623,55 @@ export function CourseChatbot() {
                               isUser ? 'text-slate-300' : 'text-slate-500 dark:text-slate-400'
                             }`}
                           >
-                            <span>{msg.timestamp}</span>
+                            <span className="flex items-center gap-1.5">
+                              <span>{msg.timestamp}</span>
+                              {!isUser && msg.source === 'groq' && (
+                                <span
+                                  className="inline-flex items-center gap-0.5 rounded-full bg-[#c59b48]/15 border border-[#c59b48]/40 px-1.5 py-px text-[9px] font-bold text-[#9a7224] dark:text-[#dfb76c]"
+                                  title={msg.model ? `Answered by ${msg.model}` : 'Answered by Groq AI'}
+                                >
+                                  <Sparkles className="h-2 w-2" />
+                                  Groq AI
+                                </span>
+                              )}
+                            </span>
                             {!isUser && (
-                              <button
-                                type="button"
-                                onClick={() => handleCopy(msg.id, msg.content)}
-                                className="opacity-0 group-hover:opacity-100 transition-opacity hover:text-slate-600 dark:text-slate-300 flex items-center gap-1"
-                                title="Copy response"
-                              >
-                                {copiedId === msg.id ? (
-                                  <>
-                                    <Check className="h-2.5 w-2.5 text-emerald-400" />
-                                    <span className="text-emerald-400">Copied</span>
-                                  </>
-                                ) : (
-                                  <>
-                                    <Copy className="h-2.5 w-2.5" />
-                                    <span>Copy</span>
-                                  </>
-                                )}
-                              </button>
+                              <span className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <button
+                                  type="button"
+                                  onClick={() => handleVote(msg.id, 1)}
+                                  className={`flex items-center gap-1 hover:text-emerald-500 transition-colors ${votes[msg.id] === 1 ? '!opacity-100 text-emerald-500' : ''}`}
+                                  title="Good answer"
+                                >
+                                  <ThumbsUp className={`h-2.5 w-2.5 ${votes[msg.id] === 1 ? 'fill-emerald-500' : ''}`} />
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => handleVote(msg.id, -1)}
+                                  className={`flex items-center gap-1 hover:text-rose-500 transition-colors ${votes[msg.id] === -1 ? '!opacity-100 text-rose-500' : ''}`}
+                                  title="Poor answer"
+                                >
+                                  <ThumbsDown className={`h-2.5 w-2.5 ${votes[msg.id] === -1 ? 'fill-rose-500' : ''}`} />
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => handleCopy(msg.id, msg.content)}
+                                  className="hover:text-slate-600 dark:text-slate-300 flex items-center gap-1"
+                                  title="Copy response"
+                                >
+                                  {copiedId === msg.id ? (
+                                    <>
+                                      <Check className="h-2.5 w-2.5 text-emerald-400" />
+                                      <span className="text-emerald-400">Copied</span>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <Copy className="h-2.5 w-2.5" />
+                                      <span>Copy</span>
+                                    </>
+                                  )}
+                                </button>
+                              </span>
                             )}
                           </div>
                         </div>
@@ -704,8 +759,32 @@ export function CourseChatbot() {
                     </button>
                   </form>
 
-                  <div className="mt-2 flex items-center justify-between text-[11px] text-slate-600 dark:text-slate-500 px-1">
-                    <span>Press Enter to send</span>
+                  <div className="mt-2 flex items-center justify-between gap-2 text-[11px] text-slate-600 dark:text-slate-500 px-1">
+                    <span className="flex items-center gap-1.5">
+                      <select
+                        aria-label="AI model"
+                        value={modelPref}
+                        onChange={(e) => setModelPref(e.target.value)}
+                        className="rounded-lg bg-transparent border border-slate-200 dark:border-white/10 px-1.5 py-0.5 text-[10px] font-bold text-slate-600 dark:text-slate-300 focus:border-[#c59b48] focus:outline-none cursor-pointer"
+                        title="Choose the Groq model for open-ended answers"
+                      >
+                        {GROQ_MODEL_OPTIONS.map((o) => (
+                          <option key={o.id} value={o.id} className="text-slate-900">
+                            {o.label}
+                          </option>
+                        ))}
+                      </select>
+                      <button
+                        type="button"
+                        onClick={regenerate}
+                        disabled={!canRegenerate}
+                        className="flex items-center gap-1 rounded-lg px-1.5 py-0.5 text-[10px] font-bold text-slate-600 dark:text-slate-300 hover:text-[#9a7224] dark:hover:text-[#dfb76c] disabled:opacity-40 transition-colors"
+                        title="Regenerate last answer"
+                      >
+                        <RefreshCw className={`h-2.5 w-2.5 ${isTyping ? 'animate-spin' : ''}`} />
+                        <span>Retry</span>
+                      </button>
+                    </span>
                     <span className="flex items-center gap-1">
                       <Sparkles className="h-2.5 w-2.5 text-[#c59b48]" />
                       Mission Mausam Assistant

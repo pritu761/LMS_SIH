@@ -109,9 +109,9 @@ export function RadarTimelineControls({
       aria-label="Radar Timeline Playback Controls"
     >
       {/* Top Header: Frame Status & Timestamp */}
-      <div className="flex items-center justify-between gap-2 mb-3">
+      <div className="flex items-center justify-between gap-2 mb-3 flex-wrap">
         {/* Frame Type Badge */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 min-w-0 flex-wrap">
           {isLiveFrame ? (
             <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-700 dark:text-emerald-400 text-xs font-semibold uppercase tracking-wider animate-pulse">
               <span className="w-2 h-2 rounded-full bg-emerald-500 dark:bg-emerald-400"></span>
@@ -137,7 +137,7 @@ export function RadarTimelineControls({
         </div>
 
         {/* Timestamp Display */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 shrink-0 ml-auto">
           <div className="text-right">
             <div className="font-mono text-sm sm:text-base font-bold text-slate-900 dark:text-slate-100 tracking-tight">
               {formattedTime}

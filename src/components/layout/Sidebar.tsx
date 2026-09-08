@@ -84,6 +84,7 @@ export function Sidebar({ role, user }: SidebarProps) {
           { href: '/admin/users', label: 'User Governance', icon: UserCheck, badge: 'RBAC' },
           { href: '/admin/competency', label: 'Competency & Gap Engine', icon: Brain, badge: '55/30/15' },
           { href: '/admin/cms', label: 'Directives & CMS', icon: FileText },
+          { href: '/admin/reports', label: 'Reports & Exports', icon: BarChart3 },
         ];
       case 'TRAINER':
         return [

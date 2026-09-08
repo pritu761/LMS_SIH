@@ -163,11 +163,11 @@ export const MultiDayForecast: React.FC<MultiDayForecastProps> = ({
                 className="p-3 sm:px-4 flex items-center justify-between cursor-pointer gap-2 select-none"
               >
                 {/* Date & Weekday */}
-                <div className="w-24 sm:w-28 flex-shrink-0">
-                  <div className={`text-sm font-bold ${isToday ? 'text-[#9a7224] dark:text-amber-400' : 'text-slate-900 dark:text-white'}`}>
+                <div className="w-20 sm:w-28 flex-shrink-0 min-w-0">
+                  <div className={`text-sm font-bold truncate ${isToday ? 'text-[#9a7224] dark:text-amber-400' : 'text-slate-900 dark:text-white'}`}>
                     {weekdayName}
                   </div>
-                  <div className="text-[11px] text-slate-500 dark:text-slate-400">{formattedDate}</div>
+                  <div className="text-[11px] text-slate-500 dark:text-slate-400 truncate">{formattedDate}</div>
                 </div>
 
                 {/* Weather Condition Icon & Label */}
@@ -175,7 +175,7 @@ export const MultiDayForecast: React.FC<MultiDayForecastProps> = ({
                   <div className="p-1 rounded-lg bg-slate-100 dark:bg-slate-950/40 flex-shrink-0">
                     {renderWmoIcon(wmo.iconName, 'w-5 h-5')}
                   </div>
-                  <div className="min-w-0 hidden xs:block">
+                  <div className="min-w-0 hidden min-[420px]:block">
                     <span className="text-xs text-slate-700 dark:text-slate-200 font-medium truncate block">
                       {wmo.label}
                     </span>
@@ -189,7 +189,7 @@ export const MultiDayForecast: React.FC<MultiDayForecastProps> = ({
                 </div>
 
                 {/* Min / Max Temperature with Visual Range Bar */}
-                <div className="flex items-center space-x-3 w-40 sm:w-52 flex-shrink-0 justify-end">
+                <div className="flex items-center space-x-2 sm:space-x-3 w-32 sm:w-52 flex-shrink-0 justify-end min-w-0">
                   <span className="text-xs font-mono text-slate-500 dark:text-slate-400 text-right w-8">
                     {minTemp}°
                   </span>

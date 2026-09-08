@@ -19,9 +19,11 @@ import {
 interface LiveRadarScopeProps {
   node: RadarNode;
   onOpenDiagnostics: () => void;
+  lastSync?: string;
+  isLive?: boolean;
 }
 
-export function LiveRadarScope({ node, onOpenDiagnostics }: LiveRadarScopeProps) {
+export function LiveRadarScope({ node, onOpenDiagnostics, lastSync, isLive }: LiveRadarScopeProps) {
   const [selectedProduct, setSelectedProduct] = useState<PolarimetricProduct>('Z');
   const [elevationCut, setElevationCut] = useState<number>(node.elevationDeg || 0.5);
   const [sweepSpeed, setSweepSpeed] = useState<number>(4); // seconds per 360 deg
@@ -90,11 +92,24 @@ export function LiveRadarScope({ node, onOpenDiagnostics }: LiveRadarScopeProps)
       {/* Header Bar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-white/10 relative z-10">
         <div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             <span className="px-2 py-0.5 rounded-full bg-[#c59b48]/15 border border-[#c59b48]/40 text-[#dfb76c] font-sans text-[10px] font-bold uppercase tracking-wider">
               DUAL-POL PPI POLAR SCOPE
             </span>
             <span className="text-xs font-mono text-slate-400">Node: {node.code}</span>
+            {lastSync !== undefined && (
+              <span
+                className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full font-mono text-[10px] font-bold border ${
+                  isLive
+                    ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300'
+                    : 'bg-amber-500/15 border-amber-500/40 text-amber-300'
+                }`}
+                title={isLive ? 'Reflectivity derived live from real-time precipitation' : 'Simulated climatology — live feed unreachable'}
+              >
+                <span className={`h-1.5 w-1.5 rounded-full ${isLive ? 'bg-emerald-400 animate-ping' : 'bg-amber-400'}`} />
+                {isLive ? `LIVE • synced ${lastSync}` : `SIM • ${lastSync}`}
+              </span>
+            )}
           </div>
           <h3 className="text-lg sm:text-xl font-black text-white tracking-tight mt-0.5">
             {node.name}

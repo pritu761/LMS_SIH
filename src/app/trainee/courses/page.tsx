@@ -16,7 +16,7 @@ import {
   Bot,
 } from 'lucide-react';
 import { Sidebar } from '@/components/layout/Sidebar';
-import { initialCourses, initialCompetencies, initialCadres } from '@/lib/mockData';
+import { initialCourses, initialCompetencies, initialCadres, initialEnrollments } from '@/lib/mockData';
 import { useCourseChat } from '@/context/ChatContext';
 
 export default function CourseCatalogPage() {
@@ -97,7 +97,7 @@ export default function CourseCatalogPage() {
               <button
                 key={tr.id}
                 onClick={() => setSelectedTrack(tr.id)}
-                className={`rounded-xl px-3.5 py-2 text-xs font-semibold whitespace-nowrap transition-all ${
+                className={`rounded-xl px-3.5 py-2 text-xs font-semibold whitespace-nowrap shrink-0 transition-all ${
                   selectedTrack === tr.id
                     ? 'bg-[#0b1e36] text-[#dfb76c] border border-[#c59b48]/50 shadow-md shadow-[#0b1e36]/20 dark:bg-[#122c4d]'
                     : 'bg-white dark:bg-slate-900/60 text-slate-700 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-none'
@@ -110,7 +110,23 @@ export default function CourseCatalogPage() {
         </div>
 
         {/* Course Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {filteredCourses.length === 0 ? (
+          <div className="rounded-3xl border border-dashed border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900/60 p-10 text-center space-y-3">
+            <BookOpen className="h-10 w-10 mx-auto text-slate-300 dark:text-slate-600" />
+            <h3 className="text-base font-bold text-slate-900 dark:text-white">No modules match your filters</h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400 max-w-sm mx-auto leading-relaxed">
+              Nothing found for “{search}” in the {selectedTrack === 'ALL' ? 'full catalog' : `${selectedTrack} track`}. Try a different keyword (Radar, NWP, Satellite, AI, HPC, Cyclone) or reset the filters.
+            </p>
+            <button
+              type="button"
+              onClick={() => { setSearch(''); setSelectedTrack('ALL'); }}
+              className="inline-flex items-center gap-1.5 rounded-xl bg-[#0b1e36] hover:bg-[#122c4d] border border-[#c59b48]/50 px-4 py-2 text-xs font-bold text-white transition-all hover:scale-105"
+            >
+              Reset search & filters
+            </button>
+          </div>
+        ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           {filteredCourses.map((course) => (
             <div
               key={course.id}
@@ -124,7 +140,7 @@ export default function CourseCatalogPage() {
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-slate-950/20 to-transparent dark:from-[#131726] dark:via-[#131726]/40 dark:to-transparent" />
-                <div className="absolute top-4 left-4 flex items-center gap-2">
+                <div className="absolute top-4 left-4 right-4 flex items-center gap-2 flex-wrap">
                   <span className="rounded-md bg-white/95 dark:bg-slate-950/80 px-2 py-0.5 text-xs font-bold text-[#0b1e36] dark:text-[#c59b48] border border-slate-200 dark:border-[#c59b48]/30 backdrop-blur-md shadow-sm">
                     {course.code}
                   </span>
@@ -166,13 +182,27 @@ export default function CourseCatalogPage() {
                 </div>
 
                 {/* Footer / CTA */}
-                <div className="pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
-                  <div>
-                    <div className="text-[13px] font-semibold text-slate-900 dark:text-slate-200">{course.trainerName}</div>
-                    <div className="text-xs text-slate-600 dark:text-slate-400 flex items-center gap-1 tabular-nums">
-                      <Star className="h-3 w-3 text-amber-500 dark:text-amber-400 fill-amber-500 dark:fill-amber-400" />
-                      <span>{course.trainerRating} • {course.durationHours} Hours</span>
-                    </div>
+                <div className="pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between gap-2">
+                  <div className="min-w-0">
+                    <div className="text-[13px] font-semibold text-slate-900 dark:text-slate-200 truncate">{course.trainerName}</div>
+                    {(() => {
+                      const enr = initialEnrollments.find((e) => e.courseId === course.id);
+                      return enr ? (
+                        <div className="mt-1">
+                          <div className="h-1.5 w-32 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                            <div className="h-full bg-gradient-to-r from-indigo-500 to-cyan-400 rounded-full" style={{ width: `${enr.progressPercentage}%` }} />
+                          </div>
+                          <div className="text-[10px] text-indigo-600 dark:text-indigo-300 font-bold mt-0.5">
+                            {enr.status === 'COMPLETED' ? 'Completed' : `${Math.round(enr.progressPercentage)}% enrolled — resume`}
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="text-xs text-slate-600 dark:text-slate-400 flex items-center gap-1 tabular-nums">
+                          <Star className="h-3 w-3 text-amber-500 dark:text-amber-400 fill-amber-500 dark:fill-amber-400" />
+                          <span>{course.trainerRating} • {course.durationHours} Hours • {course.level}</span>
+                        </div>
+                      );
+                    })()}
                   </div>
 
                   <Link
@@ -187,6 +217,7 @@ export default function CourseCatalogPage() {
             </div>
           ))}
         </div>
+        )}
       </main>
     </div>
   );

@@ -34,6 +34,11 @@ export default function DopplerRadarCommandCenterPage() {
   const [filterBand, setFilterBand] = useState<string>('ALL');
   const [isDiagnosticsOpen, setIsDiagnosticsOpen] = useState(false);
   const [lastSync, setLastSync] = useState<string>('Live');
+  const [isLiveFeed, setIsLiveFeed] = useState<boolean>(false);
+  const [dataSource, setDataSource] = useState<string>('static-fallback');
+  const [highlights, setHighlights] = useState<
+    Array<{ id: string; code: string; city: string; state: string; reflectivityDbz: number; status: string; hydrometeorType: string }>
+  >([]);
 
   // Real-time dynamic polling to keep telemetry alive
   useEffect(() => {
@@ -44,6 +49,9 @@ export default function DopplerRadarCommandCenterPage() {
         if (data.success && data.nodes) {
           setNodes(data.nodes);
           setSummary(data.summary);
+          setIsLiveFeed(Boolean(data.isLive));
+          setDataSource(data.dataSource || 'static-fallback');
+          if (Array.isArray(data.highlights)) setHighlights(data.highlights);
           // Keep selected node reference updated
           setSelectedNode((prev) => data.nodes.find((n: RadarNode) => n.id === prev.id) || data.nodes[0]);
           setLastSync(new Date().toLocaleTimeString());
@@ -53,6 +61,7 @@ export default function DopplerRadarCommandCenterPage() {
       }
     };
 
+    fetchLiveTelemetry();
     const interval = setInterval(fetchLiveTelemetry, 3000);
     return () => clearInterval(interval);
   }, []);
@@ -87,6 +96,19 @@ export default function DopplerRadarCommandCenterPage() {
                 <span className="text-xs font-sans text-emerald-600 dark:text-emerald-400 font-bold flex items-center gap-1">
                   <span className="h-2 w-2 rounded-full bg-emerald-500 animate-ping" />
                   38 / 38 Nodes Synchronized
+                </span>
+                <span
+                  className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded-full border ${
+                    isLiveFeed
+                      ? 'bg-sky-500/15 border-sky-500/40 text-sky-700 dark:text-sky-300'
+                      : 'bg-amber-500/15 border-amber-500/40 text-amber-700 dark:text-amber-300'
+                  }`}
+                  title={isLiveFeed ? 'Per-station reflectivity derived live from Open-Meteo precipitation' : 'Live feed unreachable — showing climatology fallback'}
+                >
+                  {isLiveFeed ? '● LIVE FEED • Open-Meteo' : '○ SIMULATION MODE'}
+                </span>
+                <span className="hidden xl:inline text-[10px] font-mono text-slate-500 dark:text-slate-400">
+                  src: {dataSource} • sync: {lastSync}
                 </span>
               </div>
 
@@ -176,6 +198,8 @@ export default function DopplerRadarCommandCenterPage() {
           <LiveRadarScope
             node={selectedNode}
             onOpenDiagnostics={() => setIsDiagnosticsOpen(true)}
+            lastSync={lastSync}
+            isLive={isLiveFeed}
           />
         </div>
 
@@ -192,15 +216,26 @@ export default function DopplerRadarCommandCenterPage() {
             </span>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-2 pt-1 text-[11px]">
-            <div className="p-2.5 rounded-xl bg-white/10 border border-white/15 text-slate-100 leading-snug">
-              <span className="text-[#dfb76c] font-bold">[RMC Chennai]</span> Dual-Pol ZDR signature mapped • Forecaster score: 96%
-            </div>
-            <div className="p-2.5 rounded-xl bg-white/10 border border-white/15 text-slate-100 leading-snug">
-              <span className="text-cyan-300 font-bold">[Alipore Kolkata]</span> Nor’wester squall line velocity de-aliased (V_max ±48 m/s)
-            </div>
-            <div className="p-2.5 rounded-xl bg-white/10 border border-white/15 text-slate-100 leading-snug">
-              <span className="text-purple-300 font-bold">[Mausam Bhawan]</span> 38 / 38 stations synchronized with Pratyush HPC cluster
-            </div>
+            {highlights.length > 0 ? (
+              highlights.map((h) => (
+                <div key={h.id} className="p-2.5 rounded-xl bg-white/10 border border-white/15 text-slate-100 leading-snug">
+                  <span className="text-[#dfb76c] font-bold">[{h.code} {h.city}]</span>{' '}
+                  {h.hydrometeorType} • {h.reflectivityDbz.toFixed(1)} dBZ • {h.status}
+                </div>
+              ))
+            ) : (
+              <>
+                <div className="p-2.5 rounded-xl bg-white/10 border border-white/15 text-slate-100 leading-snug">
+                  <span className="text-[#dfb76c] font-bold">[RMC Chennai]</span> Dual-Pol ZDR signature mapped • Forecaster score: 96%
+                </div>
+                <div className="p-2.5 rounded-xl bg-white/10 border border-white/15 text-slate-100 leading-snug">
+                  <span className="text-cyan-300 font-bold">[Alipore Kolkata]</span> Nor’wester squall line velocity de-aliased (V_max ±48 m/s)
+                </div>
+                <div className="p-2.5 rounded-xl bg-white/10 border border-white/15 text-slate-100 leading-snug">
+                  <span className="text-purple-300 font-bold">[Mausam Bhawan]</span> 38 / 38 stations synchronized with Pratyush HPC cluster
+                </div>
+              </>
+            )}
           </div>
         </div>
 

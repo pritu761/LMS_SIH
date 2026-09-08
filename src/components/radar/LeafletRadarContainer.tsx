@@ -232,6 +232,11 @@ export function LeafletRadarContainer({
     if (!map) return;
 
     const locationTitle = selectedLocationName || `${center[0].toFixed(2)}°, ${center[1].toFixed(2)}°`;
+    const safeTitle = locationTitle
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
 
     // Create custom pulsating SVG marker icon
     const customIcon = L.divIcon({
@@ -241,8 +246,8 @@ export function LeafletRadarContainer({
           <div class="absolute w-8 h-8 rounded-full bg-amber-400/30 animate-ping"></div>
           <div class="absolute w-6 h-6 rounded-full bg-amber-500/50"></div>
           <div class="relative w-3.5 h-3.5 rounded-full bg-amber-400 border-2 border-slate-950 shadow-[0_0_12px_rgba(251,191,36,0.9)]"></div>
-          <div class="absolute left-6 top-1/2 -translate-y-1/2 whitespace-nowrap bg-slate-900/90 border border-amber-400/40 text-amber-300 text-[11px] font-mono px-2 py-0.5 rounded shadow-lg backdrop-blur-sm pointer-events-none transition-all duration-200">
-            ${locationTitle}
+          <div class="absolute left-6 top-1/2 -translate-y-1/2 whitespace-nowrap overflow-hidden text-ellipsis max-w-[160px] bg-slate-900/90 border border-amber-400/40 text-amber-300 text-[11px] font-mono px-2 py-0.5 rounded shadow-lg backdrop-blur-sm pointer-events-none transition-all duration-200">
+            ${safeTitle}
           </div>
         </div>
       `,

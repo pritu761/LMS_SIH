@@ -220,15 +220,15 @@ export const WeatherMetricsHud: React.FC<WeatherMetricsHudProps> = ({
       )}
 
       {/* Header Section */}
-      <div className="flex items-start justify-between mb-4">
+      <div className="flex items-start justify-between gap-3 mb-4">
         {showLocationHeader && (
-          <div>
-            <div className="flex items-center space-x-2">
-              <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center gap-2 min-w-0 flex-wrap">
+              <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white truncate min-w-0">
                 {coordinates.name || 'Selected Target'}
               </h2>
               {coordinates.country && (
-                <span className="px-2 py-0.5 text-xs font-semibold rounded-md bg-slate-100 dark:bg-slate-800 text-[#9a7224] dark:text-amber-300 border border-slate-200 dark:border-slate-700">
+                <span className="px-2 py-0.5 text-xs font-semibold rounded-md bg-slate-100 dark:bg-slate-800 text-[#9a7224] dark:text-amber-300 border border-slate-200 dark:border-slate-700 shrink-0">
                   {coordinates.country}
                 </span>
               )}
