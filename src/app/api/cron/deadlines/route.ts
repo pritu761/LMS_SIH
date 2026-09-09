@@ -3,13 +3,14 @@ import { getCurrentUser } from '@/lib/auth';
 import { runDeadlineSweep } from '@/services/notifyService';
 
 /**
- * POST /api/cron/deadlines — scheduled sweep (Vercel Cron, hourly).
- * Exam windows opening within 24h → EXAM_OPENED; assignment deadlines at
- * 24h/2h → DEADLINE_REMINDER. Idempotent via recent-title dedupe.
+ * POST /api/cron/deadlines — scheduled sweep (Vercel Cron, once daily on
+ * Hobby: 00:30 UTC / 06:00 IST). Exam windows opening within 24h get
+ * EXAM_OPENED; assignment deadlines at 24h/2h get DEADLINE_REMINDER.
+ * Idempotent via recent-title dedupe.
  *
  * Auth: CRON_SECRET bearer when configured (production); otherwise an
  * ADMIN session (local/manual runs). Set CRON_SECRET in env + vercel.json
- * crons (hourly).
+ * crons (daily on Hobby; hourly+ only on Pro).
  */
 export async function POST(request: NextRequest) {
   const configured = process.env.CRON_SECRET;

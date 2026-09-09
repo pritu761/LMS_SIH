@@ -4,8 +4,9 @@ import { notifyUser, recentlyNotified } from '@/lib/notify';
 // ============================================================================
 // Deadline sweep (Phase 3.3): exam windows opening within 24h and assignment
 // deadlines at 24h / 2h horizons → EXAM_OPENED / DEADLINE_REMINDER per
-// cohort member. Idempotent via recent-title dedupe (safe to run hourly).
-// Triggered by POST /api/cron/deadlines (Vercel Cron, hourly).
+// cohort member. Idempotent via recent-title dedupe (safe to run on any
+// cadence; Vercel Cron runs it daily on Hobby).
+// Triggered by POST /api/cron/deadlines (Vercel Cron, daily).
 // ============================================================================
 
 export interface SweepResult {
