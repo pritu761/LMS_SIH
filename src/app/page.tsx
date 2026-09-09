@@ -52,6 +52,7 @@ import {
   Landmark,
 } from 'lucide-react';
 import { SpotlightCard } from '@/components/shared/SpotlightCard';
+import { DemoPromoBand } from '@/components/demo/DemoPromoBand';
 import { MotionSection } from '@/components/shared/MotionPrimitives';
 import { ease } from '@/lib/animations';
 import { initialCourses } from '@/lib/mockData';
@@ -1148,6 +1149,9 @@ export default function HomePage() {
           ))}
         </div>
       </section>
+
+      {/* ════════════════ EXPLORE WITHOUT LOGIN (DEMO PERSONA MODE) ════════════════ */}
+      <DemoPromoBand />
 
       {/* ════════════════ FINAL INSTITUTIONAL CTA ════════════════ */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-16">

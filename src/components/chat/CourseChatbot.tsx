@@ -234,6 +234,24 @@ export function CourseChatbot() {
   });
   const [ttsEnabled, setTtsEnabled] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
+  // Navigator is authenticated-only: hide the entry point for guests.
+  const [sessionKnown, setSessionKnown] = useState(false);
+  const [isAuthed, setIsAuthed] = useState(false);
+  useEffect(() => {
+    fetch('/api/auth/me')
+      .then(async (r) => {
+        setIsAuthed(r.ok);
+      })
+      .catch(() => setIsAuthed(false))
+      .finally(() => setSessionKnown(true));
+    const onAuth = () => {
+      fetch('/api/auth/me')
+        .then(async (r) => setIsAuthed(r.ok))
+        .catch(() => setIsAuthed(false));
+    };
+    window.addEventListener('auth-change', onAuth);
+    return () => window.removeEventListener('auth-change', onAuth);
+  }, []);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const recognitionRef = useRef<any>(null);
@@ -404,9 +422,9 @@ export function CourseChatbot() {
 
   return (
     <>
-      {/* Floating Action Button (FAB) Trigger */}
+      {/* Floating Action Button (FAB) Trigger — authenticated users only */}
       <AnimatePresence>
-        {!isOpen && (
+        {!isOpen && sessionKnown && isAuthed && (
           <motion.div
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
@@ -595,6 +613,28 @@ export function CourseChatbot() {
                             </>
                           )}
 
+                          {/* Retrieved citations (RAG answers) */}
+                          {!isStreaming && !isUser && msg.sources && msg.sources.length > 0 && (
+                            <div className="mt-2.5 flex flex-wrap gap-1" aria-label="Answer sources">
+                              {msg.sources.slice(0, 5).map((s, i) => (
+                                <span
+                                  key={`${s.source}-${i}`}
+                                  title={s.section ?? s.source}
+                                  className="inline-flex max-w-full items-center gap-1 truncate rounded-full border border-[#c59b48]/40 bg-[#c59b48]/10 px-2 py-0.5 font-mono text-[9px] font-bold text-[#9a7224] dark:text-[#dfb76c]"
+                                >
+                                  [S{i + 1}] {s.source}{s.section ? ` • ${s.section.slice(0, 28)}` : ''}
+                                </span>
+                              ))}
+                            </div>
+                          )}
+                          {!isStreaming && !isUser && (msg.degraded || (msg.confidence !== undefined && msg.confidence < 0.4)) && (
+                            <p className="mt-1.5 text-[10px] italic text-slate-500 dark:text-slate-400">
+                              {msg.degraded
+                                ? 'Limited mode — verify operational details with your administrator.'
+                                : 'Low retrieval confidence — verify with your administrator before acting.'}
+                            </p>
+                          )}
+
                           {/* Matched Rich Course Cards (revealed after streaming completes) */}
                           {!isStreaming && msg.matchedCourses && msg.matchedCourses.length > 0 && (
                             <div className="mt-3 space-y-2">
@@ -625,13 +665,13 @@ export function CourseChatbot() {
                           >
                             <span className="flex items-center gap-1.5">
                               <span>{msg.timestamp}</span>
-                              {!isUser && msg.source === 'groq' && (
+                              {!isUser && (msg.source === 'groq' || msg.source === 'rag') && (
                                 <span
                                   className="inline-flex items-center gap-0.5 rounded-full bg-[#c59b48]/15 border border-[#c59b48]/40 px-1.5 py-px text-[9px] font-bold text-[#9a7224] dark:text-[#dfb76c]"
-                                  title={msg.model ? `Answered by ${msg.model}` : 'Answered by Groq AI'}
+                                  title={msg.model ? `Answered by ${msg.model} (retrieval-grounded)` : 'Retrieval-grounded answer'}
                                 >
                                   <Sparkles className="h-2 w-2" />
-                                  Groq AI
+                                  {msg.source === 'rag' ? 'RAG' : 'Groq AI'}
                                 </span>
                               )}
                             </span>

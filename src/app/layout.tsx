@@ -4,6 +4,8 @@ import Script from 'next/script';
 import { Plus_Jakarta_Sans, Outfit, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { Navbar } from '@/components/layout/Navbar';
+import { CommandPalette } from '@/components/search/CommandPalette';
+import { ServiceWorkerRegister } from '@/components/pwa/ServiceWorkerRegister';
 import { BackToTop } from '@/components/shared/BackToTop';
 import { ThemeProvider } from '@/context/ThemeContext';
 import { ChatProvider } from '@/context/ChatContext';
@@ -60,6 +62,7 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+  manifest: '/manifest.webmanifest',
 };
 
 export const viewport: Viewport = {
@@ -102,11 +105,19 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-screen bg-white text-slate-900 dark:bg-[#070f1a] dark:text-slate-100 flex flex-col font-sans antialiased selection:bg-[#0b1e36] selection:text-[#c59b48] transition-colors duration-300" suppressHydrationWarning>
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[200] focus:rounded-xl focus:bg-[#0b1e36] focus:px-4 focus:py-2 focus:text-sm focus:font-bold focus:text-white"
+        >
+          Skip to main content
+        </a>
         <div className="watermark-bg" suppressHydrationWarning />
         <ThemeProvider>
           <ChatProvider>
             <Navbar />
-            <main className="flex-1 flex flex-col relative z-10" suppressHydrationWarning>{children}</main>
+            <CommandPalette />
+            <ServiceWorkerRegister />
+            <main id="main-content" className="flex-1 flex flex-col relative z-10" suppressHydrationWarning>{children}</main>
 
             {/* Sovereign Navy & Gold Global Footer with Wave & Gold Trim */}
             <footer

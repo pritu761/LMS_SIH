@@ -1,5 +1,15 @@
-// Capacity Connect - Prisma Schema
-// Digital Capacity Building & Learning Management Portal
+// CapacityConnect — Prisma Schema (Phase 1–3)
+// IMD / Mission Mausam LMS + Competency Management Portal
+// Backward-compatible: all pre-existing models are preserved untouched (only
+// additive optional fields/relations). New models implement the spec's
+// DATABASE SCHEMA ADDITIONS section.
+//
+// NOTE on RAG vectors (Document.embedding):
+//   Stored as Json (array of floats) for portability across Neon free tier.
+//   For production pgvector, run once via psql:
+//     CREATE EXTENSION IF NOT EXISTS vector;
+//     ALTER TABLE "Document" ADD COLUMN IF NOT EXISTS "embeddingVector" vector(1536);
+//   and backfill from the Json column. The app's retrieval layer supports both.
 
 generator client {
   provider = "prisma-client"
@@ -11,7 +21,7 @@ datasource db {
 }
 
 // --------------------------------------------------------
-// ENUMS
+// ENUMS (existing — extended additively, never renamed)
 // --------------------------------------------------------
 
 enum UserRole {
@@ -50,6 +60,8 @@ enum EnrollmentStatus {
 enum QuestionType {
   SINGLE_CHOICE
   MULTI_CHOICE
+  TRUE_FALSE
+  SHORT_ANSWER
 }
 
 enum SubmissionStatus {
@@ -67,7 +79,158 @@ enum AnnouncementType {
 }
 
 // --------------------------------------------------------
-// CORE USER & PROFILE MODELS
+// ENUMS (new — Phase 1–3)
+// --------------------------------------------------------
+
+enum TrackLevel {
+  FOUNDATION
+  ADVANCED
+}
+
+enum LessonStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum LessonContentType {
+  MARKDOWN
+  VIDEO
+  PDF
+  QUIZ
+  MIXED
+}
+
+enum QuestionDifficulty {
+  EASY
+  MEDIUM
+  HARD
+}
+
+enum BloomsLevel {
+  REMEMBER
+  UNDERSTAND
+  APPLY
+  ANALYZE
+  EVALUATE
+  CREATE
+}
+
+enum CertificateStatus {
+  VALID
+  REVOKED
+  EXPIRED
+}
+
+enum AttemptStatus {
+  STARTED
+  SUBMITTED
+  AUTO_SUBMITTED
+  GRADED
+  VOIDED
+}
+
+enum AttemptVerdict {
+  PENDING
+  VALID
+  INVALID
+  ESCALATED
+}
+
+enum IntegrityFlag {
+  CLEAN
+  REVIEW
+  FLAGGED
+}
+
+enum IntegrityEventType {
+  FULLSCREEN_EXIT
+  TAB_BLUR
+  WINDOW_BLUR
+  COPY_ATTEMPT
+  PASTE_ATTEMPT
+  RIGHT_CLICK
+  DEVTOOLS_SUSPECTED
+  MULTIPLE_FACES
+  NO_FACE
+  NETWORK_DROP
+  EXAM_START
+  EXAM_SUBMIT
+  WARNING_ISSUED
+  OTHER
+}
+
+enum NotificationType {
+  REGISTRATION_APPROVED
+  REGISTRATION_REJECTED
+  REGISTRATION_INFO_REQUESTED
+  COHORT_ASSIGNED
+  EXAM_OPENED
+  DEADLINE_REMINDER
+  CERTIFICATE_ISSUED
+  CERTIFICATE_REVOKED
+  REMEDIATION_RECEIVED
+  RADAR_CASE_SHARED
+  SLA_BREACH
+  SYSTEM
+}
+
+enum CohortStatus {
+  PLANNED
+  ACTIVE
+  COMPLETED
+  ARCHIVED
+}
+
+enum SessionType {
+  LIVE_SESSION
+  EXAM_WINDOW
+  ASSIGNMENT_DEADLINE
+  WORKSHOP
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  LATE
+  EXCUSED
+}
+
+enum TrainerAvailability {
+  AVAILABLE
+  ON_LEAVE
+  UNAVAILABLE
+}
+
+enum BulkJobType {
+  OFFICER_ROSTER
+  STATION_DATA
+  BATCH_ASSIGNMENT
+}
+
+enum BulkJobStatus {
+  QUEUED
+  PROCESSING
+  DONE
+  FAILED
+  PARTIAL
+}
+
+enum ChatRole {
+  USER
+  ASSISTANT
+  SYSTEM
+}
+
+enum RemediationStatus {
+  DRAFT
+  SENT
+  ACKNOWLEDGED
+  COMPLETED
+}
+
+// --------------------------------------------------------
+// CORE USER & PROFILE MODELS (extended additively)
 // --------------------------------------------------------
 
 model User {
@@ -80,25 +243,77 @@ model User {
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
 
-  // Relations
-  profile             Profile?
-  competencies        UserCompetency[]
-  coursesTaught       Course[]                @relation("TrainerCourses")
-  enrollments         Enrollment[]
-  submissions         AssessmentSubmission[]
-  feedbacks           Feedback[]
-  authoredAnnouncements Announcement[]       @relation("AdminAnnouncements")
+  // --- Phase 1 additions (all optional → existing rows unaffected) ---
+  // Approval queue / governance
+  rejectionReason String?   @db.Text
+  requestedAt     DateTime  @default(now())
+  reviewedAt      DateTime?
+  reviewedById    String?
+  reviewedBy      User?     @relation("UserReviews", fields: [reviewedById], references: [id], onDelete: SetNull)
+  reviewsGiven    User[]    @relation("UserReviews")
+
+  // Posting / cadre
+  stationId      String?
+  station        Station?   @relation(fields: [stationId], references: [id], onDelete: SetNull)
+  cadre          String? // e.g. "Scientist-B", "SA", "Met Assistant"
+  // Unique in practice; enforced at app layer (avoids a UNIQUE DDL migration
+  // on tables that already hold rows).
+  employeeCode   String?
+  lastActiveAt   DateTime?
+
+  // Trainer matcher inputs
+  availability      TrainerAvailability @default(AVAILABLE)
+  rating            Float? // 0–5 past-performance rating (matcher 30%)
+  cohortsDelivered  Int                 @default(0) // matcher 15%
+  specialization    String?
+  onLeaveUntil      DateTime?
+
+  // Relations (existing)
+  profile               Profile?
+  competencies          UserCompetency[]
+  coursesTaught         Course[]                @relation("TrainerCourses")
+  enrollments           Enrollment[]
+  submissions           AssessmentSubmission[]
+  feedbacks             Feedback[]
+  authoredAnnouncements Announcement[]          @relation("AdminAnnouncements")
+
+  // Relations (new)
+  competencyScores CompetencyScore[]
+  lessonProgress   LessonProgress[]
+  certificates     Certificate[]
+  examAttempts     ExamAttempt[]
+  notifications    Notification[]
+  notificationPrefs NotificationPreference?
+  auditActions     AuditLog[]               @relation("AuditActor")
+  cohortMemberships CohortMember[]
+  trainerCohorts   TrainerCohort[]          @relation("CohortTrainer")
+  matcherRuns      MatcherRun[]
+  trainerNotesGiven TrainerNote[]           @relation("NoteAuthor")
+  trainerNotesReceived TrainerNote[]        @relation("NoteSubject")
+  attendanceRecords Attendance[]
+  remediationPacksSent RemediationPack[]    @relation("RemediationSender")
+  remediationTasks RemediationAssignment[]
+  calendarEvents   CalendarEvent[]
+  chatMessages     ChatMessage[]
+  lessonVersions   LessonVersion[]          @relation("VersionAuthor")
+  bulkJobs         BulkImportJob[]
+  radarAnnotations RadarAnnotation[]       @relation("AnnotationAuthor")
+  caseAttempts     RadarCaseAttempt[]
 
   @@index([role])
   @@index([status])
   @@index([email])
+  @@index([employeeCode])
+  @@index([stationId])
+  @@index([availability])
+  @@index([lastActiveAt])
 }
 
 model Profile {
   id             String    @id @default(uuid())
   userId         String    @unique
   user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
+
   fullName       String
   avatarUrl      String?
   headline       String?
@@ -107,7 +322,7 @@ model Profile {
   department     String?
   phone          String?
   location       String?
-  
+
   // Structured Qualifications, Experience, and Certificates as JSON arrays
   qualifications Json?     @default("[]") // Array of { degree, institution, year, field }
   experience     Json?     @default("[]") // Array of { title, company, startYear, endYear, description }
@@ -120,7 +335,38 @@ model Profile {
 }
 
 // --------------------------------------------------------
-// COMPETENCY MAPPING MODELS
+// STATIONS (38 IMD radar stations)
+// --------------------------------------------------------
+
+model Station {
+  id           String   @id @default(uuid())
+  code         String   @unique // e.g. "DEL", "MUM"
+  name         String // e.g. "Delhi (Lodhi Road)"
+  city         String
+  state        String
+  region       String // NORTH | SOUTH | EAST | WEST | CENTRAL | NE
+  latitude     Float
+  longitude    Float
+  radarType    String   @default("S-BAND") // S-BAND | C-BAND | X-BAND
+  radarRangeKm Int      @default(500)
+  readinessPct Float    @default(0)
+  cadreCount   Int      @default(0)
+  topGapDomain String?
+  lastSurveyAt DateTime?
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  users   User[]
+  cohorts Cohort[]
+
+  @@index([region])
+  @@index([readinessPct])
+  @@index([isActive])
+}
+
+// --------------------------------------------------------
+// COMPETENCY MAPPING MODELS (extended additively)
 // --------------------------------------------------------
 
 model Competency {
@@ -132,12 +378,19 @@ model Competency {
   targetLevel Int      @default(3) // 1 (Novice) - 5 (Expert)
   createdAt   DateTime @default(now())
 
+  // --- Phase 1 additions (WMO mapping, all optional) ---
+  domainCode   String? // RAD-NOWCAST | NWP | HPC | DISASTER-OPS | SYNOPTIC | COMMS
+  wmoCode      String? // e.g. "WMO-No.1205 III-2.1"
+  wmoRubricRef String? @db.Text
+  weight       Float   @default(1.0)
+
   // Relations
   userCompetencies   UserCompetency[]
   courseCompetencies CourseCompetency[]
 
   @@index([category])
   @@index([code])
+  @@index([domainCode])
 }
 
 model UserCompetency {
@@ -146,7 +399,7 @@ model UserCompetency {
   user             User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   competencyId     String
   competency       Competency  @relation(fields: [competencyId], references: [id], onDelete: Cascade)
-  
+
   proficiencyLevel Int         @default(1) // 1 to 5
   verified         Boolean     @default(false)
   verifiedAt       DateTime?
@@ -160,8 +413,166 @@ model UserCompetency {
   @@index([proficiencyLevel])
 }
 
+/// Per-domain radar-chart scores (0–100 scale).
+/// Separate from UserCompetency (1–5 scale) — this feeds the trainee
+/// COMPETENCY RADAR CHART (domains: RAD-NOWCAST | NWP | HPC | DISASTER-OPS | SYNOPTIC | COMMS).
+model CompetencyScore {
+  id            String   @id @default(uuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  domain        String // RAD-NOWCAST | NWP | HPC | DISASTER-OPS | SYNOPTIC | COMMS
+  score         Float    @default(0) // current level 0–100
+  requiredScore Float    @default(80) // required level 0–100
+  updatedAt     DateTime @updatedAt
+  createdAt     DateTime @default(now())
+
+  @@unique([userId, domain])
+  @@index([userId])
+  @@index([domain])
+}
+
 // --------------------------------------------------------
-// COURSE & CURRICULUM MODELS
+// CURRICULUM: TRACKS → MODULES → LESSONS (new, Phase 1.1/1.3)
+// --------------------------------------------------------
+
+model TrainingTrack {
+  id                   String     @id @default(uuid())
+  code                 String     @unique // IMTC | FTC | DRSTC | MODULAR
+  name                 String
+  description          String     @db.Text
+  level                TrackLevel @default(FOUNDATION)
+  domains              Json       @default("[]") // string[] covered domains
+  estimatedDurationHrs Float      @default(0)
+  certificationBadge   String?
+  thumbnail            String?
+  isPublished          Boolean    @default(true)
+  displayOrder         Int        @default(0)
+  createdAt            DateTime   @default(now())
+  updatedAt            DateTime   @updatedAt
+
+  modules TrainingModule[]
+  cohorts Cohort[]
+
+  @@index([code])
+  @@index([isPublished])
+  @@index([level])
+}
+
+model TrainingModule {
+  id               String   @id @default(uuid())
+  trackId          String
+  track            TrainingTrack @relation(fields: [trackId], references: [id], onDelete: Cascade)
+  code             String   @unique // e.g. "DRSTC-M03"
+  title            String
+  description      String   @db.Text
+  outcomes         Json     @default("[]") // string[] learning outcomes
+  wmoTags          Json     @default("[]") // string[] WMO competency tags
+  level            TrackLevel @default(FOUNDATION)
+  durationHours    Float    @default(0)
+  sortOrder        Int      @default(0)
+  isPreviewFree    Boolean  @default(false) // one free lesson per track surfaces via a lesson flag
+  isPublished      Boolean  @default(true)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  lessons       Lesson[]
+  certificates  Certificate[]
+  assessments   Assessment[]
+  // DAG edges
+  prerequisites ModulePrerequisite[] @relation("ModuleDependents")
+  dependents    ModulePrerequisite[] @relation("ModulePrereqs")
+
+  @@index([trackId])
+  @@index([code])
+  @@index([sortOrder])
+  @@index([isPublished])
+}
+
+/// DAG edge: moduleId depends on prerequisiteId.
+model ModulePrerequisite {
+  id             String         @id @default(uuid())
+  moduleId       String
+  module         TrainingModule @relation("ModuleDependents", fields: [moduleId], references: [id], onDelete: Cascade)
+  prerequisiteId String
+  prerequisite   TrainingModule @relation("ModulePrereqs", fields: [prerequisiteId], references: [id], onDelete: Cascade)
+  createdAt      DateTime       @default(now())
+
+  @@unique([moduleId, prerequisiteId])
+  @@index([moduleId])
+  @@index([prerequisiteId])
+}
+
+model Lesson {
+  id                  String            @id @default(uuid())
+  moduleId            String
+  module              TrainingModule    @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  code                String?           @unique
+  title               String
+  content             String            @db.Text // Markdown/MDX source
+  contentType         LessonContentType @default(MARKDOWN)
+  // Block-based authoring payload (Phase 1.4B): array of
+  // { id, kind: text|video|file|quiz|code, ...kind fields }. Null for legacy
+  // markdown-only lessons. `content` always holds the rendered snapshot.
+  blocks              Json?
+  videoUrl            String?
+  pdfUrl              String?
+  resources           Json              @default("[]") // { id, name, url, kind: PDF|GRIB2|NETCDF|LINK, size }[]
+  version             Int               @default(1)
+  status              LessonStatus      @default(DRAFT)
+  isPreviewFree       Boolean           @default(false) // "Preview Sample Lesson" without login
+  isOfflineAvailable  Boolean           @default(false) // PWA cache flag
+  sortOrder           Int               @default(0)
+  wmoTags             Json              @default("[]")
+  publishedAt         DateTime?
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
+
+  versions LessonVersion[]
+  progress LessonProgress[]
+
+  @@index([moduleId])
+  @@index([status])
+  @@index([sortOrder])
+  @@index([isPreviewFree])
+}
+
+model LessonVersion {
+  id        String   @id @default(uuid())
+  lessonId  String
+  lesson    Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  version   Int
+  content   String   @db.Text
+  changelog String?  @db.Text
+  createdById String?
+  createdBy   User?    @relation("VersionAuthor", fields: [createdById], references: [id], onDelete: SetNull)
+  createdAt DateTime @default(now())
+
+  @@unique([lessonId, version])
+  @@index([lessonId])
+}
+
+model LessonProgress {
+  id                   String    @id @default(uuid())
+  userId               String
+  user                 User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lessonId             String
+  lesson               Lesson    @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  completed            Boolean   @default(false)
+  completedAt          DateTime?
+  lastPositionSeconds  Int       @default(0)
+  bookmark             Boolean   @default(false)
+  note                 String?   @db.Text
+  updatedAt            DateTime  @updatedAt
+  createdAt            DateTime  @default(now())
+
+  @@unique([userId, lessonId])
+  @@index([userId])
+  @@index([lessonId])
+  @@index([completed])
+}
+
+// --------------------------------------------------------
+// COURSE & CURRICULUM MODELS (existing — preserved)
 // --------------------------------------------------------
 
 model Course {
@@ -175,10 +586,10 @@ model Course {
   durationHours Float        @default(10.0)
   thumbnail     String?
   status        CourseStatus @default(DRAFT)
-  
+
   trainerId     String
   trainer       User         @relation("TrainerCourses", fields: [trainerId], references: [id], onDelete: Restrict)
-  
+
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
 
@@ -200,7 +611,7 @@ model CourseCompetency {
   course              Course     @relation(fields: [courseId], references: [id], onDelete: Cascade)
   competencyId        String
   competency          Competency @relation(fields: [competencyId], references: [id], onDelete: Cascade)
-  
+
   requiredProficiency Int        @default(3) // 1 to 5
   weight              Float      @default(1.0) // Relative weight in competency mapping
 
@@ -213,7 +624,7 @@ model CourseMaterial {
   id              String       @id @default(uuid())
   courseId        String
   course          Course       @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  
+
   title           String
   description     String?      @db.Text
   type            MaterialType @default(VIDEO)
@@ -233,7 +644,7 @@ model CourseMaterial {
 }
 
 // --------------------------------------------------------
-// ENROLLMENT & LEARNER PROGRESS
+// ENROLLMENT & LEARNER PROGRESS (existing — preserved)
 // --------------------------------------------------------
 
 model Enrollment {
@@ -242,16 +653,16 @@ model Enrollment {
   user               User             @relation(fields: [userId], references: [id], onDelete: Cascade)
   courseId           String
   course             Course           @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  
+
   status             EnrollmentStatus @default(ACTIVE)
   progressPercentage Float            @default(0.0) // 0.0 to 100.0
   completedMaterialIds Json?          @default("[]") // Array of string material IDs completed
   currentMaterialId  String?
-  
+
   enrolledAt         DateTime         @default(now())
   completedAt        DateTime?
   lastAccessedAt     DateTime         @default(now())
-  
+
   certificateId      String?          @unique
   certificateUrl     String?
 
@@ -262,18 +673,162 @@ model Enrollment {
 }
 
 // --------------------------------------------------------
-// ASSESSMENT ENGINE & AUTO-GRADING
+// COHORTS, SESSIONS, ATTENDANCE, NOTES (new — Phase 1.4)
+// --------------------------------------------------------
+
+model Cohort {
+  id          String       @id @default(uuid())
+  code        String       @unique // e.g. "DRSTC-04"
+  name        String
+  trackId     String?
+  track       TrainingTrack? @relation(fields: [trackId], references: [id], onDelete: SetNull)
+  stationId   String?
+  station     Station?     @relation(fields: [stationId], references: [id], onDelete: SetNull)
+  status      CohortStatus @default(PLANNED)
+  startDate   DateTime
+  endDate     DateTime?
+  maxCapacity Int          @default(30)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  members        CohortMember[]
+  sessions       CohortSession[]
+  trainerCohorts TrainerCohort[]
+  matcherRuns    MatcherRun[]
+  remediationPacks RemediationPack[]
+  calendarEvents CalendarEvent[]
+  annotations    RadarAnnotation[]
+
+  @@index([trackId])
+  @@index([status])
+  @@index([startDate])
+}
+
+model CohortMember {
+  id            String    @id @default(uuid())
+  cohortId      String
+  cohort        Cohort    @relation(fields: [cohortId], references: [id], onDelete: Cascade)
+  userId        String
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  attendancePct Float     @default(0)
+  riskFlag      Boolean   @default(false)
+  riskReason    String?
+  lastActiveAt  DateTime?
+  joinedAt      DateTime  @default(now())
+
+  @@unique([cohortId, userId])
+  @@index([cohortId])
+  @@index([userId])
+  @@index([riskFlag])
+}
+
+model CohortSession {
+  id          String      @id @default(uuid())
+  cohortId    String
+  cohort      Cohort      @relation(fields: [cohortId], references: [id], onDelete: Cascade)
+  title       String
+  description String?     @db.Text
+  type        SessionType @default(LIVE_SESSION)
+  startsAt    DateTime
+  endsAt      DateTime?
+  location    String?
+  meetingUrl  String?
+  createdAt   DateTime    @default(now())
+
+  attendance Attendance[]
+
+  @@index([cohortId])
+  @@index([startsAt])
+  @@index([type])
+}
+
+model Attendance {
+  id        String           @id @default(uuid())
+  sessionId String
+  session   CohortSession    @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  status    AttendanceStatus @default(PRESENT)
+  markedById String?
+  note      String?
+  markedAt  DateTime         @default(now())
+
+  @@unique([sessionId, userId])
+  @@index([sessionId])
+  @@index([userId])
+}
+
+/// Trainer-only inline notes per trainee (RBAC enforced at API layer).
+model TrainerNote {
+  id        String   @id @default(uuid())
+  trainerId String
+  trainer   User     @relation("NoteAuthor", fields: [trainerId], references: [id], onDelete: Cascade)
+  traineeId String
+  trainee   User     @relation("NoteSubject", fields: [traineeId], references: [id], onDelete: Cascade)
+  cohortId  String?
+  note      String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([traineeId])
+  @@index([trainerId])
+  @@index([cohortId])
+}
+
+/// Remediation micro-lesson packs sent by trainers to trainees.
+model RemediationPack {
+  id        String            @id @default(uuid())
+  trainerId String
+  trainer   User              @relation("RemediationSender", fields: [trainerId], references: [id], onDelete: Cascade)
+  cohortId  String
+  cohort    Cohort            @relation(fields: [cohortId], references: [id], onDelete: Cascade)
+  title     String
+  message   String?           @db.Text
+  lessonIds Json              @default("[]") // string[]
+  status    RemediationStatus @default(SENT)
+  createdAt DateTime          @default(now())
+
+  assignments RemediationAssignment[]
+
+  @@index([cohortId])
+  @@index([trainerId])
+}
+
+model RemediationAssignment {
+  id        String   @id @default(uuid())
+  packId    String
+  pack      RemediationPack @relation(fields: [packId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  completed Boolean  @default(false)
+  completedAt DateTime?
+  createdAt DateTime @default(now())
+
+  @@unique([packId, userId])
+  @@index([userId])
+}
+
+// --------------------------------------------------------
+// ASSESSMENT ENGINE, QUESTION BANK, PROCTORED EXAMS
 // --------------------------------------------------------
 
 model Assessment {
   id                    String                 @id @default(uuid())
   courseId              String
   course                Course                 @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  
+
+  // --- Phase 1.3/2.2 additions (optional) ---
+  moduleId              String?
+  module                TrainingModule?        @relation(fields: [moduleId], references: [id], onDelete: SetNull)
+  type                  String                 @default("CERTIFICATION") // CERTIFICATION | QUIZ | MOCK | PROCTORED
+  attemptRules          Json?                  @default("{\"shuffleQuestions\": true, \"shuffleOptions\": true}") // { shuffleQuestions, shuffleOptions, perQuestionSeconds? }
+  publishedAt           DateTime?
+  unpublishedAt         DateTime?
+
   title                 String
   description           String?                @db.Text
   timeLimitMinutes      Int                    @default(30)
-  passingScorePercentage Float                 @default(70.0)
+  passingScorePercentage Float                @default(70.0)
   maxAttempts           Int                    @default(3)
   submissionDeadline    DateTime?
   totalQuestions        Int                    @default(0)
@@ -286,16 +841,36 @@ model Assessment {
   // Relations
   questions   Question[]
   submissions AssessmentSubmission[]
+  examAttempts ExamAttempt[]
 
   @@index([courseId])
+  @@index([moduleId])
   @@index([isPublished])
+}
+
+/// Standalone reusable question bank (trainer-owned).
+model QuestionBank {
+  id          String   @id @default(uuid())
+  name        String
+  description String?  @db.Text
+  ownerId     String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  questions Question[]
+
+  @@index([ownerId])
 }
 
 model Question {
   id            String       @id @default(uuid())
-  assessmentId  String
-  assessment    Assessment   @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
-  
+  // Legacy path: question belongs to an assessment. New path: belongs to a bank.
+  // At least one of assessmentId / bankId must be set (enforced in app layer).
+  assessmentId  String?
+  assessment    Assessment?  @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+  bankId        String?
+  bank          QuestionBank? @relation(fields: [bankId], references: [id], onDelete: Cascade)
+
   questionText  String       @db.Text
   questionType  QuestionType @default(SINGLE_CHOICE)
   options       Json         // Array of { id: string, text: string }
@@ -304,8 +879,22 @@ model Question {
   explanation   String?      @db.Text
   sortOrder     Int          @default(1)
 
-  @@index([assessmentId])
+  // --- Phase 1.4 additions (question bank metadata) ---
+  competencyTag String?
+  difficulty    QuestionDifficulty @default(MEDIUM)
+  bloomsLevel   BloomsLevel        @default(UNDERSTAND)
+  wmoRef        String?
+  usageCount    Int                @default(0)
+  correctCount  Int                @default(0) // for difficulty index = correctCount/usageCount
+  discriminationIndex Float?
+  difficultyIndex     Float?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
   @@index([sortOrder])
+  @@index([competencyTag])
+  @@index([difficulty])
+  @@index([bloomsLevel])
 }
 
 model AssessmentSubmission {
@@ -314,14 +903,14 @@ model AssessmentSubmission {
   assessment       Assessment       @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
   userId           String
   user             User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
+
   answers          Json             // Map of { [questionId: string]: string | string[] }
   score            Float            @default(0.0)
   maxScore         Float            @default(0.0)
   percentage       Float            @default(0.0)
   passed           Boolean          @default(false)
   timeSpentSeconds Int              @default(0)
-  
+
   startedAt        DateTime         @default(now())
   submittedAt      DateTime?
   status           SubmissionStatus @default(IN_PROGRESS)
@@ -336,8 +925,327 @@ model AssessmentSubmission {
   @@index([passed])
 }
 
+/// Secure proctored attempt (Phase 2.2). Questions are served per-attempt with a
+/// server-side seed; nothing sensitive is persisted client-side.
+model ExamAttempt {
+  id              String         @id @default(uuid())
+  userId          String
+  user            User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  assessmentId    String
+  assessment      Assessment     @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+  seed            String // server-side shuffle seed (random hex)
+  questionOrder   Json           @default("[]") // string[] question ids in served order
+  answers         Json?          @default("{}")
+  score           Float?
+  percentage      Float?
+  startedAt       DateTime       @default(now())
+  submittedAt     DateTime?
+  timeSpentSeconds Int           @default(0)
+  status          AttemptStatus  @default(STARTED)
+  verdict         AttemptVerdict @default(PENDING)
+  integrityFlag   IntegrityFlag  @default(CLEAN)
+  riskScore       Float          @default(0) // 0–100
+  warningCount    Int            @default(0)
+  identityConfirmed Boolean      @default(false)
+  // True when the attempt contains human-graded items (SHORT_ANSWER):
+  // auto-scored portion is final, remainder awaits trainer grading.
+  needsGrading    Boolean        @default(false)
+
+  events IntegrityEvent[]
+
+  @@index([userId])
+  @@index([assessmentId])
+  @@index([status])
+  @@index([integrityFlag])
+}
+
+model IntegrityEvent {
+  id         String             @id @default(uuid())
+  attemptId  String
+  attempt    ExamAttempt        @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+  type       IntegrityEventType @default(OTHER)
+  timestamp  DateTime           @default(now())
+  metadata   Json?              @default("{}")
+
+  @@index([attemptId])
+  @@index([type])
+  @@index([timestamp])
+}
+
 // --------------------------------------------------------
-// FEEDBACK & CMS ANNOUNCEMENTS
+// CERTIFICATES + PUBLIC VERIFICATION (Phase 1.3E)
+// --------------------------------------------------------
+
+model Certificate {
+  id             String            @id @default(uuid())
+  userId         String
+  user           User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  moduleId       String?
+  module         TrainingModule?   @relation(fields: [moduleId], references: [id], onDelete: SetNull)
+  courseId       String?
+  title          String // denormalized module/course name at issue time
+  issuedAt       DateTime          @default(now())
+  verificationId String            @unique @default(uuid()) // public QR/link id
+  status         CertificateStatus @default(VALID)
+  revokedAt      DateTime?
+  revokeReason   String?
+  metadata       Json?             @default("{}") // { score, grade, trackCode, ... }
+
+  @@index([userId])
+  @@index([moduleId])
+  @@index([verificationId])
+  @@index([status])
+}
+
+// --------------------------------------------------------
+// 55/30/15 MATCHER (Phase 2.1)
+// --------------------------------------------------------
+
+/// Allocation of a trainer to a cohort with score breakdown.
+model TrainerCohort {
+  id                      String    @id @default(uuid())
+  trainerId               String
+  trainer                 User      @relation("CohortTrainer", fields: [trainerId], references: [id], onDelete: Cascade)
+  cohortId                String
+  cohort                  Cohort    @relation(fields: [cohortId], references: [id], onDelete: Cascade)
+  matchScore              Float     @default(0) // composite 0–100
+  skillOverlapPct         Float? // 55% component input
+  ratingScore             Float? // 30% component input (0–100 normalized)
+  experienceScore         Float? // 15% component input (0–100 normalized)
+  componentScores         Json?     @default("{}") // { skill, rating, experience, weights }
+  recommendationBadge     String? // BEST_MATCH | GOOD_FIT | STRETCH
+  bestMatchedDomains      Json?     @default("[]")
+  gapAreas                Json?     @default("[]")
+  constraintViolations    Json?     @default("[]")
+  override                Boolean   @default(false)
+  overrideTrainerId       String?
+  overrideJustification   String?   @db.Text
+  allocatedAt             DateTime  @default(now())
+
+  @@unique([trainerId, cohortId])
+  @@index([cohortId])
+  @@index([trainerId])
+  @@index([matchScore])
+}
+
+/// A simulator run (config + output snapshot) for audit/backtesting.
+model MatcherRun {
+  id            String   @id @default(uuid())
+  cohortId      String?
+  cohort        Cohort?  @relation(fields: [cohortId], references: [id], onDelete: SetNull)
+  createdById   String
+  createdBy     User     @relation(fields: [createdById], references: [id], onDelete: Restrict)
+  weights       Json // { skill, rating, experience } must sum to 100
+  constraints   Json     @default("{}") // { maxTrainees, avoidConsecutive, regionPref, excludeOnLeave }
+  results       Json     @default("[]") // ranked rows snapshot
+  historicalBatch String? // backtest label, e.g. "2025-08"
+  notes         String?  @db.Text
+  createdAt     DateTime @default(now())
+
+  @@index([cohortId])
+  @@index([createdById])
+  @@index([createdAt])
+}
+
+// --------------------------------------------------------
+// AUDIT LOG (append-only — no UPDATE/DELETE in app layer)
+// --------------------------------------------------------
+
+model AuditLog {
+  id         String   @id @default(uuid())
+  actorId    String?
+  actor      User?    @relation("AuditActor", fields: [actorId], references: [id], onDelete: SetNull)
+  actorRole  String?
+  action     String // USER_APPROVED | ROLE_CHANGED | CERT_ISSUED | MATCHER_RUN | OVERRIDE_CREATED | ...
+  entityType String // User | Certificate | Assessment | MatcherRun | ...
+  entityId   String?
+  ipAddress  String?
+  diff       Json? // { before, after }
+  metadata   Json?    @default("{}")
+  createdAt  DateTime @default(now())
+
+  @@index([actorId])
+  @@index([action])
+  @@index([entityType])
+  @@index([createdAt])
+}
+
+// --------------------------------------------------------
+// NOTIFICATIONS (Phase 3.3)
+// --------------------------------------------------------
+
+model Notification {
+  id        String           @id @default(uuid())
+  userId    String
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      NotificationType @default(SYSTEM)
+  title     String
+  body      String           @db.Text
+  link      String?
+  read      Boolean          @default(false)
+  readAt    DateTime?
+  createdAt DateTime         @default(now())
+
+  @@index([userId])
+  @@index([read])
+  @@index([type])
+  @@index([createdAt])
+}
+
+model NotificationPreference {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  emailEnabled Json  @default("{}") // { [NotificationType]: boolean }
+  inAppEnabled Json  @default("{}")
+  updatedAt DateTime @updatedAt
+}
+
+// --------------------------------------------------------
+// CALENDAR / SCHEDULE (Phase 1.3D)
+// --------------------------------------------------------
+
+model CalendarEvent {
+  id          String      @id @default(uuid())
+  userId      String?
+  user        User?       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  cohortId    String?
+  cohort      Cohort?     @relation(fields: [cohortId], references: [id], onDelete: Cascade)
+  title       String
+  description String?     @db.Text
+  type        SessionType @default(LIVE_SESSION)
+  startsAt    DateTime
+  endsAt      DateTime?
+  location    String?
+  meetingUrl  String?
+  createdAt   DateTime    @default(now())
+
+  @@index([userId])
+  @@index([cohortId])
+  @@index([startsAt])
+}
+
+// --------------------------------------------------------
+// BULK OPERATIONS (Phase 1.5D)
+// --------------------------------------------------------
+
+model BulkImportJob {
+  id          String         @id @default(uuid())
+  type        BulkJobType
+  status      BulkJobStatus  @default(QUEUED)
+  fileName    String
+  totalRows   Int            @default(0)
+  successRows Int            @default(0)
+  failedRows  Int            @default(0)
+  errors      Json?          @default("[]") // [{ row, field, message }]
+  errorCsv    String?        @db.Text
+  // Staged validated rows awaiting confirm (Phase 1.5D two-step import).
+  // Cleared after processing; never contains secrets (passwords hashed at import).
+  payload     Json?
+  createdById String
+  createdBy   User           @relation(fields: [createdById], references: [id], onDelete: Restrict)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  @@index([createdById])
+  @@index([status])
+  @@index([type])
+}
+
+// --------------------------------------------------------
+// RADAR CASES + ANNOTATIONS (Phase 2.3)
+// --------------------------------------------------------
+
+model RadarCase {
+  id            String   @id @default(uuid())
+  code          String   @unique // e.g. "PHAILIN-2013"
+  title         String
+  description   String   @db.Text
+  phenomenon    String? // CYCLONE | SQUALL | THUNDERSTORM | EXTREME_RAIN
+  timesteps     Json     @default("[]") // [{ t, label, tileUrl?, reflectivityNote }]
+  questions     Json     @default("[]") // [{ atStep, prompt, options[], answer, explanation }]
+  competencyTag String? // RAD-NOWCAST
+  isPublished   Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  annotations RadarAnnotation[]
+  attempts    RadarCaseAttempt[]
+
+  @@index([isPublished])
+}
+
+model RadarAnnotation {
+  id        String    @id @default(uuid())
+  caseId    String
+  radarCase RadarCase @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  authorId  String
+  author    User      @relation("AnnotationAuthor", fields: [authorId], references: [id], onDelete: Cascade)
+  cohortId  String?
+  cohort    Cohort?   @relation(fields: [cohortId], references: [id], onDelete: SetNull)
+  frameT    Int       @default(0)
+  drawing   Json // { shapes: [...] } canvas overlay payload
+  note      String    @db.Text
+  shared    Boolean   @default(false)
+  createdAt DateTime  @default(now())
+
+  @@index([caseId])
+  @@index([authorId])
+}
+
+/// Case-based training attempts (Phase 2.3C): scored guided replays of
+/// historical severe-weather cases. Scores map to the RAD-NOWCAST
+/// interpretation competency (displayed, history-kept).
+model RadarCaseAttempt {
+  id        String    @id @default(uuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  caseId    String
+  radarCase RadarCase @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  score     Int
+  total     Int
+  answers   Json?     @default("[]") // [{ atStep, picked, correct }]
+  createdAt DateTime  @default(now())
+
+  @@index([userId])
+  @@index([caseId])
+  @@index([createdAt])
+}
+
+// --------------------------------------------------------
+// AI COURSE NAVIGATOR — RAG (Phase 3.1)
+// --------------------------------------------------------
+
+model Document {
+  id        String   @id @default(uuid())
+  content   String   @db.Text
+  // Portable embedding (float array as JSON). See header note for pgvector upgrade.
+  embedding Json?
+  embeddingModel String? @default("openai/text-embedding-3-small")
+  source    String // lesson:<id> | rubric | faq | policy | station:<code>
+  section   String?
+  metadata  Json?    @default("{}")
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+
+  @@index([source])
+}
+
+model ChatMessage {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role      ChatRole @default(USER)
+  content   String   @db.Text
+  sources   Json?    @default("[]") // [{ source, section, score }]
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([createdAt])
+}
+
+// --------------------------------------------------------
+// FEEDBACK & CMS ANNOUNCEMENTS (existing — preserved)
 // --------------------------------------------------------
 
 model Feedback {
@@ -346,7 +1254,7 @@ model Feedback {
   course      Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
   userId      String
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
+
   rating      Int      // 1 to 5
   comment     String   @db.Text
   isPublished Boolean  @default(true)
@@ -363,10 +1271,10 @@ model Announcement {
   content   String           @db.Text
   type      AnnouncementType @default(GENERAL)
   isPinned  Boolean          @default(false)
-  
+
   authorId  String
   author    User             @relation("AdminAnnouncements", fields: [authorId], references: [id], onDelete: Restrict)
-  
+
   expiresAt DateTime?
   createdAt DateTime         @default(now())
   updatedAt DateTime         @updatedAt
