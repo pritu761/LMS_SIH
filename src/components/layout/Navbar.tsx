@@ -19,11 +19,14 @@ import {
   ArrowRight,
   Radio,
   Lock,
+  Search,
+  Bell,
   User,
   UserCheck,
   Building2,
 } from 'lucide-react';
 import { useCourseChat } from '@/context/ChatContext';
+import { NotificationBell } from '@/components/notifications/NotificationBell';
 import { ModeToggle } from '@/components/layout/ModeToggle';
 
 export function Navbar() {
@@ -198,6 +201,10 @@ export function Navbar() {
                 <Radio className="h-3 w-3 text-[#c59b48] animate-pulse" />
                 <span>Live Radar</span>
               </Link>
+              <Link href="/catalog" className={`inline-flex items-center gap-1.5 ${navLinkClass('/catalog')}`}>
+                <BookOpen className="h-3 w-3 text-[#c59b48]" />
+                <span>Catalog</span>
+              </Link>
               {currentUser ? (
                 <>
                   <Link href="/trainee/courses" className={navLinkClass('/trainee/courses')}>
@@ -249,8 +256,26 @@ export function Navbar() {
               <Sparkles className="h-2.5 w-2.5 text-amber-500 animate-pulse hidden xl:inline shrink-0" />
             </button>
 
+            {/* Global Search Trigger (Cmd+K) */}
+            {currentUser && (
+              <button
+                type="button"
+                onClick={() => window.dispatchEvent(new Event('open-command-palette'))}
+                className="relative group flex items-center justify-center gap-1.5 h-8 rounded-full border border-slate-200 bg-white px-2 xl:px-2.5 text-xs font-bold text-slate-500 shadow-sm hover:border-[#c59b48] hover:text-[#0b1e36] transition-all hover:scale-105 active:scale-95 whitespace-nowrap shrink-0 dark:border-white/10 dark:bg-white/5 dark:text-slate-300 dark:hover:text-white"
+                title="Search everything (Ctrl+K / Cmd+K)"
+                aria-label="Open global search"
+              >
+                <Search className="h-3.5 w-3.5 shrink-0" />
+                <span className="hidden xl:inline text-[11px] font-sans">Search</span>
+                <kbd className="hidden xl:inline rounded bg-slate-100 px-1 font-mono text-[9px] text-slate-400 dark:bg-white/10">⌘K</kbd>
+              </button>
+            )}
+
             {/* Dark / Light Mode Toggle Button */}
             <ModeToggle />
+
+            {/* Notification Bell (self-gated to signed-in users) */}
+            <NotificationBell />
 
             {/* Authenticated User Profile Menu OR Sign In Button */}
             {currentUser ? (
@@ -534,6 +559,7 @@ export function Navbar() {
               <Link href="/#cadres" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-slate-700 hover:text-[#0b1e36] dark:text-slate-200 dark:hover:text-white">Cadre Pathways</Link>
               <Link href="/#algorithm" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-slate-700 hover:text-[#0b1e36] dark:text-slate-200 dark:hover:text-white">55/30/15 Engine</Link>
               <Link href="/trainee/courses" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-slate-700 hover:text-[#0b1e36] dark:text-slate-200 dark:hover:text-white">Courses</Link>
+              <Link href="/catalog" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-slate-700 hover:text-[#0b1e36] dark:text-slate-200 dark:hover:text-white">Public Catalog</Link>
               <Link href="/architecture" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-slate-700 hover:text-[#0b1e36] dark:text-slate-200 dark:hover:text-white">Technical Architecture</Link>
 
               {userRole === 'ADMIN' && (
@@ -560,6 +586,35 @@ export function Navbar() {
                 </span>
                 <Sparkles className="h-3.5 w-3.5 text-amber-500" />
               </button>
+              {currentUser && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    window.dispatchEvent(new Event('open-command-palette'));
+                  }}
+                  className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl bg-[#0b1e36]/10 border border-[#c59b48]/30 text-xs font-bold text-[#0b1e36] dark:bg-white/5 dark:text-slate-100"
+                >
+                  <span className="flex items-center gap-2">
+                    <Search className="h-4 w-4 text-[#c59b48]" />
+                    Search everything
+                  </span>
+                  <kbd className="rounded bg-white/60 px-1.5 py-0.5 font-mono text-[10px] text-slate-500 dark:bg-white/10">⌘K</kbd>
+                </button>
+              )}
+              {currentUser && (
+                <Link
+                  href="/notifications"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl bg-[#0b1e36]/10 border border-[#c59b48]/30 text-xs font-bold text-[#0b1e36] dark:bg-white/5 dark:text-slate-100"
+                >
+                  <span className="flex items-center gap-2">
+                    <Bell className="h-4 w-4 text-[#c59b48]" />
+                    Notifications
+                  </span>
+                  <span className="text-slate-400">→</span>
+                </Link>
+              )}
             </motion.div>
           )}
         </AnimatePresence>

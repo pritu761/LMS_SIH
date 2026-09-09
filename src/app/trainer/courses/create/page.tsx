@@ -363,7 +363,7 @@ export default function TrainerCourseCreatorPage() {
                       <button
                         type="button"
                         onClick={() => handleRemoveCompetency(sc.competencyId)}
-                        className="text-slate-400 hover:text-rose-500 transition-colors p-1"
+                        className="text-slate-500 hover:text-rose-500 transition-colors p-1"
                       >
                         <Trash2 className="h-3.5 w-3.5" />
                       </button>
@@ -383,7 +383,7 @@ export default function TrainerCourseCreatorPage() {
                             className={`flex-1 py-1 rounded-lg text-xs font-bold transition-all ${
                               lvl <= sc.requiredProficiency
                                 ? 'bg-[#0b1e36] text-white dark:bg-[#c59b48] dark:text-[#0b1e36] gold-ink-dark'
-                                : 'bg-slate-100 dark:bg-slate-900 text-slate-400 hover:bg-slate-200'
+                                : 'bg-slate-100 dark:bg-slate-900 text-slate-500 hover:bg-slate-200'
                             }`}
                           >
                             {lvl}
@@ -456,7 +456,7 @@ export default function TrainerCourseCreatorPage() {
                         <button
                           type="button"
                           onClick={() => handleRemoveMaterial(m.id)}
-                          className="text-slate-400 hover:text-rose-500 transition-colors p-1"
+                          className="text-slate-500 hover:text-rose-500 transition-colors p-1"
                         >
                           <Trash2 className="h-4 w-4" />
                         </button>

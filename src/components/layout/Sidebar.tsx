@@ -14,9 +14,17 @@ import {
   BarChart3,
   Brain,
   FileText,
+  FileSpreadsheet,
+  Inbox,
+  ListChecks,
+  Map,
+  PenSquare,
   Satellite,
+  ScrollText,
+  ShieldAlert,
   Radio,
   LogOut,
+  Scale,
   ShieldCheck,
 } from 'lucide-react';
 import { staggerContainer, staggerItem, ease } from '@/lib/animations';
@@ -79,12 +87,19 @@ export function Sidebar({ role, user }: SidebarProps) {
       case 'ADMIN':
         return [
           { href: '/admin', label: 'National Overview', icon: LayoutDashboard },
+          { href: '/admin/approvals', label: 'Approval Queue', icon: Inbox, badge: 'SLA 48H' },
+          { href: '/admin/audit', label: 'Audit Trail', icon: ScrollText },
+          { href: '/admin/stations', label: 'Station Readiness', icon: Map },
+          { href: '/admin/bulk', label: 'Bulk Operations', icon: FileSpreadsheet },
+          { href: '/admin/reports', label: 'Reports & Exports', icon: BarChart3 },
+          { href: '/admin/certificates', label: 'Certificate Registry', icon: Award },
+          { href: '/admin/integrity', label: 'Exam Integrity', icon: ShieldAlert },
           { href: '/radar', label: 'Live Weather Radar', icon: Radio, badge: 'NOWCAST', highlight: true },
           { href: '/admin/radar', label: 'Doppler Radar Network', icon: Satellite, badge: '38 ONLINE' },
           { href: '/admin/users', label: 'User Governance', icon: UserCheck, badge: 'RBAC' },
           { href: '/admin/competency', label: 'Competency & Gap Engine', icon: Brain, badge: '55/30/15' },
+          { href: '/admin/matcher', label: 'Trainer Matcher', icon: Scale, badge: 'SIMULATOR' },
           { href: '/admin/cms', label: 'Directives & CMS', icon: FileText },
-          { href: '/admin/reports', label: 'Reports & Exports', icon: BarChart3 },
         ];
       case 'TRAINER':
         return [
@@ -92,9 +107,12 @@ export function Sidebar({ role, user }: SidebarProps) {
           { href: '/radar', label: 'Live Weather Radar', icon: Radio, badge: 'NOWCAST', highlight: true },
           { href: '/admin/radar', label: 'Doppler Radar Feeds', icon: Satellite, badge: 'LIVE' },
           { href: '/trainer/courses/create', label: 'Course Studio', icon: BookOpen, badge: 'NEW' },
+          { href: '/trainer/courses/new', label: 'Lesson Studio', icon: PenSquare, badge: 'BLOCKS' },
+          { href: '/trainer/questions', label: 'Question Bank', icon: ListChecks },
           { href: '/trainer/library', label: 'Media Library', icon: Video },
           { href: '/trainer/assessments/create', label: 'Cadre Assessment Creator', icon: FileCheck },
           { href: '/trainer/analytics', label: 'Cohort Telemetry', icon: BarChart3 },
+          { href: '/trainer/integrity', label: 'Proctoring Integrity', icon: ShieldAlert },
         ];
       case 'TRAINEE':
       default:

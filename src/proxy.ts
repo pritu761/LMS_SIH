@@ -81,6 +81,30 @@ function isAllowed(session: SessionClaims, pathname: string): boolean {
 export async function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
 
+  // --- Observability: stamp every API call with a correlation ID ---------
+  // Pass-through only (no auth decisions here): the ID travels on the
+  // request (handlers read it for logs) AND on the response (so cached /
+  // static responses carry it too — handlers re-set the same value).
+  if (pathname.startsWith('/api/')) {
+    const traceId = request.headers.get('x-trace-id') ?? crypto.randomUUID();
+    const headers = new Headers(request.headers);
+    headers.set('x-trace-id', traceId);
+    headers.set('x-request-start', String(Date.now()));
+    console.log(
+      JSON.stringify({
+        timestamp: new Date().toISOString(),
+        level: 'info',
+        event: 'api-request',
+        traceId,
+        method: request.method,
+        path: pathname + search,
+      })
+    );
+    const res = NextResponse.next({ request: { headers } });
+    res.headers.set('X-Trace-Id', traceId);
+    return res;
+  }
+
   const isProtectedArea =
     pathname.startsWith('/admin') ||
     pathname.startsWith('/trainer') ||
@@ -125,5 +149,5 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/admin/:path*', '/trainer/:path*', '/trainee/:path*', '/auth/:path*'],
+  matcher: ['/api/:path*', '/admin/:path*', '/trainer/:path*', '/trainee/:path*', '/auth/:path*'],
 };

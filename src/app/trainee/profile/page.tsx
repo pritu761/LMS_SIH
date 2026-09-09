@@ -333,7 +333,7 @@ export default function TraineeProfilePage() {
                   <button
                     type="button"
                     onClick={() => removeQualification(idx)}
-                    className="p-1.5 text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 transition-colors"
+                    className="p-1.5 text-slate-500 hover:text-rose-600 dark:hover:text-rose-400 transition-colors"
                     title="Remove item"
                   >
                     <Trash2 className="h-4 w-4" />

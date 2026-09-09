@@ -40,6 +40,7 @@ import {
 import { ALL_38_DOPPLER_NODES } from '@/lib/radarNetworkData';
 import { RadarNode } from '@/types/radar';
 import { WeatherRadarMap } from './WeatherRadarMap';
+import { RadarOpsSection } from './RadarOpsSection';
 import { WeatherSearchBar } from './WeatherSearchBar';
 import { WeatherMetricsHud } from './WeatherMetricsHud';
 import { HourlyNowcastStrip } from './HourlyNowcastStrip';
@@ -476,6 +477,9 @@ export function RadarPageContent() {
             })}
           </div>
         </section>
+
+        {/* Operations Layer: stations, products, warnings, training, annotations (Phase 2.3) */}
+        <RadarOpsSection />
       </main>
     </div>
   );

@@ -566,7 +566,7 @@ export function CoursePlayer({ course, initialEnrollment }: CoursePlayerProps) {
                         {isDone ? (
                           <CheckCircle className="h-5 w-5 text-emerald-500 dark:text-emerald-400 fill-emerald-500/20" />
                         ) : (
-                          <Circle className="h-5 w-5 text-slate-400 dark:text-slate-600" />
+                          <Circle className="h-5 w-5 text-slate-500 dark:text-slate-600" />
                         )}
                       </button>
 

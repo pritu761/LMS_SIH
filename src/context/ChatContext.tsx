@@ -11,8 +11,14 @@ export interface ChatMessage {
   matchedCourses?: MockCourse[];
   suggestedQueries?: string[];
   intent?: string;
-  source?: 'rules' | 'groq';
+  source?: 'rules' | 'groq' | 'rag' | 'structured' | 'extractive' | 'fallback' | 'guardrail';
   model?: string;
+  /** Retrieved citation chunks behind a RAG answer. */
+  sources?: Array<{ source: string; section: string | null }>;
+  /** Normalized retrieval confidence 0..1 (1 = deterministic answer). */
+  confidence?: number;
+  /** True when answering in limited mode (extractive / fallback / guardrail). */
+  degraded?: boolean;
 }
 
 interface ChatContextType {
@@ -39,23 +45,46 @@ const ChatContext = createContext<ChatContextType | undefined>(undefined);
 const INITIAL_GREETING: ChatMessage = {
   id: 'msg-init-1',
   role: 'assistant',
-  content: `👋 **Welcome to Capacity Connect AI Course Navigator!**
+  content: `**Welcome to your Course Navigator!**
 
-I can help you search, compare, and discover specialized meteorological modules across **DRSTC, FTC, IMTC, and Modular AI** tracks.
+I answer from the live curriculum, WMO rubrics and portal policies — with cited sources. I can also pull **your own** progress, cohort or governance facts for your role.
 
 Try asking:
-- *"Find courses on Doppler Weather Radar & Cyclone Nowcasting"*
-- *"Show HPC and Earth-System Modelling modules"*
-- *"What courses does Prof. Vikramaditya Sen teach?"*
-- *"Show short masterclasses under 15 hours"*`,
+- *"What modules do I need to complete before Velocity Dealiasing?"*
+- *"Show my weakest competency domain and suggest next steps"*
+- *"When is my next exam?"*
+- *"What is the passing threshold for IMTC certification?"*`,
   timestamp: 'Just now',
   suggestedQueries: [
-    'Find Doppler Radar courses',
-    'Earth-System HPC Modelling on Pratyush',
-    'AI/ML Precipitation Nowcasting',
-    'Synoptic Meteorology & INSAT-3DS',
+    'What modules do I need to complete before Velocity Dealiasing?',
+    'Show my weakest competency domain and suggest next steps',
+    'When is my next exam?',
+    'What is the passing threshold for IMTC certification?',
   ],
 };
+
+const ROLE_SUGGESTIONS: Record<string, string[]> = {
+  TRAINEE: [
+    'What modules do I need to complete before Velocity Dealiasing?',
+    'Show my weakest competency domain and suggest next steps',
+    'When is my next exam?',
+    'What is the passing threshold for IMTC certification?',
+  ],
+  TRAINER: [
+    'Which trainees in cohort DRSTC-04 scored below 60% in NWP?',
+    'Generate a 5-question quiz on dual-pol interpretation (Medium difficulty)',
+    'What is the passing threshold for assessments?',
+  ],
+  ADMIN: [
+    'List all stations with readiness below 70% this quarter',
+    'How many certificates were issued in August?',
+    'Show pending approvals older than 48 hours',
+  ],
+};
+
+function followUpsFor(role: string): string[] {
+  return ROLE_SUGGESTIONS[role] ?? ROLE_SUGGESTIONS['TRAINEE'];
+}
 
 const CHAT_STORAGE_KEY = 'capacity-connect-chat-v1';
 const MODEL_STORAGE_KEY = 'capacity-connect-chat-model';
@@ -97,6 +126,27 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
   });
   const modelPrefRef = React.useRef(modelPref);
   modelPrefRef.current = modelPref;
+  // Best-effort role for contextual follow-ups (guests keep defaults).
+  const [userRole, setUserRole] = useState<string>('TRAINEE');
+  const userRoleRef = React.useRef(userRole);
+  userRoleRef.current = userRole;
+  useEffect(() => {
+    fetch('/api/auth/me')
+      .then(async (r) => {
+        if (!r.ok) return;
+        const d = (await r.json()) as { user?: { role?: string } };
+        if (d.user?.role) {
+          setUserRole(d.user.role);
+          setMessages((prev) => {
+            if (prev.length === 1 && prev[0].id === 'msg-init-1') {
+              return [{ ...prev[0], suggestedQueries: followUpsFor(d.user?.role ?? 'TRAINEE') }];
+            }
+            return prev;
+          });
+        }
+      })
+      .catch(() => {});
+  }, []);
   const openRef = React.useRef(isOpen);
   openRef.current = isOpen;
   const minimizedRef = React.useRef(isMinimized);
@@ -152,38 +202,67 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const requestReply = async (userText: string, history: ChatMessage[]): Promise<ChatMessage> => {
-    const response = await fetch('/api/chat', {
+    // RAG backend (Phase 3.1): role-aware retrieval + grounded generation.
+    const response = await fetch('/api/assistant/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         message: userText,
-        history: history.map((m) => ({ role: m.role, content: m.content })),
+        history: history.slice(-6).map((m) => ({ role: m.role, content: m.content.slice(0, 2000) })),
         model: modelPrefRef.current && modelPrefRef.current !== 'auto' ? modelPrefRef.current : undefined,
       }),
     });
 
-    let data: any;
+    let data: {
+      success?: boolean;
+      error?: { code?: string; message?: string } | string;
+      data?: {
+        answer?: string;
+        sources?: Array<{ source: string; section: string | null }>;
+        confidence?: number;
+        degraded?: boolean;
+        model?: string;
+        blocked?: boolean;
+      };
+    };
     try {
       data = await response.json();
     } catch {
       throw new Error(`Server returned status ${response.status}`);
     }
 
-    if (!response.ok || !data?.success) {
-      throw new Error(data?.error || `Server returned error ${response.status}`);
+    if (response.status === 401) {
+      return {
+        id: `asst-${Date.now()}`,
+        role: 'assistant',
+        content: 'Please **sign in** with your official Gov ID to use the Course Navigator — it answers from your own progress and role.',
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        suggestedQueries: ['What is the passing threshold for IMTC certification?'],
+        source: 'guardrail',
+        degraded: true,
+      };
     }
 
-    const assistantData = data.data;
+    if (!response.ok || !data?.success) {
+      const message = typeof data?.error === 'string' ? data.error : data?.error?.message;
+      throw new Error(message || `Server returned error ${response.status}`);
+    }
+
+    const payload = data.data;
+    const model = payload?.model ?? 'rag';
+    const source: ChatMessage['source'] =
+      model === 'structured' ? 'structured' : model === 'guardrail' || model === 'fallback' ? 'guardrail' : model === 'extractive' ? 'extractive' : 'rag';
     return {
       id: `asst-${Date.now()}`,
       role: 'assistant',
-      content: assistantData?.reply || 'Received response with no content.',
+      content: payload?.answer || 'Received response with no content.',
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      matchedCourses: assistantData?.matchedCourses || [],
-      suggestedQueries: assistantData?.suggestedQueries || [],
-      intent: assistantData?.intent,
-      source: assistantData?.source || 'rules',
-      model: assistantData?.model,
+      suggestedQueries: followUpsFor(userRoleRef.current),
+      source,
+      model: model === 'structured' || model === 'guardrail' || model === 'fallback' ? undefined : model,
+      sources: payload?.sources ?? [],
+      confidence: payload?.confidence,
+      degraded: payload?.degraded,
     };
   };
 

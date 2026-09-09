@@ -71,7 +71,7 @@ export default function CourseCatalogPage() {
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
           <div className="relative flex-1 flex gap-2">
             <div className="relative flex-1">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 dark:text-slate-500" />
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500 dark:text-slate-500" />
               <input
                 type="text"
                 placeholder="Search by topic (e.g. Radar, NWP, Satellite, AI Nowcasting, HPC, Cyclone)..."

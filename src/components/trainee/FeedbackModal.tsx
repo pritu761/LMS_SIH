@@ -119,7 +119,7 @@ export function FeedbackModal({ courseId, courseTitle, onClose }: FeedbackModalP
                       onMouseEnter={() => setHoverRating(star)}
                       onMouseLeave={() => setHoverRating(0)}
                       onClick={() => setRating(star)}
-                      className="p-1 text-slate-400 dark:text-slate-600 hover:scale-110 transition-transform focus:outline-none"
+                      className="p-1 text-slate-500 dark:text-slate-600 hover:scale-110 transition-transform focus:outline-none"
                     >
                       <Star
                         className={`h-7 w-7 transition-colors ${
