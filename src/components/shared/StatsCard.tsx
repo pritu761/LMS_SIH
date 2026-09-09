@@ -2,6 +2,8 @@
 
 import React, { useState } from 'react';
 import { LucideIcon } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { hoverLift, ease } from '@/lib/animations';
 
 interface StatsCardProps {
   title: string;
@@ -9,7 +11,7 @@ interface StatsCardProps {
   change?: string;
   isPositive?: boolean;
   icon: LucideIcon;
-  color?: 'indigo' | 'emerald' | 'amber' | 'cyan' | 'purple';
+  color?: 'indigo' | 'emerald' | 'amber' | 'cyan' | 'purple' | 'red';
 }
 
 export function StatsCard({
@@ -18,48 +20,66 @@ export function StatsCard({
   change,
   isPositive = true,
   icon: Icon,
-  color = 'indigo',
+  color = 'red',
 }: StatsCardProps) {
   const [isHovered, setIsHovered] = useState(false);
 
+  // Icon treatments carry both light- and dark-mode tones so the glyph
+  // stays legible on white cards (light) and navy cards (dark).
   const colorMap = {
+    red: {
+      icon: 'bg-[#c59b48]/15 text-[#9a7224] dark:text-[#dfb76c] border-[#c59b48]/30',
+      glow: 'group-hover:border-[#c59b48]/50',
+      gradient: 'from-[#c59b48]/20 via-transparent to-transparent',
+      shadow: 'rgba(197, 155, 72, 0.3)',
+    },
     indigo: {
-      icon: 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20',
-      glow: 'group-hover:shadow-glow-sm group-hover:border-indigo-500/40',
-      gradient: 'from-indigo-500/10 via-transparent to-transparent',
-      sparkle: 'text-indigo-400',
+      icon: 'bg-blue-500/10 text-blue-700 dark:text-blue-400 border-blue-500/20',
+      glow: 'group-hover:border-blue-500/40',
+      gradient: 'from-blue-500/15 via-transparent to-transparent',
+      shadow: 'rgba(37, 99, 235, 0.25)',
     },
     emerald: {
-      icon: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
-      glow: 'group-hover:shadow-glow-emerald group-hover:border-emerald-500/40',
-      gradient: 'from-emerald-500/10 via-transparent to-transparent',
-      sparkle: 'text-emerald-400',
+      icon: 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-500/20',
+      glow: 'group-hover:border-emerald-500/40',
+      gradient: 'from-emerald-500/15 via-transparent to-transparent',
+      shadow: 'rgba(16, 185, 129, 0.25)',
     },
     amber: {
-      icon: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
-      glow: 'group-hover:shadow-glow-amber group-hover:border-amber-500/40',
-      gradient: 'from-amber-500/10 via-transparent to-transparent',
-      sparkle: 'text-amber-400',
+      icon: 'bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-500/20',
+      glow: 'group-hover:border-amber-500/40',
+      gradient: 'from-amber-500/15 via-transparent to-transparent',
+      shadow: 'rgba(245, 158, 11, 0.25)',
     },
     cyan: {
-      icon: 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20',
-      glow: 'group-hover:shadow-glow-cyan group-hover:border-cyan-500/40',
-      gradient: 'from-cyan-500/10 via-transparent to-transparent',
-      sparkle: 'text-cyan-400',
+      icon: 'bg-cyan-500/10 text-cyan-700 dark:text-cyan-400 border-cyan-500/20',
+      glow: 'group-hover:border-cyan-500/40',
+      gradient: 'from-cyan-500/15 via-transparent to-transparent',
+      shadow: 'rgba(6, 182, 212, 0.25)',
     },
     purple: {
-      icon: 'bg-purple-500/10 text-purple-400 border-purple-500/20',
-      glow: 'group-hover:shadow-glow-purple group-hover:border-purple-500/40',
-      gradient: 'from-purple-500/10 via-transparent to-transparent',
-      sparkle: 'text-purple-400',
+      icon: 'bg-purple-500/10 text-purple-700 dark:text-purple-400 border-purple-500/20',
+      glow: 'group-hover:border-purple-500/40',
+      gradient: 'from-purple-500/15 via-transparent to-transparent',
+      shadow: 'rgba(168, 85, 247, 0.25)',
     },
   };
 
-  const scheme = colorMap[color];
+  const scheme = colorMap[color] || colorMap.red;
+
+  // Callers sometimes embed their own arrow (e.g. "↑ 12%"); strip it so the
+  // card never renders a doubled "↑ ↑ 12%".
+  const cleanChange = (change || '').replace(/^[↑↓↗↘]\s*/, '').trim();
 
   return (
-    <div
-      className={`group relative rounded-3xl border border-slate-800 bg-slate-900/60 p-5 sm:p-6 backdrop-blur-xl transition-all duration-500 hover:border-slate-700 card-tilt overflow-hidden ${scheme.glow}`}
+    <motion.div
+      whileHover={{
+        y: -5,
+        boxShadow: `0 20px 40px -15px ${scheme.shadow}`,
+        transition: { duration: 0.25, ease: ease.smooth },
+      }}
+      whileTap={{ scale: 0.98 }}
+      className={`group relative rounded-3xl border border-slate-200 bg-white dark:border-white/10 dark:bg-[#131726]/90 p-5 sm:p-6 backdrop-blur-xl transition-colors duration-300 hover:border-[#c59b48]/40 shadow-sm hover:shadow-md overflow-hidden ${scheme.glow}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -68,35 +88,44 @@ export function StatsCard({
 
       <div className="relative z-10">
         <div className="flex items-center justify-between">
-          <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+          <span className="text-[11px] font-bold uppercase tracking-[0.08em] text-slate-600 dark:text-slate-400">
             {title}
           </span>
-          <div className={`rounded-2xl p-2.5 border ${scheme.icon} transition-all duration-500 group-hover:scale-110 group-hover:shadow-lg`}>
+          <motion.div
+            whileHover={{ rotate: 12, scale: 1.15 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 15 }}
+            className={`rounded-2xl p-2.5 border ${scheme.icon} transition-all duration-300 group-hover:shadow-lg`}
+          >
             <Icon className="h-5 w-5" />
-          </div>
+          </motion.div>
         </div>
 
         <div className="mt-4 flex items-baseline justify-between">
-          <div className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.4 }}
+            className="text-2xl sm:text-[2rem] font-display font-extrabold text-slate-900 dark:text-white tracking-tight tabular-nums"
+          >
             {value}
-          </div>
-          {change && (
-            <span
-              className={`text-xs font-bold flex items-center gap-1 ${
-                isPositive ? 'text-emerald-400' : 'text-rose-400'
+          </motion.div>
+          {cleanChange && (
+            <motion.span
+              animate={isHovered ? { y: -2 } : { y: 0 }}
+              className={`text-xs font-bold flex items-center gap-1 tabular-nums ${
+                isPositive ? 'text-emerald-700 dark:text-emerald-400' : 'text-rose-700 dark:text-rose-400'
               }`}
             >
-              <span className={`inline-block transition-transform duration-300 ${isHovered ? 'translate-y-[-2px]' : ''}`}>
-                {isPositive ? '↑' : '↓'}
-              </span>
-              {change}
-            </span>
+              <span aria-hidden="true">{isPositive ? '↑' : '↓'}</span>
+              {cleanChange}
+            </motion.span>
           )}
         </div>
       </div>
 
       {/* Bottom shimmer line */}
-      <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-    </div>
+      <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/15 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+    </motion.div>
   );
 }
+
