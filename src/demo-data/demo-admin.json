@@ -1,0 +1,88 @@
+{
+  "persona": {
+    "name": "Dr. Rajeshwari Sharma",
+    "initials": "RS",
+    "role": "ADMIN",
+    "headline": "Chief Administrative Officer • Portal Director",
+    "station": "Mausam Bhavan, New Delhi"
+  },
+  "summary": {
+    "nationalAvg": 69,
+    "stationsAtRisk": 9,
+    "riskThreshold": 60,
+    "certsThisMonth": 214
+  },
+  "stations": [
+    { "code": "DEL", "name": "Delhi (Lodhi Road)", "lat": 28.589, "lng": 77.221, "readiness": 88, "cadre": 42, "topGap": "RAD-NOWCAST" },
+    { "code": "MUM", "name": "Mumbai (Colaba)", "lat": 18.906, "lng": 72.814, "readiness": 91, "cadre": 38, "topGap": "DISASTER-OPS" },
+    { "code": "CHN", "name": "Chennai (Nungambakkam)", "lat": 13.061, "lng": 80.251, "readiness": 84, "cadre": 35, "topGap": "NWP" },
+    { "code": "KOL", "name": "Kolkata (Alipore)", "lat": 22.532, "lng": 88.33, "readiness": 79, "cadre": 33, "topGap": "RAD-NOWCAST" },
+    { "code": "HYD", "name": "Hyderabad (Begumpet)", "lat": 17.453, "lng": 78.462, "readiness": 76, "cadre": 28, "topGap": "HPC" },
+    { "code": "BLR", "name": "Bengaluru (HAL)", "lat": 12.95, "lng": 77.668, "readiness": 82, "cadre": 26, "topGap": "COMMS" },
+    { "code": "TVM", "name": "Thiruvananthapuram", "lat": 8.483, "lng": 76.949, "readiness": 86, "cadre": 30, "topGap": "SYNOPTIC" },
+    { "code": "COK", "name": "Kochi (Naval Base)", "lat": 9.939, "lng": 76.274, "readiness": 71, "cadre": 22, "topGap": "RAD-NOWCAST" },
+    { "code": "AMD", "name": "Ahmedabad", "lat": 23.068, "lng": 72.626, "readiness": 74, "cadre": 24, "topGap": "NWP" },
+    { "code": "BPL", "name": "Bhopal (Bairagarh)", "lat": 23.287, "lng": 77.337, "readiness": 68, "cadre": 21, "topGap": "HPC" },
+    { "code": "LKO", "name": "Lucknow (Amausi)", "lat": 26.761, "lng": 80.889, "readiness": 77, "cadre": 27, "topGap": "COMMS" },
+    { "code": "PAT", "name": "Patna", "lat": 25.594, "lng": 85.088, "readiness": 63, "cadre": 19, "topGap": "DISASTER-OPS" },
+    { "code": "BBS", "name": "Bhubaneswar", "lat": 20.244, "lng": 85.817, "readiness": 89, "cadre": 31, "topGap": "NWP" },
+    { "code": "VSK", "name": "Visakhapatnam", "lat": 17.681, "lng": 83.297, "readiness": 85, "cadre": 25, "topGap": "RAD-NOWCAST" },
+    { "code": "RNC", "name": "Ranchi (Hinoo)", "lat": 23.316, "lng": 85.321, "readiness": 58, "cadre": 15, "topGap": "HPC" },
+    { "code": "RPR", "name": "Raipur (Mana)", "lat": 21.197, "lng": 81.738, "readiness": 61, "cadre": 16, "topGap": "SYNOPTIC" },
+    { "code": "JAI", "name": "Jaipur (Sanganer)", "lat": 26.824, "lng": 75.812, "readiness": 73, "cadre": 23, "topGap": "COMMS" },
+    { "code": "NAG", "name": "Nagpur (Sonegaon)", "lat": 21.089, "lng": 79.057, "readiness": 80, "cadre": 24, "topGap": "NWP" },
+    { "code": "PUN", "name": "Pune (Shivajinagar)", "lat": 18.531, "lng": 73.857, "readiness": 87, "cadre": 29, "topGap": "DISASTER-OPS" },
+    { "code": "GOA", "name": "Goa (Dabolim)", "lat": 15.38, "lng": 73.831, "readiness": 69, "cadre": 14, "topGap": "RAD-NOWCAST" },
+    { "code": "GAU", "name": "Guwahati (Borjhar)", "lat": 26.106, "lng": 91.585, "readiness": 72, "cadre": 20, "topGap": "COMMS" },
+    { "code": "SHL", "name": "Shillong (Umroi)", "lat": 25.705, "lng": 91.978, "readiness": 55, "cadre": 12, "topGap": "HPC" },
+    { "code": "AGT", "name": "Agartala", "lat": 23.886, "lng": 91.242, "readiness": 52, "cadre": 11, "topGap": "SYNOPTIC" },
+    { "code": "IMP", "name": "Imphal (Tulihal)", "lat": 24.766, "lng": 93.897, "readiness": 48, "cadre": 10, "topGap": "RAD-NOWCAST" },
+    { "code": "ITA", "name": "Itanagar", "lat": 27.133, "lng": 93.605, "readiness": 46, "cadre": 9, "topGap": "COMMS" },
+    { "code": "KOH", "name": "Kohima", "lat": 25.658, "lng": 94.093, "readiness": 44, "cadre": 8, "topGap": "DISASTER-OPS" },
+    { "code": "AIZ", "name": "Aizawl (Lengpui)", "lat": 23.838, "lng": 92.619, "readiness": 51, "cadre": 9, "topGap": "NWP" },
+    { "code": "GTK", "name": "Gangtok", "lat": 27.325, "lng": 88.612, "readiness": 57, "cadre": 10, "topGap": "SYNOPTIC" },
+    { "code": "SXR", "name": "Srinagar", "lat": 33.987, "lng": 74.774, "readiness": 66, "cadre": 18, "topGap": "DISASTER-OPS" },
+    { "code": "JMU", "name": "Jammu (Satwari)", "lat": 32.682, "lng": 74.837, "readiness": 64, "cadre": 16, "topGap": "RAD-NOWCAST" },
+    { "code": "LEH", "name": "Leh", "lat": 33.985, "lng": 77.61, "readiness": 59, "cadre": 8, "topGap": "COMMS" },
+    { "code": "SML", "name": "Shimla", "lat": 31.081, "lng": 77.068, "readiness": 62, "cadre": 12, "topGap": "SYNOPTIC" },
+    { "code": "DDN", "name": "Dehradun", "lat": 30.189, "lng": 78.18, "readiness": 70, "cadre": 15, "topGap": "NWP" },
+    { "code": "CHD", "name": "Chandigarh", "lat": 30.672, "lng": 76.788, "readiness": 75, "cadre": 17, "topGap": "HPC" },
+    { "code": "ASR", "name": "Amritsar", "lat": 31.71, "lng": 74.799, "readiness": 67, "cadre": 14, "topGap": "COMMS" },
+    { "code": "PBR", "name": "Port Blair", "lat": 11.641, "lng": 92.726, "readiness": 60, "cadre": 11, "topGap": "DISASTER-OPS" },
+    { "code": "MIN", "name": "Minicoy", "lat": 8.31, "lng": 73.06, "readiness": 54, "cadre": 7, "topGap": "COMMS" },
+    { "code": "BHJ", "name": "Bhuj", "lat": 23.287, "lng": 69.674, "readiness": 78, "cadre": 18, "topGap": "RAD-NOWCAST" }
+  ],
+  "approvals": [
+    {
+      "name": "Rohan Verma",
+      "initials": "RV",
+      "email": "rohan.verma@imd.gov.in",
+      "role": "TRAINEE",
+      "station": "Nagpur",
+      "submitted": "Sep 6, 2026 • 2:20 PM IST",
+      "slaHrs": 41,
+      "slaBreach": false
+    },
+    {
+      "name": "Dr. Kavya Reddy",
+      "initials": "KR",
+      "email": "kavya.reddy@imd.gov.in",
+      "role": "TRAINER",
+      "station": "Pune",
+      "submitted": "Sep 5, 2026 • 9:05 AM IST",
+      "slaHrs": 55,
+      "slaBreach": true
+    }
+  ],
+  "audit": [
+    { "time": "Sep 8, 9:41 AM", "actor": "Dr. R. Sharma", "role": "ADMIN", "action": "OVERRIDE_CREATED", "entity": "TrainerCohort • DRSTC-04" },
+    { "time": "Sep 8, 8:15 AM", "actor": "System", "role": "SYSTEM", "action": "MATCHER_RUN", "entity": "MatcherRun • DRSTC-04 (55/30/15)" },
+    { "time": "Sep 7, 4:02 PM", "actor": "Dr. R. Sharma", "role": "ADMIN", "action": "CERT_ISSUED", "entity": "Certificate • IMTC-M01" },
+    { "time": "Sep 7, 11:30 AM", "actor": "Prof. V. Sen", "role": "TRAINER", "action": "EXAM_PUBLISHED", "entity": "Assessment • DRSTC Modelling Exam" },
+    { "time": "Sep 6, 3:12 PM", "actor": "Dr. R. Sharma", "role": "ADMIN", "action": "USER_APPROVED", "entity": "User • aarav.patel@imd.gov.in" }
+  ],
+  "bulkUpload": {
+    "disabled": true,
+    "tooltip": "Bulk roster upload is disabled in demo mode — sign in as Admin to import officer rosters."
+  }
+}

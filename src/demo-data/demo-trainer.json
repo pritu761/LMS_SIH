@@ -1,0 +1,156 @@
+{
+  "persona": {
+    "name": "Prof. Vikramaditya Sen",
+    "initials": "VS",
+    "role": "TRAINER",
+    "headline": "Senior Faculty • NWP / HPC • MTI Pune",
+    "station": "Pune (Shivajinagar)",
+    "cohortsDelivered": 14,
+    "rating": 4.7
+  },
+  "cohorts": [
+    {
+      "code": "DRSTC-04",
+      "name": "DRSTC 2026 Batch-IV (NWP & Radar)",
+      "station": "Delhi",
+      "trainees": 3,
+      "avgGap": 34,
+      "start": "Jul 6, 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "code": "FTC-11",
+      "name": "FTC 2026 Batch-XI (Severe Weather)",
+      "station": "Mumbai",
+      "trainees": 24,
+      "avgGap": 28,
+      "start": "Aug 3, 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "code": "DRSTC-03",
+      "name": "DRSTC 2026 Batch-III (NWP & Radar)",
+      "station": "Delhi",
+      "trainees": 28,
+      "avgGap": 12,
+      "start": "Jan 12, 2026",
+      "status": "COMPLETED"
+    }
+  ],
+  "learners": [
+    {
+      "name": "Aarav Patel",
+      "initials": "AP",
+      "station": "Delhi",
+      "overall": 60,
+      "attendance": 92,
+      "lastActive": "2h ago",
+      "risk": false,
+      "riskReason": null,
+      "gaps": [
+        { "domain": "RAD-NOWCAST", "gap": 48 },
+        { "domain": "DISASTER-OPS", "gap": 27 },
+        { "domain": "HPC", "gap": 24 }
+      ]
+    },
+    {
+      "name": "Met Officer Trainee",
+      "initials": "MO",
+      "station": "Mumbai",
+      "overall": 55,
+      "attendance": 81,
+      "lastActive": "2d ago",
+      "risk": false,
+      "riskReason": null,
+      "gaps": [
+        { "domain": "RAD-NOWCAST", "gap": 56 },
+        { "domain": "HPC", "gap": 40 },
+        { "domain": "NWP", "gap": 39 }
+      ]
+    },
+    {
+      "name": "Priya Nair",
+      "initials": "PN",
+      "station": "Thiruvananthapuram",
+      "overall": 52,
+      "attendance": 64,
+      "lastActive": "9d ago",
+      "risk": true,
+      "riskReason": "Gap 65% in RAD-NOWCAST • inactive 9 days",
+      "gaps": [
+        { "domain": "RAD-NOWCAST", "gap": 65 },
+        { "domain": "HPC", "gap": 45 },
+        { "domain": "NWP", "gap": 32 }
+      ]
+    }
+  ],
+  "questionBank": {
+    "name": "IMD Central Question Bank",
+    "total": 8,
+    "byDifficulty": [
+      { "label": "Easy", "count": 2 },
+      { "label": "Medium", "count": 4 },
+      { "label": "Hard", "count": 2 }
+    ],
+    "byDomain": [
+      { "label": "RAD-NOWCAST", "count": 3 },
+      { "label": "NWP", "count": 2 },
+      { "label": "HPC", "count": 1 },
+      { "label": "SYNOPTIC", "count": 1 },
+      { "label": "DISASTER-OPS", "count": 1 }
+    ]
+  },
+  "sampleAssessment": {
+    "title": "DRSTC: Earth-System Modelling & HPC Certification Exam",
+    "attempts": 46,
+    "avgScore": 71,
+    "passRate": 74,
+    "items": [
+      {
+        "id": "Q1",
+        "topic": "CFL stability condition for explicit advection",
+        "competency": "NWP",
+        "difficulty": "Medium",
+        "difficultyIndex": 0.67,
+        "discrimination": 0.42,
+        "verdict": "Good item"
+      },
+      {
+        "id": "Q2",
+        "topic": "MPI_Alltoall bottleneck in spectral transforms",
+        "competency": "HPC",
+        "difficulty": "Hard",
+        "difficultyIndex": 0.39,
+        "discrimination": 0.51,
+        "verdict": "Good — hard but discriminating"
+      },
+      {
+        "id": "Q3",
+        "topic": "ZDR column as updraft signature",
+        "competency": "RAD-NOWCAST",
+        "difficulty": "Medium",
+        "difficultyIndex": 0.62,
+        "discrimination": 0.47,
+        "verdict": "Good item"
+      },
+      {
+        "id": "Q4",
+        "topic": "U-shaped rank histogram interpretation",
+        "competency": "NWP",
+        "difficulty": "Medium",
+        "difficultyIndex": 0.56,
+        "discrimination": 0.18,
+        "verdict": "Review — low discrimination"
+      },
+      {
+        "id": "Q5",
+        "topic": "Monsoon onset criteria over Kerala",
+        "competency": "SYNOPTIC",
+        "difficulty": "Easy",
+        "difficultyIndex": 0.89,
+        "discrimination": 0.09,
+        "verdict": "Too easy — revise or retire"
+      }
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "name": "CapacityConnect — IMD Mission Mausam LMS",
+  "short_name": "CapacityConnect",
+  "description": "Government-grade LMS and competency portal for IMD under Mission Mausam.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0b1e36",
+  "theme_color": "#0b1e36",
+  "lang": "en-IN",
+  "categories": ["education", "government"],
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
